@@ -15,7 +15,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@course-platform/course-client-lib": [
+        "libs/course-client-lib/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

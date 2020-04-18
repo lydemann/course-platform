@@ -14,7 +14,12 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
@@ -24,7 +29,24 @@
     },
     "course-client-e2e": {
       "tags": [],
-      "implicitDependencies": ["course-client"]
+      "implicitDependencies": [
+        "course-client"
+      ]
+    },
+    "course-client-lib": {
+      "tags": []
+    },
+    "course-admin": {
+      "tags": []
+    },
+    "course-admin-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "course-admin"
+      ]
+    },
+    "course-service": {
+      "tags": []
     }
   }
 }
