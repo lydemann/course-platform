@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CourseDetailsComponent } from './course-details.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [CourseDetailsComponent]
 })
-export class CourseDetailsModule { }
+export class CourseDetailsModule {}

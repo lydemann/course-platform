@@ -1,6 +1,9 @@
 <div class="sidebar">
   <h1>This is the sidebar</h1>
-  <app-section [section]="section" *ngFor="let section of sections$ | async"></app-section>
+  <app-section
+    [section]="section"
+    *ngFor="let section of sections$ | async"
+  ></app-section>
 </div>
 
 <div class="content">
@@ -9,7 +12,6 @@
   </div>
 
   <div class="body">
-
     <p>Course info bla bla</p>
   </div>
 </div>

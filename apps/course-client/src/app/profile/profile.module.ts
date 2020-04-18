@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [ProfileComponent]
 })
-export class ProfileModule { }
+export class ProfileModule {}
