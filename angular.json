@@ -23,7 +23,8 @@
             "aot": true,
             "assets": [
               "apps/course-client/src/favicon.ico",
-              "apps/course-client/src/assets"
+              "apps/course-client/src/assets",
+              "apps/course-client/src/web.config"
             ],
             "styles": ["apps/course-client/src/styles.scss"],
             "scripts": []
