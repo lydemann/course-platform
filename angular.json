@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "projects": {
+    "course-client": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/course-client",
+      "sourceRoot": "apps/course-client/src",
+      "prefix": "course-platform",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/course-client",
+            "index": "apps/course-client/src/index.html",
+            "main": "apps/course-client/src/main.ts",
+            "polyfills": "apps/course-client/src/polyfills.ts",
+            "tsConfig": "apps/course-client/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/course-client/src/favicon.ico",
+              "apps/course-client/src/assets"
+            ],
+            "styles": ["apps/course-client/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/course-client/src/environments/environment.ts",
+                  "with": "apps/course-client/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "course-client:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "course-client:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "course-client:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/course-client/tsconfig.app.json",
+              "apps/course-client/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/course-client/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/course-client/jest.config.js",
+            "tsConfig": "apps/course-client/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/course-client/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "course-client-e2e": {
+      "root": "apps/course-client-e2e",
+      "sourceRoot": "apps/course-client-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/course-client-e2e/cypress.json",
+            "tsConfig": "apps/course-client-e2e/tsconfig.e2e.json",
+            "devServerTarget": "course-client:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "course-client:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/course-client-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/course-client-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "course-client"
+}
