@@ -1,5 +1,7 @@
 <h1>Welcome to the awesome course portal!</h1>
 
 <div>
-  <a routerLink="/course">Go to your course</a>
+  <a routerLink="/course" *appFeatureToggle="'show-course'"
+    >Go to your course</a
+  >
 </div>

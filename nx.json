@@ -41,6 +41,9 @@
     },
     "shared-interfaces": {
       "tags": ["scope:shared", "type:interface"]
+    },
+    "shared-util-util-feature-toggle": {
+      "tags": ["scope:shared", "type:util"]
     }
   }
 }

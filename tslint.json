@@ -28,6 +28,48 @@
         ]
       }
     ],
+    "ordered-imports": [
+			true,
+			{
+				"grouped-imports": true,
+				"groups": [
+					{
+						"name": "shared_libraries",
+						"match": "^@todo",
+						"order": 20
+					},
+					{
+						"name": "course_client_app",
+						"match": "^@course-client",
+						"order": 20
+					},
+					{
+						"name": "course_admin_app",
+						"match": "^@course-admin",
+						"order": 20
+					},
+					{
+						"name": "relative_paths",
+						"match": "^[.][.]?",
+						"order": 20
+					},
+					{
+						"name": "scoped_paths",
+						"match": "^@",
+						"order": 10
+					},
+					{
+						"name": "absolute_paths",
+						"match": "^[a-zA-Z]",
+						"order": 10
+					},
+					{
+						"match": null,
+						"order": 10
+					}
+				]
+			}
+		],
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
