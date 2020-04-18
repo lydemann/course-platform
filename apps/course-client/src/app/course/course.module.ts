@@ -5,10 +5,7 @@ import { FeatureRoutingModule } from './course.routing';
 import { SectionComponent } from './section/section.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FeatureRoutingModule
-  ],
+  imports: [CommonModule, FeatureRoutingModule],
   declarations: [CourseComponent, SectionComponent]
 })
-export class CourseModule { }
+export class CourseModule {}

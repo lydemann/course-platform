@@ -10,7 +10,10 @@ describe('Service: CourseListFacade', () => {
     });
   });
 
-  it('should ...', inject([CourseListFacadeService], (service: CourseListFacadeService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should ...', inject(
+    [CourseListFacadeService],
+    (service: CourseListFacadeService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

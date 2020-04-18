@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { CourseSection } from '@course-platform/shared/interfaces';
 
 @Component({
-  selector: 'course-platform-course',
+  selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.scss']
 })
