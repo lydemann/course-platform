@@ -25,9 +25,7 @@
               "apps/course-client/src/favicon.ico",
               "apps/course-client/src/assets"
             ],
-            "styles": [
-              "apps/course-client/src/styles.scss"
-            ],
+            "styles": ["apps/course-client/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -85,10 +83,7 @@
               "apps/course-client/tsconfig.app.json",
               "apps/course-client/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-client/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/course-client/**"]
           }
         },
         "test": {
@@ -123,13 +118,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/course-client-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-client-e2e/**"
-            ]
+            "tsConfig": ["apps/course-client-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/course-client-e2e/**"]
           }
         }
       }
@@ -147,10 +137,7 @@
               "libs/course-client-lib/tsconfig.lib.json",
               "libs/course-client-lib/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/course-client-lib/**"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/course-client-lib/**"]
           }
         },
         "test": {
@@ -193,9 +180,7 @@
               "apps/course-admin/src/favicon.ico",
               "apps/course-admin/src/assets"
             ],
-            "styles": [
-              "apps/course-admin/src/styles.scss"
-            ],
+            "styles": ["apps/course-admin/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -253,10 +238,7 @@
               "apps/course-admin/tsconfig.app.json",
               "apps/course-admin/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-admin/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/course-admin/**"]
           }
         },
         "test": {
@@ -291,13 +273,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/course-admin-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-admin-e2e/**"
-            ]
+            "tsConfig": ["apps/course-admin-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/course-admin-e2e/**"]
           }
         }
       }
@@ -315,9 +292,7 @@
             "outputPath": "dist/apps/course-service",
             "main": "apps/course-service/src/main.ts",
             "tsConfig": "apps/course-service/tsconfig.app.json",
-            "assets": [
-              "apps/course-service/src/assets"
-            ]
+            "assets": ["apps/course-service/src/assets"]
           },
           "configurations": {
             "production": {
@@ -346,10 +321,7 @@
               "apps/course-service/tsconfig.app.json",
               "apps/course-service/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-service/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/course-service/**"]
           }
         },
         "test": {
@@ -357,6 +329,32 @@
           "options": {
             "jestConfig": "apps/course-service/jest.config.js",
             "tsConfig": "apps/course-service/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-interfaces": {
+      "root": "libs/shared/interfaces",
+      "sourceRoot": "libs/shared/interfaces/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/interfaces/tsconfig.lib.json",
+              "libs/shared/interfaces/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/interfaces/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/interfaces/jest.config.js",
+            "tsConfig": "libs/shared/interfaces/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

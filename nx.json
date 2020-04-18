@@ -14,39 +14,33 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   },
   "projects": {
     "course-client": {
-      "tags": []
+      "tags": ["scope:course-client", "type:app"]
     },
     "course-client-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "course-client"
-      ]
+      "tags": ["scope:course-client"],
+      "implicitDependencies": ["course-client"]
     },
     "course-client-lib": {
-      "tags": []
+      "tags": ["scope:course-client", "type:data-access"]
     },
     "course-admin": {
-      "tags": []
+      "tags": ["scope:course-admin", "type:app"]
     },
     "course-admin-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "course-admin"
-      ]
+      "tags": ["scope:course-admin"],
+      "implicitDependencies": ["course-admin"]
     },
     "course-service": {
-      "tags": []
+      "tags": ["scope:course-service", "type:service"]
+    },
+    "shared-interfaces": {
+      "tags": ["scope:shared", "type:interface"]
     }
   }
 }

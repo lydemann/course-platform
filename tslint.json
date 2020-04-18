@@ -60,8 +60,44 @@
         "allow": [],
         "depConstraints": [
           {
-            "sourceTag": "*",
-            "onlyDependOnLibsWithTags": ["*"]
+            "sourceTag": "scope:shared",
+            "onlyDependOnLibsWithTags": ["scope:shared"]
+          },
+          {
+            "sourceTag": "scope:course-client",
+            "onlyDependOnLibsWithTags": ["scope:course-client", "scope:shared"]
+          },
+          {
+            "sourceTag": "scope:course-admin",
+            "onlyDependOnLibsWithTags": ["scope:course-client", "scope:shared"]
+          },
+          {
+            "sourceTag": "scope:course-service",
+            "onlyDependOnLibsWithTags": ["scope:course-client", "scope:shared"]
+          },
+          {
+            "sourceTag": "type:util",
+            "onlyDependOnLibsWithTags": ["type:util"]
+          },
+          {
+            "sourceTag": "type:ui",
+            "onlyDependOnLibsWithTags": [
+              "type:ui",
+              "type:interface",
+              "type:util"
+            ]
+          },
+          {
+            "sourceTag": "type:data-access",
+            "onlyDependOnLibsWithTags": [
+              "type:data-access",
+              "type:util",
+              "type:interface"
+            ]
+          },
+          {
+            "sourceTag": "type:e2e",
+            "onlyDependOnLibsWithTags": ["type:e2e"]
           }
         ]
       }
