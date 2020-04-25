@@ -13,12 +13,27 @@ describe('AppController', () => {
     }).compile();
   });
 
-  describe('getData', () => {
-    it('should return "Welcome to course-service!"', () => {
+  describe('getCourseSections', () => {
+    it('should return course sections', () => {
       const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual({
-        message: 'Welcome to course-service!'
-      });
+      expect(appController.getCourseSections()).toEqual([
+        {
+          id: '1',
+          name: 'Week 1',
+          lessons: [
+            {
+              id: '1',
+              title: '1. First lesson',
+              description: 'This is the first lesson'
+            },
+            {
+              id: '2',
+              title: '2. Second lesson',
+              description: 'This is the second lesson'
+            }
+          ]
+        }
+      ]);
     });
   });
 });
