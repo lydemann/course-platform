@@ -1,17 +1,28 @@
-/* tslint:disable:no-unused-variable */
-
-import { async, inject, TestBed } from '@angular/core/testing';
+import { CourseListFacadeService } from '@course-platform/course-client-lib';
+import {
+  createServiceFactory,
+  SpectatorService,
+  SpyObject
+} from '@ngneat/spectator/jest';
 
 import { CourseResolver } from './course.resolver';
 
-describe('Service: Course', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [CourseResolver]
-    });
+describe('CourseResolver', () => {
+  let spectator: SpectatorService<CourseResolver>;
+  let courseListFacadeService: SpyObject<CourseListFacadeService>;
+  const createService = createServiceFactory({
+    service: CourseResolver,
+    mocks: [CourseListFacadeService]
   });
 
-  it('should ...', inject([CourseResolver], (service: CourseResolver) => {
-    expect(service).toBeTruthy();
-  }));
+  beforeEach(() => {
+    spectator = createService();
+    courseListFacadeService = spectator.inject(CourseListFacadeService);
+  });
+
+  it('should fetch sections', () => {
+    spectator.service.resolve(null);
+
+    expect(courseListFacadeService.fetchSections).toHaveBeenCalled();
+  });
 });
