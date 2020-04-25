@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@course-platform/course-client-lib": [
+        "libs/course-client-lib/src/index.ts"
+      ],
+      "@course-platform/shared/interfaces": [
+        "libs/shared/interfaces/src/index.ts"
+      ],
+      "@course-platform/shared/util/util-feature-toggle": [
+        "libs/shared/util/util-feature-toggle/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "**/*.spec.ts"
+  ],
+  "include": [
+    "**/*.ts"
+  ]
+}

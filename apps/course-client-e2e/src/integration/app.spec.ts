@@ -1,9 +1,9 @@
-import { getGreeting } from '../support/app.po';
+import { CoursePage } from '../support/page-objects/course.po';
 
 describe('course-client', () => {
-  beforeEach(() => cy.visit('/course'));
+  beforeEach(() => CoursePage.goToPage());
 
   it('should show lesson', () => {
-    cy.contains('1. First lesson');
+    CoursePage.seeLesson();
   });
 });

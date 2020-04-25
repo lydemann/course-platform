@@ -280,61 +280,6 @@
         }
       }
     },
-    "course-service": {
-      "root": "apps/course-service",
-      "sourceRoot": "apps/course-service/src",
-      "projectType": "application",
-      "prefix": "course-service",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@nrwl/node:build",
-          "options": {
-            "outputPath": "dist/apps/course-service",
-            "main": "apps/course-service/src/main.ts",
-            "tsConfig": "apps/course-service/tsconfig.app.json",
-            "assets": ["apps/course-service/src/assets"]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/course-service/src/environments/environment.ts",
-                  "with": "apps/course-service/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "course-service:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/course-service/tsconfig.app.json",
-              "apps/course-service/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/course-service/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/course-service/jest.config.js",
-            "tsConfig": "apps/course-service/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "shared-interfaces": {
       "root": "libs/shared/interfaces",
       "sourceRoot": "libs/shared/interfaces/src",
@@ -385,6 +330,61 @@
           "options": {
             "jestConfig": "libs/shared/util/util-feature-toggle/jest.config.js",
             "tsConfig": "libs/shared/util/util-feature-toggle/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "course-service": {
+      "root": "apps/course-service",
+      "sourceRoot": "apps/course-service/src",
+      "projectType": "application",
+      "prefix": "course-service",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/course-service",
+            "main": "apps/course-service/src/main.ts",
+            "tsConfig": "apps/course-service/tsconfig.app.json",
+            "assets": ["apps/course-service/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/course-service/src/environments/environment.ts",
+                  "with": "apps/course-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "course-service:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/course-service/tsconfig.app.json",
+              "apps/course-service/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/course-service/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/course-service/jest.config.js",
+            "tsConfig": "apps/course-service/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

@@ -40,7 +40,6 @@ export class FeatureToggleService {
     for (const key in features) {
       if (features.hasOwnProperty(key)) {
         const isEnabled = features[key];
-        debugger;
         if (isEnabled || !!sessionStorage.getItem(key)) {
           enabledFeatures.push(key);
         }
