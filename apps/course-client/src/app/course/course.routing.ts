@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { CourseComponent } from './course.component';
 
-const routes: Routes = [{ path: '', component: CourseComponent }];
+import { CourseComponent } from './course.component';
+import { CourseResolver } from './resolvers/course.resolver';
+
+const routes: Routes = [
+  { path: '', component: CourseComponent, resolve: [CourseResolver] }
+];
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes)],

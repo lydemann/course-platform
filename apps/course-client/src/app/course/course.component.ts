@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
-
+import { CourseListFacadeService } from '@course-platform/course-client-lib';
 import { CourseSection } from '@course-platform/shared/interfaces';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-course',
@@ -10,27 +10,12 @@ import { CourseSection } from '@course-platform/shared/interfaces';
 })
 export class CourseComponent implements OnInit {
   sections$: Observable<CourseSection[]>;
+  isLoading$: Observable<Boolean>;
 
-  constructor() {}
+  constructor(private courseListFacadeService: CourseListFacadeService) {}
 
   ngOnInit() {
-    this.sections$ = of([
-      {
-        id: '1',
-        name: 'Week 1',
-        lessons: [
-          {
-            id: '1',
-            title: '1. First lesson',
-            description: 'This is the first lesson'
-          },
-          {
-            id: '2',
-            title: '2. Second lesson',
-            description: 'This is the second lesson'
-          }
-        ]
-      }
-    ] as CourseSection[]);
+    this.isLoading$ = this.courseListFacadeService.isLoading$;
+    this.sections$ = this.courseListFacadeService.sections$;
   }
 }
