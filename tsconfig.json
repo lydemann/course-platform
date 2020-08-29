@@ -20,7 +20,7 @@
         "libs/course-client-lib/src/index.ts"
       ],
       "@course-platform/course-client-env": [
-        "libs/course-client-lib/environments/environment.ts"
+        "libs/course-client-lib/src/environments/environment.ts"
       ],
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
