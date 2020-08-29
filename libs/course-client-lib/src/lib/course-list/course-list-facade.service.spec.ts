@@ -11,6 +11,7 @@ import { first } from 'rxjs/operators';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseListFacadeService } from './course-list-facade.service';
 import { CourseListResourcesService } from './resources/course-list-resources.service';
+import { CourseListActions } from './state/course-list.actions';
 import { CourseListSelectors } from './state/course-list.selectors';
 
 describe('CourseListFacadeService', () => {
@@ -33,7 +34,7 @@ describe('CourseListFacadeService', () => {
   });
 
   describe('fetchSections', () => {
-    it('should fetch sections', done => {
+    it('should fetch sections', () => {
       const courseSections = [{ id: '1' } as CourseSection];
       courseListResourcesService.getCourseSections.andReturn(
         of(courseSections)
@@ -41,12 +42,9 @@ describe('CourseListFacadeService', () => {
 
       spectator.service.fetchSections();
 
-      expect(courseListResourcesService.getCourseSections).toHaveBeenCalled();
-
-      spectator.service.sections$.pipe(first()).subscribe(sections => {
-        expect(sections).toEqual(courseSections);
-        done();
-      });
+      expect(store.dispatch).toHaveBeenCalledWith(
+        CourseListActions.fetchCourseSections()
+      );
     });
   });
 });
