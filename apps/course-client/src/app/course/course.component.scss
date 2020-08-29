@@ -1,6 +1,60 @@
 :host {
   display: flex;
 
+  .toolbar {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    z-index: 10;
+
+    .nav-button {
+      margin: 0 10px 0 0;
+    }
+
+    fa-icon {
+      font-size: 24px;
+    }
+
+    .branding {
+      cursor: pointer;
+      overflow: hidden;
+      padding-top: 4px;
+      text-overflow: ellipsis;
+
+      &.center {
+        text-align: center;
+      }
+
+      img {
+        position: relative;
+        top: -2px;
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    .mat-stroked-button {
+      margin-right: 10px;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    mat-select {
+      margin: 0 0 0 20px;
+      width: 40px;
+      font-size: 14px;
+    }
+
+    // @media (max-width: map-get($grid-breakpoints, lg)) {
+    //   .nav-button {
+    //     min-width: 0;
+    //     padding: 0 10px;
+    //   }
+    // }
+  }
+
   .sidebar {
     flex: 25;
   }
