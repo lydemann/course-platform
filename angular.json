@@ -33,8 +33,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "lib/course-client-lib/src/environments/environment.ts",
-                  "with": "lib/course-client-lib/src/environments/environment.prod.ts"
+                  "replace": "libs/course-client-lib/src/environments/environment.ts",
+                  "with": "libs/course-client-lib/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
