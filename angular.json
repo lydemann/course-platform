@@ -33,8 +33,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/course-client/src/environments/environment.ts",
-                  "with": "apps/course-client/src/environments/environment.prod.ts"
+                  "replace": "libs/course-client-lib/src/environments/environment.ts",
+                  "with": "libs/course-client-lib/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -385,6 +385,32 @@
           "options": {
             "jestConfig": "apps/course-service/jest.config.js",
             "tsConfig": "apps/course-service/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-data-access": {
+      "root": "libs/shared/data-access",
+      "sourceRoot": "libs/shared/data-access/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/data-access/tsconfig.lib.json",
+              "libs/shared/data-access/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/data-access/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/data-access/jest.config.js",
+            "tsConfig": "libs/shared/data-access/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

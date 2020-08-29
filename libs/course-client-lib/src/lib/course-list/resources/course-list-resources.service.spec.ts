@@ -13,7 +13,13 @@ describe('CourseListResourcesService', () => {
   beforeEach(() => (spectator = createHttp()));
 
   it('should test getCourseSections', () => {
+    window.config = {
+      courseServiceUrl: 'http://localhost:3333'
+    };
     spectator.service.getCourseSections().subscribe();
-    spectator.expectOne(COURSE_SECTIONS_URL, HTTPMethod.GET);
+    spectator.expectOne(
+      window.config.courseServiceUrl + COURSE_SECTIONS_URL,
+      HTTPMethod.GET
+    );
   });
 });

@@ -39,14 +39,18 @@
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
     "@angular/router": "^9.1.0",
-    "@nrwl/angular": "9.2.2",
-    "core-js": "^2.5.4",
-    "rxjs": "~6.5.4",
-    "zone.js": "^0.10.2",
     "@nestjs/common": "^6.8.3",
     "@nestjs/core": "^6.8.3",
     "@nestjs/platform-express": "^6.8.3",
-    "reflect-metadata": "^0.1.13"
+    "@ngrx/effects": "^9.1.0",
+    "@ngrx/entity": "^9.1.0",
+    "@ngrx/store": "^9.1.0",
+    "@ngrx/store-devtools": "^9.1.0",
+    "@nrwl/angular": "9.2.2",
+    "core-js": "^2.5.4",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "~6.5.4",
+    "zone.js": "^0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.901.0",
@@ -55,9 +59,12 @@
     "@angular/language-service": "^9.1.0",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@nestjs/schematics": "^6.7.0",
+    "@nestjs/testing": "^6.8.3",
     "@ngneat/spectator": "^5.6.1",
     "@nrwl/cypress": "9.2.2",
     "@nrwl/jest": "9.2.2",
+    "@nrwl/nest": "9.2.2",
     "@nrwl/node": "9.2.2",
     "@nrwl/workspace": "9.2.2",
     "@types/jest": "25.1.4",
@@ -68,6 +75,7 @@
     "dotenv": "6.2.0",
     "eslint": "6.8.0",
     "husky": "^4.2.5",
+    "jasmine-marbles": "^0.6.0",
     "jest": "25.2.3",
     "jest-preset-angular": "8.1.2",
     "lint-staged": "^10.1.5",
@@ -83,9 +91,6 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-jasmine-rules": "^1.6.0",
-    "typescript": "~3.8.3",
-    "@nestjs/schematics": "^6.7.0",
-    "@nestjs/testing": "^6.8.3",
-    "@nrwl/nest": "9.2.2"
+    "typescript": "~3.8.3"
   }
 }
