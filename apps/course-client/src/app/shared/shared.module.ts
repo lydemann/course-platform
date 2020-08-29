@@ -11,7 +11,13 @@ const imports = [];
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, RouterModule, FeatureToggleModule, TranslateModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FeatureToggleModule,
+    AppMaterialModule,
+    TranslateModule
+  ],
   exports: [
     CommonModule,
     RouterModule,

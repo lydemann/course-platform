@@ -3,9 +3,16 @@
 
   .toolbar {
     position: fixed;
+    top: 0;
+    right: 0;
     width: 100%;
     display: flex;
     z-index: 10;
+    background: #283593;
+    color: #ffffff;
+    font: 500 20px/32px Roboto, 'Helvetica Neue', sans-serif;
+    letter-spacing: normal;
+    height: 64px;
 
     .nav-button {
       margin: 0 10px 0 0;
@@ -30,6 +37,8 @@
         top: -2px;
         width: 48px;
         height: 48px;
+        vertical-align: middle;
+        border-style: none;
       }
     }
 

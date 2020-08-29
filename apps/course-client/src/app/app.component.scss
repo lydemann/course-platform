@@ -6,7 +6,8 @@
   font-family: sans-serif;
   min-width: 300px;
   max-width: 600px;
-  margin: 50px auto;
+  // TODO: use var
+  margin: 64px auto;
 }
 
 .gutter-left {
@@ -25,7 +26,7 @@
 
 header {
   background-color: #143055;
-  color: white;
+  color: #ffffff;
   padding: 5px;
   border-radius: 3px;
 }
@@ -76,7 +77,7 @@ h2 {
 pre {
   padding: 9px;
   border-radius: 4px;
-  background-color: black;
+  background-color: #000000;
   color: #eee;
 }
 

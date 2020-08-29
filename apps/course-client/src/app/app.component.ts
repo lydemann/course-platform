@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'course-client';
+  languages = ['en'];
+  navigation = [
+    { link: 'about', label: 'anms.menu.about' },
+    { link: 'feature-list', label: 'anms.menu.features' },
+    { link: 'examples', label: 'anms.menu.examples' }
+  ];
+  logo = require('../assets/logo.png').default;
 }

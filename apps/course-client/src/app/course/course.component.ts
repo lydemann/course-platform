@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { CourseListFacadeService } from '@course-platform/course-client-lib';
 import { CourseSection } from '@course-platform/shared/interfaces';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-course',
@@ -11,7 +12,13 @@ import { Observable, of } from 'rxjs';
 export class CourseComponent implements OnInit {
   sections$: Observable<CourseSection[]>;
   isLoading$: Observable<Boolean>;
-
+  languages = ['en'];
+  navigation = [
+    { link: 'about', label: 'anms.menu.about' },
+    { link: 'feature-list', label: 'anms.menu.features' },
+    { link: 'examples', label: 'anms.menu.examples' }
+  ];
+  logo = require('../../assets/logo.png').default;
   constructor(private courseListFacadeService: CourseListFacadeService) {}
 
   ngOnInit() {

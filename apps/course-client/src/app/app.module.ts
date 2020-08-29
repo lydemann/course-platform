@@ -6,7 +6,9 @@ import { CourseClientLibModule } from '@course-platform/course-client-lib';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
+import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
+import { SharedModule } from './shared/shared.module';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -17,7 +19,15 @@ export function preloadFeagureFlags(
 }
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, HomeModule, CourseClientLibModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    HomeModule,
+    CourseClientLibModule,
+    CoreModule,
+    SharedModule
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,
