@@ -44,6 +44,9 @@
     },
     "shared-util-util-feature-toggle": {
       "tags": ["scope:shared", "type:util"]
+    },
+    "shared-data-access": {
+      "tags": ["type:data-access", "scope:shared"]
     }
   }
 }

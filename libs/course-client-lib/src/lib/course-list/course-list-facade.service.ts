@@ -1,41 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
 import { CourseSection } from '@course-platform/shared/interfaces';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { CourseListResourcesService } from './resources/course-list-resources.service';
-
-export interface CourseListState {
-  sections: CourseSection[];
-  isLoading: boolean;
-}
+import { CourseListActions } from './state/course-list.actions';
+import { CourseListState } from './state/course-list.model';
+import { CourseListSelectors } from './state/course-list.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseListFacadeService {
-  private store$ = new BehaviorSubject<CourseListState>({
-    sections: [],
-    isLoading: false
-  });
-  sections$: Observable<CourseSection[]> = this.store$.pipe(
-    map(state => state.sections)
+  sections$: Observable<CourseSection[]> = this.store.select(
+    CourseListSelectors.selectCourseSections
   );
-  isLoading$: any;
-  constructor(private courseListResourcesService: CourseListResourcesService) {}
+  isLoading$: Observable<boolean> = this.store.select(
+    CourseListSelectors.selectIsLoading
+  );
+  constructor(private store: Store<CourseListState>) {}
 
   fetchSections() {
-    this.store$.next({
-      ...this.store$.value,
-      isLoading: true
-    });
-
-    this.courseListResourcesService.getCourseSections().subscribe(sections => {
-      this.store$.next({
-        ...this.store$.value,
-        isLoading: false,
-        sections
-      });
-    });
+    this.store.dispatch(CourseListActions.fetchCourseSections());
   }
 }

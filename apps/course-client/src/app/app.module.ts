@@ -1,8 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 
+import { CourseClientLibModule } from '@course-platform/course-client-lib';
+import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { HomeModule } from './home/home.module';
@@ -16,7 +17,7 @@ export function preloadFeagureFlags(
 }
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, HomeModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, HomeModule, CourseClientLibModule],
   providers: [
     {
       provide: APP_INITIALIZER,
