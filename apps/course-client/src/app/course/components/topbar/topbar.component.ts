@@ -4,6 +4,13 @@ import {
   Input,
   OnInit
 } from '@angular/core';
+import { ExecFileOptionsWithStringEncoding } from 'child_process';
+
+interface NavigationItem {
+  link: string;
+  label: string;
+  icon?: string;
+}
 
 @Component({
   selector: 'app-topbar',
@@ -13,7 +20,7 @@ import {
 })
 export class TopbarComponent implements OnInit {
   languages = ['en'];
-  navigation = [
+  navigation: NavigationItem[] = [
     // TODO: add dropdowns here
     { link: 'about', label: 'Community' },
     { link: 'feature-list', label: 'Help' },

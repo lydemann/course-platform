@@ -5,14 +5,28 @@
   width: 100%;
   display: flex;
   z-index: 10;
-  background: #283593;
+  background: #000;
+  // TODO: use scss vars
   color: #ffffff;
   font: 500 20px/32px Roboto, 'Helvetica Neue', sans-serif;
   letter-spacing: normal;
-  height: 64px;
+  height: 58px;
 
-  .nav-button {
-    margin: 0 10px 0 0;
+  .menu-items {
+    margin: 0;
+    list-style-type: none;
+    font-size: 16px;
+
+    > li {
+      display: inline-block;
+      > a {
+        padding: 0.7rem 1rem;
+      }
+    }
+
+    .search-button {
+      margin-left: 25px;
+    }
   }
 
   fa-icon {
