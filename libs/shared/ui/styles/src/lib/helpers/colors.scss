@@ -1,0 +1,102 @@
+// color scheme goes here
+
+// theme aliases, these change based on theme
+$theme-colors: (
+  'primary': --todo-primary,
+  'accent': --todo-accent,
+  'warn': --todo-warn
+);
+
+// use case aliases, these change based on theme
+$use-case-colors: (
+  'background': --todo-background,
+  'selected': --todo-selected,
+  'hover': --todo-hover
+);
+
+// unit aliases, these stay the same regardless of theme
+$unit-colors: (
+  'black': --todo-black,
+  'white': --todo-white,
+  'grey': --todo-grey,
+  'grey-10': --todo-grey-10,
+  'grey-20': --todo-grey-20,
+  'grey-30': --todo-grey-30,
+  'grey-40': --todo-grey-40,
+  'grey-50': --todo-grey-50,
+  'grey-60': --todo-grey-60,
+  'grey-70': --todo-grey-70,
+  'grey-80': --todo-grey-80,
+  'grey-90': --todo-grey-90,
+  'grey-100': --todo-grey-100
+);
+
+$unit-colors-vals: (
+  'transparent': transparent,
+  'black': #000,
+  'white': #ffffff,
+  'grey': #8b8b8b,
+  'grey-10': #d8d8d8,
+  'grey-20': #c5c5c5,
+  'grey-30': #b2b2b2,
+  'grey-40': #9e9e9e,
+  'grey-50': #8b8b8b,
+  'grey-60': #787878,
+  'grey-70': #656565,
+  'grey-80': #515151,
+  'grey-90': #3e3e3e,
+  'grey-100': #2b2b2b
+);
+
+// outside of theme colors
+
+// functions
+@mixin generateUnitColors {
+  @each $key, $value in $unit-colors-vals {
+    --todo-#{$key}: $value;
+  }
+}
+
+@function get-all-colors() {
+  @return map-merge(map-merge($theme-colors, $use-case-colors), $unit-colors);
+}
+
+$_color-palette: get-all-colors();
+
+@function get-color-contrast($color) {
+  $contrast-light: map-get($unit-colors-vals, 'white');
+  $contrast-dark: map-get($unit-colors-vals, 'black');
+  $color-brightness: _get-color-brightness($color);
+  @if $color-brightness == 'dark' {
+    @return $contrast-light;
+  } @else {
+    @return $contrast-dark;
+  }
+}
+
+@function _get-color-brightness($color) {
+  $red: red($color);
+  $green: green($color);
+  $blue: blue($color);
+
+  /*
+    Color brightness is determined by the following formula:
+    ((Red value X 299) + (Green value X 587) + (Blue value X 114)) / 1000
+  */
+  $color-brightness: (($red * 299) + ($green * 587) + ($blue * 114)) / 1000;
+
+  /* The range for color brightness difference is 125 */
+  $color-range: 128;
+
+  @if $color-brightness == 255 {
+    @return 'white';
+  } @else if $color-brightness >= $color-range {
+    @return 'light';
+  } @else {
+    @return 'dark';
+  }
+}
+
+@function get-color($color-name) {
+  @return var(map-get($_color-palette, $color-name));
+}
