@@ -1,6 +1,8 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CourseClientLibModule } from '@course-platform/course-client-lib';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
@@ -17,16 +19,28 @@ export function preloadFeagureFlags(
     return featureToggleService.getFeatureFlags().toPromise();
   };
 }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     HttpClientModule,
-    HomeModule,
-    CourseClientLibModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    HomeModule,
+    CourseClientLibModule
   ],
   providers: [
     {

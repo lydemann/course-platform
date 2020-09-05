@@ -16,7 +16,7 @@ const imports = [];
     RouterModule,
     FeatureToggleModule,
     AppMaterialModule,
-    TranslateModule
+    TranslateModule.forChild()
   ],
   exports: [
     CommonModule,

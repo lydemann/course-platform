@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -14,4 +15,8 @@ export class AppComponent {
     { link: 'examples', label: 'anms.menu.examples' }
   ];
   logo = require('../assets/logo.png').default;
+
+  constructor(translateService: TranslateService) {
+    translateService.use('en');
+  }
 }

@@ -1,0 +1,48 @@
+<div class="toolbar mat-elevation-z4">
+  <mat-toolbar color="primary">
+    <span routerLink="" class="branding spacer">
+      <img [src]="logo" [alt]="logo" />
+      {{ 'topbar.title' | translate }}
+    </span>
+
+    <span class="">
+      <button
+        mat-button
+        class="nav-button"
+        *ngFor="let item of navigation"
+        [routerLink]="[item.link]"
+        routerLinkActive="active"
+      >
+        {{ item.label | translate }}
+      </button>
+    </span>
+
+    <button mat-button mat-stroked-button color="accent">
+      {{ 'anms.menu.login' | translate }}
+    </button>
+
+    <button mat-icon-button [matMenuTriggerFor]="toolbarUserMenu">
+      <!-- <fa-icon icon="user-circle"></fa-icon> -->
+    </button>
+    <mat-menu #toolbarUserMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>
+          <!-- <fa-icon icon="power-off"></fa-icon> -->
+        </mat-icon>
+        <span>{{ 'anms.menu.logout' | translate }}</span>
+      </button>
+    </mat-menu>
+
+    <button mat-icon-button routerLink="settings" class="d-none d-sm-inline">
+      <!-- <fa-icon icon="cog"></fa-icon> -->
+    </button>
+
+    <span>
+      <mat-select>
+        <mat-option *ngFor="let l of languages" [value]="l">
+          {{ l.toUpperCase() }}
+        </mat-option>
+      </mat-select>
+    </span>
+  </mat-toolbar>
+</div>
