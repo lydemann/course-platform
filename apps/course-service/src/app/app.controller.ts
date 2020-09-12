@@ -22,6 +22,21 @@ export class AppController {
             id: '2',
             title: '2. Second lesson',
             description: 'This is the second lesson'
+          },
+          {
+            id: '3',
+            title: '3. Third lesson',
+            description: 'This is the first lesson'
+          },
+          {
+            id: '4',
+            title: '4. Forth lesson',
+            description: 'This is the second lesson'
+          },
+          {
+            id: '5',
+            title: '5. Fifth lesson',
+            description: 'This is the first lesson'
           }
         ]
       }

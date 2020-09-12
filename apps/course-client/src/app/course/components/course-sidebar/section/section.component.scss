@@ -1,0 +1,43 @@
+:host {
+  margin-top: 20px;
+  display: block;
+
+  .progress-bar-wrapper {
+    margin-bottom: 30px;
+
+    .label {
+      display: block;
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      border-radius: 25%;
+    }
+  }
+
+  .section-select-form-field {
+    width: 100%;
+    padding-bottom: 30px;
+  }
+
+  .lessons {
+    .menu-vertical {
+      margin: 0;
+      list-style-type: none;
+
+      a {
+        padding: 15px 0;
+        display: block;
+        color: #4c4c4c;
+        &:hover {
+          color: #000;
+        }
+
+        text-decoration: none;
+      }
+    }
+  }
+}

@@ -1,16 +1,19 @@
 <app-topbar></app-topbar>
 
-<app-course-sidebar
-  class="sidebar"
-  [sections]="sections$ | async"
-></app-course-sidebar>
+<div class="wrapper" fxLayout="row" xLayoutAlign="space-between">
+  <app-course-sidebar
+    fxFlex="25"
+    class="sidebar"
+    [sections]="sections$ | async"
+  ></app-course-sidebar>
 
-<div class="content">
-  <div class="header">
-    <h1>Welcome to the course!</h1>
-  </div>
+  <div class="content" fxFlex="75">
+    <div class="header">
+      <h1>Welcome to the course!</h1>
+    </div>
 
-  <div class="body">
-    <p>Course info bla bla</p>
+    <div class="body">
+      <p>Course info bla bla</p>
+    </div>
   </div>
 </div>

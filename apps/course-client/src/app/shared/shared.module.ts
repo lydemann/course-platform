@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -16,14 +17,16 @@ const imports = [];
     RouterModule,
     FeatureToggleModule,
     AppMaterialModule,
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    FlexLayoutModule
   ],
   exports: [
     CommonModule,
     RouterModule,
     FeatureToggleModule,
     AppMaterialModule,
-    TranslateModule
+    TranslateModule,
+    FlexLayoutModule
   ],
   providers: []
 })

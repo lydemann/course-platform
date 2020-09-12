@@ -1,3 +1,5 @@
+<div class="sticky-container"></div>
+
 <div class="toolbar mat-elevation-z4">
   <mat-toolbar color="primary">
     <span routerLink="" class="branding spacer">
@@ -6,15 +8,15 @@
     </span>
 
     <ul class="menu-items">
-      <li *ngFor="let item of navigation">
+      <li *ngFor="let item of navigation" class="menu-item-wrapper">
         <a class="nav-button" routerLinkActive="active">
-          <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+          <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
           {{ item.label | translate }}
         </a>
       </li>
-      <li class="search-button">
+      <li class="search-button menu-item-wrapper">
         <a class="nav-button" routerLinkActive="active">
-          <mat-icon>search</mat-icon>
+          <mat-icon class="icon">search</mat-icon>
         </a>
       </li>
     </ul>

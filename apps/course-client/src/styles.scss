@@ -1,4 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'reset-css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~@angular/material/theming';
 
 @include mat-core();
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f6f8;
+  font-family: AvenirNextLTPro-Regular, Helvetica Neue, Helvetica, Roboto, Arial,
+    sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #646a6f;
+  -webkit-font-smoothing: antialiased;
+}

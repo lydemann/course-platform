@@ -22,9 +22,10 @@ export class TopbarComponent implements OnInit {
   languages = ['en'];
   navigation: NavigationItem[] = [
     // TODO: add dropdowns here
-    { link: 'about', label: 'Community' },
-    { link: 'feature-list', label: 'Help' },
-    { link: 'examples', label: 'Hi!' }
+    // TODO: add icons here
+    { link: 'community', label: 'Community' },
+    { link: 'help', label: 'Help' },
+    { link: 'profile', label: 'Profile' }
   ];
   logo = require('../../../../assets/logo.png').default;
   constructor() {}

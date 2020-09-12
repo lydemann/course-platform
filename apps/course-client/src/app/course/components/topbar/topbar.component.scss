@@ -1,3 +1,8 @@
+.sticky-container {
+  height: 58px;
+  width: 100%;
+}
+
 .toolbar {
   position: fixed;
   top: 0;
@@ -17,10 +22,14 @@
     list-style-type: none;
     font-size: 16px;
 
-    > li {
+    > .menu-item-wrapper {
       display: inline-block;
-      > a {
+      > .nav-button {
+        cursor: pointer;
         padding: 0.7rem 1rem;
+        .icon {
+          vertical-align: middle;
+        }
       }
     }
 

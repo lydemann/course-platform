@@ -1,1 +1,27 @@
-//
+:host {
+  padding: 0 15px;
+  .section-box {
+    min-height: 170px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #000000;
+    padding: 45px 35px;
+    color: #fefefe;
+    text-align: center;
+
+    .week-theme-label {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 5px;
+      font-size: 0.6875rem;
+      display: block;
+    }
+
+    .week-theme {
+      font-size: 1.3rem;
+      line-height: 1.5rem;
+      font-family: Sagona-Medium, Georgia, serif;
+      color: #f1ba2c;
+    }
+  }
+}
