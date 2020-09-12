@@ -1,0 +1,26 @@
+.header {
+  .lesson-title {
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.body {
+  .video-wrapper {
+    margin-bottom: 100px;
+  }
+
+  .label {
+    margin-bottom: 30px;
+  }
+
+  .resource {
+    display: block;
+    padding: 15px 10px;
+    background: rgb(247, 251, 254);
+    text-decoration: none;
+  }
+}
