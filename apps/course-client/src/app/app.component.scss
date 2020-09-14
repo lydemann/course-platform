@@ -1,10 +1,6 @@
 :host {
   display: block;
   position: relative;
-
-  .app-container {
-    max-width: 1337px;
-    display: flex;
-    margin: auto;
-  }
+  max-width: 1337px;
+  margin: auto;
 }

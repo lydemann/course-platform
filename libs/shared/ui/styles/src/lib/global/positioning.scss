@@ -1,44 +1,157 @@
 @import '../helpers/variables.scss';
+@import '../helpers/functions.scss';
 
 /*
   Helpers for setting position using padding and margin
 */
 
 // tshirt sizes
+// padding
 .p-xxxs {
-  padding: size('xxxs');
+  padding: get-size('xxxs');
 }
 
 .p-xxs {
-  padding: size('xxs');
+  padding: get-size('xxs');
 }
 
 .p-xs {
-  padding: size('xs');
+  padding: get-size('xs');
 }
 
 .p-s {
-  padding: size('s');
+  padding: get-size('s');
 }
 
 .p-m {
-  padding: size('m');
+  padding: get-size('m');
 }
 
 .p-l {
-  padding: size('l');
+  padding: get-size('l');
 }
 
 .p-xl {
-  padding: size('xl');
+  padding: get-size('xl');
 }
 
 .p-xxl {
-  padding: size('xxl');
+  padding: get-size('xxl');
 }
 
 .p-xxxl {
-  padding: size('xxxl');
+  padding: get-size('xxxl');
+}
+
+// margin
+.m-xxxs {
+  margin: get-size('xxxs');
+}
+
+.m-xxs {
+  margin: get-size('xxs');
+}
+
+.m-xs {
+  margin: get-size('xs');
+}
+
+.m-s {
+  margin: get-size('s');
+}
+
+.m-m {
+  margin: get-size('m');
+}
+
+.m-l {
+  margin: get-size('l');
+}
+
+.m-xl {
+  margin: get-size('xl');
+}
+
+.m-xxl {
+  margin: get-size('xxl');
+}
+
+.m-xxxl {
+  margin: get-size('xxxl');
+}
+
+// margin top
+.mt-xxxs {
+  margin-top: get-size('xxxs');
+}
+
+.mt-xxs {
+  margin-top: get-size('xxs');
+}
+
+.mt-xs {
+  margin-top: get-size('xs');
+}
+
+.mt-s {
+  margin-top: get-size('s');
+}
+
+.mt-m {
+  margin-top: get-size('m');
+}
+
+.mt-l {
+  margin-top: get-size('l');
+}
+
+.mt-xl {
+  margin-top: get-size('xl');
+}
+
+.mt-xxl {
+  margin-top: get-size('xxl');
+}
+
+.mt-xxxl {
+  margin-bottom: get-size('xxxl');
+}
+
+// margin bottom
+.mb-xxxs {
+  margin-bottom: get-size('xxxs');
+}
+
+.mb-xxs {
+  margin-bottom: get-size('xxs');
+}
+
+.mb-xs {
+  margin-bottom: get-size('xs');
+}
+
+.mb-s {
+  margin-bottom: get-size('s');
+}
+
+.mb-m {
+  margin-bottom: get-size('m');
+}
+
+.mb-l {
+  margin-bottom: get-size('l');
+}
+
+.mb-xl {
+  margin-bottom: get-size('xl');
+}
+
+.mb-xxl {
+  margin-bottom: get-size('xxl');
+}
+
+.mb-xxxl {
+  margin-bottom: get-size('xxxl');
 }
 
 // px

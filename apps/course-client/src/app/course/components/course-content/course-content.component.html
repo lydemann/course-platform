@@ -1,13 +1,18 @@
-<div class="header">
+<div class="header mb-l">
   <h1 class="lesson-title">1. Welcome to the course</h1>
 
   <button mat-button color="primary">Mark Complete</button>
 </div>
 
 <div class="body">
-  <div class="video-wrapper">
-    <h1>VIDEO GOES HERE</h1>
-    <!-- TODO: put video link here -->
+  <div class="video-wrapper" style="position:relative;padding-top:56.25%;">
+    <iframe
+      style="position:absolute;top:0;left:0;width:100%;height:100%;"
+      [src]="videoUrl"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </div>
 
   <div fxLayout="row" fxLayoutGap="20px">

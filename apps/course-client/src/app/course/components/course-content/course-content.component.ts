@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Sanitizer,
+  SecurityContext
+} from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-content',
@@ -7,7 +14,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseContentComponent implements OnInit {
-  constructor() {}
+  videoUrl: SafeResourceUrl;
 
-  ngOnInit() {}
+  constructor(private sanitizer: DomSanitizer) {}
+
+  ngOnInit() {
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      'https://www.youtube.com/embed/TzJMkZIWy30'
+    );
+  }
 }
