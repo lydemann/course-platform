@@ -2,7 +2,7 @@
 
 .header {
   .lesson-title {
-    font-size: get-fontsize('xl');
+    font-size: font-size('xl');
     font-weight: bold;
   }
 
@@ -17,6 +17,7 @@
 
   .label {
     margin-bottom: size('l');
+    font-weight: bold;
   }
 
   .resource {

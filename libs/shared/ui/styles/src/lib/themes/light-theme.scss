@@ -1,8 +1,9 @@
 // setup material theme
 @import '~@angular/material/theming';
 @import './theme-common';
+@import 'palette';
 
-$todo-primary: mat-palette($mat-indigo, 800, 300, 900);
+$todo-primary: mat-palette($custom-palette, 800, 300, 900);
 $todo-accent: mat-palette($mat-light-blue);
 $todo-warn: mat-palette($mat-pink, 600);
 

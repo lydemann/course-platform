@@ -7,7 +7,7 @@
   @return null;
 }
 
-@function get-size($key: 'm') {
+@function size($key: 'm') {
   $negative: str-index($key, '-') == 1;
   @if ($negative) {
     $key: str-slice($key, 2, -1);
@@ -16,7 +16,7 @@
   @return if($negative, unquote('-' + $value), $value);
 }
 
-@function get-fontsize($key: 'm') {
+@function font-size($key: 'm') {
   $negative: str-index($key, '-') == 1;
   @if ($negative) {
     $key: str-slice($key, 2, -1);
@@ -25,7 +25,7 @@
   @return if($negative, unquote('-' + $value), $value);
 }
 
-@function get-fontweight($key: 'm') {
+@function font-weight($key: 'm') {
   $negative: str-index($key, '-') == 1;
   @if ($negative) {
     $key: str-slice($key, 2, -1);

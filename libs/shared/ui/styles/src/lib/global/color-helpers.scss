@@ -1,0 +1,12 @@
+@import '../helpers/colors.scss';
+.theme-primary {
+  background-color: get-color('primary');
+}
+
+.theme-accent {
+  background-color: get-color('accent');
+}
+
+.theme-warn {
+  background-color: get-color('accent');
+}
