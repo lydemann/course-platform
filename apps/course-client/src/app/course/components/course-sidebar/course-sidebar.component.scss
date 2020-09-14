@@ -1,5 +1,7 @@
+@import 'helpers';
+
 :host {
-  padding: 0 15px;
+  padding: 0 size('l') 0 size('s');
   .section-box {
     min-height: 170px;
     width: 100%;

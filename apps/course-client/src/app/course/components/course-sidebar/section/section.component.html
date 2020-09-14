@@ -21,7 +21,8 @@
       *ngFor="let lesson of section.lessons"
     >
       <a routerLink="#">
-        {{ lesson.title }}
+        <span>{{ lesson.title }}</span>
+        <mat-icon class="icon">check_circle</mat-icon>
       </a>
     </li>
 

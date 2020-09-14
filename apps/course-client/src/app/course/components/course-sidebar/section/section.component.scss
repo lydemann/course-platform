@@ -29,8 +29,15 @@
 
       a {
         padding: 15px 0;
-        display: block;
         color: #4c4c4c;
+        display: flex;
+        justify-content: space-between;
+        .icon {
+          font-size: 1.2rem;
+          color: #00be49;
+          width: 18px;
+          height: 18px;
+        }
         &:hover {
           color: #000;
         }
