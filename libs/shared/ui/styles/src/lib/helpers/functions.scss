@@ -15,3 +15,21 @@
   $value: _get-map-prop($sizes, $key);
   @return if($negative, unquote('-' + $value), $value);
 }
+
+@function get-fontsize($key: 'm') {
+  $negative: str-index($key, '-') == 1;
+  @if ($negative) {
+    $key: str-slice($key, 2, -1);
+  }
+  $value: _get-map-prop($font-sizes, $key);
+  @return if($negative, unquote('-' + $value), $value);
+}
+
+@function get-fontweight($key: 'm') {
+  $negative: str-index($key, '-') == 1;
+  @if ($negative) {
+    $key: str-slice($key, 2, -1);
+  }
+  $value: _get-map-prop($font-weight, $key);
+  @return if($negative, unquote('-' + $value), $value);
+}

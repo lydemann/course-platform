@@ -7,13 +7,19 @@
   ></mat-progress-bar>
 </div>
 
-<mat-form-field class="section-select-form-field" appearance="fill">
+<!-- <mat-form-field class="section-select-form-field" appearance="fill">
   <mat-select [value]="selectedSeection">
     <mat-option *ngFor="let section of sections" [value]="section.value">
       {{ section.name }}
     </mat-option>
   </mat-select>
-</mat-form-field>
+</mat-form-field> -->
+
+<app-select class="section-select-form-field" [value]="selectedSection">
+  <app-select-option *ngFor="let section of sections" [value]="section.value">
+    {{ section.name }}
+  </app-select-option>
+</app-select>
 
 <div class="lessons">
   <ul class="menu-vertical">

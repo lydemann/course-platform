@@ -1,6 +1,8 @@
+@import 'helpers';
+
 .header {
   .lesson-title {
-    font-size: 32px;
+    font-size: get-fontsize('xl');
     font-weight: bold;
   }
 
@@ -14,12 +16,12 @@
   }
 
   .label {
-    margin-bottom: 30px;
+    margin-bottom: size('l');
   }
 
   .resource {
     display: block;
-    padding: 15px 10px;
+    padding: size('s') size('xs');
     background: rgb(247, 251, 254);
     text-decoration: none;
   }

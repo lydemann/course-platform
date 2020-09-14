@@ -32,6 +32,9 @@ import { SelectOption } from './select-option/select-option.interface';
 })
 export class SelectComponent
   implements OnChanges, AfterContentInit, ControlValueAccessor {
+  @Input() public set value(value: string) {
+    this.selected = value;
+  }
   @Input() public placeholder: string;
   @ContentChildren(SelectOptionComponent) public selectOptions: QueryList<
     SelectOptionComponent

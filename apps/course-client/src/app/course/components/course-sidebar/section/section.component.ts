@@ -62,7 +62,7 @@ export class SectionComponent implements OnInit {
 
   selected = 'option2';
 
-  selectedSeection = 'w-1';
+  selectedSection = 'w-1';
 
   constructor() {}
 

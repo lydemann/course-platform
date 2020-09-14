@@ -1,7 +1,47 @@
+@import '../helpers/variables.scss';
+
 /*
   Helpers for setting position using padding and margin
 */
 
+// tshirt sizes
+.p-xxxs {
+  padding: size('xxxs');
+}
+
+.p-xxs {
+  padding: size('xxs');
+}
+
+.p-xs {
+  padding: size('xs');
+}
+
+.p-s {
+  padding: size('s');
+}
+
+.p-m {
+  padding: size('m');
+}
+
+.p-l {
+  padding: size('l');
+}
+
+.p-xl {
+  padding: size('xl');
+}
+
+.p-xxl {
+  padding: size('xxl');
+}
+
+.p-xxxl {
+  padding: size('xxxl');
+}
+
+// px
 .p-0 {
   padding: 0;
 }
