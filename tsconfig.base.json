@@ -1,0 +1,40 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@course-platform/course-client-lib": [
+        "libs/course-client-lib/src/index.ts"
+      ],
+      "@course-platform/course-client-env": [
+        "libs/course-client-lib/src/environments/environment.ts"
+      ],
+      "@course-platform/shared/interfaces": [
+        "libs/shared/interfaces/src/index.ts"
+      ],
+      "@course-platform/shared/ui": [
+        "libs/shared/ui/src/index.ts"
+      ],
+      "@course-platform/shared/util/util-feature-toggle": [
+        "libs/shared/util/util-feature-toggle/src/index.ts"
+      ],
+      "@course-platform/shared/data-access": [
+        "libs/shared/data-access/src/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

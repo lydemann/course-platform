@@ -1,22 +1,32 @@
-import { CourseListFacadeService } from '@course-platform/course-client-lib';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
   SpyObject
 } from '@ngneat/spectator/jest';
+import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
+import { CourseListFacadeService } from '@course-platform/course-client-lib';
+import { CourseContentComponent } from './components/course-content/course-content.component';
+import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
+import { SectionComponent } from './components/course-sidebar/section/section.component';
+import { TopbarComponent } from './components/topbar/topbar.component';
 import { CourseComponent } from './course.component';
-import { SectionComponent } from './section/section.component';
 
 describe('CourseComponent', () => {
   let spectator: Spectator<CourseComponent>;
   let courseListFacadeService: SpyObject<CourseListFacadeService>;
   const createComponent = createComponentFactory({
     component: CourseComponent,
-    declarations: [SectionComponent],
+    declarations: [
+      MockComponent(SectionComponent),
+      MockComponent(TopbarComponent),
+      MockComponent(CourseSidebarComponent),
+      MockComponent(CourseContentComponent)
+    ],
     providers: [
       mockProvider(CourseListFacadeService, {
         sections$: of([

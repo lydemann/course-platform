@@ -1,11 +1,15 @@
 :host {
-  display: flex;
+  display: block;
+  width: 100%;
+  .wrapper {
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
 
-  .sidebar {
-    flex: 25;
-  }
-
-  .content {
-    flex: 75;
+    .content {
+      background: #fefefe;
+      padding: 40px;
+    }
   }
 }

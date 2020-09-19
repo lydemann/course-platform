@@ -1,0 +1,49 @@
+:host {
+  margin-top: 20px;
+  display: block;
+
+  .progress-bar-wrapper {
+    margin-bottom: 30px;
+
+    .label {
+      display: block;
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 8px;
+    }
+  }
+
+  .section-select-form-field {
+    width: 100%;
+    padding-bottom: 30px;
+  }
+
+  .lessons {
+    .menu-vertical {
+      margin: 0;
+      list-style-type: none;
+
+      a {
+        padding: 15px 0;
+        color: #4c4c4c;
+        display: flex;
+        justify-content: space-between;
+        .icon {
+          font-size: 1.2rem;
+          color: #00be49;
+          width: 18px;
+          height: 18px;
+        }
+        &:hover {
+          color: #000;
+        }
+
+        text-decoration: none;
+      }
+    }
+  }
+}

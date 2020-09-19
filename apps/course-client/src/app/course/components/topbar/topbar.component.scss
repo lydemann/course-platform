@@ -1,0 +1,90 @@
+.sticky-container {
+  height: 58px;
+  width: 100%;
+}
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  z-index: 10;
+  background: #000;
+  // TODO: use scss vars
+  color: #ffffff;
+  font: 500 20px/32px Roboto, 'Helvetica Neue', sans-serif;
+  letter-spacing: normal;
+  height: 58px;
+
+  .menu-items {
+    margin: 0;
+    list-style-type: none;
+    font-size: 16px;
+
+    > .menu-item-wrapper {
+      display: inline-block;
+      > .nav-button {
+        cursor: pointer;
+        vertical-align: middle;
+        padding: 0.7rem 1rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        .icon {
+          vertical-align: middle;
+          margin-right: 12px;
+        }
+      }
+    }
+
+    .search-button {
+      margin-left: 25px;
+    }
+  }
+
+  fa-icon {
+    font-size: 24px;
+  }
+
+  .branding {
+    cursor: pointer;
+    overflow: hidden;
+    padding-top: 4px;
+    text-overflow: ellipsis;
+
+    &.center {
+      text-align: center;
+    }
+
+    img {
+      position: relative;
+      top: -2px;
+      width: 48px;
+      height: 48px;
+      vertical-align: middle;
+      border-style: none;
+    }
+  }
+
+  .mat-stroked-button {
+    margin-right: 10px;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  mat-select {
+    margin: 0 0 0 20px;
+    width: 40px;
+    font-size: 14px;
+  }
+
+  // @media (max-width: map-get($grid-breakpoints, lg)) {
+  //   .nav-button {
+  //     min-width: 0;
+  //     padding: 0 10px;
+  //   }
+  // }
+}

@@ -1,0 +1,40 @@
+<div class="progress-bar-wrapper">
+  <small class="label">40% complete</small>
+  <mat-progress-bar
+    class="progress-bar"
+    mode="determinate"
+    value="40"
+  ></mat-progress-bar>
+</div>
+
+<app-select class="section-select-form-field" [value]="selectedSection">
+  <app-select-option *ngFor="let section of sections" [value]="section.value">
+    {{ section.name }}
+  </app-select-option>
+</app-select>
+
+<div class="lessons">
+  <ul class="menu-vertical">
+    <li
+      class="lesson"
+      data-test="lesson"
+      *ngFor="let lesson of section.lessons"
+    >
+      <a routerLink="#">
+        <span>{{ lesson.title }}</span>
+        <mat-icon class="icon">check_circle</mat-icon>
+      </a>
+    </li>
+
+    <li class="lesson" data-test="lesson">
+      <a routerLink="#">
+        Action items
+      </a>
+    </li>
+    <li class="lesson" data-test="lesson">
+      <a routerLink="#">
+        Questions
+      </a>
+    </li>
+  </ul>
+</div>

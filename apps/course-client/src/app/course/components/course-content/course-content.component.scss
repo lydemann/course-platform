@@ -1,0 +1,29 @@
+@import 'helpers';
+
+.header {
+  .lesson-title {
+    font-size: font-size('xl');
+    font-weight: bold;
+  }
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.body {
+  .video-wrapper {
+    margin-bottom: 100px;
+  }
+
+  .label {
+    margin-bottom: size('l');
+    font-weight: bold;
+  }
+
+  .resource {
+    display: block;
+    padding: size('s') size('xs');
+    background: rgb(247, 251, 254);
+    text-decoration: none;
+  }
+}

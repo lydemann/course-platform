@@ -10,7 +10,7 @@
       },
       "root": "apps/course-client",
       "sourceRoot": "apps/course-client/src",
-      "prefix": "course-platform",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -27,7 +27,10 @@
               "apps/course-client/src/web.config"
             ],
             "styles": ["apps/course-client/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+							"includePaths": ["libs/shared/ui/styles/src/lib"]
+						}
           },
           "configurations": {
             "production": {
@@ -129,7 +132,7 @@
       "projectType": "library",
       "root": "libs/course-client-lib",
       "sourceRoot": "libs/course-client-lib/src",
-      "prefix": "course-platform",
+      "prefix": "app",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -166,7 +169,7 @@
       },
       "root": "apps/course-admin",
       "sourceRoot": "apps/course-admin/src",
-      "prefix": "course-platform",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -424,6 +427,9 @@
     "@nrwl/angular:application": {
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
     },
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { CourseListFacadeService } from '@course-platform/course-client-lib';
 import { CourseSection } from '@course-platform/shared/interfaces';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-course',

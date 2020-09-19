@@ -1,12 +1,17 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CourseClientLibModule } from '@course-platform/course-client-lib';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
+import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
+import { SharedModule } from './shared/shared.module';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -15,9 +20,30 @@ export function preloadFeagureFlags(
     return featureToggleService.getFeatureFlags().toPromise();
   };
 }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
+}
+
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, HomeModule, CourseClientLibModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule,
+    CoreModule,
+    SharedModule,
+    HomeModule,
+    CourseClientLibModule
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,
