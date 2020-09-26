@@ -7,12 +7,18 @@
       <form [formGroup]="loginForm">
         <div class="form-group">
           <label>Email</label>
-          <input type="email" formControlName="email" class="form-control" />
+          <input
+            type="email"
+            formControlName="email"
+            data-test="email"
+            class="form-control"
+          />
         </div>
         <div class="form-group">
           <label>Password</label>
           <input
             type="password"
+            data-test="password"
             class="form-control"
             formControlName="password"
           />
@@ -21,6 +27,7 @@
         <div class="button-wrapper">
           <button
             type="submit"
+            data-test="login-btn"
             (click)="tryLogin(loginForm.value)"
             class="submit-btn"
           >
