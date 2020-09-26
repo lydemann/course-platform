@@ -30,7 +30,8 @@ jobs:
           MERGE_LABELS: "automerge"
           MERGE_METHOD: "squash"
           UPDATE_LABELS: "automerge,merge:ready"
-          MERGE_REMOVE_LABELS: "automerge,merge:ready"
-          UPDATE_METHOD: "merge" 
+          UPDATE_METHOD: "merge"
+          UPDATE_RETRIES: 6
+          UPDATE_RETRY_SLEEP: 10000
           MERGE_RETRIES: 6
           MERGE_RETRY_SLEEP: 10000 # sets the time to sleep between retries, in milliseconds
