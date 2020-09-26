@@ -1,0 +1,25 @@
+{
+  "kind": "identitytoolkit#GetAccountInfoResponse",
+  "users": [
+    {
+      "localId": "XHjUUmEkvPc0Ye8SZlvtBTAAt622",
+      "email": "dada@dada.dk",
+      "passwordHash": "UkVEQUNURUQ=",
+      "emailVerified": false,
+      "passwordUpdatedAt": 1600615087017,
+      "providerUserInfo": [
+        {
+          "providerId": "password",
+          "federatedId": "dada@dada.dk",
+          "email": "dada@dada.dk",
+          "rawId": "dada@dada.dk"
+        }
+      ],
+      "validSince": "1600615087",
+      "disabled": false,
+      "lastLoginAt": "1601115232856",
+      "createdAt": "1600615087017",
+      "lastRefreshAt": "2020-09-26T10:13:52.856Z"
+    }
+  ]
+}
