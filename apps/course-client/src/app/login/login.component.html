@@ -1,10 +1,12 @@
-<h1 class="header">Login</h1>
 <div class="container">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+  <div class="login-box">
+    <div class="header">
+      <h1 class="brand">Angular Architect Accelerator</h1>
+    </div>
+    <div class="form-wrapper">
       <form [formGroup]="loginForm">
         <div class="form-group">
-          <label>Email address</label>
+          <label>Email</label>
           <input type="email" formControlName="email" class="form-control" />
         </div>
         <div class="form-group">
@@ -16,13 +18,15 @@
           />
           <label class="error">{{ errorMessage }}</label>
         </div>
-        <button
-          type="submit"
-          (click)="tryLogin(loginForm.value)"
-          class="btn btn-default"
-        >
-          Login
-        </button>
+        <div class="button-wrapper">
+          <button
+            type="submit"
+            (click)="tryLogin(loginForm.value)"
+            class="submit-btn"
+          >
+            Log In
+          </button>
+        </div>
       </form>
     </div>
   </div>
