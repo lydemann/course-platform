@@ -2,6 +2,27 @@
 
 :host {
   padding: 0 size('l') 0 size('s');
+
+  .progress-bar-wrapper {
+    margin-bottom: 30px;
+
+    .label {
+      display: block;
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 8px;
+    }
+  }
+
+  .section-select-form-field {
+    width: 100%;
+    padding-bottom: 30px;
+  }
+
   .section-box {
     min-height: 170px;
     width: 100%;

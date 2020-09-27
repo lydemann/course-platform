@@ -2,13 +2,13 @@ import { HTTPMethod } from '@ngneat/spectator';
 import { createHttpFactory, SpectatorHttp } from '@ngneat/spectator/jest';
 
 import {
-  CourseListResourcesService,
+  CourseResourcesService,
   COURSE_SECTIONS_URL
-} from './course-list-resources.service';
+} from './course-resources.service';
 
-describe('CourseListResourcesService', () => {
-  let spectator: SpectatorHttp<CourseListResourcesService>;
-  const createHttp = createHttpFactory(CourseListResourcesService);
+describe('CourseResourcesService', () => {
+  let spectator: SpectatorHttp<CourseResourcesService>;
+  const createHttp = createHttpFactory(CourseResourcesService);
 
   beforeEach(() => (spectator = createHttp()));
 

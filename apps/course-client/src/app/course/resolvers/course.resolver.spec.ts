@@ -1,28 +1,28 @@
-import { CourseListFacadeService } from '@course-platform/course-client-lib';
 import {
   createServiceFactory,
   SpectatorService,
   SpyObject
 } from '@ngneat/spectator/jest';
 
+import { CourseFacadeService } from '@course-platform/course-client-lib';
 import { CourseResolver } from './course.resolver';
 
 describe('CourseResolver', () => {
   let spectator: SpectatorService<CourseResolver>;
-  let courseListFacadeService: SpyObject<CourseListFacadeService>;
+  let courseFacadeService: SpyObject<CourseFacadeService>;
   const createService = createServiceFactory({
     service: CourseResolver,
-    mocks: [CourseListFacadeService]
+    mocks: [CourseFacadeService]
   });
 
   beforeEach(() => {
     spectator = createService();
-    courseListFacadeService = spectator.inject(CourseListFacadeService);
+    courseFacadeService = spectator.inject(CourseFacadeService);
   });
 
   it('should fetch sections', () => {
     spectator.service.resolve(null);
 
-    expect(courseListFacadeService.fetchSections).toHaveBeenCalled();
+    expect(courseFacadeService.fetchSections).toHaveBeenCalled();
   });
 });

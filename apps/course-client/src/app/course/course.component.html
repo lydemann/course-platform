@@ -4,6 +4,8 @@
     fxFlex="25"
     class="sidebar"
     [sections]="sections$ | async"
+    [selectedSectionId]="selectedSectionId$ | async"
+    [lessons]="sectionLessons$ | async"
   ></app-course-sidebar>
 
   <div class="content" fxFlex="75">

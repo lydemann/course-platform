@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { CourseContentComponent } from './components/course-content/course-content.component';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
-import { SectionComponent } from './components/course-sidebar/section/section.component';
+import { SectionLessonsComponent } from './components/course-sidebar/section/section-lessons.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { CourseComponent } from './course.component';
 import { FeatureRoutingModule } from './course.routing';
@@ -13,7 +13,7 @@ import { FeatureRoutingModule } from './course.routing';
   imports: [CommonModule, SharedModule, FeatureRoutingModule],
   declarations: [
     CourseComponent,
-    SectionComponent,
+    SectionLessonsComponent,
     TopbarComponent,
     CourseSidebarComponent,
     CourseContentComponent

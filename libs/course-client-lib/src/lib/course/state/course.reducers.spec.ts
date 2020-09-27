@@ -1,19 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { CourseSection } from '@course-platform/shared/interfaces';
-import { CourseListActions } from './course-list.actions';
-import { courseListInitState, CourseListState } from './course-list.model';
-import { courseListReducer } from './course-list.reducers';
+import { CourseActions } from './course.actions';
+import { courseInitState, CourseState } from './course.model';
+import { courseReducer } from './course.reducers';
 
 describe('Course List reducers', () => {
-  const initState = courseListInitState;
-  let updatedState: CourseListState;
+  const initState = courseInitState;
+  let updatedState: CourseState;
 
   describe('fetchSections', () => {
     beforeEach(() => {
-      updatedState = courseListReducer(
+      updatedState = courseReducer(
         initState,
-        CourseListActions.fetchCourseSections()
+        CourseActions.fetchCourseSections()
       );
     });
 
@@ -26,9 +26,9 @@ describe('Course List reducers', () => {
     const courseSections = [{ id: '1' }] as CourseSection[];
 
     beforeEach(() => {
-      updatedState = courseListReducer(
+      updatedState = courseReducer(
         initState,
-        CourseListActions.fetchCourseSectionsSuccess({ courseSections })
+        CourseActions.getCourseSectionsSuccess({ courseSections })
       );
     });
 
@@ -47,9 +47,9 @@ describe('Course List reducers', () => {
   describe('fetchSectionsFailed', () => {
     const error = { error: 'some error' } as HttpErrorResponse;
     beforeEach(() => {
-      updatedState = courseListReducer(
+      updatedState = courseReducer(
         initState,
-        CourseListActions.fetchCourseSectionsFailed({ error })
+        CourseActions.getCourseSectionsFailed({ error })
       );
     });
     it('should not be loading', () => {

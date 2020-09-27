@@ -1,0 +1,21 @@
+<div class="lessons">
+  <ul class="menu-vertical">
+    <li class="lesson" data-test="lesson" *ngFor="let lesson of lessons">
+      <a routerLink="#">
+        <span>{{ lesson.name }}</span>
+        <mat-icon class="icon">check_circle</mat-icon>
+      </a>
+    </li>
+
+    <li class="lesson" data-test="lesson">
+      <a routerLink="#">
+        Action items
+      </a>
+    </li>
+    <li class="lesson" data-test="lesson">
+      <a routerLink="#">
+        Questions
+      </a>
+    </li>
+  </ul>
+</div>

@@ -10,37 +10,37 @@ import { cold, hot } from 'jasmine-marbles';
 import { throwError } from 'rxjs';
 
 import { CourseSection } from '@course-platform/shared/interfaces';
-import { CourseListResourcesService } from '../resources/course-list-resources.service';
-import { CourseListActions } from './course-list.actions';
-import { CourseListEffects } from './course-list.effects';
+import { CourseResourcesService } from '../resources/course-resources.service';
+import { CourseActions } from './course.actions';
+import { CourseEffects } from './course.effects';
 
-describe('CourseListEffects', () => {
-  let spectator: SpectatorService<CourseListEffects>;
+describe('CourseEffects', () => {
+  let spectator: SpectatorService<CourseEffects>;
   let actions$: Actions;
-  let courseListResourcesService: SpyObject<CourseListResourcesService>;
+  let courseResourcesService: SpyObject<CourseResourcesService>;
   const createService = createServiceFactory({
-    service: CourseListEffects,
-    mocks: [CourseListResourcesService],
+    service: CourseEffects,
+    mocks: [CourseResourcesService],
     providers: [provideMockActions(() => actions$)]
   });
 
   beforeEach(() => {
     spectator = createService();
-    courseListResourcesService = spectator.inject(CourseListResourcesService);
+    courseResourcesService = spectator.inject(CourseResourcesService);
   });
 
   describe('fetchCourseSections', () => {
     it('should fetch sections', () => {
       const courseSections = [{ id: '1' }] as CourseSection[];
 
-      courseListResourcesService.getCourseSections.andReturn(
+      courseResourcesService.getCourseSections.andReturn(
         cold('a|', { a: courseSections })
       );
 
-      actions$ = hot('a', { a: CourseListActions.fetchCourseSections });
+      actions$ = hot('a', { a: CourseActions.courseInitiated });
 
       const expected = cold('a', {
-        a: CourseListActions.fetchCourseSectionsSuccess({ courseSections })
+        a: CourseActions.getCourseSectionsSuccess({ courseSections })
       });
       expect(spectator.service.fetchCourseSections$).toBeObservable(expected);
     });
@@ -48,12 +48,12 @@ describe('CourseListEffects', () => {
     it('should handle error', () => {
       const error = { error: 'some error' } as HttpErrorResponse;
 
-      courseListResourcesService.getCourseSections.andReturn(throwError(error));
+      courseResourcesService.getCourseSections.andReturn(throwError(error));
 
-      actions$ = hot('a', { a: CourseListActions.fetchCourseSections });
+      actions$ = hot('a', { a: CourseActions.courseInitiated });
 
       const expected = cold('a', {
-        a: CourseListActions.fetchCourseSectionsFailed({ error })
+        a: CourseActions.getCourseSectionsFailed({ error })
       });
       expect(spectator.service.fetchCourseSections$).toBeObservable(expected);
     });
