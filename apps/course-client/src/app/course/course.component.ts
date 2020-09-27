@@ -14,6 +14,7 @@ export class CourseComponent implements OnInit {
   lessons$: Observable<Lesson[]>;
   isLoading$: Observable<Boolean>;
   selectedSectionId$: Observable<string>;
+  selectedLesson$: Observable<Lesson>;
   sectionLessons$: Observable<Lesson[]>;
 
   constructor(private courseFacadeService: CourseFacadeService) {}
@@ -25,5 +26,10 @@ export class CourseComponent implements OnInit {
     this.lessons$ = this.courseFacadeService.sectionLessons$;
     this.selectedSectionId$ = this.courseFacadeService.selectedSectionId$;
     this.sectionLessons$ = this.courseFacadeService.sectionLessons$;
+    this.selectedLesson$ = this.courseFacadeService.selectedLesson$;
+  }
+
+  onLessonSelected(selectedLessonId: string) {
+    this.courseFacadeService.onLessonSelected(selectedLessonId);
   }
 }

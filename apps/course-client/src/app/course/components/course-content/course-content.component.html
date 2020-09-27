@@ -7,12 +7,11 @@
 <div class="body">
   <div class="video-wrapper" style="position:relative;padding-top:56.25%;">
     <iframe
-      _ngcontent-xcj-c344=""
+      style="position:absolute;top:0;left:0;width:100%;height:100%;"
+      [src]="videoUrl"
       frameborder="0"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen=""
-      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-      src="https://www.youtube.com/embed/TzJMkZIWy30"
+      allowfullscreen
     ></iframe>
   </div>
 
@@ -20,15 +19,7 @@
     <div class="lesson-description" fxFlex="75">
       <h2 class="label">ABOUT THIS LESSON</h2>
       <p>
-        What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing
-        and typesetting industry. Lorem Ipsum has been the industry's standard
-        dummy text ever since the 1500s, when an unknown printer took a galley
-        of type and scrambled it to make a type specimen book. It has survived
-        not only five centuries, but also the leap into electronic typesetting,
-        remaining essentially unchanged. It was popularised in the 1960s with
-        the release of Letraset sheets containing Lorem Ipsum passages, and more
-        recently with desktop publishing software like Aldus PageMaker including
-        versions of Lorem Ipsum.
+        {{ lesson.description }}
       </p>
     </div>
 
@@ -36,14 +27,9 @@
       <h2 class="label">Resources</h2>
 
       <ul fxLayoutGap="2px" fxLayout="column">
-        <li>
-          <a class="resource" href="#">
-            Resource 1
-          </a>
-        </li>
-        <li>
-          <a class="resource" href="#">
-            Resource 2
+        <li *ngFor="let resource of lesson.resources">
+          <a class="resource" target="_blank" href="{{ resource.url }}">
+            {{ resource.name }}
           </a>
         </li>
       </ul>

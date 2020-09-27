@@ -3,6 +3,12 @@
   display: block;
 
   .lessons {
+    .lesson {
+      cursor: pointer;
+      &.selected {
+        font-weight: bold;
+      }
+    }
     .menu-vertical {
       margin: 0;
       list-style-type: none;

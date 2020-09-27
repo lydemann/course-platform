@@ -8,7 +8,7 @@ import { CourseResolver } from './resolvers/course.resolver';
 
 const routes: Routes = [
   {
-    path: ':selectedSectionId',
+    path: ':selectedSectionId/:selectedLessonId',
     component: CourseComponent,
     canActivate: [AuthGuard],
     resolve: [CourseResolver]

@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 
 import { CourseResourcesService } from '../resources/course-resources.service';
+import { CourseSelectors } from '../state/course.selectors';
 import { CourseActions } from './course.actions';
 
 @Injectable()
@@ -23,6 +32,21 @@ export class CourseEffects {
       )
     );
   });
+
+  lessonChanged$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CourseActions.lessonChanged),
+        withLatestFrom(
+          this.store.select(CourseSelectors.selectSelectedSectionId)
+        ),
+        tap(([{ selectedLessonId }, selectedSectionId]) => {
+          this.router.navigate(['course', selectedSectionId, selectedLessonId]);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   fetchSectionLessons$ = createEffect(() => {
     return this.actions$.pipe(
@@ -46,6 +70,8 @@ export class CourseEffects {
 
   constructor(
     private actions$: Actions,
-    private courseResourcesService: CourseResourcesService
+    private courseResourcesService: CourseResourcesService,
+    private router: Router,
+    private store: Store
   ) {}
 }

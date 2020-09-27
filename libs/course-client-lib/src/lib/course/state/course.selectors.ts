@@ -13,7 +13,8 @@ export namespace CourseSelectors {
     selectAll: courseSectionsSelectAll
   } = courseSectionAdapter.getSelectors();
   const {
-    selectAll: courseLessonsSelectAll
+    selectAll: courseLessonsSelectAll,
+    selectEntities: courseLessonsSelectEntities
   } = courseLessonAdapter.getSelectors();
 
   export const selectIsLoadingSections = createSelector(
@@ -50,9 +51,25 @@ export namespace CourseSelectors {
     selectCourseLessonsState,
     courseLessonsSelectAll
   );
+  export const selectCourseLessonsEntities = createSelector(
+    selectCourseLessonsState,
+    courseLessonsSelectEntities
+  );
 
   export const selectSelectedSectionId = createSelector(
     getCourseFeature,
     state => state.sectionsState.selectedSectionId
+  );
+
+  export const selectSelectedLessonId = createSelector(
+    getCourseFeature,
+    state => state.lessonsState.selectedLessonId
+  );
+  export const selectSelectedLesson = createSelector(
+    selectSelectedLessonId,
+    selectCourseLessonsEntities,
+    (selectedLessonId, courseLessons) => {
+      return courseLessons[selectedLessonId];
+    }
   );
 }

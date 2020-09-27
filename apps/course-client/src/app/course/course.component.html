@@ -6,9 +6,14 @@
     [sections]="sections$ | async"
     [selectedSectionId]="selectedSectionId$ | async"
     [lessons]="sectionLessons$ | async"
+    [selectedLessonId]="(selectedLesson$ | async)?.id"
+    (lessonSelected)="onLessonSelected($event)"
   ></app-course-sidebar>
 
   <div class="content" fxFlex="75">
-    <app-course-content></app-course-content>
+    <app-course-content
+      *ngIf="selectedLesson$ | async as selectedLesson"
+      [lesson]="selectedLesson"
+    ></app-course-content>
   </div>
 </div>

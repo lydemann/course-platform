@@ -11,6 +11,9 @@ import { CourseSelectors } from './state/course.selectors';
   providedIn: 'root'
 })
 export class CourseFacadeService {
+  selectedLesson$: Observable<Lesson> = this.store.select(
+    CourseSelectors.selectSelectedLesson
+  );
   sections$: Observable<CourseSection[]> = this.store.select(
     CourseSelectors.selectCourseSections
   );
@@ -24,8 +27,10 @@ export class CourseFacadeService {
   selectedSectionId$ = this.store.select(
     CourseSelectors.selectSelectedSectionId
   );
-
   constructor(private store: Store<CourseState>) {}
+  onLessonSelected(selectedLessonId: string) {
+    this.store.dispatch(CourseActions.lessonChanged({ selectedLessonId }));
+  }
 
   courseInitiated(props: CourseInitiatedProps) {
     this.store.dispatch(CourseActions.courseInitiated(props));

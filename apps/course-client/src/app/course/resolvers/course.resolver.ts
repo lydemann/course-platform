@@ -9,7 +9,8 @@ export class CourseResolver implements Resolve<null> {
 
   resolve(route: ActivatedRouteSnapshot): null {
     this.courseFacadeService.courseInitiated({
-      selectedSectionId: route.params.selectedSectionId
+      selectedSectionId: route.params.selectedSectionId,
+      selectedLessonId: route.params.selectedLessonId
     });
 
     return;

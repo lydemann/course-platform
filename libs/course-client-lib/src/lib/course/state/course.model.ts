@@ -22,6 +22,7 @@ export const courseSectionAdapter: EntityAdapter<CourseSection> = createEntityAd
 export interface LessonsState extends EntityState<Lesson> {
   isLoading: boolean;
   error: HttpErrorResponse;
+  selectedLessonId: string;
 }
 
 export const courseLessonAdapter: EntityAdapter<Lesson> = createEntityAdapter<

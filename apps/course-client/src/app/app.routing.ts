@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'course',
-    redirectTo: 'course/0'
+    redirectTo: 'course/0/w1-1'
   },
   {
     path: 'course',

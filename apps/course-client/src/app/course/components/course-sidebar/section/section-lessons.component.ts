@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
 
 import { Lesson } from '@course-platform/shared/interfaces';
@@ -13,10 +15,8 @@ import { Lesson } from '@course-platform/shared/interfaces';
   styleUrls: ['./section-lessons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SectionLessonsComponent implements OnInit {
+export class SectionLessonsComponent {
   @Input() lessons: Lesson[];
-
-  constructor() {}
-
-  ngOnInit() {}
+  @Input() selectedLessonId: string;
+  @Output() lessonSelected = new EventEmitter<string>();
 }

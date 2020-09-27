@@ -6,12 +6,18 @@ import { LessonsState } from './course.model';
 
 export interface CourseInitiatedProps {
   selectedSectionId: string;
+  selectedLessonId: string;
 }
 
 export namespace CourseActions {
   export const courseInitiated = createAction(
     '[Course] Course Initiated',
     props<CourseInitiatedProps>()
+  );
+
+  export const lessonChanged = createAction(
+    '[Course] Lesson Changed',
+    props<{ selectedLessonId: string }>()
   );
   export const getCourseSectionsSuccess = createAction(
     '[Course] Get Course Sections Success',

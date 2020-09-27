@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 
@@ -15,7 +15,9 @@ export interface SectionDropDownValue {
 export class CourseSidebarComponent implements OnInit {
   @Input() sections: CourseSection[];
   @Input() selectedSectionId: string;
+  @Input() selectedLessonId: string;
   @Input() lessons: Lesson[];
+  @Output() lessonSelected = new EventEmitter<string>();
 
   constructor() {}
 
