@@ -14,13 +14,14 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
     CourseActions.courseInitiated,
     (state, { selectedSectionId, selectedLessonId }) => ({
       ...state,
-      isLoading: true,
       sectionsState: {
         ...state.sectionsState,
+        isLoading: true,
         selectedSectionId
       },
       lessonsState: {
         ...state.lessonsState,
+        isLoading: true,
         selectedLessonId
       }
     })

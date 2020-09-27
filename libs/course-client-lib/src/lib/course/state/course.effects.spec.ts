@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import {
   createServiceFactory,
   SpectatorService,
@@ -6,6 +7,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { throwError } from 'rxjs';
 
@@ -20,8 +22,8 @@ describe('CourseEffects', () => {
   let courseResourcesService: SpyObject<CourseResourcesService>;
   const createService = createServiceFactory({
     service: CourseEffects,
-    mocks: [CourseResourcesService],
-    providers: [provideMockActions(() => actions$)]
+    mocks: [CourseResourcesService, Router],
+    providers: [provideMockActions(() => actions$), provideMockStore()]
   });
 
   beforeEach(() => {

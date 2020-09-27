@@ -1,3 +1,4 @@
+import { ActivatedRouteSnapshot } from '@angular/router';
 import {
   createServiceFactory,
   SpectatorService,
@@ -21,8 +22,13 @@ describe('CourseResolver', () => {
   });
 
   it('should fetch sections', () => {
-    spectator.service.resolve(null);
+    spectator.service.resolve({
+      params: {
+        selectedSectionId: '0',
+        selectedLessonId: '0'
+      }
+    } as any);
 
-    expect(courseFacadeService.fetchSections).toHaveBeenCalled();
+    expect(courseFacadeService.courseInitiated).toHaveBeenCalled();
   });
 });

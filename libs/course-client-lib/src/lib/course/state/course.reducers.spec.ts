@@ -5,7 +5,7 @@ import { CourseActions } from './course.actions';
 import { courseInitState, CourseState } from './course.model';
 import { courseReducer } from './course.reducers';
 
-describe('Course List reducers', () => {
+fdescribe('Course List reducers', () => {
   const initState = courseInitState;
   let updatedState: CourseState;
 
@@ -13,12 +13,16 @@ describe('Course List reducers', () => {
     beforeEach(() => {
       updatedState = courseReducer(
         initState,
-        CourseActions.fetchCourseSections()
+        CourseActions.courseInitiated({
+          selectedLessonId: '',
+          selectedSectionId: ''
+        })
       );
     });
 
     it('should be loading', () => {
-      expect(updatedState.isLoading).toBe(true);
+      expect(updatedState.sectionsState.isLoading).toBe(true);
+      expect(updatedState.lessonsState.isLoading).toBe(true);
     });
   });
 
@@ -33,14 +37,16 @@ describe('Course List reducers', () => {
     });
 
     it('should not be loading', () => {
-      expect(updatedState.isLoading).toBe(false);
+      expect(updatedState.sectionsState.isLoading).toBe(false);
     });
 
     it('should set the fetched sections', () => {
-      expect(updatedState.entities).toStrictEqual({
+      expect(updatedState.sectionsState.entities).toStrictEqual({
         [courseSections[0].id]: courseSections[0]
       });
-      expect(updatedState.ids).toStrictEqual([courseSections[0].id]);
+      expect(updatedState.sectionsState.ids).toStrictEqual([
+        courseSections[0].id
+      ]);
     });
   });
 
@@ -53,10 +59,10 @@ describe('Course List reducers', () => {
       );
     });
     it('should not be loading', () => {
-      expect(updatedState.isLoading).toBe(false);
+      expect(updatedState.sectionsState.isLoading).toBe(false);
     });
     it('should set the error', () => {
-      expect(updatedState.error).toBe(error);
+      expect(updatedState.sectionsState.error).toBe(error);
     });
   });
 });
