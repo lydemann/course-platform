@@ -3,10 +3,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';
 
-describe('fetchCourseSections', () => {
+describe('courseInitiated', () => {
   it('should be a fetchCourseSections-action', () => {
-    const action = CourseActions.fetchCourseSections();
-    expect(action.type).toBe(CourseActions.fetchCourseSections.type);
+    const action = CourseActions.courseInitiated({
+      selectedLessonId: '',
+      selectedSectionId: ''
+    });
+    expect(action.type).toBe(CourseActions.courseInitiated.type);
   });
 });
 

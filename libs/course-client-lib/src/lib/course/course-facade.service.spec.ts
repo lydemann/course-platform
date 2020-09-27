@@ -37,10 +37,16 @@ describe('CourseFacadeService', () => {
       const courseSections = [{ id: '1' } as CourseSection];
       courseResourcesService.getCourseSections.andReturn(of(courseSections));
 
-      spectator.service.courseInitiated();
+      spectator.service.courseInitiated({
+        selectedLessonId: '',
+        selectedSectionId: ''
+      });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        CourseActions.courseInitiated()
+        CourseActions.courseInitiated({
+          selectedLessonId: '',
+          selectedSectionId: ''
+        })
       );
     });
   });
