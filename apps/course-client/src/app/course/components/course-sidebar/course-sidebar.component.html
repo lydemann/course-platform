@@ -3,8 +3,25 @@
     <small class="week-theme-label">WEEK THEME</small>
     <h5 class="week-theme">Drawing Your Clean Architecture</h5>
   </div>
-  <app-section
-    [section]="section"
-    *ngFor="let section of sections"
-  ></app-section>
+
+  <div class="progress-bar-wrapper">
+    <small class="label">40% complete</small>
+    <mat-progress-bar
+      class="progress-bar"
+      mode="determinate"
+      value="40"
+    ></mat-progress-bar>
+  </div>
+
+  <app-select class="section-select-form-field" [value]="selectedSectionId">
+    <app-select-option *ngFor="let section of sections" [value]="section.id">
+      {{ section.name }}
+    </app-select-option>
+  </app-select>
+
+  <app-section-lessons
+    [lessons]="lessons"
+    [selectedLessonId]="selectedLessonId"
+    (lessonSelected)="lessonSelected.emit($event)"
+  ></app-section-lessons>
 </div>

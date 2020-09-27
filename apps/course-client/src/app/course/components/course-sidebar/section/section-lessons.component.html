@@ -1,0 +1,28 @@
+<div class="lessons">
+  <ul class="menu-vertical">
+    <li
+      class="lesson"
+      data-test="lesson"
+      *ngFor="let lesson of lessons"
+      [class.selected]="lesson.id === selectedLessonId"
+    >
+      <a (click)="lessonSelected.emit(lesson.id)">
+        <span>{{ lesson.name }}</span>
+        <!-- TODO: save isComplete for user and check here -->
+        <mat-icon class="icon">check_circle</mat-icon>
+      </a>
+    </li>
+
+    <!-- TODO: render all this from firebase -->
+    <li class="lesson" data-test="lesson">
+      <a routerLink="#">
+        Action items
+      </a>
+    </li>
+    <li class="lesson" data-test="lesson">
+      <a routerLink="#">
+        Questions
+      </a>
+    </li>
+  </ul>
+</div>

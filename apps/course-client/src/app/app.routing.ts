@@ -7,6 +7,10 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'course',
+    redirectTo: 'course/0/w1-1'
+  },
+  {
+    path: 'course',
     loadChildren: () =>
       import('./course/course.module').then(m => m.CourseModule)
   },

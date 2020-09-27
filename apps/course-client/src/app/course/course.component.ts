@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CourseListFacadeService } from '@course-platform/course-client-lib';
-import { CourseSection } from '@course-platform/shared/interfaces';
+import { CourseFacadeService } from '@course-platform/course-client-lib';
+import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 
 @Component({
   selector: 'app-course',
@@ -11,12 +11,25 @@ import { CourseSection } from '@course-platform/shared/interfaces';
 })
 export class CourseComponent implements OnInit {
   sections$: Observable<CourseSection[]>;
+  lessons$: Observable<Lesson[]>;
   isLoading$: Observable<Boolean>;
+  selectedSectionId$: Observable<string>;
+  selectedLesson$: Observable<Lesson>;
+  sectionLessons$: Observable<Lesson[]>;
 
-  constructor(private courseListFacadeService: CourseListFacadeService) {}
+  constructor(private courseFacadeService: CourseFacadeService) {}
 
   ngOnInit() {
-    this.isLoading$ = this.courseListFacadeService.isLoading$;
-    this.sections$ = this.courseListFacadeService.sections$;
+    // TODO: show loading spinner when loading
+    this.isLoading$ = this.courseFacadeService.isLoading$;
+    this.sections$ = this.courseFacadeService.sections$;
+    this.lessons$ = this.courseFacadeService.sectionLessons$;
+    this.selectedSectionId$ = this.courseFacadeService.selectedSectionId$;
+    this.sectionLessons$ = this.courseFacadeService.sectionLessons$;
+    this.selectedLesson$ = this.courseFacadeService.selectedLesson$;
+  }
+
+  onLessonSelected(selectedLessonId: string) {
+    this.courseFacadeService.onLessonSelected(selectedLessonId);
   }
 }

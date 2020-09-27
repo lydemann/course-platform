@@ -9,26 +9,26 @@ import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { CourseListFacadeService } from '@course-platform/course-client-lib';
+import { CourseFacadeService } from '@course-platform/course-client-lib';
 import { CourseContentComponent } from './components/course-content/course-content.component';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
-import { SectionComponent } from './components/course-sidebar/section/section.component';
+import { SectionLessonsComponent } from './components/course-sidebar/section/section-lessons.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { CourseComponent } from './course.component';
 
 describe('CourseComponent', () => {
   let spectator: Spectator<CourseComponent>;
-  let courseListFacadeService: SpyObject<CourseListFacadeService>;
+  let courseFacadeService: SpyObject<CourseFacadeService>;
   const createComponent = createComponentFactory({
     component: CourseComponent,
     declarations: [
-      MockComponent(SectionComponent),
+      MockComponent(SectionLessonsComponent),
       MockComponent(TopbarComponent),
       MockComponent(CourseSidebarComponent),
       MockComponent(CourseContentComponent)
     ],
     providers: [
-      mockProvider(CourseListFacadeService, {
+      mockProvider(CourseFacadeService, {
         sections$: of([
           {
             id: '1',
@@ -53,7 +53,7 @@ describe('CourseComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    courseListFacadeService = spectator.inject(CourseListFacadeService);
+    courseFacadeService = spectator.inject(CourseFacadeService);
   });
 
   it('should get course sections', done => {

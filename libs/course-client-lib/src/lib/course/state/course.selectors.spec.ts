@@ -1,21 +1,21 @@
 import { CourseSection } from '@course-platform/shared/interfaces';
 import {
-  courseListAdapter,
-  courseListInitState,
-  CourseListState
-} from './course-list.model';
-import { CourseListSelectors } from './course-list.selectors';
+  courseInitState,
+  courseSectionAdapter,
+  CourseState
+} from './course.model';
+import { CourseSelectors } from './course.selectors';
 
 describe('Course list selectors', () => {
-  const initState = courseListInitState;
+  const initState = courseInitState;
   describe('selectIsLoading', () => {
     it('should select isLoading', () => {
-      initState.isLoading = true;
+      initState.sectionsState.isLoading = true;
 
-      const isLoading = CourseListSelectors.selectIsLoading.projector(
+      const isLoading = CourseSelectors.selectIsLoadingSections.projector(
         initState
       );
-      expect(isLoading).toBe(initState.isLoading);
+      expect(isLoading).toBe(initState.sectionsState.isLoading);
     });
   });
 
@@ -23,12 +23,12 @@ describe('Course list selectors', () => {
     it('should select course sections', () => {
       const courseSections = [{ id: '1' }] as CourseSection[];
 
-      const stateWithSections = courseListAdapter.setAll(
+      const stateWithSections = courseSectionAdapter.setAll(
         courseSections,
-        initState
+        initState.sectionsState
       );
 
-      const sections = CourseListSelectors.selectCourseSections.projector(
+      const sections = CourseSelectors.selectCourseSections.projector(
         stateWithSections
       );
       expect(sections).toEqual(courseSections);

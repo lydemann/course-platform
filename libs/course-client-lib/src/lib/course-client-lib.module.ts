@@ -4,15 +4,15 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { CourseListEffects } from './course-list/state/course-list.effects';
-import { courseListReducer } from './course-list/state/course-list.reducers';
+import { CourseEffects } from './course/state/course.effects';
+import { courseReducer } from './course/state/course.reducers';
 
 @NgModule({
   imports: [
     CommonModule,
-    EffectsModule.forRoot([CourseListEffects]),
+    EffectsModule.forRoot([CourseEffects]),
     StoreModule.forRoot({
-      courseList: courseListReducer
+      course: courseReducer
     }),
     StoreDevtoolsModule.instrument()
   ]
