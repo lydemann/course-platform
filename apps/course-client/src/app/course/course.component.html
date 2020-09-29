@@ -8,6 +8,7 @@
     [lessons]="sectionLessons$ | async"
     [selectedLessonId]="(selectedLesson$ | async)?.id"
     (lessonSelected)="onLessonSelected($event)"
+    (sectionChanged)="onSectionSelected($event)"
   ></app-course-sidebar>
 
   <div class="content" fxFlex="75">

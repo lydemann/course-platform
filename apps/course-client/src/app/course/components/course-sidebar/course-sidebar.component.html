@@ -13,7 +13,11 @@
     ></mat-progress-bar>
   </div>
 
-  <app-select class="section-select-form-field" [value]="selectedSectionId">
+  <app-select
+    class="section-select-form-field"
+    [value]="selectedSectionId"
+    (valueChange)="sectionChanged.emit($event)"
+  >
     <app-select-option *ngFor="let section of sections" [value]="section.id">
       {{ section.name }}
     </app-select-option>

@@ -7,6 +7,7 @@ import {
   catchError,
   exhaustMap,
   map,
+  switchMap,
   tap,
   withLatestFrom
 } from 'rxjs/operators';
@@ -32,6 +33,38 @@ export class CourseEffects {
       )
     );
   });
+
+  sectionSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseActions.sectionSelected),
+      switchMap(({ selectionSectionId }) =>
+        // TODO: dispatch action with lessons and trigger navigation in other effect
+        this.courseResourcesService.getCourseLessons(selectionSectionId).pipe(
+          map(lessons => {
+            return CourseActions.sectionChangedSectionLessonsSuccess({
+              lessons,
+              selectionSectionId
+            });
+          }),
+          catchError(error =>
+            of(CourseActions.getSectionLessonsFailed({ error }))
+          )
+        )
+      )
+    );
+  });
+
+  sectionChangedSectionLessonsSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CourseActions.sectionChangedSectionLessonsSuccess),
+        tap(({ selectionSectionId, lessons }) => {
+          this.router.navigate(['course', selectionSectionId, lessons[0].id]);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   lessonChanged$ = createEffect(
     () => {

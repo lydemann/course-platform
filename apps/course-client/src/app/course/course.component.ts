@@ -32,4 +32,8 @@ export class CourseComponent implements OnInit {
   onLessonSelected(selectedLessonId: string) {
     this.courseFacadeService.onLessonSelected(selectedLessonId);
   }
+
+  onSectionSelected(selectionSectionId: string) {
+    this.courseFacadeService.onSectionSelected(selectionSectionId);
+  }
 }
