@@ -84,13 +84,18 @@ export class CourseEffects {
   fetchSectionLessons$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseActions.courseInitiated, CourseActions.sectionChanged),
-      exhaustMap(action => {
+      map(action => {
         let courseSection = '0';
 
+        if (action.type === CourseActions.courseInitiated.type) {
+          courseSection = action.selectedSectionId;
+        }
         if (action.type === CourseActions.sectionChanged.type) {
           courseSection = action.sectionId;
         }
-
+        return courseSection;
+      }),
+      exhaustMap(courseSection => {
         return this.courseResourcesService.getCourseLessons(courseSection).pipe(
           map(lessons => CourseActions.getSectionLessonsSuccess({ lessons })),
           catchError(error =>

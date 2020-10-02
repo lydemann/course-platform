@@ -1,3 +1,5 @@
+@import 'helpers';
+
 .sticky-container {
   height: 58px;
   width: 100%;
@@ -26,6 +28,8 @@
       display: inline-block;
       > .nav-button {
         cursor: pointer;
+        color: get-color('white');
+        text-decoration: none;
         vertical-align: middle;
         padding: 0.7rem 1rem;
         display: inline-flex;

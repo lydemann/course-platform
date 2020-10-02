@@ -23,8 +23,12 @@ export class TopbarComponent implements OnInit {
   navigation: NavigationItem[] = [
     // TODO: add dropdowns here
     // TODO: add icons here
-    { link: 'community', label: 'Community', icon: 'groups' },
-    { link: 'help', label: 'Help', icon: 'info' },
+    {
+      link: 'https://theangulararc-zix2820.slack.com',
+      label: 'Community',
+      icon: 'groups'
+    },
+    // { link: 'help', label: 'Help', icon: 'info' },
     { link: 'profile', label: 'Profile', icon: 'person' }
   ];
   logo = require('../../../../assets/logo.png').default;
