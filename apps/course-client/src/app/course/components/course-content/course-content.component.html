@@ -1,7 +1,23 @@
 <div class="header mb-l">
   <h1 class="lesson-title">1. Welcome to the course</h1>
 
-  <button mat-raised-button color="primary">Mark Complete</button>
+  <!-- TODO: toggle button -->
+  <button
+    mat-raised-button
+    *ngIf="lesson.isCompleted"
+    color="success"
+    (click)="onLessonCompletedClick(false)"
+  >
+    Mark Incomplete
+  </button>
+  <button
+    mat-raised-button
+    *ngIf="!lesson.isCompleted"
+    color="primary"
+    (click)="onLessonCompletedClick(true)"
+  >
+    Mark Complete
+  </button>
 </div>
 
 <div class="body">
@@ -26,6 +42,7 @@
     <div class="resouces" fxFlex="25">
       <h2 class="label">Resources</h2>
 
+      <!-- TODO: group by worksheets and cheatsheets and other -->
       <ul fxLayoutGap="2px" fxLayout="column">
         <li *ngFor="let resource of lesson.resources">
           <a class="resource" target="_blank" href="{{ resource.url }}">

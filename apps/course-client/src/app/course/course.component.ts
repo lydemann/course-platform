@@ -36,4 +36,7 @@ export class CourseComponent implements OnInit {
   onSectionSelected(selectionSectionId: string) {
     this.courseFacadeService.onSectionSelected(selectionSectionId);
   }
+  onCompletedLessonClick(props: { isCompleted: boolean; lessonId: string }) {
+    this.courseFacadeService.lessonCompleted(props);
+  }
 }

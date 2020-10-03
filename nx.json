@@ -47,6 +47,9 @@
     },
     "shared-data-access": {
       "tags": ["type:data-access", "scope:shared"]
+    },
+    "shared-feat-auth": {
+      "tags": ["scope:shared", "type:feat"]
     }
   }
 }

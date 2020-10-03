@@ -63,5 +63,19 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
       error,
       isLoading: false
     }
-  }))
+  })),
+  on(CourseActions.lessonCompleted, (state, { lessonId, isCompleted }) => {
+    return {
+      ...state,
+      lessonsState: {
+        ...courseLessonAdapter.updateOne(
+          {
+            id: lessonId,
+            changes: { isCompleted }
+          },
+          state.lessonsState
+        )
+      }
+    };
+  })
 );

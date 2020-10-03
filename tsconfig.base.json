@@ -33,6 +33,9 @@
       ],
       "@course-platform/shared/data-access": [
         "libs/shared/data-access/src/index.ts"
+      ],
+      "@course-platform/shared/feat-auth": [
+        "libs/shared/feat-auth/src/index.ts"
       ]
     }
   },

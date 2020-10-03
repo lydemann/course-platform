@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { Lesson } from '@course-platform/shared/interfaces';
@@ -22,8 +22,16 @@ export class CourseContentComponent {
       );
     }
   }
+  @Output() completedLessonClick = new EventEmitter<{
+    isCompleted: boolean;
+    lessonId: string;
+  }>();
 
   videoUrl: SafeResourceUrl;
 
   constructor(private sanitizer: DomSanitizer) {}
+
+  onLessonCompletedClick(isCompleted: boolean) {
+    this.completedLessonClick.emit({ isCompleted, lessonId: this.lesson.id });
+  }
 }

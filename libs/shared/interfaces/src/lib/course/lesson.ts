@@ -4,6 +4,8 @@ export interface Lesson {
   videoUrl: string;
   description: string;
   resources: LessonResource[];
+  // set by client
+  isCompleted?: boolean;
 }
 
 export interface LessonResource {

@@ -122,6 +122,10 @@
             "onlyDependOnLibsWithTags": ["type:util"]
           },
           {
+            "sourceTag": "type:feat",
+            "onlyDependOnLibsWithTags": ["type:shared"]
+          },
+          {
             "sourceTag": "type:ui",
             "onlyDependOnLibsWithTags": [
               "type:ui",
@@ -134,7 +138,8 @@
             "onlyDependOnLibsWithTags": [
               "type:data-access",
               "type:util",
-              "type:interface"
+              "type:interface",
+              "type:feat"
             ]
           },
           {

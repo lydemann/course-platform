@@ -34,8 +34,10 @@ export class CourseFacadeService {
   onLessonSelected(selectedLessonId: string) {
     this.store.dispatch(CourseActions.lessonChanged({ selectedLessonId }));
   }
-
   courseInitiated(props: CourseInitiatedProps) {
     this.store.dispatch(CourseActions.courseInitiated(props));
+  }
+  lessonCompleted(props: { lessonId: string; isCompleted: boolean }) {
+    this.store.dispatch(CourseActions.lessonCompleted(props));
   }
 }

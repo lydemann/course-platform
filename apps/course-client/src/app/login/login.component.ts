@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { auth } from 'firebase/app';
 
-import { AuthService } from '../core/auth/auth.service';
+import { AuthService } from '@course-platform/shared/feat-auth';
 
 @Component({
   selector: 'app-login',

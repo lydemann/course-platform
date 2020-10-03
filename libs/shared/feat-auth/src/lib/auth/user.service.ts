@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,13 @@ import * as firebase from 'firebase';
 export class UserService {
   constructor(public db: AngularFirestore, public afAuth: AngularFireAuth) {}
 
-  getCurrentUser() {
-    return new Promise<any>((resolve, reject) => {
+  getCurrentUser(): Observable<firebase.User> {
+    return new Observable(observer => {
       firebase.auth().onAuthStateChanged(function(currentUser) {
         if (currentUser) {
-          resolve(currentUser);
+          observer.next(currentUser);
         } else {
-          reject('No user logged in');
+          observer.error('No user logged in');
         }
       });
     });
