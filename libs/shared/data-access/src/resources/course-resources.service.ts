@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { from, Observable } from 'rxjs';
+import { combineLatest, from, Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
-import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import {
+  Course,
+  CourseSection,
+  Lesson
+} from '@course-platform/shared/interfaces';
 
 export const COURSE_SECTIONS_URL = '/api/sections';
+
+interface LessonGroup {
+  [sectionId: string]: Lesson[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +23,31 @@ export class CourseResourcesService {
 
   getCourseSections(): Observable<CourseSection[]> {
     return this.fireDB.list<CourseSection>('sections').valueChanges();
+  }
+
+  getLesson(sectionId: string, lessonId: string): Observable<Lesson> {
+    return this.fireDB
+      .object<Lesson>(`lessons/${sectionId}/${lessonId}`)
+      .valueChanges();
+  }
+
+  getCourseSectionsWithLessons(): Observable<CourseSection[]> {
+    const sections$ = this.fireDB
+      .list<CourseSection>('sections')
+      .valueChanges();
+    const lessonGroups$ = this.fireDB
+      .list<LessonGroup>(`lessons`)
+      .valueChanges();
+
+    return combineLatest([sections$, lessonGroups$]).pipe(
+      first(),
+      map(([sections, lessonGroups]) => {
+        return sections.map(
+          section =>
+            ({ ...section, lessons: lessonGroups[section.id] } as CourseSection)
+        );
+      })
+    );
   }
 
   getCourseLessons(sectionId: string): Observable<Lesson[]> {

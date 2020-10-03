@@ -19,6 +19,9 @@
       "@course-platform/course-client-lib": [
         "libs/course-client-lib/src/index.ts"
       ],
+      "@course-platform/course-admin-lib": [
+        "libs/course-admin-lib/src/index.ts"
+      ],
       "@course-platform/course-client-env": [
         "libs/course-client-lib/src/environments/environment.ts"
       ],

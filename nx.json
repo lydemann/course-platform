@@ -50,6 +50,9 @@
     },
     "shared-feat-auth": {
       "tags": ["scope:shared", "type:feat"]
+    },
+    "course-admin-lib": {
+      "tags": ["scope:course-admin", "type:data-access"]
     }
   }
 }

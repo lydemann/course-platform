@@ -194,6 +194,9 @@
               "apps/course-admin/src/assets"
             ],
             "styles": ["apps/course-admin/src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/ui/styles/src/lib"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -457,6 +460,32 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
+        }
+      }
+    },
+    "course-admin-lib": {
+      "root": "libs/course-admin-lib",
+      "sourceRoot": "libs/course-admin-lib/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/course-admin-lib/tsconfig.lib.json",
+              "libs/course-admin-lib/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/course-admin-lib/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/course-admin-lib/jest.config.js",
+            "tsConfig": "libs/course-admin-lib/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
         }
       }
     }

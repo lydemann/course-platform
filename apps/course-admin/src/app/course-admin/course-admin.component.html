@@ -1,0 +1,24 @@
+<h1 class="mb-m">Welcome to the course admin</h1>
+
+<div>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let section of sections$ | async">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ section.id }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ section.name }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-selection-list #shoes [multiple]="false">
+        <mat-list-option
+          *ngFor="let lesson of section.lessons"
+          (click)="onLessonClicked(section.id, lesson.id)"
+        >
+          {{ lesson.name }}
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { Lesson } from '@course-platform/shared/interfaces';
@@ -6,13 +12,15 @@ import { Lesson } from '@course-platform/shared/interfaces';
 @Component({
   selector: 'app-course-content',
   templateUrl: './course-content.component.html',
-  styleUrls: ['./course-content.component.scss']
+  styleUrls: ['./course-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseContentComponent {
   private _lesson: Lesson;
   public get lesson(): Lesson {
     return this._lesson;
   }
+
   @Input()
   public set lesson(lesson: Lesson) {
     this._lesson = lesson;
