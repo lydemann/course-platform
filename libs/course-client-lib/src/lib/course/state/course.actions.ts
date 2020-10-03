@@ -14,10 +14,13 @@ export namespace CourseActions {
     '[Course] Course Initiated',
     props<CourseInitiatedProps>()
   );
-
   export const lessonChanged = createAction(
     '[Course] Lesson Changed',
     props<{ selectedLessonId: string }>()
+  );
+  export const sectionSelected = createAction(
+    '[Course] Section Selected',
+    props<{ selectionSectionId: string }>()
   );
   export const getCourseSectionsSuccess = createAction(
     '[Course] Get Course Sections Success',
@@ -35,6 +38,10 @@ export namespace CourseActions {
   export const getSectionLessonsSuccess = createAction(
     '[Course] Get Section Lessons Success',
     props<{ lessons: Lesson[] }>()
+  );
+  export const sectionChangedSectionLessonsSuccess = createAction(
+    '[Course] Section Changed Section Lessons Success',
+    props<{ lessons: Lesson[]; selectionSectionId: string }>()
   );
   export const getSectionLessonsFailed = createAction(
     '[Course] Get Section Lessons Failed',

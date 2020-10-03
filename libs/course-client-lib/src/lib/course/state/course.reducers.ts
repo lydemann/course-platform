@@ -43,15 +43,19 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
       isLoading: false
     }
   })),
-  on(CourseActions.getSectionLessonsSuccess, (state, { lessons }) => {
-    return {
-      ...state,
-      lessonsState: {
-        ...courseLessonAdapter.setAll(lessons, state.lessonsState),
-        isLoading: false
-      }
-    };
-  }),
+  on(
+    CourseActions.getSectionLessonsSuccess,
+    CourseActions.sectionChangedSectionLessonsSuccess,
+    (state, { lessons }) => {
+      return {
+        ...state,
+        lessonsState: {
+          ...courseLessonAdapter.setAll(lessons, state.lessonsState),
+          isLoading: false
+        }
+      };
+    }
+  ),
   on(CourseActions.getSectionLessonsFailed, (state, { error }) => ({
     ...state,
     lessonsState: {

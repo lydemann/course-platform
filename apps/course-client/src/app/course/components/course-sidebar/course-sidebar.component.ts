@@ -12,14 +12,11 @@ export interface SectionDropDownValue {
   templateUrl: './course-sidebar.component.html',
   styleUrls: ['./course-sidebar.component.scss']
 })
-export class CourseSidebarComponent implements OnInit {
+export class CourseSidebarComponent {
   @Input() sections: CourseSection[];
   @Input() selectedSectionId: string;
   @Input() selectedLessonId: string;
   @Input() lessons: Lesson[];
   @Output() lessonSelected = new EventEmitter<string>();
-
-  constructor() {}
-
-  ngOnInit() {}
+  @Output() sectionChanged = new EventEmitter<string>();
 }
