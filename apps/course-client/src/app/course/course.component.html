@@ -15,6 +15,7 @@
     <app-course-content
       *ngIf="selectedLesson$ | async as selectedLesson"
       [lesson]="selectedLesson"
+      (completedLessonClick)="onCompletedLessonClick($event)"
     ></app-course-content>
   </div>
 </div>

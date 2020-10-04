@@ -111,7 +111,7 @@
           },
           {
             "sourceTag": "scope:course-admin",
-            "onlyDependOnLibsWithTags": ["scope:course-client", "scope:shared"]
+            "onlyDependOnLibsWithTags": ["scope:course-admin", "scope:shared"]
           },
           {
             "sourceTag": "scope:course-service",
@@ -120,6 +120,10 @@
           {
             "sourceTag": "type:util",
             "onlyDependOnLibsWithTags": ["type:util"]
+          },
+          {
+            "sourceTag": "type:feat",
+            "onlyDependOnLibsWithTags": ["type:shared"]
           },
           {
             "sourceTag": "type:ui",
@@ -134,7 +138,8 @@
             "onlyDependOnLibsWithTags": [
               "type:data-access",
               "type:util",
-              "type:interface"
+              "type:interface",
+              "type:feat"
             ]
           },
           {

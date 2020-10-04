@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '../core/auth/auth.guard';
+import { AuthGuard } from '@course-platform/shared/feat-auth';
 import { CourseComponent } from './course.component';
 import { CourseResolver } from './resolvers/course.resolver';
 

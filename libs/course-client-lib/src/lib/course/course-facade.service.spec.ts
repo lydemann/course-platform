@@ -7,9 +7,9 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 
+import { CourseResourcesService } from '@course-platform/shared/data-access';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseFacadeService } from './course-facade.service';
-import { CourseResourcesService } from './resources/course-resources.service';
 import { CourseActions } from './state/course.actions';
 import { CourseSelectors } from './state/course.selectors';
 

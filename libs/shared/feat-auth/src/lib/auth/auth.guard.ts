@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, first, map } from 'rxjs/operators';
 
 import { UserService } from './user.service';
 
@@ -14,17 +16,14 @@ export class AuthGuard {
     private router: Router
   ) {}
 
-  canActivate(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.userService.getCurrentUser().then(
-        user => {
-          return resolve(true);
-        },
-        err => {
-          this.router.navigate(['/login']);
-          return resolve(false);
-        }
-      );
-    });
+  canActivate(): Observable<boolean> {
+    return this.userService.getCurrentUser().pipe(
+      first(),
+      map(() => true),
+      catchError(() => {
+        this.router.navigate(['/login']);
+        return of(false);
+      })
+    );
   }
 }

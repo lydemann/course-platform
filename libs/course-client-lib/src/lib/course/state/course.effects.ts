@@ -2,17 +2,19 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import {
   catchError,
   exhaustMap,
+  first,
   map,
   switchMap,
   tap,
   withLatestFrom
 } from 'rxjs/operators';
 
-import { CourseResourcesService } from '../resources/course-resources.service';
+import { CourseResourcesService } from '@course-platform/shared/data-access';
+import { UserService } from '@course-platform/shared/feat-auth';
 import { CourseSelectors } from '../state/course.selectors';
 import { CourseActions } from './course.actions';
 
@@ -95,8 +97,22 @@ export class CourseEffects {
         }
         return courseSection;
       }),
-      exhaustMap(courseSection => {
-        return this.courseResourcesService.getCourseLessons(courseSection).pipe(
+      withLatestFrom(this.userService.getCurrentUser()),
+      exhaustMap(([courseSection, user]) => {
+        return forkJoin([
+          this.courseResourcesService
+            .getCourseLessons(courseSection)
+            .pipe(first()),
+          this.courseResourcesService
+            .getCompletedLessons(user.uid)
+            .pipe(first())
+        ]).pipe(
+          map(([lessons, completedLessons]) =>
+            lessons.map(lesson => ({
+              ...lesson,
+              isCompleted: completedLessons[lesson.id]?.isCompleted || false
+            }))
+          ),
           map(lessons => CourseActions.getSectionLessonsSuccess({ lessons })),
           catchError(error =>
             of(CourseActions.getSectionLessonsFailed({ error }))
@@ -106,10 +122,28 @@ export class CourseEffects {
     );
   });
 
+  lessonCompleted$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseActions.lessonCompleted),
+      withLatestFrom(this.userService.getCurrentUser()),
+      switchMap(([action, user]) => {
+        return this.courseResourcesService
+          .setCompleteLesson(action.isCompleted, action.lessonId, user.uid)
+          .pipe(
+            map(() => CourseActions.lessonCompletedSuccess()),
+            catchError((error: Error) => {
+              return of(CourseActions.lessonCompletedFailed({ error }));
+            })
+          );
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private courseResourcesService: CourseResourcesService,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private userService: UserService
   ) {}
 }

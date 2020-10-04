@@ -9,6 +9,11 @@ export interface CourseInitiatedProps {
   selectedLessonId: string;
 }
 
+export interface LessonCompletedProps {
+  lessonId: string;
+  isCompleted: boolean;
+}
+
 export namespace CourseActions {
   export const courseInitiated = createAction(
     '[Course] Course Initiated',
@@ -48,10 +53,28 @@ export namespace CourseActions {
     props<{ error: HttpErrorResponse }>()
   );
 
+  export const lessonCompleted = createAction(
+    '[Course] Complete Button Clicked',
+    props<LessonCompletedProps>()
+  );
+
+  export const lessonCompletedSuccess = createAction(
+    '[Course] Lesson Completed Success'
+  );
+  export const lessonCompletedFailed = createAction(
+    '[Course] Lesson Completed Failed',
+    props<{ error: Error }>()
+  );
+
   export const all = union({
     courseInitiated,
     getCourseSectionsSuccess,
-    getCourseSectionsFailed
+    getCourseSectionsFailed,
+    sectionChangedSectionLessonsSuccess,
+    getSectionLessonsFailed,
+    lessonCompleted,
+    lessonCompletedSuccess,
+    lessonCompletedFailed
   });
 }
 
