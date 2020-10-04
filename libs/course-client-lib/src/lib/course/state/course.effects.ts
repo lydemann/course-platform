@@ -13,8 +13,8 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 
+import { CourseResourcesService } from '@course-platform/shared/data-access';
 import { UserService } from '@course-platform/shared/feat-auth';
-import { CourseResourcesService } from '../resources/course-resources.service';
 import { CourseSelectors } from '../state/course.selectors';
 import { CourseActions } from './course.actions';
 

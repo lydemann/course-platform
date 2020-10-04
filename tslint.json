@@ -111,7 +111,7 @@
           },
           {
             "sourceTag": "scope:course-admin",
-            "onlyDependOnLibsWithTags": ["scope:course-client", "scope:shared"]
+            "onlyDependOnLibsWithTags": ["scope:course-admin", "scope:shared"]
           },
           {
             "sourceTag": "scope:course-service",

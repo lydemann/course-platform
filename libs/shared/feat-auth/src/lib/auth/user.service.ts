@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
@@ -8,16 +8,23 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  constructor(public db: AngularFirestore, public afAuth: AngularFireAuth) {}
+  constructor(
+    public db: AngularFirestore,
+    public afAuth: AngularFireAuth,
+    public ngZone: NgZone
+  ) {}
 
   getCurrentUser(): Observable<firebase.User> {
     return new Observable(observer => {
-      firebase.auth().onAuthStateChanged(function(currentUser) {
-        if (currentUser) {
-          observer.next(currentUser);
-        } else {
-          observer.error('No user logged in');
-        }
+      firebase.auth().onAuthStateChanged(currentUser => {
+        // cb needs to run through zone to work in guard
+        this.ngZone.run(() => {
+          if (currentUser) {
+            observer.next(currentUser);
+          } else {
+            observer.error('No user logged in');
+          }
+        });
       });
     });
   }
