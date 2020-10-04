@@ -19,6 +19,10 @@ const routes: Routes = [
       import('./lesson-admin/lesson-admin.module').then(
         m => m.LessonAdminModule
       )
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 

@@ -2,7 +2,10 @@
 
 <div>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let section of sections$ | async">
+    <mat-expansion-panel
+      *ngFor="let section of sections$ | async"
+      data-test="section"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{ section.id }}
