@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { forkJoin, from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
+import { UserService } from '@course-platform/shared/feat-auth';
 import {
   CourseSection,
   Lesson,
@@ -63,6 +64,18 @@ const getPopulatedLessonOperator = () => {
   return switchMap(getPopulatedLesson);
 };
 
+export interface CompletedLessonData {
+  lessonId: string;
+  completed: boolean;
+  lastUpdated: boolean;
+}
+
+export interface GetCourseSectionsResponseDTO {
+  courseSections: CourseSection[];
+  user: {
+    completedLessons: CompletedLessonData[];
+  };
+}
 export interface GetCourseSectionsResponse {
   courseSections: CourseSection[];
 }
@@ -71,45 +84,72 @@ export interface GetCourseSectionsResponse {
   providedIn: 'root'
 })
 export class CourseResourcesService {
-  constructor(private fireStore: AngularFirestore, private apollo: Apollo) {}
+  constructor(
+    private fireStore: AngularFirestore,
+    private apollo: Apollo,
+    private userService: UserService
+  ) {}
 
   getCourseSections(): Observable<GetCourseSectionsResponse> {
-    return this.apollo
-      .watchQuery<GetCourseSectionsResponse>({
-        query: gql`
-          {
-            courseSections {
-              id
-              name
-              lessons {
+    return this.userService.getCurrentUser().pipe(
+      switchMap(currentUser => {
+        return this.apollo
+          .watchQuery<GetCourseSectionsResponseDTO>({
+            query: gql`
+            {
+              courseSections {
                 id
                 name
-                description
-                videoUrl
-                resources {
-                  name
+                lessons {
                   id
-                  url
+                  name
+                  description
+                  videoUrl
+                  resources {
+                    name
+                    id
+                    url
+                  }
+                }
+              }
+              user(uid: "${currentUser.uid}") {
+                completedLessons {
+                  lessonId
+                  completed
+                  lastUpdated
                 }
               }
             }
-            user(uid: "lTHwHBgyQ7nCCSrk47Qt") {
-              completedLessons {
-                lessonId
-                completed
-              }
-            }
-          }
-        `
+          `
+          })
+          .valueChanges.pipe(
+            map(data => {
+              const updatedSections = data.data.courseSections.map(section => {
+                const completedLessonsMap = data.data.user.completedLessons.reduce(
+                  (prev, cur) => {
+                    if (!cur.completed) {
+                      return { ...prev };
+                    }
+
+                    return { ...prev, [cur.lessonId]: true };
+                  },
+                  {}
+                );
+                return {
+                  ...section,
+                  lessons: section.lessons.map(lesson => ({
+                    ...lesson,
+                    isCompleted: completedLessonsMap[lesson.id]
+                  }))
+                };
+              });
+              return {
+                courseSections: updatedSections
+              };
+            })
+          );
       })
-      .valueChanges.pipe(
-        map(data => {
-          // TODO: update lessons with completed lessons
-          return {
-            courseSections: data.data.courseSections
-          };
-        })
-      );
+    );
   }
 
   getCourseLessons(sectionId: string): Observable<Lesson[]> {
