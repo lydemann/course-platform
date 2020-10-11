@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import {
   courseLessonAdapter,
   courseSectionAdapter,
@@ -10,7 +11,8 @@ export namespace CourseSelectors {
   export const getCourseFeature = createFeatureSelector<CourseState>('course');
 
   const {
-    selectAll: courseSectionsSelectAll
+    selectAll: courseSectionsSelectAll,
+    selectEntities: courseSectionsSelectEntities
   } = courseSectionAdapter.getSelectors();
   const {
     selectAll: courseLessonsSelectAll,
@@ -38,27 +40,62 @@ export namespace CourseSelectors {
     state => state.sectionsState
   );
 
-  export const selectCourseSections = createSelector(
+  const selectCourseSectionsRaw = createSelector(
     selectCourseSectionsState,
     courseSectionsSelectAll
+  );
+
+  export const selectSectionsEntitiesRaw = createSelector(
+    selectCourseSectionsState,
+    courseSectionsSelectEntities
   );
 
   export const selectCourseLessonsState = createSelector(
     getCourseFeature,
     state => state.lessonsState
   );
-  export const selectCourseLessons = createSelector(
+  export const selectAllLessons = createSelector(
     selectCourseLessonsState,
     courseLessonsSelectAll
   );
-  export const selectCourseLessonsEntities = createSelector(
+
+  export const selectLessonsEntities = createSelector(
     selectCourseLessonsState,
     courseLessonsSelectEntities
+  );
+
+  export const selectSections = createSelector(
+    selectCourseSectionsRaw,
+    selectLessonsEntities,
+    (sections, lessonsMap): CourseSection[] => {
+      return sections.map(section => ({
+        ...section,
+        lessons: section.lessons.map(lessonId => lessonsMap[lessonId])
+      }));
+    }
+  );
+
+  export const selectSectionEntities = createSelector(
+    selectSections,
+    (sections): { [key: string]: CourseSection } => {
+      return sections.reduce(
+        (acc, section) => ({ ...acc, [section.id]: section }),
+        {}
+      );
+    }
   );
 
   export const selectSelectedSectionId = createSelector(
     getCourseFeature,
     state => state.sectionsState.selectedSectionId
+  );
+
+  export const selectSectionLessons = createSelector(
+    selectSectionEntities,
+    selectSelectedSectionId,
+    (sectionsMap, sectionId): Lesson[] => {
+      return sectionsMap[sectionId]?.lessons || [];
+    }
   );
 
   export const selectSelectedLessonId = createSelector(
@@ -67,7 +104,7 @@ export namespace CourseSelectors {
   );
   export const selectSelectedLesson = createSelector(
     selectSelectedLessonId,
-    selectCourseLessonsEntities,
+    selectLessonsEntities,
     (selectedLessonId, courseLessons) => {
       return courseLessons[selectedLessonId];
     }

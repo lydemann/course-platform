@@ -28,7 +28,7 @@ describe('CourseFacadeService', () => {
     courseResourcesService = spectator.inject(CourseResourcesService);
     store = (spectator.inject(Store) as unknown) as MockStore;
     spyOn(store, 'dispatch');
-    store.overrideSelector(CourseSelectors.selectCourseSections, []);
+    store.overrideSelector(CourseSelectors.selectSections, []);
     store.overrideSelector(CourseSelectors.selectIsLoadingSections, false);
   });
 

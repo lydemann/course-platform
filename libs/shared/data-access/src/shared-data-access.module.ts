@@ -1,6 +1,7 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 
+import { GraphQLModule } from './resources/graphql.module';
 const config = {
   apiKey: 'AIzaSyAllXCbFgJ3j7POph8iikTkBNOgmjc1vj4',
   authDomain: 'aaa-course-portal.firebaseapp.com',
@@ -13,7 +14,7 @@ const config = {
 };
 
 @NgModule({
-  imports: [AngularFireModule.initializeApp(config)]
+  imports: [AngularFireModule.initializeApp(config), GraphQLModule]
 })
 export class SharedDataAccessModule {
   constructor(

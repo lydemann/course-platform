@@ -3,18 +3,22 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 
+export interface CourseSectionStore extends Omit<CourseSection, 'lessons'> {
+  lessons: string[];
+}
+
 export interface CourseState {
   sectionsState: SectionsState;
   lessonsState: LessonsState;
 }
 
-export interface SectionsState extends EntityState<CourseSection> {
+export interface SectionsState extends EntityState<CourseSectionStore> {
   selectedSectionId: string;
   isLoading: boolean;
   error: HttpErrorResponse;
 }
-export const courseSectionAdapter: EntityAdapter<CourseSection> = createEntityAdapter<
-  CourseSection
+export const courseSectionAdapter: EntityAdapter<CourseSectionStore> = createEntityAdapter<
+  CourseSectionStore
 >({
   selectId: state => state.id
 });

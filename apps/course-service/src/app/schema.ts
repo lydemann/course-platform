@@ -8,6 +8,9 @@ const schema = gql`
     courseSections: [Section]
     user(uid: String!): UserInfo
   }
+  type Mutation {
+    setLessonCompleted(isCompleted: Boolean!): String
+  }
 `;
 
 export const typeDefs = [schema, Sectionschema, UserSchema];

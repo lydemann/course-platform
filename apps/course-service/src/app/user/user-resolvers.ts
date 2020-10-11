@@ -1,6 +1,6 @@
 import { firestoreDB } from '../firestore';
 
-export const userResolver = {
+export const userQueryResolvers = {
   user: async (parent, { uid }) => {
     const completedLessons = await firestoreDB
       .doc(`users/${uid}`)
@@ -16,5 +16,14 @@ export const userResolver = {
     return {
       completedLessons
     };
+  }
+};
+
+export const userMutationResolvers = {
+  setLessonCompleted: (parent, { uid, lessonId, isCompleted }) => {
+    return firestoreDB
+      .doc(`users/${uid}/userLessonsCompleted/${lessonId}`)
+      .set({ completed: isCompleted })
+      .then(() => `Got updated`);
   }
 };

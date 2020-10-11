@@ -25,7 +25,7 @@ export class CourseEffects {
       ofType(CourseActions.courseInitiated),
       exhaustMap(() =>
         this.courseResourcesService.getCourseSections().pipe(
-          map(courseSections =>
+          map(({ courseSections }) =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
           catchError(error =>
@@ -41,19 +41,16 @@ export class CourseEffects {
     () => {
       return this.actions$.pipe(
         ofType(CourseActions.sectionSelected),
-        switchMap(({ selectionSectionId }) => this.router.navigate([section]))
-      );
-    },
-    { dispatch: false }
-  );
-
-  sectionChangedSectionLessonsSuccess$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(CourseActions.sectionSelected),
-        tap(({ selectionSectionId, lessons }) => {
-          this.router.navigate(['course', selectionSectionId, lessons[0].id]);
-        })
+        withLatestFrom(
+          this.store.select(CourseSelectors.selectSectionsEntitiesRaw)
+        ),
+        switchMap(([{ selectedSectionId }, sectionsMap]) =>
+          this.router.navigate([
+            'course',
+            selectedSectionId,
+            sectionsMap[selectedSectionId].lessons[0]
+          ])
+        )
       );
     },
     { dispatch: false }

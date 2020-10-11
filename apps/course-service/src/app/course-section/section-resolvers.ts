@@ -19,16 +19,16 @@ export interface LessonDTO {
   isCompleted?: boolean;
 }
 
-export const sectionResolvers = {
+export const sectionQueryResolvers = {
   courseSections: (parent, { lessonsToPopulate }) =>
     firestoreDB
       .collection('sections')
+      .orderBy('id')
       .get()
       .then(data => {
         return data.docs.map(doc => doc.data());
       })
       .then(sections => {
-        const promises = [];
         const lessonsPerSectionPromise: Promise<
           Lesson[]
         >[] = sections.map(section =>

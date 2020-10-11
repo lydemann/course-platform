@@ -30,7 +30,20 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
     return {
       ...state,
       sectionsState: {
-        ...courseSectionAdapter.setAll(courseSections, state.sectionsState),
+        ...courseSectionAdapter.setAll(
+          courseSections.map(section => ({
+            ...section,
+            lessons: section.lessons.map(lesson => lesson.id)
+          })),
+          state.sectionsState
+        ),
+        isLoading: false
+      },
+      lessonsState: {
+        ...courseLessonAdapter.setAll(
+          courseSections.reduce((prev, cur) => [...prev, ...cur.lessons], []),
+          state.lessonsState
+        ),
         isLoading: false
       }
     };
@@ -75,6 +88,15 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
           },
           state.lessonsState
         )
+      }
+    };
+  }),
+  on(CourseActions.sectionSelected, (state, { selectedSectionId }) => {
+    return {
+      ...state,
+      sectionsState: {
+        ...state.sectionsState,
+        selectedSectionId
       }
     };
   })

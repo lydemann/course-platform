@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { forkJoin, from, Observable, of } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
+import { forkJoin, from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import {
@@ -60,53 +62,54 @@ const getPopulatedLesson = (lesson: LessonDTO) => {
 const getPopulatedLessonOperator = () => {
   return switchMap(getPopulatedLesson);
 };
-const getPopulatedLessonsOperator = () => {
-  return switchMap(getPopulatedLessons);
-};
+
+export interface GetCourseSectionsResponse {
+  courseSections: CourseSection[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseResourcesService {
-  constructor(private fireStore: AngularFirestore) {}
+  constructor(private fireStore: AngularFirestore, private apollo: Apollo) {}
 
-  getCourseSections(): Observable<any> {
-    return from(
-      this.fireStore
-        .collection<CourseSectionDTO>('sections', query => query.orderBy('id'))
-        .valueChanges()
-        .pipe(
-          switchMap(sections => {
-            const sections$ = sections.map(section =>
-              forkJoin(
-                section.lessons.map(lesson =>
-                  from(lesson.get().then(doc => doc.data()))
-                )
-              ).pipe(
-                getPopulatedLessonsOperator(),
-                map(lessonsForSection => {
-                  return {
-                    ...section,
-                    lessons: lessonsForSection
-                  } as CourseSection;
-                })
-              )
-            );
-
-            const toReturn = forkJoin(sections$);
-            return toReturn;
-          })
-        )
-    );
-  }
-
-  getLesson(lessonId: string): Observable<Lesson> {
-    forkJoin([of('')]).pipe(map(data => data));
-
-    return this.fireStore
-      .collection<Lesson>('lessons')
-      .doc<Lesson>(lessonId)
-      .valueChanges();
+  getCourseSections(): Observable<GetCourseSectionsResponse> {
+    return this.apollo
+      .watchQuery<GetCourseSectionsResponse>({
+        query: gql`
+          {
+            courseSections {
+              id
+              name
+              lessons {
+                id
+                name
+                description
+                videoUrl
+                resources {
+                  name
+                  id
+                  url
+                }
+              }
+            }
+            user(uid: "lTHwHBgyQ7nCCSrk47Qt") {
+              completedLessons {
+                lessonId
+                completed
+              }
+            }
+          }
+        `
+      })
+      .valueChanges.pipe(
+        map(data => {
+          // TODO: update lessons with completed lessons
+          return {
+            courseSections: data.data.courseSections
+          };
+        })
+      );
   }
 
   getCourseLessons(sectionId: string): Observable<Lesson[]> {

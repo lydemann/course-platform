@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props, union } from '@ngrx/store';
 
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
-import { LessonsState } from './course.model';
 
 export interface CourseInitiatedProps {
   selectedSectionId: string;
@@ -25,7 +24,7 @@ export namespace CourseActions {
   );
   export const sectionSelected = createAction(
     '[Course] Section Selected',
-    props<{ selectionSectionId: string }>()
+    props<{ selectedSectionId: string }>()
   );
   export const getCourseSectionsSuccess = createAction(
     '[Course] Get Course Sections Success',
