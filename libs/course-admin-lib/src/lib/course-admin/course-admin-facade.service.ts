@@ -13,14 +13,11 @@ export class CourseAdminFacadeService {
 
   constructor(private courseResourcesService: CourseResourcesService) {}
 
-  fetchLesson(sectionId: string, lessonId: string) {
-    this.currentLesson$ = this.courseResourcesService.getLesson(
-      sectionId,
-      lessonId
-    );
+  fetchLesson(sectionId: string) {
+    this.currentLesson$ = this.courseResourcesService.getLesson(sectionId);
   }
 
-  fetchCourseSectionsAndLessons() {
-    this.sections$ = this.courseResourcesService.getCourseSectionsWithLessons();
+  fetchCourseSections() {
+    this.sections$ = this.courseResourcesService.getCourseSections();
   }
 }

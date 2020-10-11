@@ -29,6 +29,7 @@ export class CourseEffects {
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
           catchError(error =>
+            // TODO: use error action
             of(CourseActions.getCourseSectionsFailed({ error }))
           )
         )
@@ -36,30 +37,20 @@ export class CourseEffects {
     );
   });
 
-  sectionSelected$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(CourseActions.sectionSelected),
-      switchMap(({ selectionSectionId }) =>
-        // TODO: dispatch action with lessons and trigger navigation in other effect
-        this.courseResourcesService.getCourseLessons(selectionSectionId).pipe(
-          map(lessons => {
-            return CourseActions.sectionChangedSectionLessonsSuccess({
-              lessons,
-              selectionSectionId
-            });
-          }),
-          catchError(error =>
-            of(CourseActions.getSectionLessonsFailed({ error }))
-          )
-        )
-      )
-    );
-  });
+  sectionSelected$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CourseActions.sectionSelected),
+        switchMap(({ selectionSectionId }) => this.router.navigate([section]))
+      );
+    },
+    { dispatch: false }
+  );
 
   sectionChangedSectionLessonsSuccess$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(CourseActions.sectionChangedSectionLessonsSuccess),
+        ofType(CourseActions.sectionSelected),
         tap(({ selectionSectionId, lessons }) => {
           this.router.navigate(['course', selectionSectionId, lessons[0].id]);
         })
@@ -82,45 +73,6 @@ export class CourseEffects {
     },
     { dispatch: false }
   );
-
-  fetchSectionLessons$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(CourseActions.courseInitiated, CourseActions.sectionChanged),
-      map(action => {
-        let courseSection = '0';
-
-        if (action.type === CourseActions.courseInitiated.type) {
-          courseSection = action.selectedSectionId;
-        }
-        if (action.type === CourseActions.sectionChanged.type) {
-          courseSection = action.sectionId;
-        }
-        return courseSection;
-      }),
-      withLatestFrom(this.userService.getCurrentUser()),
-      exhaustMap(([courseSection, user]) => {
-        return forkJoin([
-          this.courseResourcesService
-            .getCourseLessons(courseSection)
-            .pipe(first()),
-          this.courseResourcesService
-            .getCompletedLessons(user.uid)
-            .pipe(first())
-        ]).pipe(
-          map(([lessons, completedLessons]) =>
-            lessons.map(lesson => ({
-              ...lesson,
-              isCompleted: completedLessons[lesson.id]?.isCompleted || false
-            }))
-          ),
-          map(lessons => CourseActions.getSectionLessonsSuccess({ lessons })),
-          catchError(error =>
-            of(CourseActions.getSectionLessonsFailed({ error }))
-          )
-        );
-      })
-    );
-  });
 
   lessonCompleted$ = createEffect(() => {
     return this.actions$.pipe(
