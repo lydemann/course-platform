@@ -58,6 +58,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "@nrwl/angular": "9.2.2",
+    "apollo-server-express": "^2.18.2",
     "core-js": "^2.5.4",
     "firebase": "^7.13.1",
     "firebase-admin": "^9.2.0",

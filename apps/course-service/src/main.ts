@@ -1,9 +1,11 @@
-import * as functions from 'firebase-functions';
+import { https } from 'firebase-functions';
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info('Hello logs!', { structuredData: true });
-  response.send('Hello from Firebase!');
-});
+import { gqlServer } from './app/server';
+
+const server = gqlServer();
+
+// Graphql api
+// https://us-central1-<project-name>.cloudfunctions.net/api/
+const api = https.onRequest(server);
+
+export { api };
