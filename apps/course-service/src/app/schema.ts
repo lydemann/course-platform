@@ -9,7 +9,11 @@ const schema = gql`
     user(uid: String!): UserInfo
   }
   type Mutation {
-    setLessonCompleted(isCompleted: Boolean!): String
+    setLessonCompleted(
+      isCompleted: Boolean!
+      lessonId: String!
+      uid: String!
+    ): String
   }
 `;
 

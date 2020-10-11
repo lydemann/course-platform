@@ -134,26 +134,18 @@ export class CourseResourcesService {
     isCompleted: boolean,
     lessonId: string,
     userId: string
-  ): Observable<void> {
-    return from(
-      this.fireStore
-        .collection('users')
-        .doc(userId)
-        .collection('userLessonsCompleted')
-        .doc(lessonId)
-        .set({
-          completed: isCompleted,
-          lessonId: lessonId,
-          time: new Date().toLocaleString('en-US', { timeZone: 'UTC' })
-        })
-    );
-  }
-  getCompletedLessons(userId: string): Observable<CompletedLesson[]> {
-    return this.fireStore
-      .collection('users')
-      .doc(userId)
-      .collection<CompletedLesson>('userLessonsCompleted')
-      .valueChanges();
+  ): Observable<any> {
+    const completedLessonMutation = gql`
+      mutation {
+        setLessonCompleted(
+          isCompleted: ${isCompleted}
+          lessonId: "${lessonId}"
+          uid:"${userId}"
+          )
+      }
+    `;
+
+    return this.apollo.mutate({ mutation: completedLessonMutation });
   }
 
   setCompleteActionItem(

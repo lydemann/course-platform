@@ -4,7 +4,7 @@ export const UserSchema = gql`
   type CompletedLesson {
     lessonId: String
     completed: Boolean
-    time: String
+    lastUpdated: String
   }
 
   type UserInfo {

@@ -23,7 +23,11 @@ export const userMutationResolvers = {
   setLessonCompleted: (parent, { uid, lessonId, isCompleted }) => {
     return firestoreDB
       .doc(`users/${uid}/userLessonsCompleted/${lessonId}`)
-      .set({ completed: isCompleted })
+      .set({
+        completed: isCompleted,
+        lessonId,
+        lastUpdated: new Date().toLocaleString('en-US', { timeZone: 'UTC' })
+      })
       .then(() => `Got updated`);
   }
 };
