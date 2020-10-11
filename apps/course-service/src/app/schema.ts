@@ -1,10 +1,13 @@
+import { Sectionschema } from './course-section/section-schema';
+import { UserSchema } from './user/user-schema';
+
 const { gql } = require('apollo-server-express');
 
 const schema = gql`
   type Query {
-    "A simple type for getting started!"
-    hello: String
+    courseSections: [Section]
+    user(uid: String!): UserInfo
   }
 `;
 
-export default schema;
+export const typeDefs = [schema, Sectionschema, UserSchema];
