@@ -1,10 +1,9 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
 
-import { environment } from '../../environments/environment';
+import { SharedDataAccessModule } from '@course-platform/shared/data-access';
 
 @NgModule({
-  imports: [AngularFireModule.initializeApp(environment.firebaseConfig)]
+  imports: [SharedDataAccessModule]
 })
 export class CoreModule {
   constructor(

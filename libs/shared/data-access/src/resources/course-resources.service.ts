@@ -84,11 +84,7 @@ export interface GetCourseSectionsResponse {
   providedIn: 'root'
 })
 export class CourseResourcesService {
-  constructor(
-    private fireStore: AngularFirestore,
-    private apollo: Apollo,
-    private userService: UserService
-  ) {}
+  constructor(private apollo: Apollo, private userService: UserService) {}
 
   getCourseSections(): Observable<GetCourseSectionsResponse> {
     return this.userService.getCurrentUser().pipe(
@@ -152,24 +148,6 @@ export class CourseResourcesService {
     );
   }
 
-  getCourseLessons(sectionId: string): Observable<Lesson[]> {
-    return this.fireStore
-      .collection<CourseSectionDTO>('sections')
-      .doc<CourseSectionDTO>(sectionId)
-      .valueChanges()
-      .pipe(
-        switchMap(courseSection =>
-          forkJoin(
-            courseSection.lessons.map(lesson =>
-              from(lesson.get().then(snapshot => snapshot.data())).pipe(
-                getPopulatedLessonOperator()
-              )
-            )
-          )
-        )
-      );
-  }
-
   setCompleteLesson(
     isCompleted: boolean,
     lessonId: string,
@@ -186,23 +164,5 @@ export class CourseResourcesService {
     `;
 
     return this.apollo.mutate({ mutation: completedLessonMutation });
-  }
-
-  setCompleteActionItem(
-    isCompleted: boolean,
-    resourceId: string,
-    userId: string
-  ): Observable<void> {
-    return from(
-      this.fireStore
-        .collection('users')
-        .doc(userId)
-        .collection('completedActionItems')
-        .doc(resourceId)
-        .set({
-          completed: isCompleted,
-          time: new Date().toLocaleString('en-US', { timeZone: 'UTC' })
-        })
-    );
   }
 }

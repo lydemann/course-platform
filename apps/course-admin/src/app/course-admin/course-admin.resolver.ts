@@ -8,7 +8,7 @@ export class CourseAdminResolver implements Resolve<null> {
   constructor(private courseAdminFacadeService: CourseAdminFacadeService) {}
 
   resolve(route: ActivatedRouteSnapshot): null {
-    this.courseAdminFacadeService.fetchCourseSectionsAndLessons();
+    this.courseAdminFacadeService.fetchCourseSections();
     return;
   }
 }
