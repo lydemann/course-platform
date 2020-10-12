@@ -38,10 +38,10 @@
       "path": "./libs/shared/data-access/tsconfig.spec.json"
     },
     {
-      "path": "./shared-feat-auth/tsconfig.lib.json"
+      "path": "./libs/shared/feat-auth/tsconfig.lib.json"
     },
     {
-      "path": "./shared-feat-auth/tsconfig.spec.json"
+      "path": "./libs/shared/feat-auth/tsconfig.spec.json"
     }
   ]
 }

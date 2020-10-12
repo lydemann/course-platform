@@ -1,3 +1,5 @@
+import admin from 'firebase-admin';
+
 import { firestoreDB } from '../firestore';
 
 export const userQueryResolvers = {
@@ -19,6 +21,8 @@ export const userQueryResolvers = {
   }
 };
 
+const FieldValue = admin.firestore.FieldValue;
+
 export const userMutationResolvers = {
   setLessonCompleted: (parent, { uid, lessonId, isCompleted }) => {
     return firestoreDB
@@ -26,7 +30,7 @@ export const userMutationResolvers = {
       .set({
         completed: isCompleted,
         lessonId,
-        lastUpdated: new Date().toLocaleString('en-US', { timeZone: 'UTC' })
+        lastUpdated: FieldValue.serverTimestamp()
       })
       .then(() => `Got updated`);
   }

@@ -1,4 +1,5 @@
-import { Sectionschema } from './course-section/section-schema';
+import { lessonMutations } from './lesson/lesson-schema';
+import { sectionMutations, SectionSchema } from './section/section-schema';
 import { UserSchema } from './user/user-schema';
 
 const { gql } = require('apollo-server-express');
@@ -14,7 +15,9 @@ const schema = gql`
       lessonId: String!
       uid: String!
     ): String
+    ${sectionMutations}
+    ${lessonMutations}
   }
 `;
 
-export const typeDefs = [schema, Sectionschema, UserSchema];
+export const typeDefs = [schema, SectionSchema, UserSchema];

@@ -1,4 +1,8 @@
-import { sectionQueryResolvers } from './course-section/section-resolvers';
+import { lessonMutationResolvers } from './lesson/lesson-resolvers';
+import {
+  sectionMutationResolvers,
+  sectionQueryResolvers
+} from './section/section-resolvers';
 import {
   userMutationResolvers,
   userQueryResolvers
@@ -10,6 +14,8 @@ export const resolvers = {
     ...userQueryResolvers
   },
   Mutation: {
-    ...userMutationResolvers
+    ...userMutationResolvers,
+    ...sectionMutationResolvers,
+    ...lessonMutationResolvers
   }
 };

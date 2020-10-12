@@ -1,23 +1,7 @@
-import { DocumentReference } from '@angular/fire/firestore';
-
-import { Lesson } from '@course-platform/shared/interfaces';
+import { removeEmptyFields } from '@course-platform/shared/util';
 import { firestoreDB } from '../firestore';
-
-export interface CourseSectionDTO {
-  id: string;
-  name: string;
-  lessons: DocumentReference[];
-}
-
-export interface LessonDTO {
-  id: string;
-  name: string;
-  videoUrl: string;
-  description: string;
-  resources: DocumentReference[];
-  // set by client
-  isCompleted?: boolean;
-}
+import { LessonDTO } from '../models/lesson-dto';
+import { SectionDTO } from '../models/section-dto';
 
 export const sectionQueryResolvers = {
   courseSections: (parent, { lessonsToPopulate }) =>
@@ -30,7 +14,7 @@ export const sectionQueryResolvers = {
       })
       .then(sections => {
         const lessonsPerSectionPromise: Promise<
-          Lesson[]
+          LessonDTO[]
         >[] = sections.map(section =>
           section.lessons.map(lesson =>
             lesson.get().then(lessonRef => populateLesson(lessonRef.data()))
@@ -56,6 +40,28 @@ const populateLesson = (lesson: LessonDTO) => {
       ({
         ...lesson,
         resources
-      } as Lesson)
+      } as LessonDTO)
   );
+};
+
+export const sectionMutationResolvers = {
+  createSection: (parent, { name, theme }: SectionDTO) => {
+    const newSectionRef = firestoreDB.collection('sections').doc();
+    return newSectionRef
+      .set({ id: newSectionRef.id, name, theme, lessons: [] } as SectionDTO)
+      .then(data => newSectionRef.id);
+  },
+  updateSection: (parent, { id, name, theme }: SectionDTO) => {
+    const cleanedPayload = removeEmptyFields({ name, theme } as SectionDTO);
+    return firestoreDB
+      .doc(`sections/${id}`)
+      .update(cleanedPayload)
+      .then(() => 'Updated section');
+  },
+  deleteSection: (parent, { id }: { id: string }) => {
+    return firestoreDB
+      .doc(`sections/${id}`)
+      .delete()
+      .then(() => 'Deleted section');
+  }
 };

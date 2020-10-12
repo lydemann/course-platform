@@ -37,6 +37,9 @@
       "@course-platform/shared/ui": [
         "libs/shared/ui/src/index.ts"
       ],
+      "@course-platform/shared/util": [
+        "libs/shared/util/index.ts"
+      ],
       "@course-platform/shared/util/util-feature-toggle": [
         "libs/shared/util/util-feature-toggle/src/index.ts"
       ],

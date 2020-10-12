@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server-express');
 
-export const Sectionschema = gql`
+export const SectionSchema = gql`
   type LessonResource {
     id: String
     name: String
@@ -18,6 +18,13 @@ export const Sectionschema = gql`
   type Section {
     id: String
     name: String
+    theme: String
     lessons: [Lesson]
   }
+`;
+
+export const sectionMutations = `
+  createSection(id: String! name: String! theme: String!): String
+  updateSection(id: String! name: String theme: String): String
+  deleteSection(id: String!): String
 `;
