@@ -47,7 +47,7 @@ export class CourseEffects {
           this.router.navigate([
             'course',
             selectedSectionId,
-            sectionsMap[selectedSectionId].lessons[0]
+            sectionsMap[selectedSectionId].lessons[0] || '0'
           ])
         )
       );
