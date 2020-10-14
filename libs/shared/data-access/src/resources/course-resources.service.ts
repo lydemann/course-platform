@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { DocumentReference } from '@angular/fire/firestore';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { forkJoin, from, Observable } from 'rxjs';
@@ -30,20 +30,6 @@ export interface LessonDTO {
   isCompleted?: boolean;
 }
 
-interface CompletedLesson {
-  lessonId: string;
-  isCompleted: boolean;
-  time: string;
-}
-
-const getPopulatedLessons = (lessons: LessonDTO[]) => {
-  const populatedLessons$ = lessons.map(lesson => {
-    return getPopulatedLesson(lesson);
-  });
-
-  return forkJoin(populatedLessons$);
-};
-
 const getPopulatedLesson = (lesson: LessonDTO) => {
   const resourcesPerLesson$ = forkJoin(
     lesson.resources.map(resource =>
@@ -58,10 +44,6 @@ const getPopulatedLesson = (lesson: LessonDTO) => {
       } as Lesson;
     })
   );
-};
-
-const getPopulatedLessonOperator = () => {
-  return switchMap(getPopulatedLesson);
 };
 
 export interface CompletedLessonData {
@@ -164,5 +146,35 @@ export class CourseResourcesService {
     `;
 
     return this.apollo.mutate({ mutation: completedLessonMutation });
+  }
+
+  createLesson(sectionId: string) {
+    const createLessonMutation = gql`
+      mutation {
+        createLesson(sectionId: "${sectionId}")
+      }
+    `;
+
+    return this.apollo.mutate({ mutation: createLessonMutation });
+  }
+
+  updateLesson(lesson: Lesson) {
+    const updateLessonMutation = gql`
+      mutation {
+        updateLesson(id: "${lesson.id}", name: "${lesson.name}", description: "${lesson.description}", videoUrl: "${lesson.videoUrl}")
+      }
+    `;
+
+    return this.apollo.mutate({ mutation: updateLessonMutation });
+  }
+
+  deleteLesson(sectionId: string, lessonId: string) {
+    const deleteLessonMutation = gql`
+    mutation {
+      deleteLesson(sectionId: "${sectionId}", id: "${lessonId}")
+    }
+  `;
+
+    return this.apollo.mutate({ mutation: deleteLessonMutation });
   }
 }

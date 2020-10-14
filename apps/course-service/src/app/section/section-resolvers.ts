@@ -31,7 +31,7 @@ export const sectionQueryResolvers = {
 };
 
 const populateLesson = (lesson: LessonDTO) => {
-  const resourcesPerLessonProm = lesson.resources.map(resource =>
+  const resourcesPerLessonProm = (lesson.resources || []).map(resource =>
     resource.get().then(doc => doc.data())
   );
 

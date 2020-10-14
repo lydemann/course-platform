@@ -23,4 +23,8 @@ export class CourseAdminComponent implements OnInit {
   onLessonClicked(sectionId: string, lessonId: string) {
     this.router.navigate(['lesson-admin', sectionId, lessonId]);
   }
+
+  onCreateLessonClicked(sectionId: string) {
+    this.courseAdminFacadeService.createLessonClicked(sectionId);
+  }
 }

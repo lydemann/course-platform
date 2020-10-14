@@ -183,6 +183,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "firebase",
+              "@firebase/app",
+              "@firebase/auth",
+              "graphql-tag",
+              "zen-observable"
+            ],
             "outputPath": "dist/apps/course-admin",
             "index": "apps/course-admin/src/index.html",
             "main": "apps/course-admin/src/main.ts",

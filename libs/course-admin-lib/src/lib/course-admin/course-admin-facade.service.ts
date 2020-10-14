@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
@@ -16,7 +17,10 @@ export class CourseAdminFacadeService {
   currentLesson$ = new BehaviorSubject<Lesson>(null);
   private currentSectionId$ = new BehaviorSubject('');
   private currentLessonId$ = new BehaviorSubject('');
-  constructor(private courseResourcesService: CourseResourcesService) {
+  constructor(
+    private courseResourcesService: CourseResourcesService,
+    private router: Router
+  ) {
     combineLatest([
       this.currentSectionId$,
       this.currentLessonId$,
@@ -33,7 +37,7 @@ export class CourseAdminFacadeService {
       .subscribe(this.currentLesson$);
   }
 
-  lessonInit(sectionId: any, lessonId: any) {
+  lessonInit(sectionId: string, lessonId: string) {
     this.currentSectionId$.next(sectionId);
     this.currentLessonId$.next(lessonId);
   }
@@ -49,5 +53,21 @@ export class CourseAdminFacadeService {
         })
       )
       .subscribe(this.sectionsSubject);
+  }
+
+  saveLessonClicked(lesson: Lesson) {
+    this.courseResourcesService.updateLesson(lesson).subscribe();
+  }
+
+  createLessonClicked(sectionId: string) {
+    this.courseResourcesService.createLesson(sectionId).subscribe();
+  }
+
+  deleteLessonClicked(sectionId: string, lessonId: string) {
+    this.courseResourcesService
+      .deleteLesson(sectionId, lessonId)
+      .subscribe(() => {
+        this.router.navigate(['course-admin']);
+      });
   }
 }

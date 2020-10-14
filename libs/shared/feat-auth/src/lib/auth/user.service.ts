@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import * as firebase from 'firebase';
+import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class UserService {
 
   getCurrentUser(): Observable<firebase.User> {
     return new Observable(observer => {
-      firebase.auth().onAuthStateChanged(currentUser => {
+      auth().onAuthStateChanged(currentUser => {
         // cb needs to run through zone to work in guard
         this.ngZone.run(() => {
           if (currentUser) {
@@ -31,7 +31,7 @@ export class UserService {
 
   updateCurrentUser(value) {
     return new Promise<any>((resolve, reject) => {
-      const user = firebase.auth().currentUser;
+      const user = auth().currentUser;
       user
         .updateProfile({
           displayName: value.name,

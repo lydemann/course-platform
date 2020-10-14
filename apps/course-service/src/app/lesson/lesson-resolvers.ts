@@ -1,23 +1,39 @@
 import { removeEmptyFields } from '@course-platform/shared/util';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
+import { SectionDTO } from '../models/section-dto';
 
 export const lessonMutationResolvers = {
   createLesson: (
     parent,
-    { sectionId, id, name, description, videoUrl }: LessonDTO
+    { sectionId, name, description, videoUrl }: LessonDTO
   ) => {
-    const newLessonRef = firestoreDB.collection('sections').doc();
-    // TODO: add lesson ref to section
-    return newLessonRef
+    const cleanedPayload = removeEmptyFields({
+      sectionId,
+      name,
+      description,
+      videoUrl
+    });
+    const newLessonRef = firestoreDB.collection('lessons').doc();
+    const createLessonPromise = newLessonRef
       .set({
-        sectionId,
         id: newLessonRef.id,
-        name,
-        description,
-        videoUrl
+        ...cleanedPayload
       } as LessonDTO)
       .then(data => newLessonRef.id);
+
+    const sectionRef = firestoreDB.doc(`sections/${sectionId}`);
+    const updateSectionPromise = sectionRef
+      .get()
+      .then(snapshot => snapshot.data())
+      .then((section: SectionDTO) => {
+        const newLessons = [...section.lessons, newLessonRef];
+        sectionRef.update({ lessons: newLessons });
+      });
+
+    return Promise.all([createLessonPromise, updateSectionPromise]).then(
+      () => newLessonRef.id
+    );
   },
   updateLesson: (
     parent,
@@ -40,9 +56,19 @@ export const lessonMutationResolvers = {
     parent,
     { sectionId, id }: { sectionId: string; id: string }
   ) => {
-    return firestoreDB
-      .doc(`lessons/${id}`)
-      .delete()
-      .then(() => 'Deleted lesson');
+    const deleteLessonPromise = firestoreDB.doc(`lessons/${id}`).delete();
+
+    const sectionRef = firestoreDB.doc(`sections/${sectionId}`);
+    const deleteSectionLessonPromise = sectionRef
+      .get()
+      .then(snapshot => snapshot.data())
+      .then((section: SectionDTO) => {
+        const newLessons = section.lessons.filter(lesson => lesson.id !== id);
+        sectionRef.update({ lessons: newLessons } as SectionDTO);
+      });
+
+    return Promise.all([deleteLessonPromise, deleteSectionLessonPromise]).then(
+      () => 'Lesson deleted'
+    );
   }
 };
