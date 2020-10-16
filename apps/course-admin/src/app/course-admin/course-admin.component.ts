@@ -21,7 +21,7 @@ export class CourseAdminComponent implements OnInit {
   }
 
   onLessonClicked(sectionId: string, lessonId: string) {
-    this.router.navigate(['lesson-admin', sectionId, lessonId]);
+    this.router.navigate(['course-admin', 'lesson-admin', sectionId, lessonId]);
   }
 
   onCreateLessonClicked(sectionId: string) {

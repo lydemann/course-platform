@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
 import { Lesson } from '@course-platform/shared/interfaces';

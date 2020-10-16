@@ -9,9 +9,21 @@ import { CourseAdminResolver } from './course-admin.resolver';
 const routes: Routes = [
   {
     path: '',
-    component: CourseAdminComponent,
+    canActivate: [AuthGuard],
     resolve: [CourseAdminResolver],
-    canActivate: [AuthGuard]
+    children: [
+      {
+        path: '',
+        component: CourseAdminComponent
+      },
+      {
+        path: 'lesson-admin',
+        loadChildren: () =>
+          import('./lesson-admin/lesson-admin.module').then(
+            m => m.LessonAdminModule
+          )
+      }
+    ]
   }
 ];
 

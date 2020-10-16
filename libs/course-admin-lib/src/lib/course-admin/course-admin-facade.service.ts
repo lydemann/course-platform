@@ -60,6 +60,7 @@ export class CourseAdminFacadeService {
   }
 
   createLessonClicked(sectionId: string) {
+    // TODO: Open modal for setting lesson name, create and navigate to newly created lesson
     this.courseResourcesService.createLesson(sectionId).subscribe();
   }
 
