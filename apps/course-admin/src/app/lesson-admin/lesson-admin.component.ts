@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, first } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
 import { Lesson } from '@course-platform/shared/interfaces';
@@ -14,8 +14,7 @@ import { Lesson } from '@course-platform/shared/interfaces';
 })
 export class LessonAdminComponent implements OnInit {
   lesson$: Observable<Lesson>;
-  lesson: Lesson;
-  formGroup: FormGroup;
+  formGroup$: Observable<FormGroup>;
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
     private formBuilder: FormBuilder,
@@ -24,30 +23,27 @@ export class LessonAdminComponent implements OnInit {
 
   ngOnInit() {
     this.lesson$ = this.courseAdminFacade.currentLesson$;
-    this.lesson$
-      .pipe(
-        filter(lesson => !!lesson),
-        first()
-      )
-      .subscribe(lesson => {
-        this.lesson = lesson;
-        this.formGroup = this.formBuilder.group({
+    this.formGroup$ = this.lesson$.pipe(
+      filter(lesson => !!lesson),
+      map(lesson => {
+        return this.formBuilder.group({
           name: [lesson.name, Validators.required],
           description: [lesson.description, Validators.required],
           videoUrl: [lesson.videoUrl, Validators.required]
         });
-      });
+      })
+    );
   }
 
-  submit() {
+  submit(formGroup: FormGroup, lesson: Lesson) {
     this.courseAdminFacade.saveLessonClicked({
-      id: this.lesson.id,
-      ...this.formGroup.value
+      id: lesson.id,
+      ...formGroup.value
     } as Lesson);
   }
 
-  onDelete() {
+  onDelete(lesson: Lesson) {
     const sectionId = this.route.snapshot.params.sectionId;
-    this.courseAdminFacade.deleteLessonClicked(sectionId, this.lesson.id);
+    this.courseAdminFacade.deleteLessonClicked(sectionId, lesson.id);
   }
 }

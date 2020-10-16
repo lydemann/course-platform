@@ -1,31 +1,9 @@
 <h1>
   Edit Course Lesson
 </h1>
-<ng-container *ngIf="formGroup">
-  <form [formGroup]="formGroup">
-    <mat-form-field class="example-full-width">
-      <mat-label>Name</mat-label>
-      <input matInput placeholder="Lesson name" formControlName="name" />
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        placeholder="Lesson description"
-        formControlName="description"
-      ></textarea>
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <mat-label>Video URL</mat-label>
-      <input matInput placeholder="Video URL" formControlName="videoUrl" />
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="submit()">
-      Save lesson
-    </button>
-    <button mat-raised-button color="warn" (click)="onDelete()">
-      Delete Lesson
-    </button>
-  </form>
-</ng-container>
+<app-lesson-admin-form
+  *ngIf="lesson$ | async as lesson"
+  [formGroup]="formGroup$ | async"
+  (saveClicked)="submit($event, lesson)"
+  (deleteClicked)="onDelete(lesson)"
+></app-lesson-admin-form>
