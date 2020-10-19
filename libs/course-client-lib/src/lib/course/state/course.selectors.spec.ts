@@ -20,15 +20,11 @@ describe('Course list selectors', () => {
 
   describe('getCourseSections', () => {
     it('should select course sections', () => {
-      const courseSections = [{ id: '1' }] as CourseSectionStore[];
-
-      const stateWithSections = courseSectionAdapter.setAll(
-        courseSections,
-        initState.sectionsState
-      );
+      const courseSections = [{ id: '1', lessons: [] }] as CourseSectionStore[];
 
       const sections = CourseSelectors.selectSections.projector(
-        stateWithSections
+        courseSections,
+        {}
       );
       expect(sections).toEqual(courseSections);
     });

@@ -24,7 +24,7 @@ export class CourseEffects {
       ofType(CourseActions.courseInitiated),
       exhaustMap(() =>
         this.courseResourcesService.getCourseSections().pipe(
-          map(({ courseSections }) =>
+          map(courseSections =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
           catchError(error =>

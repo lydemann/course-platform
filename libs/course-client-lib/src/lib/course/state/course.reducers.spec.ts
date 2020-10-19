@@ -27,7 +27,7 @@ fdescribe('Course List reducers', () => {
   });
 
   describe('fetchSectionsSuccess', () => {
-    const courseSections = [{ id: '1' }] as CourseSection[];
+    const courseSections = [{ id: '1', lessons: [] }] as CourseSection[];
 
     beforeEach(() => {
       updatedState = courseReducer(
