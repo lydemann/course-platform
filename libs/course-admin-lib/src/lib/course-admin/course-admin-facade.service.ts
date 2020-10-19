@@ -1,58 +1,76 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 import { CourseResourcesService } from '@course-platform/shared/data-access';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+
+interface CourseAdminStore {
+  sections: CourseSection[];
+  isLoadingCourseSections: boolean;
+  loadCourseSectionsError: Error;
+  currentSectionId: string;
+  currentLessonId: string;
+  isSavingLesson: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseAdminFacadeService {
-  private isLoadingSubject = new BehaviorSubject<Boolean>(false);
-  isLoading$ = this.isLoadingSubject.asObservable();
-  private sectionsSubject = new BehaviorSubject<CourseSection[]>([]);
-  sections$ = this.sectionsSubject.asObservable();
-  currentLesson$ = new BehaviorSubject<Lesson>(null);
-  private currentSectionId$ = new BehaviorSubject('');
-  private currentLessonId$ = new BehaviorSubject('');
+  private courseAdminStore = new BehaviorSubject<CourseAdminStore>({
+    isLoadingCourseSections: false,
+    loadCourseSectionsError: null,
+    sections: [],
+    currentSectionId: null,
+    currentLessonId: null,
+    isSavingLesson: false
+  });
+
+  isLoadingCourseSections$: Observable<boolean>;
+  sections$: Observable<CourseSection[]>;
+  currentLesson$: Observable<Lesson>;
+  currentSectionId$: Observable<string>;
+  currentLessonId$: Observable<string>;
+
   constructor(
     private courseResourcesService: CourseResourcesService,
     private router: Router
   ) {
-    combineLatest([
+    this.sections$ = this.courseResourcesService.getCourseSections();
+    this.isLoadingCourseSections$ = this.courseAdminStore.pipe(
+      map(state => state.isLoadingCourseSections),
+      distinctUntilChanged()
+    );
+    this.currentSectionId$ = this.courseAdminStore.pipe(
+      map(state => state.currentSectionId),
+      distinctUntilChanged()
+    );
+    this.currentLessonId$ = this.courseAdminStore.pipe(
+      map(state => state.currentLessonId),
+      distinctUntilChanged()
+    );
+    this.currentLesson$ = combineLatest([
       this.currentSectionId$,
       this.currentLessonId$,
       this.sections$
-    ])
-      .pipe(
-        map(([sectionId, lessonId, sections]) => {
-          return sections
-            ?.find(section => section.id === sectionId)
-            ?.lessons?.find(lesson => lesson.id === lessonId);
-        }),
-        filter(lesson => !!lesson)
-      )
-      .subscribe(this.currentLesson$);
+    ]).pipe(
+      map(([sectionId, lessonId, sections]) => {
+        return sections
+          ?.find(section => section.id === sectionId)
+          ?.lessons?.find(lesson => lesson.id === lessonId);
+      }),
+      filter(lesson => !!lesson)
+    );
   }
 
   lessonInit(sectionId: string, lessonId: string) {
-    this.currentSectionId$.next(sectionId);
-    this.currentLessonId$.next(lessonId);
-  }
-
-  fetchCourseSections() {
-    this.isLoadingSubject.next(true);
-    this.courseResourcesService
-      .getCourseSections()
-      .pipe(
-        map(response => response.courseSections),
-        tap(() => {
-          this.isLoadingSubject.next(false);
-        })
-      )
-      .subscribe(this.sectionsSubject);
+    this.courseAdminStore.next({
+      ...this.courseAdminStore.value,
+      currentSectionId: sectionId,
+      currentLessonId: lessonId
+    });
   }
 
   saveLessonClicked(lesson: Lesson) {
@@ -60,8 +78,18 @@ export class CourseAdminFacadeService {
   }
 
   createLessonClicked(sectionId: string) {
-    // TODO: Open modal for setting lesson name, create and navigate to newly created lesson
-    this.courseResourcesService.createLesson(sectionId).subscribe();
+    this.courseAdminStore.next({
+      ...this.courseAdminStore.value,
+      isSavingLesson: true
+    });
+    this.courseResourcesService.createLesson(sectionId).subscribe(() => {
+      this.courseAdminStore.next({
+        ...this.courseAdminStore.value,
+        sections: [...this.courseAdminStore.value.sections],
+        isSavingLesson: false
+      });
+      // TODO: error handling
+    });
   }
 
   deleteLessonClicked(sectionId: string, lessonId: string) {

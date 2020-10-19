@@ -58,9 +58,33 @@ export interface GetCourseSectionsResponseDTO {
     completedLessons: CompletedLessonData[];
   };
 }
-export interface GetCourseSectionsResponse {
-  courseSections: CourseSection[];
-}
+
+export const courseSectionsQuery = gql`
+  query GetCourseSectionsQuery($uid: String!) {
+    courseSections {
+      id
+      name
+      lessons {
+        id
+        name
+        description
+        videoUrl
+        resources {
+          name
+          id
+          url
+        }
+      }
+    }
+    user(uid: $uid) {
+      completedLessons {
+        lessonId
+        completed
+        lastUpdated
+      }
+    }
+  }
+`;
 
 @Injectable({
   providedIn: 'root'
@@ -68,42 +92,20 @@ export interface GetCourseSectionsResponse {
 export class CourseResourcesService {
   constructor(private apollo: Apollo, private userService: UserService) {}
 
-  getCourseSections(): Observable<GetCourseSectionsResponse> {
+  getCourseSections(): Observable<CourseSection[]> {
     return this.userService.getCurrentUser().pipe(
-      switchMap(currentUser => {
+      switchMap(user => {
         return this.apollo
           .watchQuery<GetCourseSectionsResponseDTO>({
-            query: gql`
-            {
-              courseSections {
-                id
-                name
-                lessons {
-                  id
-                  name
-                  description
-                  videoUrl
-                  resources {
-                    name
-                    id
-                    url
-                  }
-                }
-              }
-              user(uid: "${currentUser.uid}") {
-                completedLessons {
-                  lessonId
-                  completed
-                  lastUpdated
-                }
-              }
+            query: courseSectionsQuery,
+            variables: {
+              uid: user.uid
             }
-          `
           })
           .valueChanges.pipe(
-            map(data => {
-              const updatedSections = data.data.courseSections.map(section => {
-                const completedLessonsMap = data.data.user.completedLessons.reduce(
+            map(({ data }) => {
+              const updatedSections = data.courseSections.map(section => {
+                const completedLessonsMap = data.user.completedLessons.reduce(
                   (prev, cur) => {
                     if (!cur.completed) {
                       return { ...prev };
@@ -121,9 +123,7 @@ export class CourseResourcesService {
                   }))
                 };
               });
-              return {
-                courseSections: updatedSections
-              };
+              return updatedSections;
             })
           );
       })
@@ -148,14 +148,25 @@ export class CourseResourcesService {
     return this.apollo.mutate({ mutation: completedLessonMutation });
   }
 
-  createLesson(sectionId: string) {
+  createLesson(sectionId: string): Observable<string> {
     const createLessonMutation = gql`
       mutation {
         createLesson(sectionId: "${sectionId}")
       }
     `;
 
-    return this.apollo.mutate({ mutation: createLessonMutation });
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo
+          .mutate<string>({
+            mutation: createLessonMutation,
+            refetchQueries: [
+              { query: courseSectionsQuery, variables: { uid: user.uid } }
+            ]
+          })
+          .pipe(map(({ data }) => data));
+      })
+    );
   }
 
   updateLesson(lesson: Lesson) {
@@ -165,7 +176,16 @@ export class CourseResourcesService {
       }
     `;
 
-    return this.apollo.mutate({ mutation: updateLessonMutation });
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo.mutate({
+          mutation: updateLessonMutation,
+          refetchQueries: [
+            { query: courseSectionsQuery, variables: { uid: user.uid } }
+          ]
+        });
+      })
+    );
   }
 
   deleteLesson(sectionId: string, lessonId: string) {
@@ -174,7 +194,15 @@ export class CourseResourcesService {
       deleteLesson(sectionId: "${sectionId}", id: "${lessonId}")
     }
   `;
-
-    return this.apollo.mutate({ mutation: deleteLessonMutation });
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo.mutate({
+          mutation: deleteLessonMutation,
+          refetchQueries: [
+            { query: courseSectionsQuery, variables: { uid: user.uid } }
+          ]
+        });
+      })
+    );
   }
 }

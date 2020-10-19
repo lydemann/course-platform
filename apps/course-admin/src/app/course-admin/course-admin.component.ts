@@ -12,10 +12,12 @@ import { CourseSection } from '@course-platform/shared/interfaces';
 export class CourseAdminComponent implements OnInit {
   panelOpenState = false;
   sections$: Observable<CourseSection[]>;
+
   constructor(
     private courseAdminFacadeService: CourseAdminFacadeService,
     private router: Router
   ) {}
+
   ngOnInit(): void {
     this.sections$ = this.courseAdminFacadeService.sections$;
   }
