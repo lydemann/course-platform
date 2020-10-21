@@ -3,7 +3,10 @@ import { ActivatedRoute, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
-import { CourseFacadeService } from '@course-platform/course-client-lib';
+import {
+  CourseFacadeService,
+  selectedSectionIdRouteParam
+} from '@course-platform/course-client-lib';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 
 @Component({
@@ -30,7 +33,7 @@ export class CourseComponent implements OnInit {
     this.sections$ = this.courseFacadeService.sections$;
     this.lessons$ = this.courseFacadeService.sectionLessons$;
     this.selectedSectionId$ = this.route.params.pipe(
-      pluck('selectedSectionId')
+      pluck(selectedSectionIdRouteParam)
     );
     this.sectionLessons$ = this.courseFacadeService.sectionLessons$;
     this.selectedLesson$ = this.courseFacadeService.selectedLesson$;

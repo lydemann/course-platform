@@ -11,13 +11,7 @@ fdescribe('Course List reducers', () => {
 
   describe('fetchSections', () => {
     beforeEach(() => {
-      updatedState = courseReducer(
-        initState,
-        CourseActions.courseInitiated({
-          selectedLessonId: '',
-          selectedSectionId: ''
-        })
-      );
+      updatedState = courseReducer(initState, CourseActions.courseInitiated());
     });
 
     it('should be loading', () => {

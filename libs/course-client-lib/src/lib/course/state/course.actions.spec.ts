@@ -5,10 +5,7 @@ import { CourseActions } from './course.actions';
 
 describe('courseInitiated', () => {
   it('should be a fetchCourseSections-action', () => {
-    const action = CourseActions.courseInitiated({
-      selectedLessonId: '',
-      selectedSectionId: ''
-    });
+    const action = CourseActions.courseInitiated();
     expect(action.type).toBe(CourseActions.courseInitiated.type);
   });
 });
