@@ -7,7 +7,7 @@ export const sectionQueryResolvers = {
   courseSections: (parent, { lessonsToPopulate }) =>
     firestoreDB
       .collection('sections')
-      .orderBy('id')
+      .orderBy('name')
       .get()
       .then(data => {
         return data.docs.map(doc => doc.data());

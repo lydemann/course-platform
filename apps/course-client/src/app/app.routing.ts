@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
+import { RedirectToCourseResolver } from './redirect-to-course.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'course',
-    redirectTo: 'course/0/w1-1'
+    component: HomeComponent,
+    resolve: [RedirectToCourseResolver]
   },
   {
     path: 'course',

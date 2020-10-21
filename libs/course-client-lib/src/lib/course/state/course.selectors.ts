@@ -1,6 +1,15 @@
+import { getSelectors } from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import {
+  selectRouteParam,
+  selectRouteParams
+} from '@course-platform/shared/data-access';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import {
+  selectedLessonIdRouteParam,
+  selectedSectionIdRouteParam
+} from '../variables';
 import {
   courseLessonAdapter,
   courseSectionAdapter,
@@ -86,8 +95,8 @@ export namespace CourseSelectors {
   );
 
   export const selectSelectedSectionId = createSelector(
-    getCourseFeature,
-    state => state.sectionsState.selectedSectionId
+    selectRouteParam(selectedSectionIdRouteParam),
+    (sectionId): string => sectionId
   );
 
   export const selectSectionLessons = createSelector(
@@ -99,8 +108,8 @@ export namespace CourseSelectors {
   );
 
   export const selectSelectedLessonId = createSelector(
-    getCourseFeature,
-    state => state.lessonsState.selectedLessonId
+    selectRouteParam(selectedLessonIdRouteParam),
+    lessonId => lessonId
   );
   export const selectSelectedLesson = createSelector(
     selectSelectedLessonId,

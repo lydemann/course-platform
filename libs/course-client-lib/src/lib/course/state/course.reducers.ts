@@ -10,22 +10,17 @@ import {
 
 export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
   courseInitState,
-  on(
-    CourseActions.courseInitiated,
-    (state, { selectedSectionId, selectedLessonId }) => ({
-      ...state,
-      sectionsState: {
-        ...state.sectionsState,
-        isLoading: true,
-        selectedSectionId
-      },
-      lessonsState: {
-        ...state.lessonsState,
-        isLoading: true,
-        selectedLessonId
-      }
-    })
-  ),
+  on(CourseActions.courseInitiated, state => ({
+    ...state,
+    sectionsState: {
+      ...state.sectionsState,
+      isLoading: true
+    },
+    lessonsState: {
+      ...state.lessonsState,
+      isLoading: true
+    }
+  })),
   on(CourseActions.getCourseSectionsSuccess, (state, { courseSections }) => {
     return {
       ...state,

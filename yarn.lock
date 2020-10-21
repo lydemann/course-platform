@@ -2950,6 +2950,13 @@
   resolved "https://registry.yarnpkg.com/@ngrx/entity/-/entity-9.2.0.tgz#4acdd74edf72f7ab061ca9295ee323d1978a4329"
   integrity sha512-xSnS4EmksfvIobl2KMpljE1RMYuJGq7j5cCb9TnlsXkEc7cUa0TyGviSsxceSpk9WKtKARPR/AcVrVCESucF6Q==
 
+"@ngrx/router-store@^10.0.1":
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-10.0.1.tgz#c5967a6f29ef19b810b3bef78a92b23e40fd8f81"
+  integrity sha512-UuTIYJWKhYv5xlhcJw3pz3C+DbLk5DzTWYJ03B7J+O2ELnKlbMDdjoejzNVDGOGKKWjzg/irNvkC/Opu2Zspqg==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngrx/store-devtools@^9.1.0":
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-9.2.0.tgz#298b86b0c4ea483313b67d64a68b2d3376a5a04f"

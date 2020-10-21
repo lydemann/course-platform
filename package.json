@@ -56,6 +56,7 @@
     "@nestjs/platform-express": "^6.8.3",
     "@ngrx/effects": "^9.1.0",
     "@ngrx/entity": "^9.1.0",
+    "@ngrx/router-store": "^10.0.1",
     "@ngrx/store": "^9.1.0",
     "@ngrx/store-devtools": "^9.1.0",
     "@ngx-translate/core": "^12.1.2",
@@ -82,7 +83,10 @@
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@graphql-codegen/cli": "1.17.10",
+    "@graphql-codegen/introspection": "1.18.0",
+    "@graphql-codegen/typescript": "1.17.10",
     "@graphql-codegen/typescript-apollo-angular": "2.0.1",
+    "@graphql-codegen/typescript-operations": "1.17.8",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.8.3",
     "@ngneat/spectator": "^5.6.1",
@@ -122,9 +126,6 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-jasmine-rules": "^1.6.0",
-    "typescript": "~3.9.7",
-    "@graphql-codegen/typescript": "1.17.10",
-    "@graphql-codegen/typescript-operations": "1.17.8",
-    "@graphql-codegen/introspection": "1.18.0"
+    "typescript": "~3.9.7"
   }
 }

@@ -13,7 +13,6 @@ export interface CourseState {
 }
 
 export interface SectionsState extends EntityState<CourseSectionStore> {
-  selectedSectionId: string;
   isLoading: boolean;
   error: HttpErrorResponse;
 }
@@ -26,7 +25,6 @@ export const courseSectionAdapter: EntityAdapter<CourseSectionStore> = createEnt
 export interface LessonsState extends EntityState<Lesson> {
   isLoading: boolean;
   error: HttpErrorResponse;
-  selectedLessonId: string;
 }
 
 export const courseLessonAdapter: EntityAdapter<Lesson> = createEntityAdapter<

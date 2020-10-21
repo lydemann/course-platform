@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Route } from '@angular/router';
 import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 
 import { CourseFacadeService } from '@course-platform/course-client-lib';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
@@ -17,14 +19,19 @@ export class CourseComponent implements OnInit {
   selectedLesson$: Observable<Lesson>;
   sectionLessons$: Observable<Lesson[]>;
 
-  constructor(private courseFacadeService: CourseFacadeService) {}
+  constructor(
+    private courseFacadeService: CourseFacadeService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     // TODO: show loading spinner when loading
     this.isLoading$ = this.courseFacadeService.isLoading$;
     this.sections$ = this.courseFacadeService.sections$;
     this.lessons$ = this.courseFacadeService.sectionLessons$;
-    this.selectedSectionId$ = this.courseFacadeService.selectedSectionId$;
+    this.selectedSectionId$ = this.route.params.pipe(
+      pluck('selectedSectionId')
+    );
     this.sectionLessons$ = this.courseFacadeService.sectionLessons$;
     this.selectedLesson$ = this.courseFacadeService.selectedLesson$;
   }
