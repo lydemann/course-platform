@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Create new section</h1>
+<div mat-dialog-content>
+  <p>Sections are sorted by section name</p>
+  <mat-form-field>
+    <mat-label>Section name</mat-label>
+    <input matInput [(ngModel)]="sectionName" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="sectionName" cdkFocusInitial>
+    Ok
+  </button>
+</div>

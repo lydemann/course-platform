@@ -24,7 +24,7 @@ export const SectionSchema = gql`
 `;
 
 export const sectionMutations = `
-  createSection(id: ID! name: String! theme: String!): String
+  createSection(name: String! theme: String): String
   updateSection(id: ID! name: String theme: String): String
   deleteSection(id: ID!): String
 `;

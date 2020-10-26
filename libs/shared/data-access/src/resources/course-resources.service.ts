@@ -148,10 +148,13 @@ export class CourseResourcesService {
     return this.apollo.mutate({ mutation: completedLessonMutation });
   }
 
-  createLesson(sectionId: string): Observable<string> {
+  createLesson(
+    sectionId: string,
+    sectionName: string = ''
+  ): Observable<string> {
     const createLessonMutation = gql`
       mutation {
-        createLesson(sectionId: "${sectionId}")
+        createLesson(sectionId: "${sectionId}", name: "${sectionName}")
       }
     `;
 

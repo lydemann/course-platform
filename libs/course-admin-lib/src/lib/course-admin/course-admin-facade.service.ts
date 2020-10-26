@@ -77,19 +77,21 @@ export class CourseAdminFacadeService {
     this.courseResourcesService.updateLesson(lesson).subscribe();
   }
 
-  createLessonClicked(sectionId: string) {
+  createLessonClicked(sectionId: string, section: string) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
       isSavingLesson: true
     });
-    this.courseResourcesService.createLesson(sectionId).subscribe(() => {
-      this.courseAdminStore.next({
-        ...this.courseAdminStore.value,
-        sections: [...this.courseAdminStore.value.sections],
-        isSavingLesson: false
+    this.courseResourcesService
+      .createLesson(sectionId, section)
+      .subscribe(() => {
+        this.courseAdminStore.next({
+          ...this.courseAdminStore.value,
+          sections: [...this.courseAdminStore.value.sections],
+          isSavingLesson: false
+        });
+        // TODO: error handling
       });
-      // TODO: error handling
-    });
   }
 
   deleteLessonClicked(sectionId: string, lessonId: string) {
