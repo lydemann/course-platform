@@ -12,6 +12,7 @@
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
     "codecov": "codecov -t ",
+    "firebase-deploy": "firebase deploy",
     "course-service:serve": "concurrently --kill-others \"npm run build -- course-service --watch\" \"firebase serve --only functions\"",
     "course-service:debug": "firebase emulators:start --inspect-functions",
     "affected:apps": "nx affected:apps",
@@ -29,7 +30,7 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+    "ngcc": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "graphql-codegen": "graphql-codegen --config graphql-codegen.yml"
   },
   "main": "dist/apps/course-service/main.js",

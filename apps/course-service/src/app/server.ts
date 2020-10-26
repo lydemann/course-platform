@@ -12,7 +12,9 @@ export function gqlServer() {
     resolvers,
     // Enable graphiql gui
     introspection: true,
-    playground: true
+    playground: {
+      endpoint: 'api'
+    }
   });
 
   apolloServer.applyMiddleware({ app, path: '/', cors: true });
