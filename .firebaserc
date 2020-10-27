@@ -4,6 +4,9 @@
       "hosting": {
         "course-client": [
           "aaa-course-portal"
+        ],
+        "course-admin": [
+          "aaa-course-admin"
         ]
       }
     }
