@@ -1,0 +1,6 @@
+{
+  "main": "dist/apps/course-service/main.js",
+  "engines": {
+    "node": "12"
+  }
+}
