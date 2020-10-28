@@ -45,7 +45,9 @@ export class RedirectIfAuthenticatedResolver implements Resolve<boolean> {
     return this.userService.getCurrentUser().pipe(
       first(),
       map(currentUser => {
-        this.router.navigate(['course-admin']);
+        if (!!currentUser) {
+          this.router.navigate(['course-admin']);
+        }
         return true;
       })
     );

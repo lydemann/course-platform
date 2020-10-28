@@ -1,11 +1,15 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CourseClientLibModule } from '@course-platform/course-client-lib';
+import {
+  Endpoints,
+  ENDPOINTS_TOKEN
+} from '@course-platform/shared/data-access';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -23,6 +27,12 @@ export function preloadFeagureFlags(
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
+}
+
+export function EndpointsFactory() {
+  return {
+    courseServiceUrl: window.config.courseServiceUrl
+  } as Endpoints;
 }
 
 @NgModule({
@@ -50,6 +60,10 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true,
       useFactory: preloadFeagureFlags,
       deps: [FeatureToggleService]
+    },
+    {
+      provide: ENDPOINTS_TOKEN,
+      useFactory: EndpointsFactory
     }
   ],
   bootstrap: [AppComponent]

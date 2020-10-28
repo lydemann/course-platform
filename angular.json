@@ -244,7 +244,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "course-admin:build"
+            "browserTarget": "course-admin:build",
+            "port": 4201
           },
           "configurations": {
             "production": {

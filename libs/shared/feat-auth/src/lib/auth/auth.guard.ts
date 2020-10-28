@@ -19,9 +19,13 @@ export class AuthGuard {
   canActivate(): Observable<boolean> {
     return this.userService.getCurrentUser().pipe(
       first(),
-      map(() => true),
+      map(currentUser => {
+        if (!currentUser) {
+          this.router.navigate(['/login']);
+        }
+        return !!currentUser;
+      }),
       catchError(() => {
-        this.router.navigate(['/login']);
         return of(false);
       })
     );

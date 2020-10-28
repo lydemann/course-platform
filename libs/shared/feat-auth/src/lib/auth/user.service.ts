@@ -19,11 +19,7 @@ export class UserService {
       firebase.auth().onAuthStateChanged(currentUser => {
         // cb needs to run through zone to work in guard
         this.ngZone.run(() => {
-          if (currentUser) {
-            observer.next(currentUser);
-          } else {
-            observer.error('No user logged in');
-          }
+          observer.next(currentUser);
         });
       });
     });
