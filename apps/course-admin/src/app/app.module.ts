@@ -7,13 +7,14 @@ import {
   Endpoints,
   ENDPOINTS_TOKEN
 } from '@course-platform/shared/data-access';
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { CoreModule } from './core/core.module';
 
 export function EndpointsFactory() {
   return {
-    courseServiceUrl: window.config.courseServiceUrl
+    courseServiceUrl: environment.courseServiceUrl
   } as Endpoints;
 }
 
