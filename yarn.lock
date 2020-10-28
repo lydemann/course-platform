@@ -8702,6 +8702,11 @@ gcs-resumable-upload@^3.1.0:
     pumpify "^2.0.0"
     stream-events "^1.0.4"
 
+generate-package-json-webpack-plugin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/generate-package-json-webpack-plugin/-/generate-package-json-webpack-plugin-2.0.0.tgz#21a50bbb465dc9badbb9d123dc44a2d49bace986"
+  integrity sha512-7kvoXeVQUdwflGpafVhtbTzuVDu/lcgoyaT3ra+c29V6e5TQD5KrSd86npEb+pxyjNdql1ETsCuNjn9WKFC+lA==
+
 genfun@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/genfun/-/genfun-5.0.0.tgz#9dd9710a06900a5c4a5bf57aca5da4e52fe76537"

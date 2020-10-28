@@ -109,6 +109,7 @@
     "eslint": "6.8.0",
     "firebase-tools": "^8.0.0",
     "fuzzy": "^0.1.3",
+    "generate-package-json-webpack-plugin": "^2.0.0",
     "husky": "^4.2.5",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
