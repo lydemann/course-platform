@@ -8,6 +8,7 @@ describe('course-admin', () => {
   });
 
   it('should show lesson', () => {
-    LoginPage.login();
+    // TODO:
+    // LoginPage.login();
   });
 });
