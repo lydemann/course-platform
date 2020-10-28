@@ -11,31 +11,33 @@ import { CourseSelectors } from './state/course.selectors';
   providedIn: 'root'
 })
 export class CourseFacadeService {
-  constructor(private store: Store<CourseState>) {}
+  constructor(private store: Store<any>) {}
   selectedLesson$: Observable<Lesson> = this.store.select(
     CourseSelectors.selectSelectedLesson
   );
   sections$: Observable<CourseSection[]> = this.store.select(
-    CourseSelectors.selectCourseSections
+    CourseSelectors.selectSections
   );
   isLoading$: Observable<boolean> = this.store.select(
     CourseSelectors.isCourseLoading,
     isLoading => isLoading
   );
   sectionLessons$: Observable<Lesson[]> = this.store.select(
-    CourseSelectors.selectCourseLessons
+    CourseSelectors.selectSectionLessons
   );
   selectedSectionId$ = this.store.select(
     CourseSelectors.selectSelectedSectionId
   );
   onSectionSelected(selectionSectionId: string) {
-    this.store.dispatch(CourseActions.sectionSelected({ selectionSectionId }));
+    this.store.dispatch(
+      CourseActions.sectionSelected({ selectedSectionId: selectionSectionId })
+    );
   }
   onLessonSelected(selectedLessonId: string) {
     this.store.dispatch(CourseActions.lessonChanged({ selectedLessonId }));
   }
-  courseInitiated(props: CourseInitiatedProps) {
-    this.store.dispatch(CourseActions.courseInitiated(props));
+  courseInitiated() {
+    this.store.dispatch(CourseActions.courseInitiated());
   }
   lessonCompleted(props: { lessonId: string; isCompleted: boolean }) {
     this.store.dispatch(CourseActions.lessonCompleted(props));

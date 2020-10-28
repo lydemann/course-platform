@@ -10,8 +10,14 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom",
+      "esnext.asynciterable"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -31,6 +37,9 @@
       "@course-platform/shared/ui": [
         "libs/shared/ui/src/index.ts"
       ],
+      "@course-platform/shared/util": [
+        "libs/shared/util/index.ts"
+      ],
       "@course-platform/shared/util/util-feature-toggle": [
         "libs/shared/util/util-feature-toggle/src/index.ts"
       ],
@@ -40,7 +49,11 @@
       "@course-platform/shared/feat-auth": [
         "libs/shared/feat-auth/src/index.ts"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

@@ -10,27 +10,35 @@ import {
 
 export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
   courseInitState,
-  on(
-    CourseActions.courseInitiated,
-    (state, { selectedSectionId, selectedLessonId }) => ({
-      ...state,
-      sectionsState: {
-        ...state.sectionsState,
-        isLoading: true,
-        selectedSectionId
-      },
-      lessonsState: {
-        ...state.lessonsState,
-        isLoading: true,
-        selectedLessonId
-      }
-    })
-  ),
+  on(CourseActions.courseInitiated, state => ({
+    ...state,
+    sectionsState: {
+      ...state.sectionsState,
+      isLoading: true
+    },
+    lessonsState: {
+      ...state.lessonsState,
+      isLoading: true
+    }
+  })),
   on(CourseActions.getCourseSectionsSuccess, (state, { courseSections }) => {
     return {
       ...state,
       sectionsState: {
-        ...courseSectionAdapter.setAll(courseSections, state.sectionsState),
+        ...courseSectionAdapter.setAll(
+          courseSections.map(section => ({
+            ...section,
+            lessons: section.lessons.map(lesson => lesson.id)
+          })),
+          state.sectionsState
+        ),
+        isLoading: false
+      },
+      lessonsState: {
+        ...courseLessonAdapter.setAll(
+          courseSections.reduce((prev, cur) => [...prev, ...cur.lessons], []),
+          state.lessonsState
+        ),
         isLoading: false
       }
     };
@@ -75,6 +83,15 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
           },
           state.lessonsState
         )
+      }
+    };
+  }),
+  on(CourseActions.sectionSelected, (state, { selectedSectionId }) => {
+    return {
+      ...state,
+      sectionsState: {
+        ...state.sectionsState,
+        selectedSectionId
       }
     };
   })

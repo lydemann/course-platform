@@ -1,1 +1,3 @@
-export * from './resources/course-resources.service';
+export * from './resources';
+export * from './shared-data-access.module';
+export * from './ngrx/router';

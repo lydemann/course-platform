@@ -33,7 +33,12 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+*.nx-tmp
+firebase-debug.log
+serviceAccountKey.json
+ui-debug.log
 
 # System Files
 .DS_Store
 Thumbs.db
+

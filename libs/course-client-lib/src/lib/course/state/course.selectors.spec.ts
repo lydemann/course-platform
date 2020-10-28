@@ -1,8 +1,7 @@
-import { CourseSection } from '@course-platform/shared/interfaces';
 import {
   courseInitState,
   courseSectionAdapter,
-  CourseState
+  CourseSectionStore
 } from './course.model';
 import { CourseSelectors } from './course.selectors';
 
@@ -21,15 +20,11 @@ describe('Course list selectors', () => {
 
   describe('getCourseSections', () => {
     it('should select course sections', () => {
-      const courseSections = [{ id: '1' }] as CourseSection[];
+      const courseSections = [{ id: '1', lessons: [] }] as CourseSectionStore[];
 
-      const stateWithSections = courseSectionAdapter.setAll(
+      const sections = CourseSelectors.selectSections.projector(
         courseSections,
-        initState.sectionsState
-      );
-
-      const sections = CourseSelectors.selectCourseSections.projector(
-        stateWithSections
+        {}
       );
       expect(sections).toEqual(courseSections);
     });

@@ -1,97 +1,211 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { combineLatest, from, Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { DocumentReference } from '@angular/fire/firestore';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
+import { forkJoin, from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
+import { UserService } from '@course-platform/shared/feat-auth';
 import {
-  Course,
   CourseSection,
-  Lesson
+  Lesson,
+  LessonResource
 } from '@course-platform/shared/interfaces';
 
 export const COURSE_SECTIONS_URL = '/api/sections';
 
-interface LessonGroup {
-  [sectionId: string]: Lesson[];
+export interface CourseSectionDTO {
+  id: string;
+  name: string;
+  lessons: DocumentReference[];
 }
+
+export interface LessonDTO {
+  id: string;
+  name: string;
+  videoUrl: string;
+  description: string;
+  resources: DocumentReference[];
+  // set by client
+  isCompleted?: boolean;
+}
+
+const getPopulatedLesson = (lesson: LessonDTO) => {
+  const resourcesPerLesson$ = forkJoin(
+    lesson.resources.map(resource =>
+      from(resource.get().then(doc => doc.data()))
+    )
+  );
+  return resourcesPerLesson$.pipe(
+    map((resources: LessonResource[]) => {
+      return {
+        ...lesson,
+        resources
+      } as Lesson;
+    })
+  );
+};
+
+export interface CompletedLessonData {
+  lessonId: string;
+  completed: boolean;
+  lastUpdated: boolean;
+}
+
+export interface GetCourseSectionsResponseDTO {
+  courseSections: CourseSection[];
+  user: {
+    completedLessons: CompletedLessonData[];
+  };
+}
+
+export const courseSectionsQuery = gql`
+  query GetCourseSectionsQuery($uid: String!) {
+    courseSections {
+      id
+      name
+      lessons {
+        id
+        name
+        description
+        videoUrl
+        resources {
+          name
+          id
+          url
+        }
+      }
+    }
+    user(uid: $uid) {
+      completedLessons {
+        lessonId
+        completed
+        lastUpdated
+      }
+    }
+  }
+`;
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseResourcesService {
-  constructor(private fireDB: AngularFireDatabase) {}
+  constructor(private apollo: Apollo, private userService: UserService) {}
 
   getCourseSections(): Observable<CourseSection[]> {
-    return this.fireDB.list<CourseSection>('sections').valueChanges();
-  }
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo
+          .watchQuery<GetCourseSectionsResponseDTO>({
+            query: courseSectionsQuery,
+            variables: {
+              uid: user.uid
+            }
+          })
+          .valueChanges.pipe(
+            map(({ data }) => {
+              const updatedSections = data.courseSections.map(section => {
+                const completedLessonsMap = data.user.completedLessons.reduce(
+                  (prev, cur) => {
+                    if (!cur.completed) {
+                      return { ...prev };
+                    }
 
-  getLesson(sectionId: string, lessonId: string): Observable<Lesson> {
-    return this.fireDB
-      .object<Lesson>(`lessons/${sectionId}/${lessonId}`)
-      .valueChanges();
-  }
-
-  getCourseSectionsWithLessons(): Observable<CourseSection[]> {
-    const sections$ = this.fireDB
-      .list<CourseSection>('sections')
-      .valueChanges();
-    const lessonGroups$ = this.fireDB
-      .list<LessonGroup>(`lessons`)
-      .valueChanges();
-
-    return combineLatest([sections$, lessonGroups$]).pipe(
-      first(),
-      map(([sections, lessonGroups]) => {
-        return sections.map(
-          section =>
-            ({ ...section, lessons: lessonGroups[section.id] } as CourseSection)
-        );
+                    return { ...prev, [cur.lessonId]: true };
+                  },
+                  {}
+                );
+                return {
+                  ...section,
+                  lessons: section.lessons.map(lesson => ({
+                    ...lesson,
+                    isCompleted: completedLessonsMap[lesson.id]
+                  }))
+                };
+              });
+              return updatedSections;
+            })
+          );
       })
     );
-  }
-
-  getCourseLessons(sectionId: string): Observable<Lesson[]> {
-    return this.fireDB.list<Lesson>(`lessons/${sectionId}`).valueChanges();
   }
 
   setCompleteLesson(
     isCompleted: boolean,
     lessonId: string,
     userId: string
-  ): Observable<void> {
-    return from(
-      this.fireDB
-        .object(`userInfo/${userId}/completedLessons/${lessonId}`)
-        .update({
-          isCompleted,
-          time: new Date().toLocaleString('en-US', { timeZone: 'UTC' })
-        })
-    );
-  }
-  getCompletedLessons(
-    userId: string
-  ): Observable<{
-    [lessonId: string]: { isCompleted: boolean; time: string };
-  }> {
-    return this.fireDB
-      .object<{
-        [lessonId: string]: { isCompleted: boolean; time: string };
-      }>(`userInfo/${userId}/completedLessons`)
-      .valueChanges();
+  ): Observable<any> {
+    const completedLessonMutation = gql`
+      mutation {
+        setLessonCompleted(
+          isCompleted: ${isCompleted}
+          lessonId: "${lessonId}"
+          uid:"${userId}"
+          )
+      }
+    `;
+
+    return this.apollo.mutate({ mutation: completedLessonMutation });
   }
 
-  setCompleteActionItem(
-    isComplete: boolean,
-    resourceId: string,
-    userId: string
-  ): Observable<void> {
-    return from(
-      this.fireDB
-        .object(`userInfo/${userId}/completedActionItems/${resourceId}`)
-        .update({
-          isComplete,
-          time: new Date().toLocaleString('en-US', { timeZone: 'UTC' })
-        })
+  createLesson(
+    sectionId: string,
+    sectionName: string = ''
+  ): Observable<string> {
+    const createLessonMutation = gql`
+      mutation {
+        createLesson(sectionId: "${sectionId}", name: "${sectionName}")
+      }
+    `;
+
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo
+          .mutate<string>({
+            mutation: createLessonMutation,
+            refetchQueries: [
+              { query: courseSectionsQuery, variables: { uid: user.uid } }
+            ]
+          })
+          .pipe(map(({ data }) => data));
+      })
+    );
+  }
+
+  updateLesson(lesson: Lesson) {
+    const updateLessonMutation = gql`
+      mutation {
+        updateLesson(id: "${lesson.id}", name: "${lesson.name}", description: "${lesson.description}", videoUrl: "${lesson.videoUrl}")
+      }
+    `;
+
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo.mutate({
+          mutation: updateLessonMutation,
+          refetchQueries: [
+            { query: courseSectionsQuery, variables: { uid: user.uid } }
+          ]
+        });
+      })
+    );
+  }
+
+  deleteLesson(sectionId: string, lessonId: string) {
+    const deleteLessonMutation = gql`
+    mutation {
+      deleteLesson(sectionId: "${sectionId}", id: "${lessonId}")
+    }
+  `;
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo.mutate({
+          mutation: deleteLessonMutation,
+          refetchQueries: [
+            { query: courseSectionsQuery, variables: { uid: user.uid } }
+          ]
+        });
+      })
     );
   }
 }

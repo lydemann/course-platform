@@ -1,4 +1,4 @@
-import { MatProgressBar } from '@angular/material/progress-bar';
+import { ActivatedRoute } from '@angular/router';
 import {
   createComponentFactory,
   mockProvider,
@@ -9,7 +9,10 @@ import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { CourseFacadeService } from '@course-platform/course-client-lib';
+import {
+  CourseFacadeService,
+  selectedSectionIdRouteParam
+} from '@course-platform/course-client-lib';
 import { CourseContentComponent } from './components/course-content/course-content.component';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
 import { SectionLessonsComponent } from './components/course-sidebar/section/section-lessons.component';
@@ -28,6 +31,12 @@ describe('CourseComponent', () => {
       MockComponent(CourseContentComponent)
     ],
     providers: [
+      {
+        provide: ActivatedRoute,
+        useValue: {
+          params: of({ [selectedSectionIdRouteParam]: '1' })
+        }
+      },
       mockProvider(CourseFacadeService, {
         sections$: of([
           {

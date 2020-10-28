@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -68,7 +69,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTabsModule,
     MatTooltipModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule
   ],
   exports: [
     // CDK
@@ -103,7 +105,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTabsModule,
     MatTooltipModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule
   ]
 })
 export class AppMaterialModule {}

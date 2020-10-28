@@ -11,13 +11,7 @@ fdescribe('Course List reducers', () => {
 
   describe('fetchSections', () => {
     beforeEach(() => {
-      updatedState = courseReducer(
-        initState,
-        CourseActions.courseInitiated({
-          selectedLessonId: '',
-          selectedSectionId: ''
-        })
-      );
+      updatedState = courseReducer(initState, CourseActions.courseInitiated());
     });
 
     it('should be loading', () => {
@@ -27,7 +21,7 @@ fdescribe('Course List reducers', () => {
   });
 
   describe('fetchSectionsSuccess', () => {
-    const courseSections = [{ id: '1' }] as CourseSection[];
+    const courseSections = [{ id: '1', lessons: [] }] as CourseSection[];
 
     beforeEach(() => {
       updatedState = courseReducer(

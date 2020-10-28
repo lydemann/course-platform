@@ -29,7 +29,9 @@
             "assets": [
               "apps/course-client/src/favicon.ico",
               "apps/course-client/src/assets",
-              "apps/course-client/src/web.config"
+              "apps/course-client/src/web.config",
+              "apps/course-client/src/.firebaserc",
+              "apps/course-client/src/firebase.json"
             ],
             "styles": ["apps/course-client/src/styles.scss"],
             "scripts": [],
@@ -183,6 +185,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "firebase",
+              "@firebase/app",
+              "@firebase/auth",
+              "graphql-tag",
+              "zen-observable"
+            ],
             "outputPath": "dist/apps/course-admin",
             "index": "apps/course-admin/src/index.html",
             "main": "apps/course-admin/src/main.ts",
@@ -191,7 +200,9 @@
             "aot": true,
             "assets": [
               "apps/course-admin/src/favicon.ico",
-              "apps/course-admin/src/assets"
+              "apps/course-admin/src/assets",
+              "apps/course-admin/src/.firebaserc",
+              "apps/course-admin/src/firebase.json"
             ],
             "styles": ["apps/course-admin/src/styles.scss"],
             "stylePreprocessorOptions": {
@@ -233,7 +244,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "course-admin:build"
+            "browserTarget": "course-admin:build",
+            "port": 4201
           },
           "configurations": {
             "production": {
@@ -360,10 +372,13 @@
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
+            "webpackConfig": "webpack.node.config.js",
             "outputPath": "dist/apps/course-service",
             "main": "apps/course-service/src/main.ts",
             "tsConfig": "apps/course-service/tsconfig.app.json",
-            "assets": ["apps/course-service/src/assets"]
+            "assets": [
+              "apps/course-service/src/assets"
+            ]
           },
           "configurations": {
             "production": {

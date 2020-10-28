@@ -28,7 +28,7 @@ describe('CourseFacadeService', () => {
     courseResourcesService = spectator.inject(CourseResourcesService);
     store = (spectator.inject(Store) as unknown) as MockStore;
     spyOn(store, 'dispatch');
-    store.overrideSelector(CourseSelectors.selectCourseSections, []);
+    store.overrideSelector(CourseSelectors.selectSections, []);
     store.overrideSelector(CourseSelectors.selectIsLoadingSections, false);
   });
 
@@ -37,16 +37,10 @@ describe('CourseFacadeService', () => {
       const courseSections = [{ id: '1' } as CourseSection];
       courseResourcesService.getCourseSections.andReturn(of(courseSections));
 
-      spectator.service.courseInitiated({
-        selectedLessonId: '',
-        selectedSectionId: ''
-      });
+      spectator.service.courseInitiated();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        CourseActions.courseInitiated({
-          selectedLessonId: '',
-          selectedSectionId: ''
-        })
+        CourseActions.courseInitiated()
       );
     });
   });
