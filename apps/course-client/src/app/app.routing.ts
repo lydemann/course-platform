@@ -1,13 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { RedirectIfAuthenticatedResolver } from './core/auth/redirect-if-authenticated.service';
 import { HomeComponent } from './home/home.component';
 import { RedirectToCourseResolver } from './redirect-to-course.resolver';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  {
+    path: '',
+    component: HomeComponent,
+    resolve: [RedirectIfAuthenticatedResolver]
+  },
   {
     path: 'course',
+    // TODO: show some full page loading component here
     component: HomeComponent,
     resolve: [RedirectToCourseResolver]
   },
