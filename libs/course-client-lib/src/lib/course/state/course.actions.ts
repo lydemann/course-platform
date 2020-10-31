@@ -62,6 +62,20 @@ export namespace CourseActions {
     props<{ error: Error }>()
   );
 
+  export const actionItemCompletedChanged = createAction(
+    '[Course] Action Item Completed Changed',
+    props<{ resourceId: string; completed: boolean }>()
+  );
+
+  export const setActionItemCompletedSuccess = createAction(
+    '[Course] Set Action Item Completed Success'
+  );
+
+  export const setActionItemCompletedFailed = createAction(
+    '[Course] Set Action Item Completed Failed',
+    props<{ error: HttpErrorResponse }>()
+  );
+
   export const all = union({
     courseInitiated,
     getCourseSectionsSuccess,
@@ -70,7 +84,10 @@ export namespace CourseActions {
     getSectionLessonsFailed,
     lessonCompleted,
     lessonCompletedSuccess,
-    lessonCompletedFailed
+    lessonCompletedFailed,
+    actionItemCompletedChanged,
+    setActionItemCompletedSuccess,
+    setActionItemCompletedFailed
   });
 }
 

@@ -17,7 +17,7 @@
     "deploy:course-client": "npm run firebase-deploy -- --only hosting:course-client",
     "deploy:course-admin": "npm run firebase-deploy -- --only hosting:course-admin",
     "course-service:serve": "concurrently --kill-others \"npm run build -- course-service --watch\" \"firebase serve --only functions\"",
-    "course-service:debug": "firebase emulators:start --inspect-functions",
+    "course-service:debug": "concurrently --kill-others \"npm run build -- course-service --watch\" \"firebase emulators:start --inspect-functions\"",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",

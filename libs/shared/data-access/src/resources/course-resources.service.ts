@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { forkJoin, from, Observable } from 'rxjs';
+import { forkJoin, from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
@@ -207,5 +207,10 @@ export class CourseResourcesService {
         });
       })
     );
+  }
+
+  setActionItemCompleted(resourceId: string, completed: boolean) {
+    // TODO:
+    return of();
   }
 }

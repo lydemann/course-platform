@@ -8,8 +8,19 @@ export interface Lesson {
   isCompleted?: boolean;
 }
 
+export enum LessonResourceType {
+  WorkSheet = 'WORKSHEET',
+  CheatSheet = 'CHEATSHEET',
+  Other = 'OTHER'
+}
+
 export interface LessonResource {
   id: string;
   name: string;
   url: string;
+  type: LessonResourceType;
+}
+
+export interface ActionItem extends LessonResource {
+  isCompleted: boolean;
 }

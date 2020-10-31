@@ -1,36 +1,93 @@
+import {
+  ActionItem,
+  CourseSection,
+  Lesson,
+  LessonResourceType
+} from '@course-platform/shared/interfaces';
 import { removeEmptyFields } from '@course-platform/shared/util';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
 
+export interface ActionItemDTO {
+  id: string;
+  isCompleted: boolean;
+}
+
 export const sectionQueryResolvers = {
-  courseSections: (parent, { lessonsToPopulate }) =>
-    firestoreDB
+  courseSections: async (parent, { uid }) => {
+    const getUserActionItemsCompletedPromise = () =>
+      firestoreDB
+        .doc(`users/${uid}`)
+        .collection('actionItemsCompleted')
+        .where('isCompleted', '==', true)
+        .select('id')
+        .get()
+        .then(snap => {
+          return snap.docs.map(doc => {
+            return doc.data()?.id;
+          });
+        });
+
+    const completedActionItemsPromise = uid
+      ? getUserActionItemsCompletedPromise()
+      : Promise.resolve<string[]>([]);
+
+    const sectionsPromise = firestoreDB
       .collection('sections')
       .orderBy('name')
       .get()
       .then(data => {
-        return data.docs.map(doc => doc.data());
-      })
-      .then(sections => {
-        const lessonsPerSectionPromise: Promise<
-          LessonDTO[]
-        >[] = sections.map(section =>
-          section.lessons.map(lesson =>
-            lesson.get().then(lessonRef => populateLesson(lessonRef.data()))
-          )
-        );
+        return data.docs.map(doc => doc.data()) as SectionDTO[];
+      });
 
-        return Promise.all(lessonsPerSectionPromise).then(lessonsPerSection => {
-          return sections.map((section, idx) => ({
-            ...section,
-            lessons: lessonsPerSection[idx]
-          }));
+    return Promise.all([sectionsPromise, completedActionItemsPromise]).then(
+      async ([sections, completedActionItems]) => {
+        const lessonsPerSections = sections.map(section => {
+          return section.lessons.map(lesson =>
+            lesson
+              .get()
+              .then(lessonRef => populateLesson(lessonRef.data() as LessonDTO))
+          );
         });
-      })
+
+        return lessonsPerSections.map(async (lessonsPerSectionPromise, idx) => {
+          const lessons = await Promise.all(lessonsPerSectionPromise);
+          const section = sections[idx];
+          const userCompletedActionItemsSet = new Set(completedActionItems);
+          const actionItems = lessons.reduce(
+            (prev: ActionItem[], cur) => [
+              ...prev,
+              ...(cur.resources || [])
+                .filter(
+                  resource =>
+                    resource.type === LessonResourceType.WorkSheet &&
+                    !prev.find(
+                      prevActionItem => prevActionItem.id === resource.id
+                    )
+                )
+                .map(resource => {
+                  console.log(userCompletedActionItemsSet);
+                  return {
+                    ...resource,
+                    isCompleted: userCompletedActionItemsSet.has(resource.id)
+                  } as ActionItem;
+                })
+            ],
+            []
+          );
+          return {
+            ...section,
+            lessons,
+            actionItems
+          } as CourseSection;
+        });
+      }
+    );
+  }
 };
 
-const populateLesson = (lesson: LessonDTO) => {
+const populateLesson = (lesson: LessonDTO): Promise<Lesson> => {
   const resourcesPerLessonProm = (lesson.resources || []).map(resource =>
     resource.get().then(doc => doc.data())
   );
@@ -40,7 +97,7 @@ const populateLesson = (lesson: LessonDTO) => {
       ({
         ...lesson,
         resources
-      } as LessonDTO)
+      } as Lesson)
   );
 };
 

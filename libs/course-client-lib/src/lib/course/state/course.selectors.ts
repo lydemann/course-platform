@@ -8,6 +8,7 @@ import {
   selectRouter
 } from '@course-platform/shared/data-access';
 import {
+  ActionItem,
   CourseSection,
   Lesson,
   LessonRouteData,
@@ -106,11 +107,18 @@ export namespace CourseSelectors {
     (sectionId): string => sectionId
   );
 
-  export const selectSectionLessons = createSelector(
+  export const selectSelectedSection = createSelector(
     selectSectionEntities,
     selectSelectedSectionId,
-    (sectionsMap, sectionId): Lesson[] => {
-      return sectionsMap[sectionId]?.lessons || [];
+    (sectionsMap, sectionId): CourseSection => {
+      return sectionsMap[sectionId];
+    }
+  );
+
+  export const selectSectionLessons = createSelector(
+    selectSelectedSection,
+    (selectedSection): Lesson[] => {
+      return selectedSection?.lessons || [];
     }
   );
 
@@ -123,6 +131,13 @@ export namespace CourseSelectors {
       }
 
       return data.lessonType;
+    }
+  );
+
+  export const selectSectionActionItems = createSelector(
+    selectSelectedSection,
+    (selectedSection): ActionItem[] => {
+      return selectedSection?.actionItems || [];
     }
   );
 

@@ -13,22 +13,30 @@
   </p>
 
   <div class="action-items" fxLayout="column" fxLayoutGap="12px">
+    <!-- TODO: move this to bff -->
     <app-action-item
       title="1. Have you viewed all of the week's videos in full?"
       [isCompleted]="false"
-      (completeChanged)="onCompleteChanged($event)"
+      (completeChanged)="onCompleteChanged('1', $event)"
     ></app-action-item>
     <app-action-item
       title="2. Have you reached out for help in Slack when in need?"
       [isCompleted]="false"
-      (completeChanged)="onCompleteChanged($event)"
+      (completeChanged)="onCompleteChanged('1', $event)"
     ></app-action-item>
     <app-action-item
       title="3. How are you feeling after completing week one?"
       answerDescription="Provide a simple one-two sentence answer to let us know how you're feeling as you progress."
       [isCompleted]="false"
-      (completeChanged)="onCompleteChanged($event)"
+      (completeChanged)="onCompleteChanged('1', $event)"
     ></app-action-item>
     <!-- TODO: get all the weeks worksheets and create action items for them here -->
+    <!-- <app-action-item
+      *ngFor="let actionItem of actionItems$ | async"
+      title="3. How are you feeling after completing week one?"
+      answerDescription="Provide a simple one-two sentence answer to let us know how you're feeling as you progress."
+      [isCompleted]="false"
+      (completeChanged)="onCompleteChanged($event)"
+    ></app-action-item> -->
   </div>
 </div>

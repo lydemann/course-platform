@@ -9,7 +9,9 @@
       <a (click)="lessonSelected.emit(lesson.id)">
         <span>{{ lesson.name }}</span>
         <!-- TODO: save isComplete for user and check here -->
-        <mat-icon class="icon">check_circle</mat-icon>
+        <mat-icon class="icon" *ngIf="lesson.isCompleted"
+          >check_circle</mat-icon
+        >
       </a>
     </li>
 

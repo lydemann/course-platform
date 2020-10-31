@@ -1,4 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { CourseFacadeService } from '@course-platform/course-client-lib';
+import { ActionItem, LessonResource } from '@course-platform/shared/interfaces';
 
 export interface ActionItemAnswer {
   id: string;
@@ -14,5 +18,16 @@ export const actionItemsRouteId = 'action-items';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionItemsComponent {
-  public onCompleteChanged(completed: boolean) {}
+  public actionItems$: Observable<ActionItem[]>;
+
+  constructor(private courseFacadeService: CourseFacadeService) {
+    this.actionItems$ = courseFacadeService.actionItems$;
+  }
+
+  public onCompleteChanged(resourceId: string, completed: boolean) {
+    this.courseFacadeService.onActionItemCompletedChanged(
+      resourceId,
+      completed
+    );
+  }
 }

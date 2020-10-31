@@ -15,11 +15,19 @@ export const SectionSchema = gql`
     resources: [LessonResource]
   }
 
+  type ActionItem {
+    id: ID
+    name: String
+    url: String
+    isCompleted: Boolean
+  }
+
   type Section {
     id: ID
     name: String
     theme: String
     lessons: [Lesson]
+    actionItems: [ActionItem]
   }
 `;
 
