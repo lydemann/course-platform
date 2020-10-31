@@ -12,10 +12,6 @@
   ></app-course-sidebar>
 
   <div class="content" fxFlex="75">
-    <app-course-content
-      *ngIf="selectedLesson$ | async as selectedLesson"
-      [lesson]="selectedLesson"
-      (completedLessonClick)="onCompletedLessonClick($event)"
-    ></app-course-content>
+    <router-outlet></router-outlet>
   </div>
 </div>

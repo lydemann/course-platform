@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
@@ -16,7 +16,6 @@ import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 })
 export class CourseComponent implements OnInit {
   sections$: Observable<CourseSection[]>;
-  lessons$: Observable<Lesson[]>;
   isLoading$: Observable<Boolean>;
   selectedSectionId$: Observable<string>;
   selectedLesson$: Observable<Lesson>;
@@ -31,7 +30,6 @@ export class CourseComponent implements OnInit {
     // TODO: show loading spinner when loading
     this.isLoading$ = this.courseFacadeService.isLoading$;
     this.sections$ = this.courseFacadeService.sections$;
-    this.lessons$ = this.courseFacadeService.sectionLessons$;
     this.selectedSectionId$ = this.route.params.pipe(
       pluck(selectedSectionIdRouteParam)
     );
@@ -45,8 +43,5 @@ export class CourseComponent implements OnInit {
 
   onSectionSelected(selectionSectionId: string) {
     this.courseFacadeService.onSectionSelected(selectionSectionId);
-  }
-  onCompletedLessonClick(props: { isCompleted: boolean; lessonId: string }) {
-    this.courseFacadeService.lessonCompleted(props);
   }
 }
