@@ -13,4 +13,6 @@ export const actionItemsRouteId = 'action-items';
   styleUrls: ['./action-items.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActionItemsComponent {}
+export class ActionItemsComponent {
+  public onCompleteChanged(completed: boolean) {}
+}

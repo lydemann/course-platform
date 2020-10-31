@@ -1,3 +1,34 @@
-<p>
-  work-items works!
-</p>
+<div class="header mb-l">
+  <h1 class="lesson-title">Action Items</h1>
+</div>
+<div class="body">
+  <p class="mb-l">
+    Congratulations on completing this week! As soon as you've finished watching
+    all of the training videos in full please complete the action items below.
+    This is an "implementation program" and to get results you must do the work.
+    Completing the worksheets and uploading them to our action items storage
+    system keeps all of your worksheets safe in one place. We refer back to
+    these worksheets throughout the program so we recommend you upload them in
+    Slack.
+  </p>
+
+  <div class="action-items" fxLayout="column" fxLayoutGap="12px">
+    <app-action-item
+      title="1. Have you viewed all of the week's videos in full?"
+      [isCompleted]="false"
+      (completeChanged)="onCompleteChanged($event)"
+    ></app-action-item>
+    <app-action-item
+      title="2. Have you reached out for help in Slack when in need?"
+      [isCompleted]="false"
+      (completeChanged)="onCompleteChanged($event)"
+    ></app-action-item>
+    <app-action-item
+      title="3. How are you feeling after completing week one?"
+      answerDescription="Provide a simple one-two sentence answer to let us know how you're feeling as you progress."
+      [isCompleted]="false"
+      (completeChanged)="onCompleteChanged($event)"
+    ></app-action-item>
+    <!-- TODO: get all the weeks worksheets and create action items for them here -->
+  </div>
+</div>
