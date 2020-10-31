@@ -1,4 +1,3 @@
-import { DocumentData } from '@angular/fire/firestore';
 import admin from 'firebase-admin';
 
 import { firestoreDB } from '../firestore';

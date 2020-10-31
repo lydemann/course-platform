@@ -3,9 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {
   selectRouteData,
-  selectRouteParam,
-  selectRouteParams,
-  selectRouter
+  selectRouteParam
 } from '@course-platform/shared/data-access';
 import {
   ActionItem,

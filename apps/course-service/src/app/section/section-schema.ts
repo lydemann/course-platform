@@ -17,8 +17,8 @@ export const SectionSchema = gql`
 
   type ActionItem {
     id: ID
-    name: String
-    url: String
+    question: String
+    answerDescription: String
     isCompleted: Boolean
   }
 

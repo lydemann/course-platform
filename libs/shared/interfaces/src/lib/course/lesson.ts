@@ -21,6 +21,9 @@ export interface LessonResource {
   type: LessonResourceType;
 }
 
-export interface ActionItem extends LessonResource {
-  isCompleted: boolean;
+export interface ActionItem {
+  id: string;
+  question: string;
+  answerDescription?: string;
+  isCompleted?: boolean;
 }

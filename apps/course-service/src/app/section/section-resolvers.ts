@@ -8,6 +8,7 @@ import { removeEmptyFields } from '@course-platform/shared/util';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
+import { getDefaultActionItems } from './default-action-items';
 
 export interface ActionItemDTO {
   id: string;
@@ -56,9 +57,9 @@ export const sectionQueryResolvers = {
           const section = sections[idx];
           const userCompletedActionItemsSet = new Set(completedActionItems);
           const actionItems = lessons.reduce(
-            (prev: ActionItem[], cur) => [
+            (prev: ActionItem[], lesson) => [
               ...prev,
-              ...(cur.resources || [])
+              ...(lesson.resources || [])
                 .filter(
                   resource =>
                     resource.type === LessonResourceType.WorkSheet &&
@@ -70,11 +71,12 @@ export const sectionQueryResolvers = {
                   console.log(userCompletedActionItemsSet);
                   return {
                     ...resource,
+                    question: `Have you completed the worksheet from lesson "${lesson.name}" called: "${resource.name}"?`,
                     isCompleted: userCompletedActionItemsSet.has(resource.id)
                   } as ActionItem;
                 })
             ],
-            []
+            [...getDefaultActionItems(section.id)]
           );
           return {
             ...section,

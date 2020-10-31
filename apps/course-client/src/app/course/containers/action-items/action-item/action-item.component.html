@@ -2,16 +2,16 @@
   class="action-item p-m"
   fxLayout="row"
   fxLayoutGap="2px"
-  (click)="completeChanged.next(!isCompleted)"
+  (click)="completeChanged.next(!answerItem.isCompleted)"
 >
   <div fxFlex="80">
     <h5>
-      {{ title }}
+      {{ answerItem.question }}
     </h5>
-    <p>{{ answerDescription }}</p>
+    <p>{{ answerItem.answerDescription }}</p>
   </div>
   <div fxFlex="20" fxLayout="row" fxFlexAlign="center" fxLayoutAlign="end">
-    <mat-icon class="icon" [class.is-completed]="isCompleted"
+    <mat-icon class="icon" [class.is-completed]="answerItem.isCompleted"
       >check_circle</mat-icon
     >
   </div>

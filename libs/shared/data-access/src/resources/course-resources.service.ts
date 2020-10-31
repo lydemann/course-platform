@@ -61,7 +61,7 @@ export interface GetCourseSectionsResponseDTO {
 
 export const courseSectionsQuery = gql`
   query GetCourseSectionsQuery($uid: String!) {
-    courseSections {
+    courseSections(uid: $uid) {
       id
       name
       lessons {
@@ -74,6 +74,12 @@ export const courseSectionsQuery = gql`
           id
           url
         }
+      }
+      actionItems {
+        id
+        isCompleted
+        question
+        answerDescription
       }
     }
     user(uid: $uid) {

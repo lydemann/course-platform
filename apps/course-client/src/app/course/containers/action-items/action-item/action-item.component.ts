@@ -6,6 +6,8 @@ import {
   Output
 } from '@angular/core';
 
+import { ActionItem } from '@course-platform/shared/interfaces';
+
 @Component({
   selector: 'app-action-item',
   templateUrl: './action-item.component.html',
@@ -13,8 +15,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionItemComponent {
-  @Input() title: string;
-  @Input() answerDescription = 'Simple yes/no question.';
-  @Input() isCompleted: boolean;
+  @Input() answerItem: ActionItem;
   @Output() completeChanged = new EventEmitter<boolean>();
 }
