@@ -6,7 +6,7 @@ import {
   Output
 } from '@angular/core';
 
-import { Lesson } from '@course-platform/shared/interfaces';
+import { Lesson, LessonTypes } from '@course-platform/shared/interfaces';
 
 @Component({
   selector: 'app-section-lessons',
@@ -18,4 +18,8 @@ export class SectionLessonsComponent {
   @Input() lessons: Lesson[];
   @Input() selectedLessonId: string;
   @Output() lessonSelected = new EventEmitter<string>();
+
+  get lessonType() {
+    return LessonTypes;
+  }
 }

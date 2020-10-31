@@ -7,6 +7,10 @@ import {
   selectedSectionIdRouteParam
 } from '@course-platform/course-client-lib';
 import { AuthGuard } from '@course-platform/shared/feat-auth';
+import {
+  LessonRouteData,
+  LessonTypes
+} from '@course-platform/shared/interfaces';
 import { ActionItemsComponent } from './containers/action-items/action-items.component';
 import { CourseContentComponent } from './containers/course-content/course-content.component';
 import { QuestionsComponent } from './containers/questions/questions.component';
@@ -22,15 +26,18 @@ const routes: Routes = [
     children: [
       {
         path: `action-items`,
-        component: ActionItemsComponent
+        component: ActionItemsComponent,
+        data: { lessonType: LessonTypes.ActionItems } as LessonRouteData
       },
       {
         path: `questions`,
-        component: QuestionsComponent
+        component: QuestionsComponent,
+        data: { lessonType: LessonTypes.Questions } as LessonRouteData
       },
       {
         path: `:${selectedLessonIdRouteParam}`,
-        component: CourseContentComponent
+        component: CourseContentComponent,
+        data: { lessonType: LessonTypes.Lesson } as LessonRouteData
       }
     ]
   }

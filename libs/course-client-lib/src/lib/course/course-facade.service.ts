@@ -3,8 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
-import { CourseActions, CourseInitiatedProps } from './state/course.actions';
-import { CourseState } from './state/course.model';
+import { CourseActions } from './state/course.actions';
 import { CourseSelectors } from './state/course.selectors';
 
 @Injectable({
@@ -14,6 +13,9 @@ export class CourseFacadeService {
   constructor(private store: Store<any>) {}
   selectedLesson$: Observable<Lesson> = this.store.select(
     CourseSelectors.selectSelectedLesson
+  );
+  selectedLessonId$: Observable<string> = this.store.select(
+    CourseSelectors.selectSelectedLessonId
   );
   sections$: Observable<CourseSection[]> = this.store.select(
     CourseSelectors.selectSections

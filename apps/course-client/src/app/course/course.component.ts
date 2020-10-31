@@ -19,6 +19,7 @@ export class CourseComponent implements OnInit {
   isLoading$: Observable<Boolean>;
   selectedSectionId$: Observable<string>;
   selectedLesson$: Observable<Lesson>;
+  selectedLessonId$: Observable<string>;
   sectionLessons$: Observable<Lesson[]>;
 
   constructor(
@@ -34,7 +35,7 @@ export class CourseComponent implements OnInit {
       pluck(selectedSectionIdRouteParam)
     );
     this.sectionLessons$ = this.courseFacadeService.sectionLessons$;
-    this.selectedLesson$ = this.courseFacadeService.selectedLesson$;
+    this.selectedLessonId$ = this.courseFacadeService.selectedLessonId$;
   }
 
   onLessonSelected(selectedLessonId: string) {

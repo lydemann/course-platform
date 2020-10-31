@@ -13,13 +13,20 @@
       </a>
     </li>
 
-    <!-- TODO: render all this from firebase -->
-    <li class="lesson" data-test="lesson">
+    <li
+      class="lesson"
+      data-test="lesson"
+      [class.selected]="lessonType.ActionItems === selectedLessonId"
+    >
       <a routerLink="action-items">
         Action items
       </a>
     </li>
-    <li class="lesson" data-test="lesson">
+    <li
+      class="lesson"
+      data-test="lesson"
+      [class.selected]="lessonType.Questions === selectedLessonId"
+    >
       <a routerLink="questions">
         Questions
       </a>

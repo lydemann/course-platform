@@ -6,7 +6,7 @@
     [sections]="sections$ | async"
     [selectedSectionId]="selectedSectionId$ | async"
     [lessons]="sectionLessons$ | async"
-    [selectedLessonId]="(selectedLesson$ | async)?.id"
+    [selectedLessonId]="selectedLessonId$ | async"
     (lessonSelected)="onLessonSelected($event)"
     (sectionChanged)="onSectionSelected($event)"
   ></app-course-sidebar>

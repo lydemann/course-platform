@@ -2,10 +2,17 @@ import { getSelectors } from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {
+  selectRouteData,
   selectRouteParam,
-  selectRouteParams
+  selectRouteParams,
+  selectRouter
 } from '@course-platform/shared/data-access';
-import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import {
+  CourseSection,
+  Lesson,
+  LessonRouteData,
+  LessonTypes
+} from '@course-platform/shared/interfaces';
 import {
   selectedLessonIdRouteParam,
   selectedSectionIdRouteParam
@@ -109,8 +116,16 @@ export namespace CourseSelectors {
 
   export const selectSelectedLessonId = createSelector(
     selectRouteParam(selectedLessonIdRouteParam),
-    lessonId => lessonId
+    selectRouteData,
+    (lessonId, data: LessonRouteData) => {
+      if (data.lessonType === LessonTypes.Lesson) {
+        return lessonId;
+      }
+
+      return data.lessonType;
+    }
   );
+
   export const selectSelectedLesson = createSelector(
     selectSelectedLessonId,
     selectLessonsEntities,
