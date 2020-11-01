@@ -14,6 +14,7 @@ import { CourseSelectors } from './state/course.selectors';
   providedIn: 'root'
 })
 export class CourseFacadeService {
+  constructor(private store: Store<any>) {}
   actionItems$: Observable<ActionItem[]> = this.store.select(
     CourseSelectors.selectSectionActionItems
   );
@@ -27,8 +28,7 @@ export class CourseFacadeService {
     CourseSelectors.selectSections
   );
   isLoading$: Observable<boolean> = this.store.select(
-    CourseSelectors.isCourseLoading,
-    isLoading => isLoading
+    CourseSelectors.isCourseLoading
   );
   sectionLessons$: Observable<Lesson[]> = this.store.select(
     CourseSelectors.selectSectionLessons
@@ -37,7 +37,9 @@ export class CourseFacadeService {
     CourseSelectors.selectSelectedSectionId
   );
   sectionCompletedPct$ = this.store.select(CourseSelectors.sectionCompletedPct);
-  constructor(private store: Store<any>) {}
+  loadSections() {
+    this.store.dispatch(CourseActions.loadSections());
+  }
   onActionItemCompletedChanged(resourceId: string, completed: boolean) {
     this.store.dispatch(
       CourseActions.actionItemCompletedChanged({ resourceId, completed })

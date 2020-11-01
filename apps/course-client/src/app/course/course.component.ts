@@ -29,7 +29,6 @@ export class CourseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // TODO: show loading spinner when loading
     this.isLoading$ = this.courseFacadeService.isLoading$;
     this.sections$ = this.courseFacadeService.sections$;
     this.selectedSectionId$ = this.route.params.pipe(

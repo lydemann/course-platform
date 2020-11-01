@@ -13,7 +13,6 @@ const routes: Routes = [
   },
   {
     path: 'course',
-    // TODO: show some full page loading component here
     component: HomeComponent,
     resolve: [RedirectToCourseResolver]
   },
@@ -21,6 +20,10 @@ const routes: Routes = [
     path: 'course',
     loadChildren: () =>
       import('./course/course.module').then(m => m.CourseModule)
+  },
+  {
+    path: 'help',
+    loadChildren: () => import('./help/help.module').then(m => m.HelpModule)
   },
   {
     path: 'login',

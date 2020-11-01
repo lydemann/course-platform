@@ -9,12 +9,7 @@
 
     <ul class="menu-items">
       <li *ngFor="let item of navigation" class="menu-item-wrapper">
-        <a
-          class="nav-button"
-          routerLinkActive="active"
-          [href]="item.link"
-          target="_blank"
-        >
+        <a class="nav-button" routerLinkActive="active" [href]="item.link">
           <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
           {{ item.label | translate }}
         </a>

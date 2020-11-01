@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
-import { ExecFileOptionsWithStringEncoding } from 'child_process';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 interface NavigationItem {
   link: string;
@@ -36,7 +30,7 @@ export class TopbarComponent implements OnInit {
     // { link: 'help', label: 'Help', icon: 'info' },
     { link: 'profile', label: 'Profile', icon: 'person' }
   ];
-  logo = require('../../../../assets/logo.png').default;
+  logo = require('../../../assets/logo.png').default;
   constructor() {}
 
   ngOnInit() {}

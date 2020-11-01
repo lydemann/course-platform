@@ -1,7 +1,9 @@
 @import 'helpers';
 
+$header-height: 62px;
+
 .sticky-container {
-  height: 58px;
+  height: $header-height;
   width: 100%;
 }
 
@@ -17,7 +19,7 @@
   color: #ffffff;
   font: 500 20px/32px Roboto, 'Helvetica Neue', sans-serif;
   letter-spacing: normal;
-  height: 58px;
+  height: $header-height;
 
   .menu-items {
     margin: 0;

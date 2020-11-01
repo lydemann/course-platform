@@ -12,7 +12,7 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): any {
-    this.courseFacadeService.courseInitiated();
+    this.courseFacadeService.loadSections();
     return this.courseFacadeService.sections$
       .pipe(
         filter(sections => !!sections && sections.length > 0),
