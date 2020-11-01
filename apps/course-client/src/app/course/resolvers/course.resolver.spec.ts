@@ -1,4 +1,3 @@
-import { ActivatedRouteSnapshot } from '@angular/router';
 import {
   createServiceFactory,
   SpectatorService,

@@ -1,4 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   createComponentFactory,
   mockProvider,
@@ -13,10 +14,10 @@ import {
   CourseFacadeService,
   selectedSectionIdRouteParam
 } from '@course-platform/course-client-lib';
-import { CourseContentComponent } from './components/course-content/course-content.component';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
 import { SectionLessonsComponent } from './components/course-sidebar/section/section-lessons.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
+import { CourseContentComponent } from './containers/course-content/course-content.component';
 import { CourseComponent } from './course.component';
 
 describe('CourseComponent', () => {
@@ -30,6 +31,7 @@ describe('CourseComponent', () => {
       MockComponent(CourseSidebarComponent),
       MockComponent(CourseContentComponent)
     ],
+    imports: [RouterTestingModule],
     providers: [
       {
         provide: ActivatedRoute,
