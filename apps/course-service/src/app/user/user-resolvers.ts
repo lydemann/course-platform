@@ -27,6 +27,11 @@ export const userQueryResolvers = {
   }
 };
 
+export interface ActionItemDTO {
+  id: string;
+  isCompleted: boolean;
+}
+
 const FieldValue = admin.firestore.FieldValue;
 
 export const userMutationResolvers = {
@@ -38,6 +43,15 @@ export const userMutationResolvers = {
         lessonId,
         lastUpdated: FieldValue.serverTimestamp()
       })
+      .then(() => `Got updated`);
+  },
+  setActionItemCompleted: (parent, { uid, id, isCompleted }) => {
+    return firestoreDB
+      .doc(`users/${uid}/actionItemsCompleted/${id}`)
+      .set({
+        id,
+        isCompleted
+      } as ActionItemDTO)
       .then(() => `Got updated`);
   }
 };

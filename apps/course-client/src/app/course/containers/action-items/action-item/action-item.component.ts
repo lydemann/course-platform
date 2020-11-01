@@ -17,4 +17,8 @@ import { ActionItem } from '@course-platform/shared/interfaces';
 export class ActionItemComponent {
   @Input() answerItem: ActionItem;
   @Output() completeChanged = new EventEmitter<boolean>();
+
+  onActionItemCompleteChange() {
+    this.completeChanged.next(!this.answerItem.isCompleted);
+  }
 }

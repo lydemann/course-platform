@@ -10,11 +10,6 @@ import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
 import { getDefaultActionItems } from './default-action-items';
 
-export interface ActionItemDTO {
-  id: string;
-  isCompleted: boolean;
-}
-
 export const sectionQueryResolvers = {
   courseSections: async (parent, { uid }) => {
     const getUserActionItemsCompletedPromise = () =>
@@ -68,7 +63,6 @@ export const sectionQueryResolvers = {
                     )
                 )
                 .map(resource => {
-                  console.log(userCompletedActionItemsSet);
                   return {
                     ...resource,
                     question: `Have you completed the worksheet from lesson "${lesson.name}" called: "${resource.name}"?`,
@@ -76,7 +70,7 @@ export const sectionQueryResolvers = {
                   } as ActionItem;
                 })
             ],
-            [...getDefaultActionItems(section.id)]
+            [...getDefaultActionItems(section.id, userCompletedActionItemsSet)]
           );
           return {
             ...section,

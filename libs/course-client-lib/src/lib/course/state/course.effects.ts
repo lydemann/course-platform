@@ -91,7 +91,7 @@ export class CourseEffects {
   actionItemCompleted = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseActions.actionItemCompletedChanged),
-      exhaustMap(({ resourceId, completed }) => {
+      switchMap(({ resourceId, completed }) => {
         return this.courseResourcesService
           .setActionItemCompleted(resourceId, completed)
           .pipe(

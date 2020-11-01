@@ -216,7 +216,28 @@ export class CourseResourcesService {
   }
 
   setActionItemCompleted(resourceId: string, completed: boolean) {
-    // TODO:
-    return of();
+    const setActionItemCompletedMutation = gql`
+      mutation setActionItemCompletedMutation($uid: ID!) {
+        setActionItemCompleted(
+          uid: $uid
+          id: "${resourceId}"
+          isCompleted: ${completed}
+        )
+      }
+    `;
+
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo.mutate({
+          mutation: setActionItemCompletedMutation,
+          variables: {
+            uid: user.uid
+          },
+          refetchQueries: [
+            { query: courseSectionsQuery, variables: { uid: user.uid } }
+          ]
+        });
+      })
+    );
   }
 }
