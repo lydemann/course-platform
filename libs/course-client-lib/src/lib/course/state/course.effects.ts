@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, of } from 'rxjs';
+import { of } from 'rxjs';
 import {
   catchError,
   exhaustMap,
-  first,
   map,
   switchMap,
   tap,
@@ -22,9 +21,9 @@ import { CourseActions } from './course.actions';
 export class CourseEffects {
   fetchCourseSections$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(CourseActions.courseInitiated),
-      exhaustMap(() =>
-        this.courseResourcesService.getCourseSections().pipe(
+      ofType(CourseActions.courseInitiated, CourseActions.loadSections),
+      switchMap(() => {
+        return this.courseResourcesService.getCourseSections().pipe(
           map(courseSections =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
@@ -32,8 +31,8 @@ export class CourseEffects {
             // TODO: use error action
             of(CourseActions.getCourseSectionsFailed({ error }))
           )
-        )
-      )
+        );
+      })
     );
   });
 

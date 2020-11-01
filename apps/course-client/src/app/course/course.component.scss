@@ -12,4 +12,14 @@
       padding: 40px;
     }
   }
+
+  .spinner {
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    left: 50%;
+    margin-left: -50px;
+    top: 50%;
+    margin-top: -50px;
+  }
 }

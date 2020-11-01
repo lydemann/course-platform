@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
+import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 
 export function preloadFeagureFlags(
@@ -52,6 +53,7 @@ export function EndpointsFactory() {
     CoreModule,
     SharedModule,
     HomeModule,
+    LayoutModule,
     CourseClientLibModule
   ],
   providers: [

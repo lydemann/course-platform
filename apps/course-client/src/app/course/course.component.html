@@ -1,18 +1,22 @@
-<app-topbar></app-topbar>
 <div class="wrapper" fxLayout="row" xLayoutAlign="space-between">
-  <app-course-sidebar
-    fxFlex="25"
-    class="sidebar"
-    [sections]="sections$ | async"
-    [selectedSectionId]="selectedSectionId$ | async"
-    [lessons]="sectionLessons$ | async"
-    [sectionCompletedPct]="sectionCompletedPct$ | async"
-    [selectedLessonId]="selectedLessonId$ | async"
-    (lessonSelected)="onLessonSelected($event)"
-    (sectionChanged)="onSectionSelected($event)"
-  ></app-course-sidebar>
+  <ng-container *ngIf="isLoading$ | async; else notLoading">
+    <app-spinner class="spinner"></app-spinner>
+  </ng-container>
+  <ng-template #notLoading>
+    <app-course-sidebar
+      fxFlex="25"
+      class="sidebar"
+      [sections]="sections$ | async"
+      [selectedSectionId]="selectedSectionId$ | async"
+      [lessons]="sectionLessons$ | async"
+      [sectionCompletedPct]="sectionCompletedPct$ | async"
+      [selectedLessonId]="selectedLessonId$ | async"
+      (lessonSelected)="onLessonSelected($event)"
+      (sectionChanged)="onSectionSelected($event)"
+    ></app-course-sidebar>
 
-  <div class="content" fxFlex="75">
-    <router-outlet></router-outlet>
-  </div>
+    <div class="content" fxFlex="75">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
 </div>

@@ -14,9 +14,10 @@ import {
   CourseFacadeService,
   selectedSectionIdRouteParam
 } from '@course-platform/course-client-lib';
+import { SpinnerComponent } from '@course-platform/shared/ui';
+import { TopbarComponent } from '../layout/topbar/topbar.component';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
 import { SectionLessonsComponent } from './components/course-sidebar/section/section-lessons.component';
-import { TopbarComponent } from './components/topbar/topbar.component';
 import { CourseContentComponent } from './containers/course-content/course-content.component';
 import { CourseComponent } from './course.component';
 
@@ -29,7 +30,8 @@ describe('CourseComponent', () => {
       MockComponent(SectionLessonsComponent),
       MockComponent(TopbarComponent),
       MockComponent(CourseSidebarComponent),
-      MockComponent(CourseContentComponent)
+      MockComponent(CourseContentComponent),
+      MockComponent(SpinnerComponent)
     ],
     imports: [RouterTestingModule],
     providers: [
