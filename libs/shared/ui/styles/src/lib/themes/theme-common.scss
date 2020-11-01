@@ -16,7 +16,8 @@
     --todo-selected: mat-color($accent, 600),
     --todo-hover: mat-color($accent, 700),
     --todo-black: map-get($unit-colors-vals, 'black'),
-    --todo-white: map-get($unit-colors-vals, 'white')
+    --todo-white: map-get($unit-colors-vals, 'white'),
+    --todo-success: map-get($unit-colors-vals, 'success')
   );
 
   @each $colorVar, $colorVal in $all-colors {
@@ -24,23 +25,3 @@
     #{$colorVar}-contrast: #{get-color-contrast($colorVal)};
   }
 }
-
-$theme-colors: (
-  'primary': --todo-primary,
-  'accent': --todo-accent,
-  'warn': --todo-warn
-);
-
-// use case aliases, these change based on theme
-$use-case-colors: (
-  'background': --todo-background,
-  'selected': --todo-selected,
-  'hover': --todo-hover
-);
-
-// unit aliases, these stay the same regardless of theme
-$unit-colors: (
-  'grey': --todo-grey,
-  'black': --todo-black,
-  'white': --todo-white
-);

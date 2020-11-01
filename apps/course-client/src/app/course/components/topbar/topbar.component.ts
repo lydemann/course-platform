@@ -28,6 +28,11 @@ export class TopbarComponent implements OnInit {
       label: 'Community',
       icon: 'groups'
     },
+    {
+      link: '/help',
+      label: 'Help',
+      icon: 'help'
+    },
     // { link: 'help', label: 'Help', icon: 'info' },
     { link: 'profile', label: 'Profile', icon: 'person' }
   ];

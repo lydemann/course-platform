@@ -2,10 +2,16 @@ import { getSelectors } from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {
-  selectRouteParam,
-  selectRouteParams
+  selectRouteData,
+  selectRouteParam
 } from '@course-platform/shared/data-access';
-import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import {
+  ActionItem,
+  CourseSection,
+  Lesson,
+  LessonRouteData,
+  LessonTypes
+} from '@course-platform/shared/interfaces';
 import {
   selectedLessonIdRouteParam,
   selectedSectionIdRouteParam
@@ -99,23 +105,57 @@ export namespace CourseSelectors {
     (sectionId): string => sectionId
   );
 
-  export const selectSectionLessons = createSelector(
+  export const selectSelectedSection = createSelector(
     selectSectionEntities,
     selectSelectedSectionId,
-    (sectionsMap, sectionId): Lesson[] => {
-      return sectionsMap[sectionId]?.lessons || [];
+    (sectionsMap, sectionId): CourseSection => {
+      return sectionsMap[sectionId];
+    }
+  );
+
+  export const selectSectionLessons = createSelector(
+    selectSelectedSection,
+    (selectedSection): Lesson[] => {
+      return selectedSection?.lessons || [];
     }
   );
 
   export const selectSelectedLessonId = createSelector(
     selectRouteParam(selectedLessonIdRouteParam),
-    lessonId => lessonId
+    selectRouteData,
+    (lessonId, data: LessonRouteData) => {
+      if (data.lessonType === LessonTypes.Lesson) {
+        return lessonId;
+      }
+
+      return data.lessonType;
+    }
   );
+
+  export const selectSectionActionItems = createSelector(
+    selectSelectedSection,
+    (selectedSection): ActionItem[] => {
+      return selectedSection?.actionItems || [];
+    }
+  );
+
   export const selectSelectedLesson = createSelector(
     selectSelectedLessonId,
     selectLessonsEntities,
     (selectedLessonId, courseLessons) => {
       return courseLessons[selectedLessonId];
+    }
+  );
+
+  export const sectionCompletedPct = createSelector(
+    selectSectionActionItems,
+    sectionActions => {
+      const numberOfCompleted = sectionActions.reduce(
+        (acc: number, actionItem) => acc + (actionItem.isCompleted ? 1 : 0),
+        0
+      );
+
+      return (numberOfCompleted / sectionActions.length) * 100;
     }
   );
 }

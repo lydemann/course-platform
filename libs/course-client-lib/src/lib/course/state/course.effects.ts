@@ -88,6 +88,22 @@ export class CourseEffects {
     );
   });
 
+  actionItemCompleted = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseActions.actionItemCompletedChanged),
+      switchMap(({ resourceId, completed }) => {
+        return this.courseResourcesService
+          .setActionItemCompleted(resourceId, completed)
+          .pipe(
+            map(() => CourseActions.setActionItemCompletedSuccess()),
+            catchError(error =>
+              of(CourseActions.setActionItemCompletedFailed({ error }))
+            )
+          );
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private courseResourcesService: CourseResourcesService,

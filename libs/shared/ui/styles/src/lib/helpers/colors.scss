@@ -18,6 +18,7 @@ $use-case-colors: (
 $unit-colors: (
   'black': --todo-black,
   'white': --todo-white,
+  'success': --todo-success,
   'grey': --todo-grey,
   'grey-10': --todo-grey-10,
   'grey-20': --todo-grey-20,
@@ -36,6 +37,7 @@ $unit-colors-vals: (
   'black': #000,
   'white': #ffffff,
   'grey': #8b8b8b,
+  'success': #00be49,
   'grey-10': #d8d8d8,
   'grey-20': #c5c5c5,
   'grey-30': #b2b2b2,

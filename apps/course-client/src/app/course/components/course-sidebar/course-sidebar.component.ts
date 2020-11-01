@@ -17,6 +17,7 @@ export class CourseSidebarComponent {
   @Input() selectedSectionId: string;
   @Input() selectedLessonId: string;
   @Input() lessons: Lesson[];
+  @Input() sectionCompletedPct: number;
   @Output() lessonSelected = new EventEmitter<string>();
   @Output() sectionChanged = new EventEmitter<string>();
 }

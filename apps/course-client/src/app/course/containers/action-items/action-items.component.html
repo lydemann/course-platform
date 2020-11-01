@@ -1,0 +1,27 @@
+<div class="header mb-l">
+  <h1 class="lesson-title">Action Items</h1>
+</div>
+<div class="body">
+  <p class="mb-l">
+    Congratulations on completing this week! As soon as you've finished watching
+    all of the training videos in full please complete the action items below.
+    This is an "implementation program" and to get results you must do the work.
+    Completing the worksheets and uploading them to our action items storage
+    system keeps all of your worksheets safe in one place. We refer back to
+    these worksheets throughout the program so we recommend you upload them in
+    Slack.
+  </p>
+
+  <div
+    class="action-items"
+    fxLayout="column"
+    fxLayoutGap="12px"
+    *ngIf="this.selectedSectionId$ | async as selectedSectionId"
+  >
+    <app-action-item
+      *ngFor="let actionItem of actionItems$ | async"
+      [answerItem]="actionItem"
+      (completeChanged)="onCompleteChanged(actionItem.id, $event)"
+    ></app-action-item>
+  </div>
+</div>

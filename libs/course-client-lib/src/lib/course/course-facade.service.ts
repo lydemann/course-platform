@@ -2,18 +2,26 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
-import { CourseActions, CourseInitiatedProps } from './state/course.actions';
-import { CourseState } from './state/course.model';
+import {
+  ActionItem,
+  CourseSection,
+  Lesson
+} from '@course-platform/shared/interfaces';
+import { CourseActions } from './state/course.actions';
 import { CourseSelectors } from './state/course.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseFacadeService {
-  constructor(private store: Store<any>) {}
+  actionItems$: Observable<ActionItem[]> = this.store.select(
+    CourseSelectors.selectSectionActionItems
+  );
   selectedLesson$: Observable<Lesson> = this.store.select(
     CourseSelectors.selectSelectedLesson
+  );
+  selectedLessonId$: Observable<string> = this.store.select(
+    CourseSelectors.selectSelectedLessonId
   );
   sections$: Observable<CourseSection[]> = this.store.select(
     CourseSelectors.selectSections
@@ -28,6 +36,13 @@ export class CourseFacadeService {
   selectedSectionId$ = this.store.select(
     CourseSelectors.selectSelectedSectionId
   );
+  sectionCompletedPct$ = this.store.select(CourseSelectors.sectionCompletedPct);
+  constructor(private store: Store<any>) {}
+  onActionItemCompletedChanged(resourceId: string, completed: boolean) {
+    this.store.dispatch(
+      CourseActions.actionItemCompletedChanged({ resourceId, completed })
+    );
+  }
   onSectionSelected(selectionSectionId: string) {
     this.store.dispatch(
       CourseActions.sectionSelected({ selectedSectionId: selectionSectionId })

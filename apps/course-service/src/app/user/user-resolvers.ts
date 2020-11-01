@@ -2,24 +2,35 @@ import admin from 'firebase-admin';
 
 import { firestoreDB } from '../firestore';
 
+export function getUserData<T = any>(
+  uid: string,
+  userCollection: string
+): Promise<T[]> {
+  return firestoreDB
+    .doc(`users/${uid}`)
+    .collection(userCollection)
+    .get()
+    .then(snap => {
+      return snap.docs.map(doc => {
+        return doc.data() as T;
+      });
+    });
+}
+
 export const userQueryResolvers = {
   user: async (parent, { uid }) => {
-    const completedLessons = await firestoreDB
-      .doc(`users/${uid}`)
-      .collection('userLessonsCompleted')
-      .get()
-      .then(snap => {
-        return snap.docs.map(doc => {
-          console.log(doc.data());
-          return doc.data();
-        });
-      });
+    const completedLessons = await getUserData(uid, 'userLessonsCompleted');
 
     return {
       completedLessons
     };
   }
 };
+
+export interface ActionItemDTO {
+  id: string;
+  isCompleted: boolean;
+}
 
 const FieldValue = admin.firestore.FieldValue;
 
@@ -32,6 +43,15 @@ export const userMutationResolvers = {
         lessonId,
         lastUpdated: FieldValue.serverTimestamp()
       })
+      .then(() => `Got updated`);
+  },
+  setActionItemCompleted: (parent, { uid, id, isCompleted }) => {
+    return firestoreDB
+      .doc(`users/${uid}/actionItemsCompleted/${id}`)
+      .set({
+        id,
+        isCompleted
+      } as ActionItemDTO)
       .then(() => `Got updated`);
   }
 };

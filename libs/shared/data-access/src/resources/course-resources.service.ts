@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { forkJoin, from, Observable } from 'rxjs';
+import { forkJoin, from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
@@ -61,7 +61,7 @@ export interface GetCourseSectionsResponseDTO {
 
 export const courseSectionsQuery = gql`
   query GetCourseSectionsQuery($uid: String!) {
-    courseSections {
+    courseSections(uid: $uid) {
       id
       name
       lessons {
@@ -74,6 +74,12 @@ export const courseSectionsQuery = gql`
           id
           url
         }
+      }
+      actionItems {
+        id
+        isCompleted
+        question
+        answerDescription
       }
     }
     user(uid: $uid) {
@@ -201,6 +207,32 @@ export class CourseResourcesService {
       switchMap(user => {
         return this.apollo.mutate({
           mutation: deleteLessonMutation,
+          refetchQueries: [
+            { query: courseSectionsQuery, variables: { uid: user.uid } }
+          ]
+        });
+      })
+    );
+  }
+
+  setActionItemCompleted(resourceId: string, completed: boolean) {
+    const setActionItemCompletedMutation = gql`
+      mutation setActionItemCompletedMutation($uid: ID!) {
+        setActionItemCompleted(
+          uid: $uid
+          id: "${resourceId}"
+          isCompleted: ${completed}
+        )
+      }
+    `;
+
+    return this.userService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.apollo.mutate({
+          mutation: setActionItemCompletedMutation,
+          variables: {
+            uid: user.uid
+          },
           refetchQueries: [
             { query: courseSectionsQuery, variables: { uid: user.uid } }
           ]

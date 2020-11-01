@@ -5,11 +5,11 @@
   </div>
 
   <div class="progress-bar-wrapper">
-    <small class="label">40% complete</small>
+    <small class="label">{{ sectionCompletedPct }}% complete</small>
     <mat-progress-bar
       class="progress-bar"
       mode="determinate"
-      value="40"
+      [value]="sectionCompletedPct"
     ></mat-progress-bar>
   </div>
 

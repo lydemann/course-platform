@@ -1,0 +1,11 @@
+@import 'helpers';
+
+.header {
+  .lesson-title {
+    font-size: font-size('xl');
+    font-weight: bold;
+  }
+
+  display: flex;
+  justify-content: space-between;
+}
