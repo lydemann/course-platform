@@ -36,6 +36,7 @@ export class CourseFacadeService {
   selectedSectionId$ = this.store.select(
     CourseSelectors.selectSelectedSectionId
   );
+  sectionCompletedPct$ = this.store.select(CourseSelectors.sectionCompletedPct);
   constructor(private store: Store<any>) {}
   onActionItemCompletedChanged(resourceId: string, completed: boolean) {
     this.store.dispatch(

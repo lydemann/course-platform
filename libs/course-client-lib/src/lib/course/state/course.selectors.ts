@@ -146,4 +146,16 @@ export namespace CourseSelectors {
       return courseLessons[selectedLessonId];
     }
   );
+
+  export const sectionCompletedPct = createSelector(
+    selectSectionActionItems,
+    sectionActions => {
+      const numberOfCompleted = sectionActions.reduce(
+        (acc: number, actionItem) => acc + (actionItem.isCompleted ? 1 : 0),
+        0
+      );
+
+      return (numberOfCompleted / sectionActions.length) * 100;
+    }
+  );
 }

@@ -6,6 +6,7 @@
     [sections]="sections$ | async"
     [selectedSectionId]="selectedSectionId$ | async"
     [lessons]="sectionLessons$ | async"
+    [sectionCompletedPct]="sectionCompletedPct$ | async"
     [selectedLessonId]="selectedLessonId$ | async"
     (lessonSelected)="onLessonSelected($event)"
     (sectionChanged)="onSectionSelected($event)"
