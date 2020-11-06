@@ -1,3 +1,33 @@
-<p>
-  profile works!
-</p>
+<h1 class="mb-xl title">
+  Edit Your Profile
+</h1>
+
+<!-- TODO: tabs and reset password functionality -->
+
+<!-- TODO: add positioning helpers for pr and pl -->
+<div fxLayout="row" fxLayoutGap="16px">
+  <mat-form-field class="pr-l" fxFlex="50">
+    <mat-label>First name</mat-label>
+    <input matInput value="Sushi" />
+  </mat-form-field>
+  <mat-form-field class="pl-l" fxFlex="50">
+    <mat-label>Last name</mat-label>
+    <input matInput value="Sushi" />
+  </mat-form-field>
+</div>
+<div fxLayout="row" fxLayoutGap="16px">
+  <mat-form-field class="pr-l" fxFlex="50">
+    <mat-label>Email address</mat-label>
+    <input matInput disabled value="Sushi" />
+  </mat-form-field>
+  <mat-form-field class="pl-l" fxFlex="50">
+    <mat-label>User id</mat-label>
+    <input matInput disabled value="Sushi" />
+  </mat-form-field>
+</div>
+
+<div fxLayout="row" fxLayoutGap="16px">
+  <button type="submit" data-test="login-btn" class="submit-btn">
+    Log In
+  </button>
+</div>

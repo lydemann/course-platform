@@ -13,17 +13,18 @@ const routes: Routes = [
   },
   {
     path: 'course',
-    component: HomeComponent,
-    resolve: [RedirectToCourseResolver]
-  },
-  {
-    path: 'course',
+    resolve: [RedirectToCourseResolver],
     loadChildren: () =>
       import('./course/course.module').then(m => m.CourseModule)
   },
   {
     path: 'help',
     loadChildren: () => import('./help/help.module').then(m => m.HelpModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.module').then(m => m.ProfileModule)
   },
   {
     path: 'login',

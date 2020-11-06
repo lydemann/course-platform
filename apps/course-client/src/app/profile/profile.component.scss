@@ -1,0 +1,33 @@
+@import 'helpers';
+
+:host {
+  background: #fefefe;
+  padding: size('l');
+  display: block;
+
+  // make h1 general style
+  .title {
+    font-family: Sagona-Medium, Georgia, serif;
+    color: #000;
+    line-height: 140%;
+    font-weight: 400;
+    font-size: 2rem;
+  }
+
+  // TODO: move to ui lib
+  .submit-btn {
+    margin-bottom: 0;
+    width: 155px;
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 4px;
+    font-family: AvenirNextLTPro-Medium Arial, Helvetica, sans-serif;
+    line-height: 0.9rem;
+    height: 45px;
+    font-size: 1rem;
+    text-align: center;
+    color: get-color('white');
+    background-color: get-color('primary');
+    border: 1px solid transparent;
+  }
+}
