@@ -1,3 +1,79 @@
-<p>
-  profile works!
-</p>
+<mat-tab-group>
+  <mat-tab label="Personal Profile">
+    <h1 class="mb-xl mt-xl title">
+      Edit Your Profile
+    </h1>
+
+    <form
+      [formGroup]="profileForm"
+      *ngIf="profileForm$ | async as profileForm"
+      (submit)="onUpdateProfile(profileForm)"
+    >
+      <!-- TODO: tabs and reset password functionality -->
+
+      <!-- TODO: add positioning helpers for pr and pl -->
+      <div fxLayout="row" fxLayoutGap="16px" class="mb-m">
+        <mat-form-field class="pr-l" fxFlex="50">
+          <mat-label>Full name</mat-label>
+          <input matInput formControlName="fullName" />
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="16px" class="mb-m">
+        <mat-form-field class="pr-l" fxFlex="50">
+          <mat-label>Email address</mat-label>
+          <input matInput disabled [readonly]="true" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field class="pl-l" fxFlex="50">
+          <mat-label>User id</mat-label>
+          <input matInput disabled [readonly]="true" formControlName="uid" />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="mt-m" fxLayoutGap="16px">
+        <button type="submit" data-test="saveprofile-btn" class="submit-btn">
+          Save
+        </button>
+      </div>
+
+      <div fxLayout="row" class="mt-xl" fxLayoutGap="16px">
+        <button
+          data-test="logout-btn"
+          type="button"
+          class="submit-btn"
+          (click)="onLogout()"
+        >
+          Logout
+        </button>
+      </div>
+    </form>
+  </mat-tab>
+  <mat-tab label="Change Password">
+    <h1 class="mb-xl mt-xl title">
+      Change Password
+    </h1>
+
+    <form [formGroup]="changePwForm" (submit)="onChangePassword()">
+      <div fxLayout="row" fxLayoutGap="16px" class="mb-m">
+        <mat-form-field class="pr-l" fxFlex="50">
+          <mat-label>Current Password</mat-label>
+          <input matInput type="password" formControlName="currentPassword" />
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <mat-form-field class="pr-l" fxFlex="50">
+          <mat-label>New Password</mat-label>
+          <input matInput type="password" formControlName="newPassword" />
+        </mat-form-field>
+        <mat-form-field class="pl-l" fxFlex="50">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" />
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" class="mt-m" fxLayoutGap="16px">
+        <button type="submit" data-test="login-btn" class="submit-btn">
+          Save
+        </button>
+      </div>
+    </form>
+  </mat-tab>
+</mat-tab-group>

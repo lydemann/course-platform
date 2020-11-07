@@ -1,4 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { UserService } from '@course-platform/shared/feat-auth';
 
 interface NavigationItem {
   link: string;
@@ -31,7 +34,10 @@ export class TopbarComponent implements OnInit {
     { link: 'profile', label: 'Profile', icon: 'person' }
   ];
   logo = require('../../../assets/logo.png').default;
-  constructor() {}
+  loggedIn$: Observable<boolean>;
+  constructor(private userService: UserService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loggedIn$ = this.userService.isLoggedIn$;
+  }
 }

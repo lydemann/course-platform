@@ -2,12 +2,12 @@
 
 <div class="toolbar mat-elevation-z4">
   <mat-toolbar color="primary">
-    <span routerLink="" class="branding spacer">
+    <a class="branding spacer" href="/">
       <img [src]="logo" [alt]="logo" />
       {{ 'topbar.title' | translate }}
-    </span>
+    </a>
 
-    <ul class="menu-items">
+    <ul class="menu-items" *ngIf="loggedIn$ | async">
       <li *ngFor="let item of navigation" class="menu-item-wrapper">
         <a class="nav-button" routerLinkActive="active" [href]="item.link">
           <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
