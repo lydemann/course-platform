@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
 

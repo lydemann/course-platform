@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import {
   catchError,
   exhaustMap,
-  first,
   map,
   switchMap,
   tap,
