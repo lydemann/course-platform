@@ -22,6 +22,13 @@ const routes: Routes = [
           import('./lesson-admin/lesson-admin.module').then(
             m => m.LessonAdminModule
           )
+      },
+      {
+        path: 'section-admin',
+        loadChildren: () =>
+          import('./section-admin/section-admin.module').then(
+            m => m.SectionAdminModule
+          )
       }
     ]
   }

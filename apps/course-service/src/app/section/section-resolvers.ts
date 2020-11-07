@@ -98,10 +98,10 @@ const populateLesson = (lesson: LessonDTO): Promise<Lesson> => {
 };
 
 export const sectionMutationResolvers = {
-  createSection: (parent, { name, theme }: SectionDTO) => {
+  createSection: (parent, { name }: SectionDTO) => {
     const newSectionRef = firestoreDB.collection('sections').doc();
     return newSectionRef
-      .set({ id: newSectionRef.id, name, theme, lessons: [] } as SectionDTO)
+      .set({ id: newSectionRef.id, name, lessons: [] } as SectionDTO)
       .then(data => newSectionRef.id);
   },
   updateSection: (parent, { id, name, theme }: SectionDTO) => {

@@ -1,0 +1,29 @@
+<form [formGroup]="formGroup">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput placeholder="Section name" formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Theme</mat-label>
+    <textarea
+      matInput
+      placeholder="Section theme"
+      formControlName="theme"
+    ></textarea>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="saveClicked.emit(formGroup)"
+  >
+    Save Section
+  </button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="deleteClicked.emit(formGroup)"
+  >
+    Delete Section
+  </button>
+</form>

@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
 import { CourseSection } from '@course-platform/shared/interfaces';
-import { CreateLessonModalComponent } from './components/create-section-modal/create-lesson-modal/create-lesson-modal.component';
+import { CreateLessonModalComponent } from './components/create-lesson-modal/create-lesson-modal.component';
+import { CreateSectionModalComponent } from './components/create-section-modal/create-section-modal.component';
 
 @Component({
   selector: 'app-course-admin',
@@ -32,12 +33,32 @@ export class CourseAdminComponent implements OnInit {
       width: '250px'
     });
 
+    dialogRef.afterClosed().subscribe(lessonName => {
+      if (lessonName) {
+        this.courseAdminFacadeService.createLessonSubmitted(
+          sectionId,
+          lessonName
+        );
+      }
+    });
+  }
+
+  onSectionClicked(event: Event, sectionId: string) {
+    event.stopPropagation();
+
+    this.router.navigate(['course-admin', 'section-admin', sectionId]);
+  }
+
+  onCreateSectionClicked(event: Event) {
+    event.stopPropagation();
+
+    const dialogRef = this.dialog.open(CreateSectionModalComponent, {
+      width: '250px'
+    });
+
     dialogRef.afterClosed().subscribe(sectionName => {
       if (sectionName) {
-        this.courseAdminFacadeService.createLessonClicked(
-          sectionId,
-          sectionName
-        );
+        this.courseAdminFacadeService.createSectionSubmitted(sectionName);
       }
     });
   }

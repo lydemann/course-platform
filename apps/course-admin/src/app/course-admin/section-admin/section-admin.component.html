@@ -1,0 +1,17 @@
+<h1>
+  Edit Course Section
+</h1>
+
+<button [routerLink]="'course-admin'">Back to sections</button>
+<ng-container *ngIf="formGroup$ | async as formGroup; else loading">
+  <app-section-admin-form
+    *ngIf="section$ | async as section"
+    [formGroup]="formGroup"
+    (saveClicked)="submit($event, section.id)"
+    (deleteClicked)="onDelete(section.id)"
+  ></app-section-admin-form>
+</ng-container>
+
+<ng-template #loading>
+  <app-spinner class="center-in-parent"></app-spinner>
+</ng-template>

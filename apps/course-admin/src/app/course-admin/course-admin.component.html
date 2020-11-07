@@ -7,12 +7,16 @@
       data-test="section"
     >
       <mat-expansion-panel-header>
-        <mat-panel-title>
+        <mat-panel-title (click)="onSectionClicked($event, section.id)">
           {{ section.id }}
         </mat-panel-title>
-        <mat-panel-description>
+        <mat-panel-description (click)="onSectionClicked($event, section.id)">
           {{ section.name }}
         </mat-panel-description>
+
+        <button class="mr-l" (click)="onCreateSectionClicked($event)">
+          +
+        </button>
       </mat-expansion-panel-header>
       <mat-selection-list #shoes [multiple]="false">
         <mat-list-option
