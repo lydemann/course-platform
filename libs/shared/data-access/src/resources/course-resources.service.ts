@@ -64,6 +64,7 @@ export const courseSectionsQuery = gql`
     courseSections(uid: $uid) {
       id
       name
+      theme
       lessons {
         id
         name
@@ -239,5 +240,73 @@ export class CourseResourcesService {
         });
       })
     );
+  }
+
+  createSection(sectionName: string) {
+    const createSectionMutation = gql`
+      mutation createSectionMutation($sectionName: String!) {
+        createSection(name: $sectionName)
+      }
+    `;
+
+    return this.apollo.mutate({
+      mutation: createSectionMutation,
+      variables: {
+        sectionName
+      },
+      refetchQueries: [
+        {
+          query: courseSectionsQuery,
+          variables: { uid: this.userService.currentUser$.value.uid }
+        }
+      ]
+    });
+  }
+
+  updateSection(sectionId: string, sectionName: string, sectionTheme: string) {
+    const updateSectionMutation = gql`
+      mutation updateSectionMutation(
+        $sectionId: ID!
+        $sectionName: String
+        $sectionTheme: String
+      ) {
+        updateSection(id: $sectionId, name: $sectionName, theme: $sectionTheme)
+      }
+    `;
+
+    return this.apollo.mutate({
+      mutation: updateSectionMutation,
+      variables: {
+        sectionId,
+        sectionName,
+        sectionTheme
+      },
+      refetchQueries: [
+        {
+          query: courseSectionsQuery,
+          variables: { uid: this.userService.currentUser$.value.uid }
+        }
+      ]
+    });
+  }
+  deleteSection(sectionId: string) {
+    const createSectionMutation = gql`
+      mutation deleteSectionMutation($sectionId: ID!) {
+        deleteSection(id: $sectionId)
+      }
+    `;
+
+    return this.apollo.mutate({
+      mutation: createSectionMutation,
+      variables: {
+        sectionId
+      },
+      refetchQueries: [
+        {
+          query: courseSectionsQuery,
+          variables: { uid: this.userService.currentUser$.value.uid }
+        }
+      ]
+    });
   }
 }

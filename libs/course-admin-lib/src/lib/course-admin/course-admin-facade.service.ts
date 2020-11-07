@@ -32,6 +32,7 @@ export class CourseAdminFacadeService {
   sections$: Observable<CourseSection[]>;
   currentLesson$: Observable<Lesson>;
   currentSectionId$: Observable<string>;
+  currentSection$: Observable<CourseSection>;
   currentLessonId$: Observable<string>;
 
   constructor(
@@ -51,6 +52,7 @@ export class CourseAdminFacadeService {
       map(state => state.currentLessonId),
       distinctUntilChanged()
     );
+
     this.currentLesson$ = combineLatest([
       this.currentSectionId$,
       this.currentLessonId$,
@@ -63,9 +65,20 @@ export class CourseAdminFacadeService {
       }),
       filter(lesson => !!lesson)
     );
+
+    this.currentSection$ = combineLatest([
+      this.currentSectionId$,
+      this.sections$
+    ]).pipe(
+      map(([sectionId, sections]) => {
+        return sections?.find(section => section.id === sectionId);
+      }),
+      filter(lesson => !!lesson)
+    );
   }
 
   lessonInit(sectionId: string, lessonId: string) {
+    // TODO: just get this from router params and delete method
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
       currentSectionId: sectionId,
@@ -73,11 +86,46 @@ export class CourseAdminFacadeService {
     });
   }
 
+  sectionInit(sectionId: string) {
+    // TODO: just get this from router params and delete method
+    this.courseAdminStore.next({
+      ...this.courseAdminStore.value,
+      currentSectionId: sectionId
+    });
+  }
+
   saveLessonClicked(lesson: Lesson) {
     this.courseResourcesService.updateLesson(lesson).subscribe();
   }
 
-  createLessonClicked(sectionId: string, section: string) {
+  createSectionSubmitted(sectionName: string) {
+    this.courseAdminStore.next({
+      ...this.courseAdminStore.value,
+      isSavingLesson: true
+    });
+
+    this.courseResourcesService.createSection(sectionName).subscribe();
+  }
+  updateSectionSubmitted(section: Partial<CourseSection>) {
+    this.courseAdminStore.next({
+      ...this.courseAdminStore.value,
+      isSavingLesson: true
+    });
+    this.courseResourcesService
+      .updateSection(section.id, section.name, section.theme)
+      .subscribe();
+  }
+  deleteSectionSubmitted(sectionId: string) {
+    this.courseAdminStore.next({
+      ...this.courseAdminStore.value,
+      isSavingLesson: true
+    });
+    this.courseResourcesService.deleteSection(sectionId).subscribe(() => {
+      this.router.navigate(['course-admin']);
+    });
+  }
+
+  createLessonSubmitted(sectionId: string, section: string) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
       isSavingLesson: true
