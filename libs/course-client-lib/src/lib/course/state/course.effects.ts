@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import {
   catchError,
   exhaustMap,
+  first,
   map,
   switchMap,
   tap,
@@ -24,6 +25,7 @@ export class CourseEffects {
       ofType(CourseActions.courseInitiated, CourseActions.loadSections),
       switchMap(() => {
         return this.courseResourcesService.getCourseSections().pipe(
+          first(),
           map(courseSections =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
@@ -78,6 +80,7 @@ export class CourseEffects {
         return this.courseResourcesService
           .setCompleteLesson(action.isCompleted, action.lessonId, user.uid)
           .pipe(
+            first(),
             map(() => CourseActions.lessonCompletedSuccess()),
             catchError((error: Error) => {
               return of(CourseActions.lessonCompletedFailed({ error }));
@@ -94,6 +97,7 @@ export class CourseEffects {
         return this.courseResourcesService
           .setActionItemCompleted(resourceId, completed)
           .pipe(
+            first(),
             map(() => CourseActions.setActionItemCompletedSuccess()),
             catchError(error =>
               of(CourseActions.setActionItemCompletedFailed({ error }))

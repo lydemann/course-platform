@@ -1,9 +1,9 @@
 @import 'helpers';
 
 :host {
-  background: #fefefe;
-  padding: size('l');
   display: block;
+  background: #fefefe;
+  padding: size(l) size(xxl);
 
   // make h1 general style
   .title {

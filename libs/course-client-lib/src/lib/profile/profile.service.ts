@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
 
@@ -9,19 +11,27 @@ import { UserService } from '@course-platform/shared/feat-auth';
 })
 export class ProfileService {
   private currentUser: firebase.User;
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+    this.userService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+    });
+  }
 
-  async getUserProfile(): Promise<any> {
-    const user: firebase.User = await this.userService
-      .getCurrentUser()
-      .toPromise();
-    return (this.currentUser = user);
+  getUserProfile(): Observable<firebase.User> {
+    return this.userService.getCurrentUser();
     // this.userProfile = this.firestore.doc(`userProfile/${user.uid}`);
     // return this.userProfile.valueChanges();
   }
 
-  updateName(fullName: string): Promise<void> {
-    return this.currentUser.updateProfile({ displayName: fullName });
+  updateName(fullName: string) {
+    return this.userService
+      .getCurrentUser()
+      .pipe(
+        tap(user => {
+          user.updateProfile({ displayName: fullName });
+        })
+      )
+      .subscribe();
   }
 
   async updateEmail(newEmail: string, password: string): Promise<void> {

@@ -39,6 +39,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       if (firebase.auth().currentUser) {
         this.afAuth.signOut();
+        location.href = '/';
         resolve();
       } else {
         reject();
