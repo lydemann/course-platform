@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import { LessonResourceType } from '@course-platform/shared/interfaces';
+
 @Component({
   selector: 'app-lesson-admin-form',
   templateUrl: './lesson-admin-form.component.html',
@@ -17,4 +19,13 @@ export class LessonAdminFormComponent {
   @Input() formGroup: FormGroup;
   @Output() saveClicked = new EventEmitter<FormGroup>();
   @Output() deleteClicked = new EventEmitter<FormGroup>();
+  @Output() addResourceClicked = new EventEmitter();
+
+  get resourceTypes() {
+    return [
+      LessonResourceType.WorkSheet,
+      LessonResourceType.CheatSheet,
+      LessonResourceType.Other
+    ];
+  }
 }

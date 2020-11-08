@@ -1,6 +1,7 @@
+import { LessonResource } from '@course-platform/shared/interfaces';
 import { removeEmptyFields } from '@course-platform/shared/util';
 import { firestoreDB } from '../firestore';
-import { LessonDTO } from '../models/lesson-dto';
+import { LessonDTO, UpdateLessonPayload } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
 
 export const lessonMutationResolvers = {
@@ -35,29 +36,57 @@ export const lessonMutationResolvers = {
       () => newLessonRef.id
     );
   },
-  updateLesson: (
+  updateLesson: async (
     parent,
-    { sectionId, id, name, description, videoUrl }: LessonDTO
+    {
+      sectionId,
+      id,
+      name,
+      description,
+      videoUrl,
+      resources
+    }: UpdateLessonPayload
   ) => {
+    let resourceReferences: FirebaseFirestore.DocumentReference<
+      LessonResource
+    >[] = [];
+    if (resources) {
+      const lessonResourcesRef = firestoreDB.collection('lessonResources');
+      resourceReferences = await Promise.all(
+        resources.map(resource => {
+          const doc = resource.id
+            ? lessonResourcesRef.doc(resource.id)
+            : lessonResourcesRef.doc();
+          return doc
+            .set({
+              ...resource,
+              id: doc.id
+            })
+            .then(value => {
+              return doc as FirebaseFirestore.DocumentReference<LessonResource>;
+            });
+        })
+      );
+    }
+
     const cleanedPayload = removeEmptyFields({
       sectionId,
       id,
       name,
       description,
-      videoUrl
-    });
+      videoUrl,
+      resources: resourceReferences
+    } as LessonDTO);
 
     return firestoreDB
       .doc(`lessons/${id}`)
       .update(cleanedPayload)
       .then(() => 'Updated lesson');
   },
-  deleteLesson: (
+  deleteLesson: async (
     parent,
     { sectionId, id }: { sectionId: string; id: string }
   ) => {
-    const deleteLessonPromise = firestoreDB.doc(`lessons/${id}`).delete();
-
     const sectionRef = firestoreDB.doc(`sections/${sectionId}`);
     const deleteSectionLessonPromise = sectionRef
       .get()
@@ -67,8 +96,23 @@ export const lessonMutationResolvers = {
         sectionRef.update({ lessons: newLessons } as SectionDTO);
       });
 
-    return Promise.all([deleteLessonPromise, deleteSectionLessonPromise]).then(
-      () => 'Lesson deleted'
-    );
+    const lessonDocRef = firestoreDB.doc(`lessons/${id}`);
+
+    const lessonSnapshot = await lessonDocRef.get();
+
+    const deleteResourcesPromise = lessonSnapshot
+      .data()
+      .resources.map(resource => {
+        resource.delete();
+      });
+
+    const deleteLessonPromise = lessonDocRef.delete();
+    await Promise.all([
+      deleteLessonPromise,
+      deleteSectionLessonPromise,
+      deleteResourcesPromise
+    ]);
+
+    return 'Lesson deleted';
   }
 };

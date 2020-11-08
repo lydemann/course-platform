@@ -88,13 +88,12 @@ const populateLesson = (lesson: LessonDTO): Promise<Lesson> => {
     resource.get().then(doc => doc.data())
   );
 
-  return Promise.all(resourcesPerLessonProm).then(
-    resources =>
-      ({
-        ...lesson,
-        resources
-      } as Lesson)
-  );
+  return Promise.all(resourcesPerLessonProm).then(resources => {
+    return {
+      ...lesson,
+      resources: resources.filter(resource => !!resource)
+    } as Lesson;
+  });
 };
 
 export const sectionMutationResolvers = {
@@ -112,6 +111,7 @@ export const sectionMutationResolvers = {
       .then(() => 'Updated section');
   },
   deleteSection: (parent, { id }: { id: string }) => {
+    // TODO: delete lessons of section
     return firestoreDB
       .doc(`sections/${id}`)
       .delete()

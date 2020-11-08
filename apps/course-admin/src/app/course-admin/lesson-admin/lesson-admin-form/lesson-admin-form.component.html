@@ -1,10 +1,10 @@
 <form [formGroup]="formGroup">
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="flex">
     <mat-label>Name</mat-label>
     <input matInput placeholder="Lesson name" formControlName="name" />
   </mat-form-field>
 
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="flex">
     <mat-label>Description</mat-label>
     <textarea
       matInput
@@ -13,10 +13,46 @@
     ></textarea>
   </mat-form-field>
 
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="flex">
     <mat-label>Video URL</mat-label>
     <input matInput placeholder="Video URL" formControlName="videoUrl" />
   </mat-form-field>
+
+  <h3 class="mt-m">Lesson resources</h3>
+
+  <div
+    *ngFor="
+      let resourceFromGroup of formGroup.controls.resources['controls'];
+      let i = index
+    "
+  >
+    <mat-form-field class="flex">
+      <mat-label>Name</mat-label>
+      <input matInput [formControl]="resourceFromGroup.controls.name" />
+    </mat-form-field>
+    <mat-form-field class="flex">
+      <mat-label>Url</mat-label>
+      <input matInput [formControl]="resourceFromGroup.controls.url" />
+    </mat-form-field>
+
+    <app-select class="flex" [formControl]="resourceFromGroup.controls.type">
+      <app-select-option
+        *ngFor="let resourceType of resourceTypes"
+        [value]="resourceType"
+      >
+        {{ resourceType }}
+      </app-select-option>
+    </app-select>
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="addResourceClicked.emit()"
+  >
+    Add resource
+  </button>
+
   <button
     mat-raised-button
     color="primary"

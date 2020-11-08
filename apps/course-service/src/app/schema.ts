@@ -1,4 +1,4 @@
-import { lessonMutations } from './lesson/lesson-schema';
+import { lessonMutations, lessonQuerySchema } from './lesson/lesson-schema';
 import { sectionMutations, SectionSchema } from './section/section-schema';
 import { userMutationSchema, UserQuerySchema } from './user/user-schema';
 
@@ -16,4 +16,9 @@ const schema = gql`
   }
 `;
 
-export const typeDefs = [schema, SectionSchema, UserQuerySchema];
+export const typeDefs = [
+  schema,
+  lessonQuerySchema,
+  SectionSchema,
+  UserQuerySchema
+];
