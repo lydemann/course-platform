@@ -43,6 +43,16 @@
         {{ resourceType }}
       </app-select-option>
     </app-select>
+
+    <button
+      *ngIf="resourceFromGroup.controls.id"
+      mat-raised-button
+      color="danger"
+      type="button"
+      (click)="deleteResourceClicked.emit(resourceFromGroup.controls.id.value)"
+    >
+      delete resource
+    </button>
   </div>
   <button
     mat-raised-button

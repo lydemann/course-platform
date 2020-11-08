@@ -20,6 +20,7 @@ export class LessonAdminFormComponent {
   @Output() saveClicked = new EventEmitter<FormGroup>();
   @Output() deleteClicked = new EventEmitter<FormGroup>();
   @Output() addResourceClicked = new EventEmitter();
+  @Output() deleteResourceClicked = new EventEmitter<string>();
 
   get resourceTypes() {
     return [
