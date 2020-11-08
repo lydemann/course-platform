@@ -22,29 +22,20 @@
 
   <div
     *ngFor="
-      let resourceFromGroup of formGroup.controls.resources.controls;
+      let resourceFromGroup of formGroup.controls.resources['controls'];
       let i = index
     "
   >
     <mat-form-field class="flex">
       <mat-label>Name</mat-label>
-      <input
-        matInput
-        [formControl]="formGroup.controls.resources.controls[i].controls.name"
-      />
+      <input matInput [formControl]="resourceFromGroup.controls.name" />
     </mat-form-field>
     <mat-form-field class="flex">
       <mat-label>Url</mat-label>
-      <input
-        matInput
-        [formControl]="formGroup.controls.resources.controls[i].controls.url"
-      />
+      <input matInput [formControl]="resourceFromGroup.controls.url" />
     </mat-form-field>
 
-    <app-select
-      class="flex"
-      [formControl]="formGroup.controls.resources.controls[i].controls.type"
-    >
+    <app-select class="flex" [formControl]="resourceFromGroup.controls.type">
       <app-select-option
         *ngFor="let resourceType of resourceTypes"
         [value]="resourceType"

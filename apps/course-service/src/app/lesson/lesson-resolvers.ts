@@ -98,12 +98,20 @@ export const lessonMutationResolvers = {
 
     const lessonDocRef = firestoreDB.doc(`lessons/${id}`);
 
-    const value = await lessonDocRef.get();
+    const lessonSnapshot = await lessonDocRef.get();
 
-    await value.data().resources.map(resource => resource.delete());
+    const deleteResourcesPromise = lessonSnapshot
+      .data()
+      .resources.map(resource => {
+        resource.delete();
+      });
 
     const deleteLessonPromise = lessonDocRef.delete();
-    await Promise.all([deleteLessonPromise, deleteSectionLessonPromise]);
+    await Promise.all([
+      deleteLessonPromise,
+      deleteSectionLessonPromise,
+      deleteResourcesPromise
+    ]);
 
     return 'Lesson deleted';
   }

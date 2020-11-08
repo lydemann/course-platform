@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
-import { Lesson, LessonResource } from '@course-platform/shared/interfaces';
+import {
+  Lesson,
+  LessonResource,
+  LessonResourceType
+} from '@course-platform/shared/interfaces';
 
 @Component({
   selector: 'app-lesson-admin',
@@ -14,7 +18,7 @@ import { Lesson, LessonResource } from '@course-platform/shared/interfaces';
 })
 export class LessonAdminComponent implements OnInit {
   lesson$: Observable<Lesson>;
-  formGroup$: Observable<FormGroup>;
+  formGroup$: Observable<FormGroup> = of(null);
   isAddingResource$ = new BehaviorSubject(false);
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
@@ -23,7 +27,17 @@ export class LessonAdminComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.lesson$ = this.courseAdminFacade.currentLesson$;
+    this.lesson$ = combineLatest([
+      this.courseAdminFacade.currentLesson$,
+      this.formGroup$
+    ]).pipe(
+      map(([lesson, form]) => {
+        return {
+          ...lesson,
+          ...form?.value
+        };
+      })
+    );
     this.formGroup$ = combineLatest([
       this.lesson$,
       this.isAddingResource$
@@ -49,7 +63,7 @@ export class LessonAdminComponent implements OnInit {
           const newResource = this.formBuilder.group({
             name: [''],
             url: [''],
-            type: ['']
+            type: [LessonResourceType.WorkSheet]
           } as { [key in keyof LessonResource]: any });
           (form.get('resources') as FormArray).push(newResource);
         }
