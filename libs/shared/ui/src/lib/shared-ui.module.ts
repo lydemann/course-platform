@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { AccordionModule } from './accordion/accordion.module';
+import { ButtonModule } from './button/button.module';
 import { CheckboxModule } from './checkbox/checkbox.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { IconModule } from './icon/icon.module';
@@ -22,7 +23,8 @@ const IMPORTS = [
   ToggleModule,
   DatePickerModule,
   InputModule,
-  SelectModule
+  SelectModule,
+  ButtonModule
 ];
 
 @NgModule({

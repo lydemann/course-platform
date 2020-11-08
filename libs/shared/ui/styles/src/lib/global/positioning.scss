@@ -4,6 +4,7 @@
 
 /*
   Helpers for setting position using padding and margin
+  Eg. mr-m => margin-right: size('m')
 */
 
 $spacings: (m, margin) (p, padding);

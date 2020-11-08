@@ -2,22 +2,20 @@
   <div class="header mb-l">
     <h1 class="lesson-title">1. Welcome to the course</h1>
 
-    <button
-      mat-raised-button
+    <app-button
       *ngIf="lesson.isCompleted"
       color="success"
-      (click)="onCompletedLessonClick(false, lesson.id)"
+      (buttonClicked)="onCompletedLessonClick(false, lesson.id)"
     >
       Mark Incomplete
-    </button>
-    <button
-      mat-raised-button
+    </app-button>
+    <app-button
       *ngIf="!lesson.isCompleted"
       color="primary"
-      (click)="onCompletedLessonClick(true, lesson.id)"
+      (buttonClicked)="onCompletedLessonClick(true, lesson.id)"
     >
       Mark Complete
-    </button>
+    </app-button>
   </div>
 
   <div class="body">

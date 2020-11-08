@@ -14,9 +14,13 @@
           {{ section.name }}
         </mat-panel-description>
 
-        <button class="mr-l" (click)="onCreateSectionClicked($event)">
+        <app-button
+          class="mr-l"
+          buttonVariant="button"
+          (buttonClicked)="onCreateSectionClicked($event)"
+        >
           +
-        </button>
+        </app-button>
       </mat-expansion-panel-header>
       <mat-selection-list #shoes [multiple]="false">
         <mat-list-option
@@ -26,13 +30,9 @@
           {{ lesson.name }}
         </mat-list-option>
       </mat-selection-list>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="onCreateLessonClicked(section.id)"
-      >
+      <app-button (buttonClicked)="onCreateLessonClicked(section.id)">
         Create lesson
-      </button>
+      </app-button>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

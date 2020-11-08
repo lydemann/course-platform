@@ -69,22 +69,6 @@
 
       .button-wrapper {
         text-align: center;
-
-        .submit-btn {
-          margin-bottom: 0;
-          width: 155px;
-          padding-left: 0;
-          padding-right: 0;
-          border-radius: 4px;
-          font-family: AvenirNextLTPro-Medium Arial, Helvetica, sans-serif;
-          line-height: 0.9rem;
-          height: 45px;
-          font-size: 1rem;
-          text-align: center;
-          color: get-color('white');
-          background-color: get-color('primary');
-          border: 1px solid transparent;
-        }
       }
     }
 
