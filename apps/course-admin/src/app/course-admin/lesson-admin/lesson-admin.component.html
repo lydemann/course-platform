@@ -3,9 +3,16 @@
 </h1>
 
 <button [routerLink]="'course-admin'">Back to sections</button>
-<app-lesson-admin-form
-  *ngIf="lesson$ | async as lesson"
-  [formGroup]="formGroup$ | async"
-  (saveClicked)="submit($event, lesson)"
-  (deleteClicked)="onDelete(lesson)"
-></app-lesson-admin-form>
+<ng-container *ngIf="formGroup$ | async as formGroup; else loading">
+  <app-lesson-admin-form
+    *ngIf="lesson$ | async as lesson"
+    [formGroup]="formGroup"
+    (saveClicked)="submit($event, lesson)"
+    (deleteClicked)="onDelete(lesson)"
+    (addResourceClicked)="onAddResourceClicked()"
+  ></app-lesson-admin-form>
+</ng-container>
+
+<ng-template #loading>
+  <app-spinner class="center-in-parent"></app-spinner>
+</ng-template>

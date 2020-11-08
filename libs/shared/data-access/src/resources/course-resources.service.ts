@@ -2,15 +2,11 @@ import { Injectable } from '@angular/core';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { forkJoin, from, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
-import {
-  CourseSection,
-  Lesson,
-  LessonResource
-} from '@course-platform/shared/interfaces';
+import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 
 export const COURSE_SECTIONS_URL = '/api/sections';
 
@@ -29,22 +25,6 @@ export interface LessonDTO {
   // set by client
   isCompleted?: boolean;
 }
-
-const getPopulatedLesson = (lesson: LessonDTO) => {
-  const resourcesPerLesson$ = forkJoin(
-    lesson.resources.map(resource =>
-      from(resource.get().then(doc => doc.data()))
-    )
-  );
-  return resourcesPerLesson$.pipe(
-    map((resources: LessonResource[]) => {
-      return {
-        ...lesson,
-        resources
-      } as Lesson;
-    })
-  );
-};
 
 export interface CompletedLessonData {
   lessonId: string;
@@ -74,6 +54,7 @@ export const courseSectionsQuery = gql`
           name
           id
           url
+          type
         }
       }
       actionItems {
@@ -181,8 +162,8 @@ export class CourseResourcesService {
 
   updateLesson(lesson: Lesson) {
     const updateLessonMutation = gql`
-      mutation {
-        updateLesson(id: "${lesson.id}", name: "${lesson.name}", description: "${lesson.description}", videoUrl: "${lesson.videoUrl}")
+      mutation updateLessonMutation($resources: [LessonResourceInput]) {
+        updateLesson(id: "${lesson.id}", name: "${lesson.name}", description: "${lesson.description}", videoUrl: "${lesson.videoUrl}", resources: $resources)
       }
     `;
 
@@ -190,6 +171,9 @@ export class CourseResourcesService {
       switchMap(user => {
         return this.apollo.mutate({
           mutation: updateLessonMutation,
+          variables: {
+            resources: lesson.resources
+          },
           refetchQueries: [
             { query: courseSectionsQuery, variables: { uid: user.uid } }
           ]
