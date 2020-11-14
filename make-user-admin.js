@@ -4,7 +4,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 async function setCustomClaim(uid) {
-    await admin.auth().setCustomUserClaims(uid, { admin: false });
+    await admin.auth().setCustomUserClaims(uid, { admin: true });
     
     const user = await admin.auth().getUser(uid);
     

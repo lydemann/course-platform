@@ -1,3 +1,5 @@
+import { AuthenticationError } from 'apollo-server-express';
+
 import { LessonResource } from '@course-platform/shared/interfaces';
 import { removeEmptyFields } from '@course-platform/shared/util';
 import { firestoreDB } from '../firestore';
@@ -7,8 +9,13 @@ import { SectionDTO } from '../models/section-dto';
 export const lessonMutationResolvers = {
   createLesson: (
     parent,
-    { sectionId, name, description, videoUrl }: LessonDTO
+    { sectionId, name, description, videoUrl }: LessonDTO,
+    context
   ) => {
+    if (!context.auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
+
     const cleanedPayload = removeEmptyFields({
       sectionId,
       name,
@@ -45,8 +52,12 @@ export const lessonMutationResolvers = {
       description,
       videoUrl,
       resources
-    }: UpdateLessonPayload
+    }: UpdateLessonPayload,
+    context
   ) => {
+    if (!context.auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
     let resourceReferences: FirebaseFirestore.DocumentReference<
       LessonResource
     >[] = [];
@@ -85,8 +96,12 @@ export const lessonMutationResolvers = {
   },
   deleteLesson: async (
     parent,
-    { sectionId, id }: { sectionId: string; id: string }
+    { sectionId, id }: { sectionId: string; id: string },
+    context
   ) => {
+    if (!context.auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
     const sectionRef = firestoreDB.doc(`sections/${sectionId}`);
     const deleteSectionLessonPromise = sectionRef
       .get()

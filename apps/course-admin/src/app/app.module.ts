@@ -7,6 +7,7 @@ import {
   Endpoints,
   ENDPOINTS_TOKEN
 } from '@course-platform/shared/data-access';
+import { SharedFeatAuthModule } from '@course-platform/shared/feat-auth';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -25,7 +26,8 @@ export function EndpointsFactory() {
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    CoreModule
+    CoreModule,
+    SharedFeatAuthModule
   ],
   providers: [
     {
