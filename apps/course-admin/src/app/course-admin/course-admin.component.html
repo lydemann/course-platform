@@ -1,4 +1,9 @@
-<h1 class="mb-m">Welcome to the course admin</h1>
+<div fxLayout="row" class="mb-l" fxLayoutAlign="space-between start">
+  <h1 class="mb-m">Welcome to the course admin</h1>
+  <app-button (buttonClicked)="onCreateSectionClicked($event)">
+    Create Section
+  </app-button>
+</div>
 
 <div>
   <mat-accordion>
@@ -13,14 +18,6 @@
         <mat-panel-description (click)="onSectionClicked($event, section.id)">
           {{ section.name }}
         </mat-panel-description>
-
-        <app-button
-          class="mr-l"
-          buttonVariant="button"
-          (buttonClicked)="onCreateSectionClicked($event)"
-        >
-          +
-        </app-button>
       </mat-expansion-panel-header>
       <mat-selection-list #shoes [multiple]="false">
         <mat-list-option

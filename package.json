@@ -9,6 +9,7 @@
     "build": "ng build",
     "test": "ng test",
     "test:pr": "npm run affected:test -- --base origin/master --head HEAD --parallel",
+    "nx-decorate-angular-cli": "node ./decorate-angular-cli.js",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
     "codecov": "codecov -t ",
