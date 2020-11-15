@@ -34,6 +34,10 @@ export class SectionAdminComponent implements OnInit {
     );
   }
 
+  goBack() {
+    this.courseAdminFacade.goToCourseAdmin();
+  }
+
   submit(formGroup: FormGroup, sectionId: string) {
     this.courseAdminFacade.updateSectionSubmitted({
       id: sectionId,

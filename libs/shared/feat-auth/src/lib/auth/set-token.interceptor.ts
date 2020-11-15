@@ -31,7 +31,11 @@ export class SetTokenInterceptor implements HttpInterceptor {
         return from(user.getIdToken());
       }),
       exhaustMap(token => {
-        const headers = req.headers.set('authorization', token);
+        let headers = req.headers.append(
+          'Schoolid',
+          this.userService.currentUser$.value.tenantId
+        );
+        headers = headers.append('Authorization', token);
         const authReq = req.clone({ headers });
         return next.handle(authReq);
       })

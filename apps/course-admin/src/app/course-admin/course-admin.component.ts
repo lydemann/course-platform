@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
@@ -15,6 +16,7 @@ import { CreateSectionModalComponent } from './components/create-section-modal/c
 export class CourseAdminComponent implements OnInit {
   panelOpenState = false;
   sections$: Observable<CourseSection[]>;
+  currentCourseId$: Observable<string>;
   constructor(
     private courseAdminFacadeService: CourseAdminFacadeService,
     private router: Router,
@@ -22,10 +24,22 @@ export class CourseAdminComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.sections$ = this.courseAdminFacadeService.sections$;
+    this.currentCourseId$ = this.courseAdminFacadeService.currentCourseId$;
   }
 
-  onLessonClicked(sectionId: string, lessonId: string) {
-    this.router.navigate(['course-admin', 'lesson-admin', sectionId, lessonId]);
+  onLessonClicked(
+    sectionId: string,
+    lessonId: string,
+    currentCourseId: string
+  ) {
+    this.router.navigate([
+      auth().tenantId,
+      'course-admin',
+      currentCourseId,
+      'lesson-admin',
+      sectionId,
+      lessonId
+    ]);
   }
 
   onCreateLessonClicked(sectionId: string) {
@@ -43,10 +57,16 @@ export class CourseAdminComponent implements OnInit {
     });
   }
 
-  onSectionClicked(event: Event, sectionId: string) {
+  onSectionClicked(event: Event, sectionId: string, currentCourseId: string) {
     event.stopPropagation();
 
-    this.router.navigate(['course-admin', 'section-admin', sectionId]);
+    this.router.navigate([
+      auth().tenantId,
+      'course-admin',
+      currentCourseId,
+      'section-admin',
+      sectionId
+    ]);
   }
 
   onCreateSectionClicked(event: Event) {

@@ -8,7 +8,7 @@ import { CourseAdminResolver } from './course-admin.resolver';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':courseId',
     canActivate: [AuthGuard],
     resolve: [CourseAdminResolver],
     children: [

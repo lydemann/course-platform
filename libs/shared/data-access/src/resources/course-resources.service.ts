@@ -6,7 +6,11 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
-import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import {
+  Course,
+  CourseSection,
+  Lesson
+} from '@course-platform/shared/interfaces';
 
 export const COURSE_SECTIONS_URL = '/api/sections';
 
@@ -39,9 +43,13 @@ export interface GetCourseSectionsResponseDTO {
   };
 }
 
+export interface GetCoursesResponseDTO {
+  course: Course[];
+}
+
 export const courseSectionsQuery = gql`
-  query GetCourseSectionsQuery($uid: String!) {
-    courseSections(uid: $uid) {
+  query GetCourseSectionsQuery($uid: ID!, $courseId: ID!) {
+    courseSections(uid: $uid, courseId: $courseId) {
       id
       name
       theme
@@ -80,14 +88,34 @@ export const courseSectionsQuery = gql`
 export class CourseResourcesService {
   constructor(private apollo: Apollo, private userService: UserService) {}
 
-  getCourseSections(): Observable<CourseSection[]> {
+  getCourses(): Observable<Course[]> {
+    const coursesQuery = gql`
+      query getCourses {
+        course {
+          id
+          name
+        }
+      }
+    `;
+
+    return this.apollo
+      .watchQuery<GetCoursesResponseDTO>({ query: coursesQuery })
+      .valueChanges.pipe(
+        map(({ data }) => {
+          return data.course;
+        })
+      );
+  }
+
+  getCourseSections(courseId: string): Observable<CourseSection[]> {
     return this.userService.getCurrentUser().pipe(
       switchMap(user => {
         return this.apollo
           .watchQuery<GetCourseSectionsResponseDTO>({
             query: courseSectionsQuery,
             variables: {
-              uid: user.uid
+              uid: user.uid,
+              courseId
             }
           })
           .valueChanges.pipe(
@@ -138,11 +166,12 @@ export class CourseResourcesService {
 
   createLesson(
     sectionId: string,
-    sectionName: string = ''
+    sectionName: string = '',
+    courseId: string
   ): Observable<string> {
     const createLessonMutation = gql`
       mutation {
-        createLesson(sectionId: "${sectionId}", name: "${sectionName}")
+        createLesson(courseId: "${courseId}", sectionId: "${sectionId}", name: "${sectionName}")
       }
     `;
 
@@ -160,10 +189,10 @@ export class CourseResourcesService {
     );
   }
 
-  updateLesson(lesson: Lesson) {
+  updateLesson(lesson: Lesson, courseId: string) {
     const updateLessonMutation = gql`
       mutation updateLessonMutation($resources: [LessonResourceInput]) {
-        updateLesson(id: "${lesson.id}", name: "${lesson.name}", description: "${lesson.description}", videoUrl: "${lesson.videoUrl}", resources: $resources)
+        updateLesson(courseId: "${courseId}", id: "${lesson.id}", name: "${lesson.name}", description: "${lesson.description}", videoUrl: "${lesson.videoUrl}", resources: $resources)
       }
     `;
 
@@ -182,10 +211,10 @@ export class CourseResourcesService {
     );
   }
 
-  deleteLesson(sectionId: string, lessonId: string) {
+  deleteLesson(sectionId: string, lessonId: string, courseId: string) {
     const deleteLessonMutation = gql`
     mutation {
-      deleteLesson(sectionId: "${sectionId}", id: "${lessonId}")
+      deleteLesson(courseId: ${courseId}, sectionId: "${sectionId}", id: "${lessonId}")
     }
   `;
     return this.userService.getCurrentUser().pipe(
@@ -200,13 +229,18 @@ export class CourseResourcesService {
     );
   }
 
-  setActionItemCompleted(resourceId: string, completed: boolean) {
+  setActionItemCompleted(
+    resourceId: string,
+    completed: boolean,
+    courseId: string
+  ) {
     const setActionItemCompletedMutation = gql`
       mutation setActionItemCompletedMutation($uid: ID!) {
         setActionItemCompleted(
           uid: $uid
           id: "${resourceId}"
-          isCompleted: ${completed}
+          isCompleted: ${completed},
+          courseId: $courseId
         )
       }
     `;
@@ -216,7 +250,8 @@ export class CourseResourcesService {
         return this.apollo.mutate({
           mutation: setActionItemCompletedMutation,
           variables: {
-            uid: user.uid
+            uid: user.uid,
+            courseId
           },
           refetchQueries: [
             { query: courseSectionsQuery, variables: { uid: user.uid } }
@@ -226,17 +261,18 @@ export class CourseResourcesService {
     );
   }
 
-  createSection(sectionName: string) {
+  createSection(sectionName: string, courseId: string) {
     const createSectionMutation = gql`
-      mutation createSectionMutation($sectionName: String!) {
-        createSection(name: $sectionName)
+      mutation createSectionMutation($sectionName: String!, $courseId: ID!) {
+        createSection(name: $sectionName, courseId: $courseId)
       }
     `;
 
     return this.apollo.mutate({
       mutation: createSectionMutation,
       variables: {
-        sectionName
+        sectionName,
+        courseId
       },
       refetchQueries: [
         {
@@ -247,14 +283,20 @@ export class CourseResourcesService {
     });
   }
 
-  updateSection(sectionId: string, sectionName: string, sectionTheme: string) {
+  updateSection(
+    sectionId: string,
+    sectionName: string,
+    sectionTheme: string,
+    courseId: string
+  ) {
     const updateSectionMutation = gql`
       mutation updateSectionMutation(
         $sectionId: ID!
         $sectionName: String
         $sectionTheme: String
+        courseId: ID!
       ) {
-        updateSection(id: $sectionId, name: $sectionName, theme: $sectionTheme)
+        updateSection(id: $sectionId, name: $sectionName, theme: $sectionTheme, courseId: $courseId)
       }
     `;
 
@@ -263,7 +305,8 @@ export class CourseResourcesService {
       variables: {
         sectionId,
         sectionName,
-        sectionTheme
+        sectionTheme,
+        courseId
       },
       refetchQueries: [
         {
@@ -273,17 +316,18 @@ export class CourseResourcesService {
       ]
     });
   }
-  deleteSection(sectionId: string) {
+  deleteSection(sectionId: string, courseId: string) {
     const createSectionMutation = gql`
-      mutation deleteSectionMutation($sectionId: ID!) {
-        deleteSection(id: $sectionId)
+      mutation deleteSectionMutation($sectionId: ID!, courseId: ID!) {
+        deleteSection(id: $sectionId, courseId: $courseId)
       }
     `;
 
     return this.apollo.mutate({
       mutation: createSectionMutation,
       variables: {
-        sectionId
+        sectionId,
+        courseId
       },
       refetchQueries: [
         {

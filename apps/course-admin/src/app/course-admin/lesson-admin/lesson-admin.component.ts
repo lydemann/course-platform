@@ -74,6 +74,10 @@ export class LessonAdminComponent implements OnInit {
     );
   }
 
+  goBack() {
+    this.courseAdminFacade.goToCourseAdmin();
+  }
+
   submit(formGroup: FormGroup, lesson: Lesson) {
     this.courseAdminFacade.saveLessonClicked({
       id: lesson.id,

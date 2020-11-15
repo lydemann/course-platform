@@ -1,10 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { auth } from 'firebase';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  switchMap
+} from 'rxjs/operators';
 
 import { CourseResourcesService } from '@course-platform/shared/data-access';
-import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import {
+  Course,
+  CourseSection,
+  Lesson
+} from '@course-platform/shared/interfaces';
 
 interface CourseAdminStore {
   sections: CourseSection[];
@@ -13,33 +24,27 @@ interface CourseAdminStore {
   currentSectionId: string;
   currentLessonId: string;
   isSavingLesson: boolean;
+  currentCourseId: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseAdminFacadeService {
-  private courseAdminStore = new BehaviorSubject<CourseAdminStore>({
-    isLoadingCourseSections: false,
-    loadCourseSectionsError: null,
-    sections: [],
-    currentSectionId: null,
-    currentLessonId: null,
-    isSavingLesson: false
-  });
-
-  isLoadingCourseSections$: Observable<boolean>;
-  sections$: Observable<CourseSection[]>;
-  currentLesson$: Observable<Lesson>;
-  currentSectionId$: Observable<string>;
-  currentSection$: Observable<CourseSection>;
-  currentLessonId$: Observable<string>;
-
   constructor(
     private courseResourcesService: CourseResourcesService,
     private router: Router
   ) {
-    this.sections$ = this.courseResourcesService.getCourseSections();
+    this.currentCourseId$ = this.courseAdminStore.pipe(
+      map(store => store.currentCourseId)
+    );
+    this.sections$ = this.courseAdminStore.pipe(
+      map(store => store.currentCourseId),
+      filter(courseId => !!courseId),
+      switchMap(courseId =>
+        this.courseResourcesService.getCourseSections(courseId)
+      )
+    );
     this.isLoadingCourseSections$ = this.courseAdminStore.pipe(
       map(state => state.isLoadingCourseSections),
       distinctUntilChanged()
@@ -76,6 +81,41 @@ export class CourseAdminFacadeService {
       filter(lesson => !!lesson)
     );
   }
+  private courseAdminStore = new BehaviorSubject<CourseAdminStore>({
+    isLoadingCourseSections: false,
+    loadCourseSectionsError: null,
+    sections: [],
+    currentSectionId: null,
+    currentLessonId: null,
+    isSavingLesson: false,
+    currentCourseId: null
+  });
+  currentCourseId$: Observable<string>;
+  isLoadingCourseSections$: Observable<boolean>;
+  sections$: Observable<CourseSection[]>;
+  currentLesson$: Observable<Lesson>;
+  currentSectionId$: Observable<string>;
+  currentSection$: Observable<CourseSection>;
+  currentLessonId$: Observable<string>;
+
+  goToCourseAdmin() {
+    const courseId = this.courseAdminStore.value.currentCourseId;
+    this.router.navigate([auth().tenantId, 'course-admin', courseId]);
+  }
+
+  setSchoolId(schoolId: any) {
+    auth().tenantId = schoolId;
+  }
+  getCourses(): Observable<Course[]> {
+    return this.courseResourcesService.getCourses();
+  }
+
+  courseAdminInit(courseId: string) {
+    this.courseAdminStore.next({
+      ...this.courseAdminStore.value,
+      currentCourseId: courseId
+    });
+  }
 
   lessonInit(sectionId: string, lessonId: string) {
     // TODO: just get this from router params and delete method
@@ -95,7 +135,8 @@ export class CourseAdminFacadeService {
   }
 
   saveLessonClicked(lesson: Lesson) {
-    this.courseResourcesService.updateLesson(lesson).subscribe();
+    const courseId = this.courseAdminStore.value.currentCourseId;
+    this.courseResourcesService.updateLesson(lesson, courseId).subscribe();
   }
 
   createSectionSubmitted(sectionName: string) {
@@ -104,15 +145,20 @@ export class CourseAdminFacadeService {
       isSavingLesson: true
     });
 
-    this.courseResourcesService.createSection(sectionName).subscribe();
+    const courseId = this.courseAdminStore.value.currentCourseId;
+    this.courseResourcesService
+      .createSection(sectionName, courseId)
+      .subscribe();
   }
   updateSectionSubmitted(section: Partial<CourseSection>) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
       isSavingLesson: true
     });
+    const courseId = this.courseAdminStore.value.currentCourseId;
     this.courseResourcesService
-      .updateSection(section.id, section.name, section.theme)
+      .updateSection(section.id, section.name, section.theme, courseId)
+      .pipe(first())
       .subscribe();
   }
   deleteSectionSubmitted(sectionId: string) {
@@ -120,9 +166,12 @@ export class CourseAdminFacadeService {
       ...this.courseAdminStore.value,
       isSavingLesson: true
     });
-    this.courseResourcesService.deleteSection(sectionId).subscribe(() => {
-      this.router.navigate(['course-admin']);
-    });
+    const courseId = this.courseAdminStore.value.currentCourseId;
+    this.courseResourcesService
+      .deleteSection(sectionId, courseId)
+      .subscribe(() => {
+        this.router.navigate(['course-admin']);
+      });
   }
 
   createLessonSubmitted(sectionId: string, section: string) {
@@ -130,8 +179,9 @@ export class CourseAdminFacadeService {
       ...this.courseAdminStore.value,
       isSavingLesson: true
     });
+    const courseId = this.courseAdminStore.value.currentCourseId;
     this.courseResourcesService
-      .createLesson(sectionId, section)
+      .createLesson(sectionId, section, courseId)
       .subscribe(() => {
         this.courseAdminStore.next({
           ...this.courseAdminStore.value,
@@ -143,8 +193,9 @@ export class CourseAdminFacadeService {
   }
 
   deleteLessonClicked(sectionId: string, lessonId: string) {
+    const courseId = this.courseAdminStore.value.currentCourseId;
     this.courseResourcesService
-      .deleteLesson(sectionId, lessonId)
+      .deleteLesson(sectionId, lessonId, courseId)
       .subscribe(() => {
         this.router.navigate(['course-admin']);
       });
