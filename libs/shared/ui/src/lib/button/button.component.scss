@@ -1,0 +1,16 @@
+@import 'helpers';
+
+button {
+  font-family: AvenirNextLTPro-Medium Arial, Helvetica, sans-serif;
+
+  &.size-l {
+    // TODO: set padding
+    width: 155px;
+    height: 45px;
+  }
+}
+
+.success {
+  background-color: get-color('success');
+  color: get-color('white');
+}

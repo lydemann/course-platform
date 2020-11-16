@@ -21,6 +21,7 @@
   <h3 class="mt-m">Lesson resources</h3>
 
   <div
+    class="mb-l"
     *ngFor="
       let resourceFromGroup of formGroup.controls.resources['controls'];
       let i = index
@@ -43,28 +44,27 @@
         {{ resourceType }}
       </app-select-option>
     </app-select>
-  </div>
-  <button
-    mat-raised-button
-    color="primary"
-    type="button"
-    (click)="addResourceClicked.emit()"
-  >
-    Add resource
-  </button>
 
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="saveClicked.emit(formGroup)"
+    <app-button
+      color="warn"
+      type="button"
+      (buttonClicked)="
+        deleteResourceClicked.emit(resourceFromGroup.controls.id.value)
+      "
+      >delete resource</app-button
+    >
+  </div>
+
+  <app-button class="mr-s" (buttonClicked)="addResourceClicked.emit()"
+    >Add resource</app-button
   >
-    Save lesson
-  </button>
-  <button
-    mat-raised-button
-    color="warn"
-    (click)="deleteClicked.emit(formGroup)"
+  <app-button
+    class="mr-s"
+    color="success"
+    (buttonClicked)="saveClicked.emit(formGroup)"
+    >Save lesson</app-button
   >
-    Delete Lesson
-  </button>
+  <app-button color="warn" (buttonClicked)="deleteClicked.emit(formGroup)"
+    >Delete Lesson</app-button
+  >
 </form>

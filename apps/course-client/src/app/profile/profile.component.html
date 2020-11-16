@@ -30,20 +30,28 @@
       </div>
 
       <div fxLayout="row" class="mt-m" fxLayoutGap="16px">
-        <button type="submit" data-test="saveprofile-btn" class="submit-btn">
+        <app-button
+          size="l"
+          type="submit"
+          color="success"
+          data-test="saveprofile-btn"
+          class="submit-btn"
+        >
           Save
-        </button>
+        </app-button>
       </div>
 
       <div fxLayout="row" class="mt-xl" fxLayoutGap="16px">
-        <button
+        <app-button
+          size="l"
           data-test="logout-btn"
           type="button"
+          color="accent"
           class="submit-btn"
           (click)="onLogout()"
         >
           Logout
-        </button>
+        </app-button>
       </div>
     </form>
   </mat-tab>

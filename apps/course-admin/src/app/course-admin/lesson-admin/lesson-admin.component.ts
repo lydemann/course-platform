@@ -51,6 +51,7 @@ export class LessonAdminComponent implements OnInit {
           resources: this.formBuilder.array([
             ...lesson.resources.map(resource => {
               return this.formBuilder.group({
+                id: [resource.id],
                 name: [resource.name],
                 url: [resource.url],
                 type: [resource.type]
@@ -83,6 +84,17 @@ export class LessonAdminComponent implements OnInit {
 
   onAddResourceClicked() {
     this.isAddingResource$.next(true);
+  }
+
+  onDeleteResourceClicked(resourceId: string, form: FormGroup) {
+    const resourcesFormGroups = (form.get('resources') as FormArray)
+      .controls as FormGroup[];
+
+    const idxToRemove = resourcesFormGroups.findIndex(
+      group => group.get('id').value === resourceId
+    );
+
+    (form.get('resources') as FormArray).removeAt(idxToRemove);
   }
 
   onDelete(lesson: Lesson) {

@@ -1,0 +1,61 @@
+<ng-container [ngSwitch]="buttonVariant">
+  <button
+    *ngSwitchCase="'raised'"
+    class="{{ color }} size-{{ size }}"
+    mat-raised-button
+    [color]="color"
+    (click)="buttonClicked.next($event)"
+    [disabled]="disabled"
+    [type]="type"
+  >
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+  <button
+    *ngSwitchCase="'mini-fab'"
+    class="{{ color }} size-{{ size }}"
+    mat-mini-fab
+    [color]="color"
+    (click)="buttonClicked.next($event)"
+    [disabled]="disabled"
+    [type]="type"
+  >
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+  <button
+    *ngSwitchCase="'fab'"
+    class="{{ color }} size-{{ size }}"
+    mat-fab
+    [color]="color"
+    (click)="buttonClicked.next($event)"
+    [disabled]="disabled"
+    [type]="type"
+  >
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+  <button
+    *ngSwitchCase="'button'"
+    class="{{ color }} size-{{ size }}"
+    mat-button
+    [color]="color"
+    (click)="buttonClicked.next($event)"
+    [disabled]="disabled"
+    [type]="type"
+  >
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+  <button
+    *ngSwitchCase="'icon'"
+    class="{{ color }} size-{{ size }}"
+    mat-icon-button
+    [color]="color"
+    (click)="buttonClicked.next($event)"
+    [disabled]="disabled"
+    [type]="type"
+  >
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+</ng-container>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>

@@ -1,4 +1,8 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS
+} from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +14,10 @@ import {
   Endpoints,
   ENDPOINTS_TOKEN
 } from '@course-platform/shared/data-access';
+import {
+  SetTokenInterceptor,
+  SharedFeatAuthModule
+} from '@course-platform/shared/feat-auth';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -54,7 +62,8 @@ export function EndpointsFactory() {
     SharedModule,
     HomeModule,
     LayoutModule,
-    CourseClientLibModule
+    CourseClientLibModule,
+    SharedFeatAuthModule
   ],
   providers: [
     {

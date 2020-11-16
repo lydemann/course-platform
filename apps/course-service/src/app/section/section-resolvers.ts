@@ -1,3 +1,5 @@
+import { AuthenticationError } from 'apollo-server-express';
+
 import {
   ActionItem,
   CourseSection,
@@ -11,7 +13,7 @@ import { SectionDTO } from '../models/section-dto';
 import { getDefaultActionItems } from './default-action-items';
 
 export const sectionQueryResolvers = {
-  courseSections: async (parent, { uid }) => {
+  courseSections: async (parent, { uid }, context, info) => {
     const getUserActionItemsCompletedPromise = () =>
       firestoreDB
         .doc(`users/${uid}`)
@@ -97,20 +99,31 @@ const populateLesson = (lesson: LessonDTO): Promise<Lesson> => {
 };
 
 export const sectionMutationResolvers = {
-  createSection: (parent, { name }: SectionDTO) => {
+  createSection: (parent, { name }: SectionDTO, context) => {
+    if (!context.auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
+
     const newSectionRef = firestoreDB.collection('sections').doc();
     return newSectionRef
       .set({ id: newSectionRef.id, name, lessons: [] } as SectionDTO)
       .then(data => newSectionRef.id);
   },
-  updateSection: (parent, { id, name, theme }: SectionDTO) => {
+  updateSection: (parent, { id, name, theme }: SectionDTO, context) => {
+    if (!context.auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
+
     const cleanedPayload = removeEmptyFields({ name, theme } as SectionDTO);
     return firestoreDB
       .doc(`sections/${id}`)
       .update(cleanedPayload)
       .then(() => 'Updated section');
   },
-  deleteSection: (parent, { id }: { id: string }) => {
+  deleteSection: (parent, { id }: { id: string }, context) => {
+    if (!context.auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
     // TODO: delete lessons of section
     return firestoreDB
       .doc(`sections/${id}`)

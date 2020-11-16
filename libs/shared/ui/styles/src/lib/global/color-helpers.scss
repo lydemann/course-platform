@@ -10,3 +10,13 @@
 .theme-warn {
   background-color: get-color('accent');
 }
+
+.theme-success {
+  background-color: get-color('success');
+  color: get-color('white');
+}
+
+.theme-danger {
+  background-color: get-color('warn') !important;
+  color: get-color('white');
+}

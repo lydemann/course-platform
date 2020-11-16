@@ -9,7 +9,11 @@
 
     <ul class="menu-items" *ngIf="loggedIn$ | async">
       <li *ngFor="let item of navigation" class="menu-item-wrapper">
-        <a class="nav-button" routerLinkActive="active" [href]="item.link">
+        <a
+          class="nav-button"
+          routerLinkActive="active"
+          [routerLink]="item.link"
+        >
           <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
           {{ item.label | translate }}
         </a>

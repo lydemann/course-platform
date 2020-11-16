@@ -1,10 +1,11 @@
-<h1>
+<h1 class="mb-m">
   Edit Course Section
 </h1>
 
 <button [routerLink]="'course-admin'">Back to sections</button>
 <ng-container *ngIf="formGroup$ | async as formGroup; else loading">
   <app-section-admin-form
+    class="mt-l"
     *ngIf="section$ | async as section"
     [formGroup]="formGroup"
     (saveClicked)="submit($event, section.id)"

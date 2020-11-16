@@ -1,15 +1,19 @@
-<h1>
+<h1 class="mb-m">
   Edit Course Lesson
 </h1>
 
-<button [routerLink]="'course-admin'">Back to sections</button>
+<app-button [routerLink]="'course-admin'" color="accent"
+  >Back to sections</app-button
+>
 <ng-container *ngIf="formGroup$ | async as formGroup; else loading">
   <app-lesson-admin-form
+    class="mt-l"
     *ngIf="lesson$ | async as lesson"
     [formGroup]="formGroup"
     (saveClicked)="submit($event, lesson)"
     (deleteClicked)="onDelete(lesson)"
     (addResourceClicked)="onAddResourceClicked()"
+    (deleteResourceClicked)="onDeleteResourceClicked($event, formGroup)"
   ></app-lesson-admin-form>
 </ng-container>
 

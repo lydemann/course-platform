@@ -1,3 +1,4 @@
+import { AuthenticationError } from 'apollo-server-express';
 import admin from 'firebase-admin';
 
 import { firestoreDB } from '../firestore';
@@ -18,7 +19,11 @@ export function getUserData<T = any>(
 }
 
 export const userQueryResolvers = {
-  user: async (parent, { uid }) => {
+  user: async (parent, { uid }, context) => {
+    if (!context.auth.admin && uid !== context.auth.uid) {
+      throw new AuthenticationError('User is not admin or user');
+    }
+
     const completedLessons = await getUserData(uid, 'userLessonsCompleted');
 
     return {
@@ -35,7 +40,11 @@ export interface ActionItemDTO {
 const FieldValue = admin.firestore.FieldValue;
 
 export const userMutationResolvers = {
-  setLessonCompleted: (parent, { uid, lessonId, isCompleted }) => {
+  setLessonCompleted: (parent, { uid, lessonId, isCompleted }, context) => {
+    if (!context.auth.admin && uid !== context.auth.uid) {
+      throw new AuthenticationError('User is not admin or user');
+    }
+
     return firestoreDB
       .doc(`users/${uid}/userLessonsCompleted/${lessonId}`)
       .set({
@@ -45,7 +54,11 @@ export const userMutationResolvers = {
       })
       .then(() => `Got updated`);
   },
-  setActionItemCompleted: (parent, { uid, id, isCompleted }) => {
+  setActionItemCompleted: (parent, { uid, id, isCompleted }, context) => {
+    if (!context.auth.admin && uid !== context.auth.uid) {
+      throw new AuthenticationError('User is not admin or requested user');
+    }
+
     return firestoreDB
       .doc(`users/${uid}/actionItemsCompleted/${id}`)
       .set({

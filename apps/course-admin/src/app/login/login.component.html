@@ -25,14 +25,15 @@
           <label class="error">{{ errorMessage }}</label>
         </div>
         <div class="button-wrapper">
-          <button
+          <app-button
             type="submit"
+            size="l"
             data-test="login-btn"
             (click)="tryLogin(loginForm.value)"
             class="submit-btn"
           >
             Log In
-          </button>
+          </app-button>
         </div>
       </form>
     </div>

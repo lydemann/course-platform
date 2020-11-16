@@ -24,6 +24,9 @@ export class UserService {
         this.currentUser$.next(currentUser);
         // cb needs to run through zone to work in guard
         this.ngZone.run(() => {
+          currentUser.getIdToken().then(token => {
+            localStorage.setItem('token', token);
+          });
           observer.next(currentUser);
         });
       });
