@@ -4,7 +4,7 @@ import { first, tap } from 'rxjs/operators';
 
 import { featureFlags } from '../feature-flags';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FeatureToggleService {
   private enabledFeatures: string[] = [];
 

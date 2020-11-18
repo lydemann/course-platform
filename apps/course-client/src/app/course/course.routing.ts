@@ -20,7 +20,6 @@ import { CourseResolver } from './resolvers/course.resolver';
 const routes: Routes = [
   {
     path: `:${selectedSectionIdRouteParam}`,
-    canActivate: [AuthGuard],
     resolve: [CourseResolver],
     component: CourseComponent,
     children: [

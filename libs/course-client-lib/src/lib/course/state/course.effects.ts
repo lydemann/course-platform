@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
   catchError,
-  exhaustMap,
+  filter,
   map,
   switchMap,
   tap,
@@ -22,8 +22,10 @@ export class CourseEffects {
   fetchCourseSections$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseActions.courseInitiated, CourseActions.loadSections),
-      switchMap(() => {
-        return this.courseResourcesService.getCourseSections().pipe(
+      withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
+      filter(([_, courseId]) => !!courseId),
+      switchMap(([_, courseId]) => {
+        return this.courseResourcesService.getCourseSections(courseId).pipe(
           map(courseSections =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
@@ -35,7 +37,6 @@ export class CourseEffects {
       })
     );
   });
-
   sectionSelected$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -90,7 +91,9 @@ export class CourseEffects {
   actionItemCompleted = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseActions.actionItemCompletedChanged),
-      switchMap(({ resourceId, completed }) => {
+      withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
+      filter(([_, courseId]) => !!courseId),
+      switchMap(([{ resourceId, completed }]) => {
         return this.courseResourcesService
           .setActionItemCompleted(resourceId, completed)
           .pipe(

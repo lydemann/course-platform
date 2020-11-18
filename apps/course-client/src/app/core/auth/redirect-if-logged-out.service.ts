@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
+import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
@@ -18,7 +19,7 @@ export class RedirectIfLoggedOutResolver implements Resolve<boolean> {
       first(),
       map(currentUser => {
         if (!currentUser) {
-          this.router.navigate(['login']);
+          this.router.navigate([auth().tenantId, 'login']);
           return false;
         }
         return true;

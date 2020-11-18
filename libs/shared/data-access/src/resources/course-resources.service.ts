@@ -229,18 +229,13 @@ export class CourseResourcesService {
     );
   }
 
-  setActionItemCompleted(
-    resourceId: string,
-    completed: boolean,
-    courseId: string
-  ) {
+  setActionItemCompleted(resourceId: string, completed: boolean) {
     const setActionItemCompletedMutation = gql`
       mutation setActionItemCompletedMutation($uid: ID!) {
         setActionItemCompleted(
           uid: $uid
           id: "${resourceId}"
           isCompleted: ${completed},
-          courseId: $courseId
         )
       }
     `;
@@ -250,8 +245,7 @@ export class CourseResourcesService {
         return this.apollo.mutate({
           mutation: setActionItemCompletedMutation,
           variables: {
-            uid: user.uid,
-            courseId
+            uid: user.uid
           },
           refetchQueries: [
             { query: courseSectionsQuery, variables: { uid: user.uid } }
