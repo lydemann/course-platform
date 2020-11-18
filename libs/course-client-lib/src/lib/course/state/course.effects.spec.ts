@@ -16,6 +16,7 @@ import { UserService } from '@course-platform/shared/feat-auth';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';
 import { CourseEffects } from './course.effects';
+import { CourseSelectors } from './course.selectors';
 
 describe('CourseEffects', () => {
   let spectator: SpectatorService<CourseEffects>;
@@ -25,7 +26,12 @@ describe('CourseEffects', () => {
   const createService = createServiceFactory({
     service: CourseEffects,
     mocks: [CourseResourcesService, Router, UserService],
-    providers: [provideMockActions(() => actions$), provideMockStore()]
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore({
+        selectors: [{ selector: CourseSelectors.selectCourseId, value: '123' }]
+      })
+    ]
   });
 
   beforeEach(() => {
