@@ -7,7 +7,6 @@ async function setCustomClaim(uid) {
     await admin.auth().setCustomUserClaims(uid, { admin: true });
     
     const user = await admin.auth().getUser(uid);
-    
     console.log(user.customClaims);
     process.exit();
 }

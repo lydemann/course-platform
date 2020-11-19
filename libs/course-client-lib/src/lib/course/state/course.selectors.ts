@@ -147,7 +147,7 @@ export namespace CourseSelectors {
     }
   );
 
-  export const sectionCompletedPct = createSelector(
+  export const selectSectionCompletedPct = createSelector(
     selectSectionActionItems,
     sectionActions => {
       const numberOfCompleted = sectionActions.reduce(
@@ -156,6 +156,13 @@ export namespace CourseSelectors {
       );
 
       return (numberOfCompleted / sectionActions.length) * 100;
+    }
+  );
+
+  export const selectCourseId = createSelector(
+    selectRouteParam('courseId'),
+    (courseId): string => {
+      return courseId;
     }
   );
 }

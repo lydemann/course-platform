@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { auth } from 'firebase';
 
 import { AuthService } from '@course-platform/shared/feat-auth';
 
@@ -32,7 +33,7 @@ export class LoginComponent {
     this.authService.doLogin(value).then(
       res => {
         // TODO: when extracting to shared component, set redirect url as input
-        this.router.navigate(['/course-admin']);
+        this.router.navigate([auth().tenantId, 'courses']);
       },
       err => {
         console.log(err);

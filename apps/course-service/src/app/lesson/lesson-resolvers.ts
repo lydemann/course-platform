@@ -2,17 +2,22 @@ import { AuthenticationError } from 'apollo-server-express';
 
 import { LessonResource } from '@course-platform/shared/interfaces';
 import { removeEmptyFields } from '@course-platform/shared/util';
+import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
-import { LessonDTO, UpdateLessonPayload } from '../models/lesson-dto';
+import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
+
+interface UpdateLessonInput extends LessonDTO {
+  courseId;
+}
 
 export const lessonMutationResolvers = {
   createLesson: (
     parent,
-    { sectionId, name, description, videoUrl }: LessonDTO,
-    context
+    { sectionId, name, description, videoUrl, courseId }: UpdateLessonInput,
+    { auth: { admin, schoolId } }: RequestContext
   ) => {
-    if (!context.auth.admin) {
+    if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
 
@@ -22,15 +27,19 @@ export const lessonMutationResolvers = {
       description,
       videoUrl
     });
-    const newLessonRef = firestoreDB.collection('lessons').doc();
+    const newLessonRef = firestoreDB
+      .collection(`schools/${schoolId}/courses/${courseId}/lessons`)
+      .doc();
     const createLessonPromise = newLessonRef
       .set({
         id: newLessonRef.id,
         ...cleanedPayload
       } as LessonDTO)
-      .then(data => newLessonRef.id);
+      .then(() => newLessonRef.id);
 
-    const sectionRef = firestoreDB.doc(`sections/${sectionId}`);
+    const sectionRef = firestoreDB.doc(
+      `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
+    );
     const updateSectionPromise = sectionRef
       .get()
       .then(snapshot => snapshot.data())
@@ -51,18 +60,21 @@ export const lessonMutationResolvers = {
       name,
       description,
       videoUrl,
-      resources
-    }: UpdateLessonPayload,
-    context
+      resources,
+      courseId
+    }: UpdateLessonInput,
+    { auth: { admin, schoolId } }: RequestContext
   ) => {
-    if (!context.auth.admin) {
+    if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
     let resourceReferences: FirebaseFirestore.DocumentReference<
       LessonResource
     >[] = [];
     if (resources) {
-      const lessonResourcesRef = firestoreDB.collection('lessonResources');
+      const lessonResourcesRef = firestoreDB.collection(
+        `schools/${schoolId}/courses/${courseId}/lessons`
+      );
       resourceReferences = await Promise.all(
         resources.map(resource => {
           const doc = resource.id
@@ -73,7 +85,7 @@ export const lessonMutationResolvers = {
               ...resource,
               id: doc.id
             })
-            .then(value => {
+            .then(() => {
               return doc as FirebaseFirestore.DocumentReference<LessonResource>;
             });
         })
@@ -90,19 +102,25 @@ export const lessonMutationResolvers = {
     } as LessonDTO);
 
     return firestoreDB
-      .doc(`lessons/${id}`)
+      .doc(`schools/${schoolId}/courses/${courseId}/lessons/${id}`)
       .update(cleanedPayload)
       .then(() => 'Updated lesson');
   },
   deleteLesson: async (
     parent,
-    { sectionId, id }: { sectionId: string; id: string },
-    context
+    {
+      sectionId,
+      id,
+      courseId
+    }: { sectionId: string; id: string; courseId: string },
+    { auth: { admin, schoolId } }: RequestContext
   ) => {
-    if (!context.auth.admin) {
+    if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
-    const sectionRef = firestoreDB.doc(`sections/${sectionId}`);
+    const sectionRef = firestoreDB.doc(
+      `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
+    );
     const deleteSectionLessonPromise = sectionRef
       .get()
       .then(snapshot => snapshot.data())
@@ -111,7 +129,9 @@ export const lessonMutationResolvers = {
         sectionRef.update({ lessons: newLessons } as SectionDTO);
       });
 
-    const lessonDocRef = firestoreDB.doc(`lessons/${id}`);
+    const lessonDocRef = firestoreDB.doc(
+      `schools/${schoolId}/courses/${courseId}/lessons/${id}`
+    );
 
     const lessonSnapshot = await lessonDocRef.get();
 

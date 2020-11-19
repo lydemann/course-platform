@@ -2,9 +2,7 @@
   Edit Course Lesson
 </h1>
 
-<app-button [routerLink]="'course-admin'" color="accent"
-  >Back to sections</app-button
->
+<app-button (click)="goBack()" color="accent">Back to sections</app-button>
 <ng-container *ngIf="formGroup$ | async as formGroup; else loading">
   <app-lesson-admin-form
     class="mt-l"

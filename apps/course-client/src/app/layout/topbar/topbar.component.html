@@ -1,18 +1,30 @@
 <div class="sticky-container"></div>
-
 <div class="toolbar mat-elevation-z4">
   <mat-toolbar color="primary">
-    <a class="branding spacer" href="/">
+    <a class="branding spacer" [href]="homeUrl$ | async">
       <img [src]="logo" [alt]="logo" />
       {{ 'topbar.title' | translate }}
     </a>
 
     <ul class="menu-items" *ngIf="loggedIn$ | async">
-      <li *ngFor="let item of navigation" class="menu-item-wrapper">
+      <li
+        *ngFor="let item of navigationItems$ | async"
+        class="menu-item-wrapper"
+      >
         <a
           class="nav-button"
           routerLinkActive="active"
           [routerLink]="item.link"
+          *ngIf="!item.externalLink"
+        >
+          <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
+          {{ item.label | translate }}
+        </a>
+        <a
+          class="nav-button"
+          routerLinkActive="active"
+          [href]="item.link"
+          *ngIf="item.externalLink"
         >
           <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
           {{ item.label | translate }}

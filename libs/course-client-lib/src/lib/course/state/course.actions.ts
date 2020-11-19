@@ -15,7 +15,10 @@ export interface LessonCompletedProps {
 
 export namespace CourseActions {
   export const courseInitiated = createAction('[Course] Course Initiated');
-  export const loadSections = createAction('[Course] Load Sections');
+  export const loadSections = createAction(
+    '[Course] Load Sections',
+    props<{ courseId: string }>()
+  );
   export const lessonChanged = createAction(
     '[Course] Lesson Changed',
     props<{ selectedLessonId: string }>()

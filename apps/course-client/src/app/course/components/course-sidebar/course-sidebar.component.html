@@ -5,7 +5,9 @@
   </div>
 
   <div class="progress-bar-wrapper">
-    <small class="label">{{ sectionCompletedPct }}% complete</small>
+    <small class="label"
+      >{{ sectionCompletedPct | number: '1.2-2' }}% complete</small
+    >
     <mat-progress-bar
       class="progress-bar"
       mode="determinate"

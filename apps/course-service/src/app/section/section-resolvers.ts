@@ -7,16 +7,22 @@ import {
   LessonResourceType
 } from '@course-platform/shared/interfaces';
 import { removeEmptyFields } from '@course-platform/shared/util';
+import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
 import { getDefaultActionItems } from './default-action-items';
 
 export const sectionQueryResolvers = {
-  courseSections: async (parent, { uid }, context, info) => {
+  courseSections: async (
+    parent,
+    { uid, courseId },
+    { auth: { schoolId } }: RequestContext,
+    info
+  ) => {
     const getUserActionItemsCompletedPromise = () =>
       firestoreDB
-        .doc(`users/${uid}`)
+        .doc(`schools/${schoolId}/users/${uid}`)
         .collection('actionItemsCompleted')
         .where('isCompleted', '==', true)
         .select('id')
@@ -32,7 +38,7 @@ export const sectionQueryResolvers = {
       : Promise.resolve<string[]>([]);
 
     const sectionsPromise = firestoreDB
-      .collection('sections')
+      .collection(`schools/${schoolId}/courses/${courseId}/sections`)
       .orderBy('name')
       .get()
       .then(data => {
@@ -98,35 +104,54 @@ const populateLesson = (lesson: LessonDTO): Promise<Lesson> => {
   });
 };
 
+interface UpdateSectionInput extends SectionDTO {
+  courseId: string;
+}
+
 export const sectionMutationResolvers = {
-  createSection: (parent, { name }: SectionDTO, context) => {
-    if (!context.auth.admin) {
+  createSection: (
+    parent,
+    { name, courseId }: UpdateSectionInput,
+    { auth: { admin, schoolId } }: RequestContext
+  ) => {
+    if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
 
-    const newSectionRef = firestoreDB.collection('sections').doc();
+    const newSectionRef = firestoreDB
+      .collection(`schools/${schoolId}/courses/${courseId}/sections`)
+      .doc();
     return newSectionRef
       .set({ id: newSectionRef.id, name, lessons: [] } as SectionDTO)
       .then(data => newSectionRef.id);
   },
-  updateSection: (parent, { id, name, theme }: SectionDTO, context) => {
-    if (!context.auth.admin) {
+
+  updateSection: (
+    parent,
+    { id, name, theme, courseId }: UpdateSectionInput,
+    { auth: { admin, schoolId } }: RequestContext
+  ) => {
+    if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
 
     const cleanedPayload = removeEmptyFields({ name, theme } as SectionDTO);
     return firestoreDB
-      .doc(`sections/${id}`)
+      .doc(`schools/${schoolId}/courses/${courseId}/sections/${id}`)
       .update(cleanedPayload)
       .then(() => 'Updated section');
   },
-  deleteSection: (parent, { id }: { id: string }, context) => {
-    if (!context.auth.admin) {
+  deleteSection: (
+    parent,
+    { id, courseId },
+    { auth: { admin, schoolId } }: RequestContext
+  ) => {
+    if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
     // TODO: delete lessons of section
     return firestoreDB
-      .doc(`sections/${id}`)
+      .doc(`schools/${schoolId}/courses/${courseId}/sections/${id}`)
       .delete()
       .then(() => 'Deleted section');
   }

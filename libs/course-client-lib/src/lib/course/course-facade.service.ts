@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 
 import {
+  CourseResourcesService,
+  selectRouteParam
+} from '@course-platform/shared/data-access';
+import {
   ActionItem,
+  Course,
   CourseSection,
   Lesson
 } from '@course-platform/shared/interfaces';
@@ -14,7 +20,10 @@ import { CourseSelectors } from './state/course.selectors';
   providedIn: 'root'
 })
 export class CourseFacadeService {
-  constructor(private store: Store<any>) {}
+  constructor(
+    private store: Store<any>,
+    private courseResourcesService: CourseResourcesService
+  ) {}
   actionItems$: Observable<ActionItem[]> = this.store.select(
     CourseSelectors.selectSectionActionItems
   );
@@ -36,9 +45,20 @@ export class CourseFacadeService {
   selectedSectionId$ = this.store.select(
     CourseSelectors.selectSelectedSectionId
   );
-  sectionCompletedPct$ = this.store.select(CourseSelectors.sectionCompletedPct);
-  loadSections() {
-    this.store.dispatch(CourseActions.loadSections());
+  sectionCompletedPct$ = this.store.select(
+    CourseSelectors.selectSectionCompletedPct
+  );
+  schoolId$ = this.store.select(selectRouteParam('schoolId'));
+  courseId$ = this.store.select(selectRouteParam('courseId'));
+
+  setSchoolId(schoolId: any) {
+    auth().tenantId = schoolId;
+  }
+  getCourses(): Observable<Course[]> {
+    return this.courseResourcesService.getCourses();
+  }
+  loadSections(courseId: string) {
+    this.store.dispatch(CourseActions.loadSections({ courseId }));
   }
   onActionItemCompletedChanged(resourceId: string, completed: boolean) {
     this.store.dispatch(

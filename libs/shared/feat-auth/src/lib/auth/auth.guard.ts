@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { auth } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 
@@ -21,7 +22,7 @@ export class AuthGuard {
       first(),
       map(currentUser => {
         if (!currentUser) {
-          this.router.navigate(['/login']);
+          this.router.navigate([auth().tenantId, 'login']);
         }
         return !!currentUser;
       }),

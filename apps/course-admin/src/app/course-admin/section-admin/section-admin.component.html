@@ -2,7 +2,7 @@
   Edit Course Section
 </h1>
 
-<button [routerLink]="'course-admin'">Back to sections</button>
+<button (click)="goBack()">Back to sections</button>
 <ng-container *ngIf="formGroup$ | async as formGroup; else loading">
   <app-section-admin-form
     class="mt-l"

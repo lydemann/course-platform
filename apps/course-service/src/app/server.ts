@@ -1,33 +1,46 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import * as express from 'express';
 import admin from 'firebase-admin';
 
 import { environment } from '../environments/environment';
+import { AuthIdentity, RequestContext } from './auth-identity';
 import { resolvers } from './resolvers';
 import { typeDefs } from './schema';
 
 /* Async verification with user token */
-const verifyToken = async idToken => {
+const verifyToken = async ({ authorization, schoolid }) => {
   if (!environment.production) {
-    return { admin: true, uid: 'test' };
+    console.log('Running with mock data');
+    return {
+      admin: true,
+      uid: 'XHjUUmEkvPc0Ye8SZlvtBTAAt622',
+      schoolId: 'christianlydemann-eyy6e'
+    } as AuthIdentity;
   }
 
-  if (idToken) {
-    const newToken = idToken.replace('Bearer ', '');
+  if (authorization) {
+    const newToken = authorization.replace('Bearer ', '');
     // TODO: disable for local env and set admin true
     const header = await admin
       .auth()
       .verifyIdToken(newToken)
       .then(decodedToken => {
-        return decodedToken;
+        if (decodedToken.firebase.tenant !== schoolid) {
+          throw new AuthenticationError("User doesn't have access to school");
+        }
+
+        return {
+          ...decodedToken,
+          schoolId: schoolid
+        } as AuthIdentity;
       })
       .catch(function(error) {
         // Handle error
-        throw new Error('No Access');
+        throw new AuthenticationError('No Access: Invalid id token');
       });
     return header;
   } else {
-    throw new Error('No Access');
+    throw new AuthenticationError('No Access: No id token provided');
   }
 };
 
@@ -38,13 +51,13 @@ export function gqlServer() {
     typeDefs,
     resolvers,
     context: async ({ req, res }) => {
-      // headers: req.headers,
-      const auth = await verifyToken(req.headers.authorization);
+      const auth = await verifyToken(req.headers as any);
+
       return {
         auth: auth || {},
         req,
         res
-      };
+      } as RequestContext;
     },
     // Enable graphiql gui
     introspection: true,

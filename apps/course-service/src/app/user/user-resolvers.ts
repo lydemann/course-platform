@@ -1,14 +1,16 @@
 import { AuthenticationError } from 'apollo-server-express';
 import admin from 'firebase-admin';
 
+import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 
 export function getUserData<T = any>(
+  schoolId: string,
   uid: string,
   userCollection: string
 ): Promise<T[]> {
   return firestoreDB
-    .doc(`users/${uid}`)
+    .doc(`schools/${schoolId}/users/${uid}`)
     .collection(userCollection)
     .get()
     .then(snap => {
@@ -19,12 +21,16 @@ export function getUserData<T = any>(
 }
 
 export const userQueryResolvers = {
-  user: async (parent, { uid }, context) => {
+  user: async (parent, { uid }, context: RequestContext) => {
     if (!context.auth.admin && uid !== context.auth.uid) {
       throw new AuthenticationError('User is not admin or user');
     }
 
-    const completedLessons = await getUserData(uid, 'userLessonsCompleted');
+    const completedLessons = await getUserData(
+      context.auth.schoolId,
+      uid,
+      'userLessonsCompleted'
+    );
 
     return {
       completedLessons
@@ -40,13 +46,19 @@ export interface ActionItemDTO {
 const FieldValue = admin.firestore.FieldValue;
 
 export const userMutationResolvers = {
-  setLessonCompleted: (parent, { uid, lessonId, isCompleted }, context) => {
+  setLessonCompleted: (
+    parent,
+    { uid, lessonId, isCompleted },
+    context: RequestContext
+  ) => {
     if (!context.auth.admin && uid !== context.auth.uid) {
       throw new AuthenticationError('User is not admin or user');
     }
 
     return firestoreDB
-      .doc(`users/${uid}/userLessonsCompleted/${lessonId}`)
+      .doc(
+        `schools/${context.auth.schoolId}/users/${uid}/userLessonsCompleted/${lessonId}`
+      )
       .set({
         completed: isCompleted,
         lessonId,
@@ -60,7 +72,9 @@ export const userMutationResolvers = {
     }
 
     return firestoreDB
-      .doc(`users/${uid}/actionItemsCompleted/${id}`)
+      .doc(
+        `schools/${context.auth.schoolId}/users/${uid}/actionItemsCompleted/${id}`
+      )
       .set({
         id,
         isCompleted

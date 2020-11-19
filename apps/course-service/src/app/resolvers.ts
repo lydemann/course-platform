@@ -1,3 +1,4 @@
+import { courseQueryResolvers } from './course/course-resolvers';
 import { lessonMutationResolvers } from './lesson/lesson-resolvers';
 import {
   sectionMutationResolvers,
@@ -11,7 +12,8 @@ import {
 export const resolvers = {
   Query: {
     ...sectionQueryResolvers,
-    ...userQueryResolvers
+    ...userQueryResolvers,
+    ...courseQueryResolvers
   },
   Mutation: {
     ...userMutationResolvers,
