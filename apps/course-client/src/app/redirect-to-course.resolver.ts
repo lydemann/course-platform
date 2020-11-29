@@ -15,7 +15,7 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
   resolve(route: ActivatedRouteSnapshot): any {
     const courseId = route.params.courseId;
     const sectionId = route.params.sectionId;
-    const lessonId = route.params.courseId;
+    const lessonId = route.params.lessonId;
     this.courseFacadeService.loadSections(courseId);
     this.courseFacadeService.sections$
       .pipe(
@@ -25,7 +25,8 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
             sections.length > 0 &&
             !!courseId &&
             !!auth().tenantId &&
-            (!lessonId || !sectionId)
+            !lessonId &&
+            !sectionId
         ),
         first()
       )

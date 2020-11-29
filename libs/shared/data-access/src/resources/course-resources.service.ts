@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { produce } from 'immer';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
@@ -273,16 +274,18 @@ export class CourseResourcesService {
                 courseSections: [
                   ...courseSectionsData.courseSections.reduce(
                     (prev, section) => {
-                      const currentLesson = section.lessons.find(
+                      const currentLessonIdx = section.lessons.findIndex(
                         les => les.id === lesson.id
                       );
-                      const currentSection = !!currentLesson
-                        ? {
-                            ...section,
-                            lessons: [...section.lessons, updateLesson]
-                          }
-                        : section;
-                      return [...prev, { ...currentSection } as CourseSection];
+
+                      const updatedSection = produce(section, draft => {
+                        draft.lessons[currentLessonIdx] = updateLesson;
+                        if (currentLessonIdx !== -1) {
+                          draft.lessons[currentLessonIdx] = updateLesson;
+                        }
+                      });
+
+                      return [...prev, { ...updatedSection } as CourseSection];
                     },
                     []
                   )

@@ -98,7 +98,7 @@ export const lessonMutationResolvers = {
       name,
       description,
       videoUrl,
-      resources: resourceReferences
+      resources: resourceReferences || []
     } as LessonDTO);
 
     const lessonRef = firestoreDB.doc(
