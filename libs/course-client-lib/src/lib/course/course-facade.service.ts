@@ -45,6 +45,7 @@ export class CourseFacadeService {
   selectedSectionId$ = this.store.select(
     CourseSelectors.selectSelectedSectionId
   );
+  selectedSection$ = this.store.select(CourseSelectors.selectSelectedSection);
   sectionCompletedPct$ = this.store.select(
     CourseSelectors.selectSectionCompletedPct
   );

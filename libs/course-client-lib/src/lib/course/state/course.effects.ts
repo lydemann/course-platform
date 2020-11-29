@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { auth } from 'firebase';
 import { of } from 'rxjs';
 import {
   catchError,
@@ -12,7 +13,10 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 
-import { CourseResourcesService } from '@course-platform/shared/data-access';
+import {
+  CourseResourcesService,
+  selectRouteParam
+} from '@course-platform/shared/data-access';
 import { UserService } from '@course-platform/shared/feat-auth';
 import { CourseSelectors } from '../state/course.selectors';
 import { CourseActions } from './course.actions';
@@ -42,11 +46,14 @@ export class CourseEffects {
       return this.actions$.pipe(
         ofType(CourseActions.sectionSelected),
         withLatestFrom(
-          this.store.select(CourseSelectors.selectSectionsEntitiesRaw)
+          this.store.select(CourseSelectors.selectSectionsEntitiesRaw),
+          this.store.select(selectRouteParam('courseId'))
         ),
-        switchMap(([{ selectedSectionId }, sectionsMap]) =>
+        switchMap(([{ selectedSectionId }, sectionsMap, courseId]) =>
           this.router.navigate([
+            auth().tenantId,
             'course',
+            courseId,
             selectedSectionId,
             sectionsMap[selectedSectionId].lessons[0] || '0'
           ])
@@ -61,10 +68,17 @@ export class CourseEffects {
       return this.actions$.pipe(
         ofType(CourseActions.lessonChanged),
         withLatestFrom(
-          this.store.select(CourseSelectors.selectSelectedSectionId)
+          this.store.select(CourseSelectors.selectSelectedSectionId),
+          this.store.select(selectRouteParam('courseId'))
         ),
-        tap(([{ selectedLessonId }, selectedSectionId]) => {
-          this.router.navigate(['course', selectedSectionId, selectedLessonId]);
+        tap(([{ selectedLessonId }, selectedSectionId, courseId]) => {
+          this.router.navigate([
+            auth().tenantId,
+            'course',
+            courseId,
+            selectedSectionId,
+            selectedLessonId
+          ]);
         })
       );
     },

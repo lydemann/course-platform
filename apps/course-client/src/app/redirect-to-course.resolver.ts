@@ -14,10 +14,19 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
 
   resolve(route: ActivatedRouteSnapshot): any {
     const courseId = route.params.courseId;
+    const sectionId = route.params.sectionId;
+    const lessonId = route.params.courseId;
     this.courseFacadeService.loadSections(courseId);
-    return this.courseFacadeService.sections$
+    this.courseFacadeService.sections$
       .pipe(
-        filter(sections => !!sections && sections.length > 0),
+        filter(
+          sections =>
+            !!sections &&
+            sections.length > 0 &&
+            !!courseId &&
+            !!auth().tenantId &&
+            (!lessonId || !sectionId)
+        ),
         first()
       )
       .subscribe(sections => {
@@ -29,5 +38,7 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
           sections[0].lessons[0].id
         ]);
       });
+
+    return true;
   }
 }

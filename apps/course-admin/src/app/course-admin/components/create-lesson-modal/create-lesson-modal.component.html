@@ -8,7 +8,13 @@
 </div>
 <div mat-dialog-actions>
   <app-button (buttonClicked)="onNoClick()" color="accent">Cancel</app-button>
-  <button mat-button [mat-dialog-close]="sectionName" cdkFocusInitial>
+  <button
+    mat-button
+    type="submit"
+    color="primary"
+    [mat-dialog-close]="sectionName"
+    cdkFocusInitial
+  >
     Ok
   </button>
 </div>

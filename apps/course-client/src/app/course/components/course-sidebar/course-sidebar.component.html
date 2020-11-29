@@ -1,7 +1,7 @@
 <div class="sidebar">
   <div class="section-box">
     <small class="week-theme-label">WEEK THEME</small>
-    <h5 class="week-theme">Drawing Your Clean Architecture</h5>
+    <h5 class="week-theme">{{ selectedSection.theme }}</h5>
   </div>
 
   <div class="progress-bar-wrapper">
@@ -17,7 +17,7 @@
 
   <app-select
     class="section-select-form-field"
-    [value]="selectedSectionId"
+    [value]="selectedSection.id"
     (valueChange)="sectionChanged.emit($event)"
   >
     <app-select-option *ngFor="let section of sections" [value]="section.id">

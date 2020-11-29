@@ -1,6 +1,6 @@
 <ng-container *ngIf="lesson$ | async as lesson">
   <div class="header mb-l">
-    <h1 class="lesson-title">1. Welcome to the course</h1>
+    <h1 class="lesson-title">{{ lesson.name }}</h1>
 
     <app-button
       *ngIf="lesson.isCompleted"

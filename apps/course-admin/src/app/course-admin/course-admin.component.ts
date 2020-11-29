@@ -42,6 +42,10 @@ export class CourseAdminComponent implements OnInit {
     ]);
   }
 
+  trackBy(index, item) {
+    return item.id;
+  }
+
   onCreateLessonClicked(sectionId: string) {
     const dialogRef = this.dialog.open(CreateLessonModalComponent, {
       width: '250px'
