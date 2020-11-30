@@ -136,7 +136,10 @@ export class CourseAdminFacadeService {
 
   saveLessonClicked(lesson: Lesson) {
     const courseId = this.courseAdminStore.value.currentCourseId;
-    this.courseResourcesService.updateLesson(lesson, courseId).subscribe();
+    this.courseResourcesService
+      .updateLesson(lesson, courseId)
+      .pipe(first())
+      .subscribe();
   }
 
   createSectionSubmitted(sectionName: string) {
@@ -194,10 +197,11 @@ export class CourseAdminFacadeService {
 
   deleteLessonClicked(sectionId: string, lessonId: string) {
     const courseId = this.courseAdminStore.value.currentCourseId;
+
     this.courseResourcesService
       .deleteLesson(sectionId, lessonId, courseId)
       .subscribe(() => {
-        this.router.navigate(['course-admin']);
+        this.router.navigate([auth().tenantId, 'course-admin', courseId]);
       });
   }
 }

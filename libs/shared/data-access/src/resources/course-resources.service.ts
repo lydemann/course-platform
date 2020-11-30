@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { produce } from 'immer';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
 import {
@@ -11,6 +12,7 @@ import {
   CourseSection,
   Lesson
 } from '@course-platform/shared/interfaces';
+import { courseFragments } from './course-fragments';
 
 export const COURSE_SECTIONS_URL = '/api/sections';
 
@@ -48,22 +50,13 @@ export interface GetCoursesResponseDTO {
 }
 
 export const courseSectionsQuery = gql`
-  query GetCourseSectionsQuery($uid: ID!, $courseId: ID!) {
+  query GetCourseSectionsQuery($uid: String!, $courseId: String!) {
     courseSections(uid: $uid, courseId: $courseId) {
       id
       name
       theme
       lessons {
-        id
-        name
-        description
-        videoUrl
-        resources {
-          name
-          id
-          url
-          type
-        }
+        ...LessonFields
       }
       actionItems {
         id
@@ -80,12 +73,15 @@ export const courseSectionsQuery = gql`
       }
     }
   }
+
+  ${courseFragments.lesson}
 `;
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseResourcesService {
+  private courseId: string;
   constructor(private apollo: Apollo, private userService: UserService) {}
 
   getCourses(): Observable<Course[]> {
@@ -108,6 +104,7 @@ export class CourseResourcesService {
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
+    this.courseId = courseId;
     return this.userService.getCurrentUser().pipe(
       switchMap(user => {
         return this.apollo
@@ -166,23 +163,58 @@ export class CourseResourcesService {
 
   createLesson(
     sectionId: string,
-    sectionName: string = '',
+    lessonName: string = '',
     courseId: string
   ): Observable<string> {
     const createLessonMutation = gql`
       mutation {
-        createLesson(courseId: "${courseId}", sectionId: "${sectionId}", name: "${sectionName}")
+        createLesson(courseId: "${courseId}", sectionId: "${sectionId}", name: "${lessonName}") {
+          ...LessonFields
+        }
       }
+
+      ${courseFragments.lesson}
     `;
 
     return this.userService.getCurrentUser().pipe(
       switchMap(user => {
         return this.apollo
-          .mutate<string>({
+          .mutate<any>({
             mutation: createLessonMutation,
-            refetchQueries: [
-              { query: courseSectionsQuery, variables: { uid: user.uid } }
-            ]
+            update: (cache, { data: { createLesson } }) => {
+              const courseSectionsData = cache.readQuery<
+                GetCourseSectionsResponseDTO
+              >({
+                query: courseSectionsQuery,
+                variables: { uid: user.uid, courseId: this.courseId }
+              });
+
+              cache.writeQuery({
+                query: courseSectionsQuery,
+                data: {
+                  ...courseSectionsData,
+                  courseSections: [
+                    ...courseSectionsData.courseSections.reduce(
+                      (prev, section) => {
+                        const currentSection =
+                          section.id === sectionId
+                            ? {
+                                ...section,
+                                lessons: [...section.lessons, createLesson]
+                              }
+                            : section;
+                        return [
+                          ...prev,
+                          { ...currentSection } as CourseSection
+                        ];
+                      },
+                      []
+                    )
+                  ]
+                },
+                variables: { uid: user.uid, courseId: this.courseId }
+              });
+            }
           })
           .pipe(map(({ data }) => data));
       })
@@ -191,21 +223,77 @@ export class CourseResourcesService {
 
   updateLesson(lesson: Lesson, courseId: string) {
     const updateLessonMutation = gql`
-      mutation updateLessonMutation($resources: [LessonResourceInput]) {
-        updateLesson(courseId: "${courseId}", id: "${lesson.id}", name: "${lesson.name}", description: "${lesson.description}", videoUrl: "${lesson.videoUrl}", resources: $resources)
+      mutation updateLessonMutation(
+        $courseId: ID!
+        $id: ID!
+        $name: String
+        $description: String
+        $videoUrl: String
+        $resources: [LessonResourceInput]
+      ) {
+        updateLesson(
+          courseId: $courseId
+          id: $id
+          name: $name
+          description: $description
+          videoUrl: $videoUrl
+          resources: $resources
+        ) {
+          ...LessonFields
+        }
       }
+
+      ${courseFragments.lesson}
     `;
 
     return this.userService.getCurrentUser().pipe(
+      first(),
       switchMap(user => {
-        return this.apollo.mutate({
+        return this.apollo.mutate<any>({
           mutation: updateLessonMutation,
           variables: {
+            courseId,
+            id: lesson.id,
+            name: lesson.name,
+            description: lesson.description,
+            videoUrl: lesson.videoUrl,
             resources: lesson.resources
           },
-          refetchQueries: [
-            { query: courseSectionsQuery, variables: { uid: user.uid } }
-          ]
+          update: (cache, { data: { updateLesson } }) => {
+            const courseSectionsData = cache.readQuery<
+              GetCourseSectionsResponseDTO
+            >({
+              query: courseSectionsQuery,
+              variables: { uid: user.uid, courseId: this.courseId }
+            });
+
+            cache.writeQuery({
+              query: courseSectionsQuery,
+              data: {
+                ...courseSectionsData,
+                courseSections: [
+                  ...courseSectionsData.courseSections.reduce(
+                    (prev, section) => {
+                      const currentLessonIdx = section.lessons.findIndex(
+                        les => les.id === lesson.id
+                      );
+
+                      const updatedSection = produce(section, draft => {
+                        draft.lessons[currentLessonIdx] = updateLesson;
+                        if (currentLessonIdx !== -1) {
+                          draft.lessons[currentLessonIdx] = updateLesson;
+                        }
+                      });
+
+                      return [...prev, { ...updatedSection } as CourseSection];
+                    },
+                    []
+                  )
+                ]
+              },
+              variables: { uid: user.uid, courseId: this.courseId }
+            });
+          }
         });
       })
     );
@@ -213,16 +301,24 @@ export class CourseResourcesService {
 
   deleteLesson(sectionId: string, lessonId: string, courseId: string) {
     const deleteLessonMutation = gql`
-    mutation {
-      deleteLesson(courseId: ${courseId}, sectionId: "${sectionId}", id: "${lessonId}")
-    }
-  `;
+      mutation deleteLessonMutation(
+        $courseId: ID!
+        $sectionId: String!
+        $lessonId: ID!
+      ) {
+        deleteLesson(courseId: $courseId, sectionId: $sectionId, id: $lessonId)
+      }
+    `;
     return this.userService.getCurrentUser().pipe(
       switchMap(user => {
         return this.apollo.mutate({
           mutation: deleteLessonMutation,
+          variables: { courseId: this.courseId, sectionId, lessonId },
           refetchQueries: [
-            { query: courseSectionsQuery, variables: { uid: user.uid } }
+            {
+              query: courseSectionsQuery,
+              variables: { uid: user.uid, courseId: this.courseId }
+            }
           ]
         });
       })
@@ -248,7 +344,10 @@ export class CourseResourcesService {
             uid: user.uid
           },
           refetchQueries: [
-            { query: courseSectionsQuery, variables: { uid: user.uid } }
+            {
+              query: courseSectionsQuery,
+              variables: { uid: user.uid, courseId: this.courseId }
+            }
           ]
         });
       })
@@ -271,7 +370,10 @@ export class CourseResourcesService {
       refetchQueries: [
         {
           query: courseSectionsQuery,
-          variables: { uid: this.userService.currentUser$.value.uid }
+          variables: {
+            uid: this.userService.currentUser$.value.uid,
+            courseId: this.courseId
+          }
         }
       ]
     });
@@ -288,9 +390,14 @@ export class CourseResourcesService {
         $sectionId: ID!
         $sectionName: String
         $sectionTheme: String
-        courseId: ID!
+        $courseId: ID!
       ) {
-        updateSection(id: $sectionId, name: $sectionName, theme: $sectionTheme, courseId: $courseId)
+        updateSection(
+          id: $sectionId
+          name: $sectionName
+          theme: $sectionTheme
+          courseId: $courseId
+        )
       }
     `;
 
@@ -305,7 +412,10 @@ export class CourseResourcesService {
       refetchQueries: [
         {
           query: courseSectionsQuery,
-          variables: { uid: this.userService.currentUser$.value.uid }
+          variables: {
+            uid: this.userService.currentUser$.value.uid,
+            courseId: this.courseId
+          }
         }
       ]
     });
@@ -326,7 +436,10 @@ export class CourseResourcesService {
       refetchQueries: [
         {
           query: courseSectionsQuery,
-          variables: { uid: this.userService.currentUser$.value.uid }
+          variables: {
+            uid: this.userService.currentUser$.value.uid,
+            courseId: this.courseId
+          }
         }
       ]
     });

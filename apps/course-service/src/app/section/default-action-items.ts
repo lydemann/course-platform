@@ -18,9 +18,9 @@ export const getDefaultActionItems = (
   },
   {
     id: `${sectionId}-3`,
-    question: 'How are you feeling after completing week one?',
+    question: 'How are you feeling after completing the week?',
     answerDescription:
-      "Provide a simple one-two sentence answer in Slack and let us know how you're feeling as you progress and what you got out of the week's lessons.",
+      "Provide a simple one-two sentence answer in Slack and let us know how you're feeling as you progress and if you have any questions.",
     isCompleted: userCompletedActionItemsSet.has(`${sectionId}-3`)
   }
 ];

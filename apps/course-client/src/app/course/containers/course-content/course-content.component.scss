@@ -20,6 +20,10 @@
     font-weight: bold;
   }
 
+  .lesson-description {
+    white-space: pre-wrap;
+  }
+
   .resource {
     display: block;
     padding: size('s') size('xs');

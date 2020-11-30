@@ -48,8 +48,8 @@ export const lessonMutationResolvers = {
         sectionRef.update({ lessons: newLessons });
       });
 
-    return Promise.all([createLessonPromise, updateSectionPromise]).then(
-      () => newLessonRef.id
+    return Promise.all([createLessonPromise, updateSectionPromise]).then(() =>
+      newLessonRef.get().then(snapshot => snapshot.data())
     );
   },
   updateLesson: async (
@@ -98,13 +98,15 @@ export const lessonMutationResolvers = {
       name,
       description,
       videoUrl,
-      resources: resourceReferences
+      resources: resourceReferences || []
     } as LessonDTO);
 
-    return firestoreDB
-      .doc(`schools/${schoolId}/courses/${courseId}/lessons/${id}`)
+    const lessonRef = firestoreDB.doc(
+      `schools/${schoolId}/courses/${courseId}/lessons/${id}`
+    );
+    return lessonRef
       .update(cleanedPayload)
-      .then(() => 'Updated lesson');
+      .then(data => lessonRef.get().then(lesSnap => lesSnap.data()));
   },
   deleteLesson: async (
     parent,
@@ -137,7 +139,7 @@ export const lessonMutationResolvers = {
 
     const deleteResourcesPromise = lessonSnapshot
       .data()
-      .resources.map(resource => {
+      .resources?.map(resource => {
         resource.delete();
       });
 

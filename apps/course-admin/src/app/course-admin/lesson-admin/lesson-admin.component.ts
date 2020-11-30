@@ -49,7 +49,7 @@ export class LessonAdminComponent implements OnInit {
           description: [lesson.description, Validators.required],
           videoUrl: [lesson.videoUrl, Validators.required],
           resources: this.formBuilder.array([
-            ...lesson.resources.map(resource => {
+            ...lesson.resources?.map(resource => {
               return this.formBuilder.group({
                 id: [resource.id],
                 name: [resource.name],
@@ -79,6 +79,7 @@ export class LessonAdminComponent implements OnInit {
   }
 
   submit(formGroup: FormGroup, lesson: Lesson) {
+    // TODO: show spinner
     this.courseAdminFacade.saveLessonClicked({
       id: lesson.id,
       ...formGroup.value

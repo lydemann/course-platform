@@ -7,8 +7,8 @@ const { gql } = require('apollo-server-express');
 
 const schema = gql`
   type Query {
-    courseSections(uid: ID!, courseId: ID!): [Section]
-    user(uid: ID!): UserInfo
+    courseSections(uid: String, courseId: String): [Section]
+    user(uid: String!): UserInfo
     course: [Course]
   }
   type Mutation {

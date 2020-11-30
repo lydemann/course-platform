@@ -5,8 +5,9 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { auth } from 'firebase';
 import { from, Observable } from 'rxjs';
-import { exhaustMap, switchMap } from 'rxjs/operators';
+import { exhaustMap, first, switchMap } from 'rxjs/operators';
 
 import { UserService } from './user.service';
 
@@ -23,14 +24,16 @@ export class SetTokenInterceptor implements HttpInterceptor {
     }
 
     return this.userService.currentUser$.pipe(
+      first(),
       switchMap(user => {
         return from(user.getIdToken());
       }),
       exhaustMap(token => {
-        const tenantId = this.userService.currentUser$.value.tenantId;
+        const tenantId = auth().tenantId;
         let headers = tenantId
           ? req.headers.append('Schoolid', tenantId)
           : req.headers;
+
         headers = headers.append('Authorization', token);
         const authReq = req.clone({ headers });
         return next.handle(authReq);

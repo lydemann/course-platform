@@ -2,5 +2,10 @@
   display: block;
   .flex {
     display: flex;
+    width: 100%;
+  }
+  mat-form-field {
+    display: block;
+    width: 100%;
   }
 }

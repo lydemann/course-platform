@@ -6,7 +6,6 @@ import {
   selectedLessonIdRouteParam,
   selectedSectionIdRouteParam
 } from '@course-platform/course-client-lib';
-import { AuthGuard } from '@course-platform/shared/feat-auth';
 import {
   LessonRouteData,
   LessonTypes

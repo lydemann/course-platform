@@ -58,7 +58,8 @@ const routes: Routes = [
   //   resolve: [RedirectIfAuthenticatedResolver, RedirectIfLoggedOutResolver]
   // },
   {
-    path: '**',
+    path: '',
+    pathMatch: 'full',
     redirectTo: `christianlydemann-eyy6e/courses`
   }
 ];

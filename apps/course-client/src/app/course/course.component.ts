@@ -17,7 +17,7 @@ import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 export class CourseComponent implements OnInit {
   sections$: Observable<CourseSection[]>;
   isLoading$: Observable<Boolean>;
-  selectedSectionId$: Observable<string>;
+  selectedSection$: Observable<CourseSection>;
   selectedLesson$: Observable<Lesson>;
   selectedLessonId$: Observable<string>;
   sectionLessons$: Observable<Lesson[]>;
@@ -31,9 +31,7 @@ export class CourseComponent implements OnInit {
   ngOnInit() {
     this.isLoading$ = this.courseFacadeService.isLoading$;
     this.sections$ = this.courseFacadeService.sections$;
-    this.selectedSectionId$ = this.route.params.pipe(
-      pluck(selectedSectionIdRouteParam)
-    );
+    this.selectedSection$ = this.courseFacadeService.selectedSection$;
     this.sectionLessons$ = this.courseFacadeService.sectionLessons$;
     this.selectedLessonId$ = this.courseFacadeService.selectedLessonId$;
     this.sectionCompletedPct$ = this.courseFacadeService.sectionCompletedPct$;

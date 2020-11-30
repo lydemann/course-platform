@@ -8,7 +8,7 @@
 <div *ngIf="currentCourseId$ | async as currentCourseId">
   <mat-accordion>
     <mat-expansion-panel
-      *ngFor="let section of sections$ | async"
+      *ngFor="let section of sections$ | async; trackBy: trackBy"
       data-test="section"
     >
       <mat-expansion-panel-header>
