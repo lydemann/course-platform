@@ -6,21 +6,21 @@
 </div>
 
 <div *ngIf="currentCourseId$ | async as currentCourseId">
-  <mat-accordion>
+  <mat-accordion [multi]="true">
     <mat-expansion-panel
       *ngFor="let section of sections$ | async; trackBy: trackBy"
       data-test="section"
+      [expanded]="true"
     >
       <mat-expansion-panel-header>
         <mat-panel-title
           (click)="onSectionClicked($event, section.id, currentCourseId)"
         >
-          {{ section.id }}
+          {{ section.name }}
         </mat-panel-title>
         <mat-panel-description
           (click)="onSectionClicked($event, section.id, currentCourseId)"
         >
-          {{ section.name }}
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-selection-list #shoes [multiple]="false">

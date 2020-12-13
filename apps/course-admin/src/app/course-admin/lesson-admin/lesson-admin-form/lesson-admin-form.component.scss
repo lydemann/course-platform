@@ -1,5 +1,15 @@
-:host {
+@import 'helpers';
+
+:host ::ng-deep {
   display: block;
+
+  .mat-form-field-infix,
+  .mat-form-field-wrapper {
+    width: 100%;
+  }
+  .description {
+    height: size('xxxl');
+  }
   .flex {
     display: flex;
     width: 100%;
