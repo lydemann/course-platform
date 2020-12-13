@@ -10,6 +10,7 @@ import {
   LessonRouteData,
   LessonTypes
 } from '@course-platform/shared/interfaces';
+import { RedirectToCourseResolver } from '../redirect-to-course.resolver';
 import { ActionItemsComponent } from './containers/action-items/action-items.component';
 import { CourseContentComponent } from './containers/course-content/course-content.component';
 import { QuestionsComponent } from './containers/questions/questions.component';
@@ -17,6 +18,10 @@ import { CourseComponent } from './course.component';
 import { CourseResolver } from './resolvers/course.resolver';
 
 const routes: Routes = [
+  {
+    path: '',
+    resolve: [RedirectToCourseResolver]
+  },
   {
     path: `:${selectedSectionIdRouteParam}`,
     resolve: [CourseResolver],

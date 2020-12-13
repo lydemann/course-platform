@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: 'course/:courseId',
-        resolve: [RedirectToCourseResolver, RedirectIfLoggedOutResolver],
+        resolve: [RedirectIfLoggedOutResolver],
         loadChildren: () =>
           import('./course/course.module').then(m => m.CourseModule)
       },
