@@ -6,6 +6,7 @@ import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
+import { populateLesson } from '../section/section-resolvers';
 
 interface UpdateLessonInput extends LessonDTO {
   courseId;
@@ -106,7 +107,8 @@ export const lessonMutationResolvers = {
     );
     return lessonRef
       .update(cleanedPayload)
-      .then(data => lessonRef.get().then(lesSnap => lesSnap.data()));
+      .then(data => lessonRef.get().then(lesSnap => lesSnap.data()))
+      .then((lesson: LessonDTO) => populateLesson(lesson));
   },
   deleteLesson: async (
     parent,

@@ -279,7 +279,6 @@ export class CourseResourcesService {
                       );
 
                       const updatedSection = produce(section, draft => {
-                        draft.lessons[currentLessonIdx] = updateLesson;
                         if (currentLessonIdx !== -1) {
                           draft.lessons[currentLessonIdx] = updateLesson;
                         }
