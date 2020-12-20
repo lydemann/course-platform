@@ -24,12 +24,14 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-selection-list #shoes [multiple]="false">
-        <mat-list-option
+        <a
           *ngFor="let lesson of section.lessons"
-          (click)="onLessonClicked(section.id, lesson.id, currentCourseId)"
+          [routerLink]="getLessonUrl(section.id, lesson.id, currentCourseId)"
         >
-          {{ lesson.name }}
-        </mat-list-option>
+          <mat-list-option>
+            {{ lesson.name }}
+          </mat-list-option>
+        </a>
       </mat-selection-list>
       <app-button (buttonClicked)="onCreateLessonClicked(section.id)">
         Create lesson

@@ -27,19 +27,11 @@ export class CourseAdminComponent implements OnInit {
     this.currentCourseId$ = this.courseAdminFacadeService.currentCourseId$;
   }
 
-  onLessonClicked(
-    sectionId: string,
-    lessonId: string,
-    currentCourseId: string
-  ) {
-    this.router.navigate([
-      auth().tenantId,
-      'course-admin',
-      currentCourseId,
-      'lesson-admin',
-      sectionId,
-      lessonId
-    ]);
+  getLessonUrl(sectionId: string, lessonId: string, currentCourseId: string) {
+    const url = `/${
+      auth().tenantId
+    }/course-admin/${currentCourseId}/lesson-admin/${sectionId}/${lessonId}`;
+    return url;
   }
 
   trackBy(index, item) {
