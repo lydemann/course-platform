@@ -91,7 +91,7 @@ export const sectionQueryResolvers = {
   }
 };
 
-const populateLesson = (lesson: LessonDTO): Promise<Lesson> => {
+export const populateLesson = (lesson: LessonDTO): Promise<Lesson> => {
   const resourcesPerLessonProm = (lesson.resources || []).map(resource =>
     resource.get().then(doc => doc.data())
   );

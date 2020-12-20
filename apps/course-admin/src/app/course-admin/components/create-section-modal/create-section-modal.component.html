@@ -1,14 +1,27 @@
-<h1 mat-dialog-title>Create new section</h1>
-<div mat-dialog-content>
-  <p>Sections are sorted by section name</p>
-  <mat-form-field>
-    <mat-label>Section name</mat-label>
-    <input matInput [(ngModel)]="sectionName" />
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="sectionName" cdkFocusInitial>
-    Ok
-  </button>
-</div>
+<form (submit)="onSubmit()">
+  <h1 mat-dialog-title>Create new section</h1>
+  <div mat-dialog-content>
+    <p>Sections are sorted by section name</p>
+    <mat-form-field>
+      <mat-label>Section name</mat-label>
+      <input
+        name="section-name"
+        matInput
+        cdkFocusInitial
+        [(ngModel)]="sectionName"
+      />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <app-button (buttonClicked)="onNoClick()" buttonVariant="button"
+      >Cancel</app-button
+    >
+    <app-button
+      type="submit"
+      class="ml-m"
+      [mat-dialog-close]="sectionName"
+      color="primary"
+      >Ok</app-button
+    >
+  </div>
+</form>

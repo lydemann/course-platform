@@ -6,30 +6,32 @@
 </div>
 
 <div *ngIf="currentCourseId$ | async as currentCourseId">
-  <mat-accordion>
+  <mat-accordion [multi]="true">
     <mat-expansion-panel
       *ngFor="let section of sections$ | async; trackBy: trackBy"
       data-test="section"
+      [expanded]="true"
     >
       <mat-expansion-panel-header>
         <mat-panel-title
           (click)="onSectionClicked($event, section.id, currentCourseId)"
         >
-          {{ section.id }}
+          {{ section.name }}
         </mat-panel-title>
         <mat-panel-description
           (click)="onSectionClicked($event, section.id, currentCourseId)"
         >
-          {{ section.name }}
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-selection-list #shoes [multiple]="false">
-        <mat-list-option
+        <a
           *ngFor="let lesson of section.lessons"
-          (click)="onLessonClicked(section.id, lesson.id, currentCourseId)"
+          [routerLink]="getLessonUrl(section.id, lesson.id, currentCourseId)"
         >
-          {{ lesson.name }}
-        </mat-list-option>
+          <mat-list-option>
+            {{ lesson.name }}
+          </mat-list-option>
+        </a>
       </mat-selection-list>
       <app-button (buttonClicked)="onCreateLessonClicked(section.id)">
         Create lesson

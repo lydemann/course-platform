@@ -7,11 +7,15 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./create-lesson-modal.component.scss']
 })
 export class CreateLessonModalComponent {
-  sectionName: string;
+  lessonName: string;
 
   constructor(public dialogRef: MatDialogRef<CreateLessonModalComponent>) {}
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSubmit() {
+    this.dialogRef.close(this.lessonName);
   }
 }

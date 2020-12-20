@@ -22,6 +22,8 @@ import { Lesson } from '@course-platform/shared/interfaces';
 export class CourseContentComponent implements OnInit {
   public lesson$: Observable<Lesson>;
   public videoUrl$: Observable<SafeResourceUrl>;
+  private placeholderUrl =
+    'https://player.vimeo.com/video/38772314?title=0&byline=0&portrait=0';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -33,7 +35,11 @@ export class CourseContentComponent implements OnInit {
     this.videoUrl$ = this.courseFacadeService.selectedLesson$.pipe(
       filter(lesson => !!lesson),
       map(lesson =>
-        this.sanitizer.bypassSecurityTrustResourceUrl(lesson.videoUrl)
+        this.sanitizer.bypassSecurityTrustResourceUrl(
+          lesson.videoUrl
+            ? lesson.videoUrl + '?title=0&byline=0&portrait=0'
+            : this.placeholderUrl
+        )
       )
     );
   }

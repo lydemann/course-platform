@@ -14,4 +14,8 @@ export class CreateSectionModalComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  onSubmit() {
+    this.dialogRef.close(this.sectionName);
+  }
 }
