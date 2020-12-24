@@ -16,11 +16,24 @@ import { LessonResourceType } from '@course-platform/shared/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LessonAdminFormComponent {
-  @Input() formGroup: FormGroup;
+  private _formGroup: FormGroup;
+  public get formGroup(): FormGroup {
+    return this._formGroup;
+  }
+  @Input()
+  public set formGroup(formGroup: FormGroup) {
+    this._formGroup = formGroup;
+    this.hasTempResource =
+      formGroup.controls.resources['controls'][
+        formGroup.controls.resources['controls'].length - 1
+      ]?.controls.id.value === '';
+  }
+
   @Output() saveClicked = new EventEmitter<FormGroup>();
   @Output() deleteClicked = new EventEmitter<FormGroup>();
   @Output() addResourceClicked = new EventEmitter();
   @Output() deleteResourceClicked = new EventEmitter<string>();
+  hasTempResource: boolean;
 
   get resourceTypes() {
     return [
