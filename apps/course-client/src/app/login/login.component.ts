@@ -32,7 +32,7 @@ export class LoginComponent {
   tryLogin(value) {
     this.authService.doLogin(value).then(
       res => {
-        this.router.navigate([auth().tenantId, 'course']);
+        this.router.navigate([auth().tenantId, 'courses']);
       },
       err => {
         console.log(err);
