@@ -50,6 +50,7 @@
     }
   ],
   "functions": {
-    "source": "/"
+    "source": "/",
+    "runtime": "nodejs12"
   }
 }

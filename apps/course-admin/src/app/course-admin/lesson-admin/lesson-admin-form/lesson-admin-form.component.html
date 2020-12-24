@@ -56,7 +56,10 @@
     >
   </div>
 
-  <app-button class="mr-s" (buttonClicked)="addResourceClicked.emit()"
+  <app-button
+    class="mr-s"
+    *ngIf="!hasTempResource"
+    (buttonClicked)="addResourceClicked.emit()"
     >Add resource</app-button
   >
   <app-button

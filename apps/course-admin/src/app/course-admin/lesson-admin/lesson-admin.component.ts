@@ -62,6 +62,7 @@ export class LessonAdminComponent implements OnInit {
 
         if (isAddingresource) {
           const newResource = this.formBuilder.group({
+            id: [''],
             name: [''],
             url: [''],
             type: [LessonResourceType.WorkSheet]
