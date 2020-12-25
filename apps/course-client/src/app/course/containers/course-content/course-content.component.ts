@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import { CourseFacadeService } from '@course-platform/course-client-lib';
 import { Lesson } from '@course-platform/shared/interfaces';
@@ -34,6 +34,7 @@ export class CourseContentComponent implements OnInit {
     this.lesson$ = this.courseFacadeService.selectedLesson$;
     this.videoUrl$ = this.courseFacadeService.selectedLesson$.pipe(
       filter(lesson => !!lesson),
+      distinctUntilChanged((prev, cur) => prev?.videoUrl === cur?.videoUrl),
       map(lesson =>
         this.sanitizer.bypassSecurityTrustResourceUrl(
           lesson.videoUrl

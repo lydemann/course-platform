@@ -24,6 +24,6 @@ export class CoursesComponent implements OnInit {
   }
 
   courseSelected(courseId) {
-    this.router.navigate([auth().tenantId, 'course', courseId]);
+    this.router.navigate([auth().tenantId, 'courses', courseId]);
   }
 }
