@@ -21,6 +21,9 @@ $header-height: 62px;
   letter-spacing: normal;
   height: $header-height;
 
+  mat-toolbar {
+    height: 100%;
+  }
   .menu-items {
     margin: 0;
     list-style-type: none;
