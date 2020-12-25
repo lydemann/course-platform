@@ -42,7 +42,7 @@ export class TopbarComponent implements OnInit {
       this.courseClientFacade.courseId$
     ]).pipe(
       map(([schoolId, courseId]) =>
-        schoolId ? `${schoolId}/${courseId ? courseId : ''}` : ''
+        schoolId ? `${schoolId}/courses/${courseId ? courseId : ''}` : ''
       )
     );
     this.navigationItems$ = this.courseClientFacade.schoolId$.pipe(

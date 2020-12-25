@@ -11,7 +11,6 @@ const routes: Routes = [
   {
     path: ':schoolId',
     resolve: [SchoolIdResolver],
-    // resolve: [RedirectIfAuthenticatedResolver, RedirectIfLoggedOutResolver]
     children: [
       {
         path: '',
@@ -20,15 +19,20 @@ const routes: Routes = [
       },
       {
         path: 'courses',
-        loadChildren: () =>
-          import('./courses/courses.module').then(m => m.CoursesModule),
-        resolve: [RedirectIfLoggedOutResolver]
-      },
-      {
-        path: 'course/:courseId',
-        resolve: [RedirectIfLoggedOutResolver],
-        loadChildren: () =>
-          import('./course/course.module').then(m => m.CourseModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./courses/courses.module').then(m => m.CoursesModule),
+            resolve: [RedirectIfLoggedOutResolver]
+          },
+          {
+            path: ':courseId',
+            resolve: [RedirectIfLoggedOutResolver],
+            loadChildren: () =>
+              import('./course/course.module').then(m => m.CourseModule)
+          }
+        ]
       },
       {
         path: 'help',

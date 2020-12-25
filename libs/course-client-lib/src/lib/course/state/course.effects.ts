@@ -52,7 +52,7 @@ export class CourseEffects {
         switchMap(([{ selectedSectionId }, sectionsMap, courseId]) =>
           this.router.navigate([
             auth().tenantId,
-            'course',
+            'courses',
             courseId,
             selectedSectionId,
             sectionsMap[selectedSectionId].lessons[0] || '0'
@@ -74,7 +74,7 @@ export class CourseEffects {
         tap(([{ selectedLessonId }, selectedSectionId, courseId]) => {
           this.router.navigate([
             auth().tenantId,
-            'course',
+            'courses',
             courseId,
             selectedSectionId,
             selectedLessonId

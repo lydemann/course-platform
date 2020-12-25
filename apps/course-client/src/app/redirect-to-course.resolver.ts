@@ -33,7 +33,7 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
       .subscribe(sections => {
         this.router.navigate([
           auth().tenantId,
-          'course',
+          'courses',
           courseId,
           sections[0].id,
           sections[0].lessons[0].id
