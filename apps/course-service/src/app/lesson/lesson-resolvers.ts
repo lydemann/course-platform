@@ -74,7 +74,7 @@ export const lessonMutationResolvers = {
     >[] = [];
     if (resources) {
       const lessonResourcesRef = firestoreDB.collection(
-        `schools/${schoolId}/courses/${courseId}/lessons`
+        `schools/${schoolId}/courses/${courseId}/resources`
       );
       resourceReferences = await Promise.all(
         resources.map(resource => {
