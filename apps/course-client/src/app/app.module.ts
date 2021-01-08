@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { environment } from '@course-platform/course-client-env';
 import { CourseClientLibModule } from '@course-platform/course-client-lib';
 import {
   Endpoints,
@@ -40,7 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export function EndpointsFactory() {
   return {
-    courseServiceUrl: window.config.courseServiceUrl
+    courseServiceUrl: environment.courseServiceUrl
   } as Endpoints;
 }
 
