@@ -4,11 +4,16 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 async function setCustomClaim(uid) {
-    await admin.auth().setCustomUserClaims(uid, { admin: true });
-    
-    const user = await admin.auth().getUser(uid);
-    console.log(user.customClaims);
-    process.exit();
+  const auth = await admin
+    .auth()
+    .tenantManager()
+    .authForTenant('christianlydemann-eyy6e');
+
+  await auth.setCustomUserClaims(uid, { admin: true });
+  const user = await auth.getUser(uid);
+
+  console.log(user.customClaims);
+  process.exit();
 }
 
 const uid = process.argv[2];
