@@ -56,11 +56,7 @@ export class ProfileService {
       this.currentUser.email,
       oldPassword
     );
-    try {
-      await this.currentUser.reauthenticateWithCredential(credential);
-      return this.currentUser.updatePassword(newPassword);
-    } catch (error) {
-      console.error(error);
-    }
+    await this.currentUser.reauthenticateWithCredential(credential);
+    return this.currentUser.updatePassword(newPassword);
   }
 }

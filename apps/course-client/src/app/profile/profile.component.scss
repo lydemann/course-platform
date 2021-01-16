@@ -20,4 +20,8 @@
     text-align: center;
     color: get-color('white');
   }
+
+  .error {
+    color: get-color('warn');
+  }
 }
