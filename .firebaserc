@@ -6,7 +6,7 @@
           "aaa-course-portal"
         ],
         "course-admin": [
-          "aaa-course-admin"
+          "aaa-course-portal-admin"
         ]
       }
     }
