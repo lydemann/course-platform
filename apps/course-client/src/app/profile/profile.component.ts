@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   user$: Observable<firebase.User>;
   profileForm$: Observable<FormGroup>;
   changePwForm: FormGroup;
+  errorMessage: string;
   constructor(
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
@@ -47,17 +48,23 @@ export class ProfileComponent implements OnInit {
     this.profileService.updateName(fullName);
   }
 
-  onChangePassword() {
+  async onChangePassword() {
+    this.errorMessage = '';
     const currentPassword = this.changePwForm.get('currentPassword').value;
     const newPassword = this.changePwForm.get('newPassword').value;
     const confirmPassword = this.changePwForm.get('confirmPassword').value;
 
     if (newPassword !== confirmPassword) {
+      this.errorMessage = `Passwords don't match.`;
       return;
     }
 
-    this.profileService.updatePassword(newPassword, currentPassword);
-    this.changePwForm.reset();
+    try {
+      await this.profileService.updatePassword(newPassword, currentPassword);
+      this.changePwForm.reset();
+    } catch (error) {
+      this.errorMessage = error.message;
+    }
   }
 
   onLogout() {

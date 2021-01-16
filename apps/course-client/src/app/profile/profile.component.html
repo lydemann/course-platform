@@ -77,6 +77,9 @@
           <input matInput type="password" formControlName="confirmPassword" />
         </mat-form-field>
       </div>
+      <div>
+        <label class="error">{{ errorMessage }}</label>
+      </div>
       <div fxLayout="row" class="mt-m" fxLayoutGap="16px">
         <app-button size="l" type="submit" color="success" class="submit-btn">
           Save
