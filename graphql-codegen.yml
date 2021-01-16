@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://localhost:5000/aaa-course-portal/us-central1/api"
+schema: "http://localhost:5000/aaa-course-portal/europe-west3/api"
 documents: "**/*.graphql"
 generates:
   libs/shared/data-access/src/resources/graphql/generated.ts:

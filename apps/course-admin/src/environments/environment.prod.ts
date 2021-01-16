@@ -11,5 +11,5 @@ export const environment = {
     measurementId: 'G-4D02VHTXTV'
   },
   courseServiceUrl:
-    'https://us-central1-aaa-course-portal.cloudfunctions.net/api'
+    'https://europe-west3-aaa-course-portal.cloudfunctions.net/api'
 };
