@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import {
   catchError,
   filter,
+  first,
   map,
   switchMap,
   tap,
@@ -30,6 +31,7 @@ export class CourseEffects {
       filter(([_, courseId]) => !!courseId),
       switchMap(([_, courseId]) => {
         return this.courseResourcesService.getCourseSections(courseId).pipe(
+          first(),
           map(courseSections =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
@@ -107,13 +109,20 @@ export class CourseEffects {
       ofType(CourseActions.actionItemCompletedChanged),
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
-      switchMap(([{ resourceId, completed }]) => {
+      switchMap(([{ resourceId, completed, sectionId }]) => {
         return this.courseResourcesService
           .setActionItemCompleted(resourceId, completed)
           .pipe(
             map(() => CourseActions.setActionItemCompletedSuccess()),
             catchError(error =>
-              of(CourseActions.setActionItemCompletedFailed({ error }))
+              of(
+                CourseActions.setActionItemCompletedFailed({
+                  error,
+                  resourceId,
+                  completed,
+                  sectionId
+                })
+              )
             )
           );
       })

@@ -61,9 +61,17 @@ export class CourseFacadeService {
   loadSections(courseId: string) {
     this.store.dispatch(CourseActions.loadSections({ courseId }));
   }
-  onActionItemCompletedChanged(resourceId: string, completed: boolean) {
+  onActionItemCompletedChanged(
+    resourceId: string,
+    completed: boolean,
+    sectionId: string
+  ) {
     this.store.dispatch(
-      CourseActions.actionItemCompletedChanged({ resourceId, completed })
+      CourseActions.actionItemCompletedChanged({
+        resourceId,
+        completed,
+        sectionId
+      })
     );
   }
   onSectionSelected(selectionSectionId: string) {

@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { produce } from 'immer';
 
 import { CourseActions, CourseActionsUnion } from './course.actions';
 import {
@@ -94,5 +95,31 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
         selectedSectionId
       }
     };
-  })
+  }),
+  on(
+    CourseActions.actionItemCompletedChanged,
+    (state, { completed, resourceId, sectionId }) => {
+      return produce<CourseState>(state, draft => {
+        const actionItemToUpdate = draft.sectionsState.entities[
+          sectionId
+        ].actionItems.find(actionItem => actionItem.id === resourceId);
+        actionItemToUpdate.isCompleted = completed;
+
+        return draft;
+      });
+    }
+  ),
+  on(
+    CourseActions.setActionItemCompletedFailed,
+    (state, { completed, resourceId, sectionId }) => {
+      return produce<CourseState>(state, draft => {
+        const actionItemToUpdate = draft.sectionsState.entities[
+          sectionId
+        ].actionItems.find(actionItem => actionItem.id === resourceId);
+        actionItemToUpdate.isCompleted = !completed;
+
+        return draft;
+      });
+    }
+  )
 );
