@@ -27,10 +27,15 @@ export class ActionItemsComponent implements OnInit {
     this.selectedSectionId$ = this.courseFacadeService.selectedSectionId$;
   }
 
-  public onCompleteChanged(resourceId: string, completed: boolean) {
+  public onCompleteChanged(
+    resourceId: string,
+    completed: boolean,
+    sectionId: string
+  ) {
     this.courseFacadeService.onActionItemCompletedChanged(
       resourceId,
-      completed
+      completed,
+      sectionId
     );
   }
 }

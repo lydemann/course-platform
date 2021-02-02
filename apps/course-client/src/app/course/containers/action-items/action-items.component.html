@@ -21,7 +21,9 @@
     <app-action-item
       *ngFor="let actionItem of actionItems$ | async"
       [answerItem]="actionItem"
-      (completeChanged)="onCompleteChanged(actionItem.id, $event)"
+      (completeChanged)="
+        onCompleteChanged(actionItem.id, $event, selectedSectionId)
+      "
     ></app-action-item>
   </div>
 </div>

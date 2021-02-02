@@ -68,7 +68,7 @@ export namespace CourseActions {
 
   export const actionItemCompletedChanged = createAction(
     '[Course] Action Item Completed Changed',
-    props<{ resourceId: string; completed: boolean }>()
+    props<{ resourceId: string; completed: boolean; sectionId: string }>()
   );
 
   export const setActionItemCompletedSuccess = createAction(
