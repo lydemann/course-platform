@@ -109,13 +109,20 @@ export class CourseEffects {
       ofType(CourseActions.actionItemCompletedChanged),
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
-      switchMap(([{ resourceId, completed }]) => {
+      switchMap(([{ resourceId, completed, sectionId }]) => {
         return this.courseResourcesService
           .setActionItemCompleted(resourceId, completed)
           .pipe(
             map(() => CourseActions.setActionItemCompletedSuccess()),
             catchError(error =>
-              of(CourseActions.setActionItemCompletedFailed({ error }))
+              of(
+                CourseActions.setActionItemCompletedFailed({
+                  error,
+                  resourceId,
+                  completed,
+                  sectionId
+                })
+              )
             )
           );
       })

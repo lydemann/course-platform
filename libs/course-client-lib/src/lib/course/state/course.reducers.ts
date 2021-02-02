@@ -108,5 +108,18 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
         return draft;
       });
     }
+  ),
+  on(
+    CourseActions.setActionItemCompletedFailed,
+    (state, { completed, resourceId, sectionId }) => {
+      return produce<CourseState>(state, draft => {
+        const actionItemToUpdate = draft.sectionsState.entities[
+          sectionId
+        ].actionItems.find(actionItem => actionItem.id === resourceId);
+        actionItemToUpdate.isCompleted = !completed;
+
+        return draft;
+      });
+    }
   )
 );
