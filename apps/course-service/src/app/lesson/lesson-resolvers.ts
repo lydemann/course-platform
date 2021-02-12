@@ -33,8 +33,8 @@ export const lessonMutationResolvers = {
       .doc();
     const createLessonPromise = newLessonRef
       .set({
-        id: newLessonRef.id,
-        ...cleanedPayload
+        ...cleanedPayload,
+        id: newLessonRef.id
       } as LessonDTO)
       .then(() => newLessonRef.id);
 
