@@ -1,4 +1,7 @@
-import { courseQuerySchema } from './course/course-schema';
+import {
+  courseMutationSchema,
+  courseQuerySchema
+} from './course/course-schema';
 import { lessonMutations, lessonQuerySchema } from './lesson/lesson-schema';
 import { sectionMutations, SectionSchema } from './section/section-schema';
 import { userMutationSchema, UserQuerySchema } from './user/user-schema';
@@ -15,6 +18,7 @@ const schema = gql`
     ${userMutationSchema}
     ${sectionMutations}
     ${lessonMutations}
+    ${courseMutationSchema}
   }
 `;
 
