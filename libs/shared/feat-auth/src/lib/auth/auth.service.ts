@@ -40,7 +40,7 @@ export class AuthService {
       if (firebase.auth().currentUser) {
         this.afAuth.signOut();
         location.href = '/';
-        resolve();
+        resolve(true);
       } else {
         reject();
       }
