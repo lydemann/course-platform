@@ -1,9 +1,10 @@
 module.exports = {
-  name: 'course-admin-lib',
-  preset: '../../jest.config.js',
+  preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]sx?$': 'ts-jest'
+    '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
-  coverageDirectory: '../../coverage/libs/course-admin-lib'
+  coverageDirectory: '../../coverage/libs/course-admin-lib',
+  globals: { 'ts-jest': { tsConfig: '<rootDir>/tsconfig.spec.json' } },
+  displayName: 'course-admin-lib',
 };
