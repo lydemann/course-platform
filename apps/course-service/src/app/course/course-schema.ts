@@ -7,8 +7,8 @@ export const courseQuerySchema = gql`
   }
 `;
 
-export const courseMutationSchema = gql`
-  createCourse(courseId: ID!, name: String!, description: String): Course
-  updateCourse(courseId: ID!, name: String, description: String): Course
-  deleteCourse(courseId: ID!)
+export const courseMutationSchema = `
+  createCourse(id: ID!, name: String!, description: String): Course
+  updateCourse(id: ID!, name: String, description: String): Course
+  deleteCourse(id: ID!): Course
 `;
