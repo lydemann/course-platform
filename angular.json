@@ -50,7 +50,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -101,9 +100,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/course-client/jest.config.js",
-            "tsConfig": "apps/course-client/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/course-client/src/test-setup.ts"
+            "passWithNoTests": true
           }
         },
         "deploy": {
@@ -159,9 +156,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/course-client-lib/jest.config.js",
-            "tsConfig": "libs/course-client-lib/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/course-client-lib/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       },
@@ -221,7 +216,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -273,9 +267,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/course-admin/jest.config.js",
-            "tsConfig": "apps/course-admin/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/course-admin/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }
@@ -327,7 +319,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/interfaces/jest.config.js",
-            "tsConfig": "libs/shared/interfaces/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -356,7 +347,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/util/util-feature-toggle/jest.config.js",
-            "tsConfig": "libs/shared/util/util-feature-toggle/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -376,9 +366,7 @@
             "outputPath": "dist/apps/course-service",
             "main": "apps/course-service/src/main.ts",
             "tsConfig": "apps/course-service/tsconfig.app.json",
-            "assets": [
-              "apps/course-service/src/assets"
-            ]
+            "assets": ["apps/course-service/src/assets"]
           },
           "configurations": {
             "production": {
@@ -414,7 +402,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/course-service/jest.config.js",
-            "tsConfig": "apps/course-service/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -440,7 +427,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/data-access/jest.config.js",
-            "tsConfig": "libs/shared/data-access/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -466,9 +452,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/feat-auth/jest.config.js",
-            "tsConfig": "libs/shared/feat-auth/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/shared/feat-auth/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       },
@@ -498,7 +482,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/course-admin-lib/jest.config.js",
-            "tsConfig": "libs/course-admin-lib/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

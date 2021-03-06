@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
   OnInit,
-  Output
+  SecurityContext
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
@@ -36,13 +34,20 @@ export class CourseContentComponent implements OnInit {
       filter(lesson => !!lesson),
       distinctUntilChanged((prev, cur) => prev?.videoUrl === cur?.videoUrl),
       map(lesson =>
-        this.sanitizer.bypassSecurityTrustResourceUrl(
+        this.getTrustedVideoUrl(
           lesson.videoUrl
             ? lesson.videoUrl + '?title=0&byline=0&portrait=0'
             : this.placeholderUrl
         )
       )
     );
+  }
+
+  private getTrustedVideoUrl(url: string): SafeResourceUrl {
+    // Url domains are whitelisted using CSP header
+    // Content-Security-Policy: frame-src <source> <source>;
+    const sanitizedUrl = this.sanitizer.sanitize(SecurityContext.URL, url);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(sanitizedUrl);
   }
 
   onCompletedLessonClick(isCompleted: boolean, lessonId: string) {
