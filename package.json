@@ -61,7 +61,7 @@
     "@ngrx/router-store": "^11.0.1",
     "@ngrx/store": "^11.0.1",
     "@ngrx/store-devtools": "^11.0.1",
-    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^4.0.0",
     "@nrwl/angular": "11.4.0",
     "apollo-angular": "^2.0.4",
