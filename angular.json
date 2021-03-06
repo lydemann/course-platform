@@ -254,12 +254,13 @@
           }
         },
         "lint": {
-          "builder": "@angular-eslint/builder:lint",
+          "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/course-admin/**/*.ts",
-              "apps/course-admin/**/*.html"
-            ]
+            "tsConfig": [
+              "apps/course-admin/tsconfig.app.json",
+              "apps/course-admin/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/course-admin/**"]
           }
         },
         "test": {
