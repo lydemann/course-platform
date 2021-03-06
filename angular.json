@@ -33,10 +33,14 @@
               "apps/course-client/src/.firebaserc",
               "apps/course-client/src/firebase.json"
             ],
-            "styles": ["apps/course-client/src/styles.scss"],
+            "styles": [
+              "apps/course-client/src/styles.scss"
+            ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/ui/styles/src/lib"]
+              "includePaths": [
+                "libs/shared/ui/styles/src/lib"
+              ]
             }
           },
           "configurations": {
@@ -93,7 +97,10 @@
               "apps/course-client/tsconfig.app.json",
               "apps/course-client/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/course-client/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/course-client/**"
+            ]
           }
         },
         "test": {
@@ -132,8 +139,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/course-client-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/course-client-e2e/**"]
+            "tsConfig": [
+              "apps/course-client-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/course-client-e2e/**"
+            ]
           }
         }
       }
@@ -151,7 +163,10 @@
               "libs/course-client-lib/tsconfig.lib.json",
               "libs/course-client-lib/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/course-client-lib/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/course-client-lib/**"
+            ]
           }
         },
         "test": {
@@ -203,9 +218,13 @@
               "apps/course-admin/src/.firebaserc",
               "apps/course-admin/src/firebase.json"
             ],
-            "styles": ["apps/course-admin/src/styles.scss"],
+            "styles": [
+              "apps/course-admin/src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/ui/styles/src/lib"]
+              "includePaths": [
+                "libs/shared/ui/styles/src/lib"
+              ]
             },
             "scripts": []
           },
@@ -258,13 +277,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "apps/course-admin/tsconfig.app.json",
-              "apps/course-admin/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/course-admin/**"]
+            "lintFilePatterns": [
+              "apps/course-admin/**/*.ts",
+              "apps/course-admin/**/*.html"
+            ]
           }
         },
         "test": {
@@ -299,8 +317,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/course-admin-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/course-admin-e2e/**"]
+            "tsConfig": [
+              "apps/course-admin-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/course-admin-e2e/**"
+            ]
           }
         }
       }
@@ -318,7 +341,10 @@
               "libs/shared/interfaces/tsconfig.lib.json",
               "libs/shared/interfaces/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/interfaces/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/interfaces/**"
+            ]
           }
         },
         "test": {
@@ -405,7 +431,10 @@
               "apps/course-service/tsconfig.app.json",
               "apps/course-service/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/course-service/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/course-service/**"
+            ]
           }
         },
         "test": {
@@ -431,7 +460,10 @@
               "libs/shared/data-access/tsconfig.lib.json",
               "libs/shared/data-access/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/data-access/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/data-access/**"
+            ]
           }
         },
         "test": {
@@ -457,7 +489,10 @@
               "libs/shared/feat-auth/tsconfig.lib.json",
               "libs/shared/feat-auth/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/feat-auth/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/feat-auth/**"
+            ]
           }
         },
         "test": {
@@ -489,7 +524,10 @@
               "libs/course-admin-lib/tsconfig.lib.json",
               "libs/course-admin-lib/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/course-admin-lib/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/course-admin-lib/**"
+            ]
           }
         },
         "test": {
