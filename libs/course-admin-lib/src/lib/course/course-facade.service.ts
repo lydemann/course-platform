@@ -4,11 +4,10 @@ import { Observable } from 'rxjs';
 
 import {
   CourseResourcesService,
-  GetCourseSectionsResponseDTO,
   GetCoursesResponseDTO,
 } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
-import { createInCache, removeFromCache } from '../graphql.helpers';
+import { createInCache, removeFromCache } from '../graphql-helpers';
 
 @Injectable({
   providedIn: 'root',
