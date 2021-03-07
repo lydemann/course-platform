@@ -6,7 +6,7 @@ button {
 
   &.size-l {
     // TODO: set padding
-    width: 155px;
+    min-width: 155px;
     height: 45px;
   }
 }
