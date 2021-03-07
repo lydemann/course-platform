@@ -83,8 +83,8 @@ describe('CourseFacadeService', () => {
     });
   });
 
-  describe('createCourseSubmitted', () => {
-    it('should create course', () => {
+  describe('deleteCourseSubmitted', () => {
+    it('should delete course', () => {
       const id = '1';
       spectator.service.deleteCourseSubmitted(id);
 
