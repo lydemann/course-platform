@@ -2,10 +2,11 @@
 
 button {
   font-family: AvenirNextLTPro-Medium Arial, Helvetica, sans-serif;
+  font-weight: bold;
 
   &.size-l {
     // TODO: set padding
-    width: 155px;
+    min-width: 155px;
     height: 45px;
   }
 }

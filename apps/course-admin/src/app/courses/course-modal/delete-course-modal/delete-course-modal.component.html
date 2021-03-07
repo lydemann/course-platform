@@ -1,0 +1,13 @@
+<h3>Delete course: {{ course.name }}</h3>
+
+<p>You will lose all the data in the course. Are you sure?</p>
+
+<app-button
+  (clicked)="onDeleteCourse()"
+  size="l"
+  type="submit"
+  color="warn"
+  class="submit-btn center mt-l"
+>
+  Delete ”{{ course.name }}"
+</app-button>

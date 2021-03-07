@@ -1,6 +1,7 @@
 import { AuthenticationError } from 'apollo-server-express';
 import admin from 'firebase-admin';
 
+import { UserInfo } from '@course-platform/shared/interfaces';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 
@@ -21,7 +22,7 @@ export function getUserData<T = any>(
 }
 
 export const userQueryResolvers = {
-  user: async (parent, { uid }, context: RequestContext) => {
+  user: async (parent, { uid }, context: RequestContext): Promise<UserInfo> => {
     if (!context.auth.admin && uid !== context.auth.uid) {
       throw new AuthenticationError('User is not admin or user');
     }

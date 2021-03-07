@@ -1,6 +1,6 @@
 <div fxLayout="row" class="mb-l" fxLayoutAlign="space-between start">
   <h1 class="mb-m">Welcome to the course admin</h1>
-  <app-button (buttonClicked)="onCreateSectionClicked($event)">
+  <app-button (clicked)="onCreateSectionClicked($event)">
     Create Section
   </app-button>
 </div>
@@ -33,7 +33,7 @@
           </mat-list-option>
         </a>
       </mat-selection-list>
-      <app-button (buttonClicked)="onCreateLessonClicked(section.id)">
+      <app-button (clicked)="onCreateLessonClicked(section.id)">
         Create lesson
       </app-button>
     </mat-expansion-panel>
