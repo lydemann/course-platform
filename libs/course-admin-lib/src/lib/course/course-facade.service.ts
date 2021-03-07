@@ -9,6 +9,36 @@ import {
 import { Course } from '@course-platform/shared/interfaces';
 import { createInCache, removeFromCache } from '../graphql-helpers';
 
+export const EDIT_COURSE_MUTATION = gql`
+  mutation editCourseMutation($id: ID!, $name: String!, $description: String!) {
+    updateCourse(id: $id, name: $name, description: $description) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+export const CREATE_COURSE_MUTATION = gql`
+  mutation createCourseMutation($name: String!, $description: String!) {
+    createCourse(name: $name, description: $description) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+export const DELETE_COURSE_MUTATION = gql`
+  mutation deleteCourseMutation($id: ID!) {
+    deleteCourse(id: $id) {
+      id
+      name
+      description
+    }
+  }
+`;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -23,23 +53,9 @@ export class CourseFacadeService {
   }
 
   editCourseSubmitted(editedCourse: Course) {
-    const mutation = gql`
-      mutation editCourseMutation(
-        $id: ID!
-        $name: String!
-        $description: String!
-      ) {
-        updateCourse(id: $id, name: $name, description: $description) {
-          id
-          name
-          description
-        }
-      }
-    `;
-
     return this.apollo
       .mutate<Course>({
-        mutation,
+        mutation: EDIT_COURSE_MUTATION,
         variables: {
           id: editedCourse.id,
           name: editedCourse.name,
@@ -52,21 +68,11 @@ export class CourseFacadeService {
   }
 
   createCourseSubmitted(course: Course) {
-    const mutation = gql`
-      mutation createCourseMutation($name: String!, $description: String!) {
-        createCourse(name: $name, description: $description) {
-          id
-          name
-          description
-        }
-      }
-    `;
-
     const getCoursesQuery = this.courseResourcesService.GET_COURSES_QUERY;
 
     return this.apollo
       .mutate<{ createCourse: Course }>({
-        mutation,
+        mutation: CREATE_COURSE_MUTATION,
         variables: {
           name: course.name,
           description: course.description,
@@ -86,21 +92,12 @@ export class CourseFacadeService {
   }
 
   deleteCourseSubmitted(courseId: string) {
-    const mutation = gql`
-      mutation deleteCourseMutation($id: ID!) {
-        deleteCourse(id: $id) {
-          id
-          name
-          description
-        }
-      }
-    `;
     const getCoursesQuery = this.courseResourcesService.GET_COURSES_QUERY;
 
     // TODO: uodate ui
     return this.apollo
       .mutate<{ deleteCourse: Course }>({
-        mutation,
+        mutation: DELETE_COURSE_MUTATION,
         variables: {
           id: courseId,
         } as Course,
