@@ -49,7 +49,7 @@
     <app-button
       color="warn"
       type="button"
-      (buttonClicked)="
+      (clicked)="
         deleteResourceClicked.emit(resourceFromGroup.controls.id.value)
       "
       >delete resource</app-button
@@ -59,16 +59,16 @@
   <app-button
     class="mr-s"
     *ngIf="!hasTempResource"
-    (buttonClicked)="addResourceClicked.emit()"
+    (clicked)="addResourceClicked.emit()"
     >Add resource</app-button
   >
   <app-button
     class="mr-s"
     color="success"
-    (buttonClicked)="saveClicked.emit(formGroup)"
+    (clicked)="saveClicked.emit(formGroup)"
     >Save lesson</app-button
   >
-  <app-button color="warn" (buttonClicked)="deleteClicked.emit(formGroup)"
+  <app-button color="warn" (clicked)="deleteClicked.emit(formGroup)"
     >Delete Lesson</app-button
   >
 </form>

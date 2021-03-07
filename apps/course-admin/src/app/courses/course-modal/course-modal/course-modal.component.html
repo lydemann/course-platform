@@ -1,0 +1,23 @@
+<h3 *ngIf="!this.course">Create course</h3>
+<h3 *ngIf="this.course">Edit course</h3>
+
+<form [formGroup]="form" (submit)="onSaveCourse()">
+  <!-- TODO: assign random id to course -->
+  <div>
+    <mat-form-field class="pr-l field">
+      <mat-label>Course Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field class="pr-l field">
+      <mat-label>Course Description</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+  </div>
+
+  <app-button size="l" type="submit" color="success" class="submit-btn center">
+    Save
+  </app-button>
+</form>

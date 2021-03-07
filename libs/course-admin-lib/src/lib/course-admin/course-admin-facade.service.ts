@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Apollo, gql } from 'apollo-angular';
 import { auth } from 'firebase';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
@@ -7,14 +8,14 @@ import {
   filter,
   first,
   map,
-  switchMap
+  switchMap,
 } from 'rxjs/operators';
 
 import { CourseResourcesService } from '@course-platform/shared/data-access';
 import {
   Course,
   CourseSection,
-  Lesson
+  Lesson,
 } from '@course-platform/shared/interfaces';
 
 interface CourseAdminStore {
@@ -28,57 +29,58 @@ interface CourseAdminStore {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CourseAdminFacadeService {
   constructor(
     private courseResourcesService: CourseResourcesService,
-    private router: Router
+    private router: Router,
+    private apollo: Apollo
   ) {
     this.currentCourseId$ = this.courseAdminStore.pipe(
-      map(store => store.currentCourseId)
+      map((store) => store.currentCourseId)
     );
     this.sections$ = this.courseAdminStore.pipe(
-      map(store => store.currentCourseId),
-      filter(courseId => !!courseId),
-      switchMap(courseId =>
+      map((store) => store.currentCourseId),
+      filter((courseId) => !!courseId),
+      switchMap((courseId) =>
         this.courseResourcesService.getCourseSections(courseId)
       )
     );
     this.isLoadingCourseSections$ = this.courseAdminStore.pipe(
-      map(state => state.isLoadingCourseSections),
+      map((state) => state.isLoadingCourseSections),
       distinctUntilChanged()
     );
     this.currentSectionId$ = this.courseAdminStore.pipe(
-      map(state => state.currentSectionId),
+      map((state) => state.currentSectionId),
       distinctUntilChanged()
     );
     this.currentLessonId$ = this.courseAdminStore.pipe(
-      map(state => state.currentLessonId),
+      map((state) => state.currentLessonId),
       distinctUntilChanged()
     );
 
     this.currentLesson$ = combineLatest([
       this.currentSectionId$,
       this.currentLessonId$,
-      this.sections$
+      this.sections$,
     ]).pipe(
       map(([sectionId, lessonId, sections]) => {
         return sections
-          ?.find(section => section.id === sectionId)
-          ?.lessons?.find(lesson => lesson.id === lessonId);
+          ?.find((section) => section.id === sectionId)
+          ?.lessons?.find((lesson) => lesson.id === lessonId);
       }),
-      filter(lesson => !!lesson)
+      filter((lesson) => !!lesson)
     );
 
     this.currentSection$ = combineLatest([
       this.currentSectionId$,
-      this.sections$
+      this.sections$,
     ]).pipe(
       map(([sectionId, sections]) => {
-        return sections?.find(section => section.id === sectionId);
+        return sections?.find((section) => section.id === sectionId);
       }),
-      filter(lesson => !!lesson)
+      filter((lesson) => !!lesson)
     );
   }
   private courseAdminStore = new BehaviorSubject<CourseAdminStore>({
@@ -88,7 +90,7 @@ export class CourseAdminFacadeService {
     currentSectionId: null,
     currentLessonId: null,
     isSavingLesson: false,
-    currentCourseId: null
+    currentCourseId: null,
   });
   currentCourseId$: Observable<string>;
   isLoadingCourseSections$: Observable<boolean>;
@@ -103,6 +105,84 @@ export class CourseAdminFacadeService {
     this.router.navigate([auth().tenantId, 'course-admin', courseId]);
   }
 
+  editCourseSubmitted(editedCourse: Course) {
+    const mutation = gql`
+      mutation editCourseMutation(
+        $id: ID!
+        $name: String!
+        $description: String!
+      ) {
+        updateCourse(id: $id, name: $name, description: $description) {
+          id
+          name
+          description
+        }
+      }
+    `;
+
+    return this.apollo
+      .mutate<Course>({
+        mutation,
+        variables: {
+          id: editedCourse.id,
+          name: editedCourse.name,
+          description: editedCourse.description,
+        } as Course,
+      })
+      .subscribe(() => {
+        // TODO: show toast when saved
+      });
+  }
+
+  createCourseSubmitted(course: Course) {
+    const mutation = gql`
+      mutation createCourseMutation($name: String!, $description: String!) {
+        createCourse(name: $name, description: $description) {
+          id
+          name
+          description
+        }
+      }
+    `;
+
+    // TODO: uodate ui
+    return this.apollo
+      .mutate<Course>({
+        mutation,
+        variables: {
+          name: course.name,
+          description: course.description,
+        } as Course,
+      })
+      .subscribe(() => {
+        // TODO: show toast when created
+      });
+  }
+
+  deleteCourseSubmitted(courseId: string) {
+    const mutation = gql`
+      mutation deleteCourseMutation($id: ID!) {
+        deleteCourse(id: $id) {
+          id
+          name
+          description
+        }
+      }
+    `;
+
+    // TODO: uodate ui
+    return this.apollo
+      .mutate<Course>({
+        mutation,
+        variables: {
+          id: courseId,
+        } as Course,
+      })
+      .subscribe(() => {
+        // TODO: show toast when created
+      });
+  }
+
   setSchoolId(schoolId: any) {
     auth().tenantId = schoolId;
   }
@@ -113,7 +193,7 @@ export class CourseAdminFacadeService {
   courseAdminInit(courseId: string) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
-      currentCourseId: courseId
+      currentCourseId: courseId,
     });
   }
 
@@ -122,7 +202,7 @@ export class CourseAdminFacadeService {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
       currentSectionId: sectionId,
-      currentLessonId: lessonId
+      currentLessonId: lessonId,
     });
   }
 
@@ -130,7 +210,7 @@ export class CourseAdminFacadeService {
     // TODO: just get this from router params and delete method
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
-      currentSectionId: sectionId
+      currentSectionId: sectionId,
     });
   }
 
@@ -145,7 +225,7 @@ export class CourseAdminFacadeService {
   createSectionSubmitted(sectionName: string) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
-      isSavingLesson: true
+      isSavingLesson: true,
     });
 
     const courseId = this.courseAdminStore.value.currentCourseId;
@@ -156,7 +236,7 @@ export class CourseAdminFacadeService {
   updateSectionSubmitted(section: Partial<CourseSection>) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
-      isSavingLesson: true
+      isSavingLesson: true,
     });
     const courseId = this.courseAdminStore.value.currentCourseId;
     this.courseResourcesService
@@ -167,7 +247,7 @@ export class CourseAdminFacadeService {
   deleteSectionSubmitted(sectionId: string) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
-      isSavingLesson: true
+      isSavingLesson: true,
     });
     const courseId = this.courseAdminStore.value.currentCourseId;
     this.courseResourcesService
@@ -180,7 +260,7 @@ export class CourseAdminFacadeService {
   createLessonSubmitted(sectionId: string, section: string) {
     this.courseAdminStore.next({
       ...this.courseAdminStore.value,
-      isSavingLesson: true
+      isSavingLesson: true,
     });
     const courseId = this.courseAdminStore.value.currentCourseId;
     this.courseResourcesService
@@ -189,7 +269,7 @@ export class CourseAdminFacadeService {
         this.courseAdminStore.next({
           ...this.courseAdminStore.value,
           sections: [...this.courseAdminStore.value.sections],
-          isSavingLesson: false
+          isSavingLesson: false,
         });
         // TODO: error handling
       });
