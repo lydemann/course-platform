@@ -4,6 +4,7 @@
 <form [formGroup]="form" (submit)="onSaveCourse()">
   <!-- TODO: assign random id to course -->
   <div>
+    <!-- TODO: show errors -->
     <mat-form-field class="pr-l field">
       <mat-label>Course Name</mat-label>
       <input matInput formControlName="name" />
@@ -11,6 +12,7 @@
   </div>
 
   <div>
+    <!-- TODO: show errors -->
     <mat-form-field class="pr-l field">
       <mat-label>Course Description</mat-label>
       <input matInput formControlName="description" />

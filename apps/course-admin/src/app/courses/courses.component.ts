@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 
-import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
+import { CourseFacadeService } from '@course-platform/course-admin-lib';
 import { Course } from '@course-platform/shared/interfaces';
 import { CourseModalComponent } from './course-modal/course-modal/course-modal.component';
 import { DeleteCourseModalComponent } from './course-modal/delete-course-modal/delete-course-modal.component';
@@ -18,13 +18,13 @@ export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>;
 
   constructor(
-    private courseAdminFacadeService: CourseAdminFacadeService,
+    private courseFacadeService: CourseFacadeService,
     private router: Router,
     private dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.courses$ = this.courseAdminFacadeService.getCourses();
+    this.courses$ = this.courseFacadeService.getCourses();
   }
 
   courseSelected(courseId) {
@@ -36,9 +36,9 @@ export class CoursesComponent implements OnInit {
       width: '600px',
     });
 
-    dialogRef.afterClosed().subscribe((editedCourse: Course) => {
-      if (editedCourse) {
-        this.courseAdminFacadeService.createCourseSubmitted(editedCourse);
+    dialogRef.afterClosed().subscribe((createdCourse: Course) => {
+      if (createdCourse) {
+        this.courseFacadeService.createCourseSubmitted(createdCourse);
       }
     });
   }
@@ -50,7 +50,7 @@ export class CoursesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((editedCourse: Course) => {
       if (editedCourse) {
-        this.courseAdminFacadeService.editCourseSubmitted(editedCourse);
+        this.courseFacadeService.editCourseSubmitted(editedCourse);
       }
     });
   }
@@ -63,7 +63,7 @@ export class CoursesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((courseToDelete: Course) => {
       if (courseToDelete) {
-        this.courseAdminFacadeService.deleteCourseSubmitted(courseToDelete.id);
+        this.courseFacadeService.deleteCourseSubmitted(courseToDelete.id);
       }
     });
   }

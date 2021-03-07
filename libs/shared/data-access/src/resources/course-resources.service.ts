@@ -84,19 +84,18 @@ export class CourseResourcesService {
   private courseId: string;
   constructor(private apollo: Apollo, private userService: UserService) {}
 
-  getCourses(): Observable<Course[]> {
-    const coursesQuery = gql`
-      query getCourses {
-        course {
-          id
-          name
-          description
-        }
+  GET_COURSES_QUERY = gql`
+    query getCourses {
+      course {
+        id
+        name
+        description
       }
-    `;
-
+    }
+  `;
+  getCourses(): Observable<Course[]> {
     return this.apollo
-      .watchQuery<GetCoursesResponseDTO>({ query: coursesQuery })
+      .watchQuery<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
       .valueChanges.pipe(
         map(({ data }) => {
           return data.course;

@@ -34,8 +34,7 @@ interface CourseAdminStore {
 export class CourseAdminFacadeService {
   constructor(
     private courseResourcesService: CourseResourcesService,
-    private router: Router,
-    private apollo: Apollo
+    private router: Router
   ) {
     this.currentCourseId$ = this.courseAdminStore.pipe(
       map((store) => store.currentCourseId)
@@ -105,89 +104,8 @@ export class CourseAdminFacadeService {
     this.router.navigate([auth().tenantId, 'course-admin', courseId]);
   }
 
-  editCourseSubmitted(editedCourse: Course) {
-    const mutation = gql`
-      mutation editCourseMutation(
-        $id: ID!
-        $name: String!
-        $description: String!
-      ) {
-        updateCourse(id: $id, name: $name, description: $description) {
-          id
-          name
-          description
-        }
-      }
-    `;
-
-    return this.apollo
-      .mutate<Course>({
-        mutation,
-        variables: {
-          id: editedCourse.id,
-          name: editedCourse.name,
-          description: editedCourse.description,
-        } as Course,
-      })
-      .subscribe(() => {
-        // TODO: show toast when saved
-      });
-  }
-
-  createCourseSubmitted(course: Course) {
-    const mutation = gql`
-      mutation createCourseMutation($name: String!, $description: String!) {
-        createCourse(name: $name, description: $description) {
-          id
-          name
-          description
-        }
-      }
-    `;
-
-    // TODO: uodate ui
-    return this.apollo
-      .mutate<Course>({
-        mutation,
-        variables: {
-          name: course.name,
-          description: course.description,
-        } as Course,
-      })
-      .subscribe(() => {
-        // TODO: show toast when created
-      });
-  }
-
-  deleteCourseSubmitted(courseId: string) {
-    const mutation = gql`
-      mutation deleteCourseMutation($id: ID!) {
-        deleteCourse(id: $id) {
-          id
-          name
-          description
-        }
-      }
-    `;
-
-    // TODO: uodate ui
-    return this.apollo
-      .mutate<Course>({
-        mutation,
-        variables: {
-          id: courseId,
-        } as Course,
-      })
-      .subscribe(() => {
-        // TODO: show toast when created
-      });
-  }
-
   setSchoolId(schoolId: any) {
     auth().tenantId = schoolId;
-  }
-  getCourses(): Observable<Course[]> {
-    return this.courseResourcesService.getCourses();
   }
 
   courseAdminInit(courseId: string) {

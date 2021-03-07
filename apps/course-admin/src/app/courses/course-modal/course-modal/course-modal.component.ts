@@ -20,13 +20,14 @@ export class CourseModalComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      id: this.course.id,
+      id: this.course?.id,
       name: [this.course?.name, Validators.required],
       description: [this.course?.description, Validators.required],
     });
   }
 
   onSaveCourse() {
+    // TODO: don't submit if error
     const course = this.form.value;
     this.dialogRef.close(course);
   }
