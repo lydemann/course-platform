@@ -1,25 +1,13 @@
-import { AuthenticationError } from 'apollo-server-express';
+import { AuthenticationError, ValidationError } from 'apollo-server-express';
 import admin from 'firebase-admin';
+import {} from 'inversify';
 
 import { UserInfo } from '@course-platform/shared/interfaces';
+import { myContainer } from '../../di/di.config';
+import { createResolver } from '../../utils/create-resolver';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
-
-export function getUserData<T = any>(
-  schoolId: string,
-  uid: string,
-  userCollection: string
-): Promise<T[]> {
-  return firestoreDB
-    .doc(`schools/${schoolId}/users/${uid}`)
-    .collection(userCollection)
-    .get()
-    .then(snap => {
-      return snap.docs.map(doc => {
-        return doc.data() as T;
-      });
-    });
-}
+import { UserService } from './user-service';
 
 export const userQueryResolvers = {
   user: async (parent, { uid }, context: RequestContext): Promise<UserInfo> => {
@@ -27,21 +15,24 @@ export const userQueryResolvers = {
       throw new AuthenticationError('User is not admin or user');
     }
 
-    const completedLessons = await getUserData(
-      context.auth.schoolId,
-      uid,
-      'userLessonsCompleted'
-    );
+    const completedLessons = await myContainer
+      .get(UserService)
+      .getUserData(context.auth.schoolId, uid, 'userLessonsCompleted');
 
     return {
-      completedLessons
+      completedLessons,
     };
-  }
+  },
 };
 
 export interface ActionItemDTO {
   id: string;
   isCompleted: boolean;
+}
+
+export interface CreateUserInputDTO {
+  email: string;
+  password: string;
 }
 
 const FieldValue = admin.firestore.FieldValue;
@@ -63,7 +54,7 @@ export const userMutationResolvers = {
       .set({
         completed: isCompleted,
         lessonId,
-        lastUpdated: FieldValue.serverTimestamp()
+        lastUpdated: FieldValue.serverTimestamp(),
       })
       .then(() => `Got updated`);
   },
@@ -78,8 +69,21 @@ export const userMutationResolvers = {
       )
       .set({
         id,
-        isCompleted
+        isCompleted,
       } as ActionItemDTO)
       .then(() => `Got updated`);
-  }
+  },
+  createUser: createResolver<CreateUserInputDTO>(
+    async (parent, { email }, {}) => {
+      const acUsers = new Set(
+        (await myContainer.get(UserService).getACUsers()).map(
+          (user) => user.email
+        )
+      );
+
+      if (!acUsers.has(email)) {
+        throw new ValidationError('Email is not enrolled');
+      }
+    }
+  ),
 };

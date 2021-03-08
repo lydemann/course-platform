@@ -37,6 +37,7 @@ testem.log
 firebase-debug.log
 serviceAccountKey.json
 ui-debug.log
+env.local.json
 
 # System Files
 .DS_Store

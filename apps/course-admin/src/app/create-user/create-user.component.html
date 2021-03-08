@@ -1,0 +1,27 @@
+<h1 class="center">Create new user</h1>
+
+<form [formGroup]="form" (submit)="onSubmit()" class="center">
+  <div>
+    <!-- TODO: show errors -->
+    <mat-form-field class="pr-l field">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="form.controls.email.invalid">{{
+        getErrorMessage(form.controls.email)
+      }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <!-- TODO: show errors -->
+    <mat-form-field class="pr-l field">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" />
+      <mat-error *ngIf="form.controls.password.invalid">{{
+        getErrorMessage(form.controls.password)
+      }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <app-button [size]="'l'" [type]="'submit'">Create</app-button>
+</form>
