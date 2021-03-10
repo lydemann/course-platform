@@ -2,7 +2,6 @@
 
 <form [formGroup]="form" (submit)="onSubmit()" class="center">
   <div>
-    <!-- TODO: show errors -->
     <mat-form-field class="field">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" />
@@ -14,7 +13,6 @@
 
   <div formGroupName="passwordFormGroup">
     <div>
-      <!-- TODO: show errors -->
       <mat-form-field class="field">
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password" />
@@ -25,7 +23,6 @@
     </div>
 
     <div>
-      <!-- TODO: show errors -->
       <mat-form-field class="field">
         <mat-label>Confirm Password</mat-label>
         <input
