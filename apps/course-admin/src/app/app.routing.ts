@@ -14,35 +14,42 @@ const routes: Routes = [
         path: '',
         resolve: [RedirectIfAuthenticatedResolver],
         loadChildren: () =>
-          import('./login/login.module').then(m => m.LoginModule)
+          import('./login/login.module').then((m) => m.LoginModule),
       },
       {
         path: 'courses',
         canActivate: [AuthGuard],
         loadChildren: () =>
-          import('./courses/courses.module').then(m => m.CoursesModule)
+          import('./courses/courses.module').then((m) => m.CoursesModule),
       },
       {
         path: 'course-admin',
         loadChildren: () =>
           import('./course-admin/course-admin.module').then(
-            m => m.CourseAdminModule
-          )
+            (m) => m.CourseAdminModule
+          ),
+      },
+      {
+        path: 'create-user',
+        loadChildren: () =>
+          import('./create-user/create-user.module').then(
+            (m) => m.CreateUserModule
+          ),
       },
       {
         path: '**',
-        redirectTo: ''
-      }
-    ]
+        redirectTo: '',
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: `christianlydemann-eyy6e`
-  }
+    redirectTo: `christianlydemann-eyy6e`,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

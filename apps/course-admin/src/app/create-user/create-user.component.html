@@ -1,0 +1,48 @@
+<h1 class="center">Create new user</h1>
+
+<form [formGroup]="form" (submit)="onSubmit()" class="center">
+  <div>
+    <mat-form-field class="field">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="form.controls.email.invalid">{{
+        getErrorMessage(form.controls.email)
+      }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div formGroupName="passwordFormGroup">
+    <div>
+      <mat-form-field class="field">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+        <mat-error *ngIf="passwordFormGroup.controls.password.invalid">{{
+          getErrorMessage(passwordFormGroup.controls.password)
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="field">
+        <mat-label>Confirm Password</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="confirmPassword"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error *ngIf="passwordFormGroup.invalid">{{
+          getErrorMessage(passwordFormGroup.controls.confirmPassword)
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="mt-m">
+    <mat-error>{{ serverError }}</mat-error>
+  </div>
+
+  <div class="mt-l">
+    <app-button [size]="'l'" [type]="'submit'">Create</app-button>
+  </div>
+</form>

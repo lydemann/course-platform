@@ -1,25 +1,14 @@
-import { AuthenticationError } from 'apollo-server-express';
+import { AuthenticationError, ValidationError } from 'apollo-server-express';
 import admin from 'firebase-admin';
+import {} from 'inversify';
 
 import { UserInfo } from '@course-platform/shared/interfaces';
+import { DITypes } from '../../di/di-types';
+import { container } from '../../di/di.config';
+import { createResolver } from '../../utils/create-resolver';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
-
-export function getUserData<T = any>(
-  schoolId: string,
-  uid: string,
-  userCollection: string
-): Promise<T[]> {
-  return firestoreDB
-    .doc(`schools/${schoolId}/users/${uid}`)
-    .collection(userCollection)
-    .get()
-    .then(snap => {
-      return snap.docs.map(doc => {
-        return doc.data() as T;
-      });
-    });
-}
+import { UserService } from './user-service';
 
 export const userQueryResolvers = {
   user: async (parent, { uid }, context: RequestContext): Promise<UserInfo> => {
@@ -27,21 +16,24 @@ export const userQueryResolvers = {
       throw new AuthenticationError('User is not admin or user');
     }
 
-    const completedLessons = await getUserData(
-      context.auth.schoolId,
-      uid,
-      'userLessonsCompleted'
-    );
+    const completedLessons = await container
+      .get(UserService)
+      .getUserData(context.auth.schoolId, uid, 'userLessonsCompleted');
 
     return {
-      completedLessons
+      completedLessons,
     };
-  }
+  },
 };
 
 export interface ActionItemDTO {
   id: string;
   isCompleted: boolean;
+}
+
+export interface CreateUserInputDTO {
+  email: string;
+  password: string;
 }
 
 const FieldValue = admin.firestore.FieldValue;
@@ -63,7 +55,7 @@ export const userMutationResolvers = {
       .set({
         completed: isCompleted,
         lessonId,
-        lastUpdated: FieldValue.serverTimestamp()
+        lastUpdated: FieldValue.serverTimestamp(),
       })
       .then(() => `Got updated`);
   },
@@ -78,8 +70,25 @@ export const userMutationResolvers = {
       )
       .set({
         id,
-        isCompleted
+        isCompleted,
       } as ActionItemDTO)
       .then(() => `Got updated`);
-  }
+  },
+  createUser: createResolver<CreateUserInputDTO>(
+    async (parent, { email, password }, { auth: { schoolId } }) => {
+      const userService = container.get<UserService>(DITypes.userService);
+      const acUserDTO = await userService.getACUsers();
+      const acUsers = new Set(acUserDTO.contacts.map((user) => user.email));
+
+      if (!acUsers.has(email)) {
+        throw new ValidationError('Email is not enrolled');
+      }
+
+      return await userService.createGoogleIdentityUser(
+        email,
+        password,
+        schoolId
+      );
+    }
+  ),
 };

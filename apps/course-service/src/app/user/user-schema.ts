@@ -10,6 +10,10 @@ export const UserQuerySchema = gql`
   type UserInfo {
     completedLessons: [CompletedLesson]
   }
+
+  type User {
+    email: String
+  }
 `;
 
 export const userMutationSchema = `
@@ -20,4 +24,6 @@ export const userMutationSchema = `
   ): String
   
   setActionItemCompleted(uid: ID! id: String! isCompleted: Boolean!): String
+
+  createUser(email: String! password: String!): String
 `;
