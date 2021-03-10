@@ -1,6 +1,10 @@
 import { Container } from 'inversify';
 import 'reflect-metadata';
 
-const myContainer = new Container({ autoBindInjectable: true });
+import { UserService } from '../app/user/user-service';
+import { DITypes } from './di-types';
 
-export { myContainer };
+const container = new Container({ autoBindInjectable: true });
+container.bind<UserService>(DITypes.userService).to(UserService);
+
+export { container };

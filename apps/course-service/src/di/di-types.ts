@@ -1,1 +1,3 @@
-export const Types = {};
+export const DITypes = {
+  userService: Symbol('userService'),
+};

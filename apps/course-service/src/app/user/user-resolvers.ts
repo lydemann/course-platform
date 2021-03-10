@@ -3,7 +3,8 @@ import admin from 'firebase-admin';
 import {} from 'inversify';
 
 import { UserInfo } from '@course-platform/shared/interfaces';
-import { myContainer } from '../../di/di.config';
+import { DITypes } from '../../di/di-types';
+import { container } from '../../di/di.config';
 import { createResolver } from '../../utils/create-resolver';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
@@ -15,7 +16,7 @@ export const userQueryResolvers = {
       throw new AuthenticationError('User is not admin or user');
     }
 
-    const completedLessons = await myContainer
+    const completedLessons = await container
       .get(UserService)
       .getUserData(context.auth.schoolId, uid, 'userLessonsCompleted');
 
@@ -74,16 +75,20 @@ export const userMutationResolvers = {
       .then(() => `Got updated`);
   },
   createUser: createResolver<CreateUserInputDTO>(
-    async (parent, { email }, {}) => {
-      const acUsers = new Set(
-        (await myContainer.get(UserService).getACUsers()).map(
-          (user) => user.email
-        )
-      );
+    async (parent, { email, password }, { auth: { schoolId } }) => {
+      const userService = container.get<UserService>(DITypes.userService);
+      const acUserDTO = await userService.getACUsers();
+      const acUsers = new Set(acUserDTO.contacts.map((user) => user.email));
 
       if (!acUsers.has(email)) {
         throw new ValidationError('Email is not enrolled');
       }
+
+      return await userService.createGoogleIdentityUser(
+        email,
+        password,
+        schoolId
+      );
     }
   ),
 };
