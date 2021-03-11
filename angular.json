@@ -366,7 +366,10 @@
             "outputPath": "dist/apps/course-service",
             "main": "apps/course-service/src/main.ts",
             "tsConfig": "apps/course-service/tsconfig.app.json",
-            "assets": ["apps/course-service/src/assets"]
+            "assets": [
+              "apps/course-service/src/assets",
+              "apps/course-service/src/firebase.json"
+            ]
           },
           "configurations": {
             "production": {
