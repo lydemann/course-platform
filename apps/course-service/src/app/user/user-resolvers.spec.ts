@@ -49,7 +49,7 @@ describe('User Resolvers', () => {
       userService.createGoogleIdentityUser.mockReturnValue(
         Promise.resolve({ email } as CreateUserResponseDTO)
       );
-      const tenantId = '123';
+      const tenantId = 'christianlydemann-eyy6e';
       const res = await userMutationResolvers.createUser(
         null,
         {
