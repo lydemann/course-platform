@@ -67,7 +67,8 @@ function generatePackageJson() {
     'class-transformer',
     'class-validator',
     'reflect-metadata',
-    'rxjs'
+    'rxjs',
+    'node-fetch'
   ];
   const dependencies = implicitDeps.reduce((acc, dep) => {
     acc[dep] = packageJson.dependencies[dep];
