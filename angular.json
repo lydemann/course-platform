@@ -368,7 +368,8 @@
             "tsConfig": "apps/course-service/tsconfig.app.json",
             "assets": [
               "apps/course-service/src/assets",
-              "apps/course-service/src/firebase.json"
+              "apps/course-service/src/firebase.json",
+              "apps/course-service/src/.firebaserc"
             ]
           },
           "configurations": {
