@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Observable } from "rxjs";
 
 import { UserFacadeService } from '@course-platform/course-admin-lib';
 
@@ -36,6 +37,7 @@ export class CreateUserComponent implements OnInit {
   serverError: string;
   matcher = new MyErrorStateMatcher();
   passwordFormGroup: FormGroup;
+  isLoading: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,13 +75,16 @@ export class CreateUserComponent implements OnInit {
     }
 
     const formValue = this.form.value;
+    this.isLoading = true;
     this.userFacadeService
-      .createUser(formValue.email, formValue.password)
+      .createUser(formValue.email, formValue.passwordFormGroup.password)
       .subscribe(
         (response) => {
+          this.isLoading = false;
           // TODO: toast user created
         },
         (error: Error) => {
+          this.isLoading = false;
           this.serverError = error.message;
         }
       );

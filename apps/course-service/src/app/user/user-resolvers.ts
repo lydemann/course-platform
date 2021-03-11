@@ -34,6 +34,7 @@ export interface ActionItemDTO {
 export interface CreateUserInputDTO {
   email: string;
   password: string;
+  schoolId: string;
 }
 
 const FieldValue = admin.firestore.FieldValue;
@@ -75,19 +76,21 @@ export const userMutationResolvers = {
       .then(() => `Got updated`);
   },
   createUser: createResolver<CreateUserInputDTO>(
-    async (parent, { email, password }, { auth: { schoolId } }) => {
+    async (parent, { email, password }) => {
       const userService = container.get<UserService>(DITypes.userService);
       const acUserDTO = await userService.getACUsers();
       const acUsers = new Set(acUserDTO.contacts.map((user) => user.email));
 
+      // TODO: when implementing for SaaS decode registration token containing an encrypted token with email and schoolId
       if (!acUsers.has(email)) {
         throw new ValidationError('Email is not enrolled');
       }
 
+      // TODO: when implementing for SaaS no hardcoded school id
       return await userService.createGoogleIdentityUser(
         email,
         password,
-        schoolId
+        'christianlydemann-eyy6e'
       );
     }
   ),

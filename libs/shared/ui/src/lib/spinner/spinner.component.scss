@@ -1,1 +1,7 @@
 @import 'global/spinner';
+
+:host {
+  display: block;
+  margin-top: 120px;
+  position: relative;
+}
