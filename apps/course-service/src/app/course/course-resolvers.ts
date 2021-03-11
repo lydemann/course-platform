@@ -1,4 +1,4 @@
-import { chainResolvers, ResolverFn } from 'apollo-server-express';
+import { AuthenticationError } from 'apollo-server-express';
 
 import { Course } from '@course-platform/shared/interfaces';
 import {
@@ -25,6 +25,10 @@ export const courseQueryResolvers = {
 
 export const courseMutationResolvers = {
   createCourse: createResolver<Course>(async (parent, args, { auth }) => {
+    if (!auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
+
     const newCourseRef = firestoreDB
       .collection(`schools/${auth.schoolId}/courses`)
       .doc();
@@ -36,7 +40,11 @@ export const courseMutationResolvers = {
 
     return newCourseRef.get().then((snapshot) => snapshot.data());
   }),
+
   updateCourse: createResolver<Course>(async (parent, args, { auth }) => {
+    if (!auth.admin) {
+      throw new AuthenticationError('User is not admin');
+    }
     const courseRef = firestoreDB.doc(
       `schools/${auth.schoolId}/courses/${args.id}`
     );
@@ -49,6 +57,7 @@ export const courseMutationResolvers = {
 
     return courseRef.get().then((snapshot) => snapshot.data());
   }),
+
   deleteCourse: createDeleteMutationResolver<Pick<Course, 'id'>>(
     (parent, args, { auth }) => `schools/${auth.schoolId}/courses/${args.id}`
   ),
