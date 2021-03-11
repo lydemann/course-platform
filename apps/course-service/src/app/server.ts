@@ -14,34 +14,30 @@ const verifyToken = async ({ authorization, schoolid }) => {
     return {
       admin: true,
       uid: 'XHjUUmEkvPc0Ye8SZlvtBTAAt622',
-      schoolId: 'christianlydemann-eyy6e'
+      schoolId: 'christianlydemann-eyy6e',
     } as AuthIdentity;
   }
 
-  if (authorization) {
-    const newToken = authorization.replace('Bearer ', '');
-    // TODO: disable for local env and set admin true
-    const header = await admin
-      .auth()
-      .verifyIdToken(newToken)
-      .then(decodedToken => {
-        if (decodedToken.firebase.tenant !== schoolid) {
-          throw new AuthenticationError("User doesn't have access to school");
-        }
+  const newToken = authorization.replace('Bearer ', '');
+  // TODO: disable for local env and set admin true
+  const header = await admin
+    .auth()
+    .verifyIdToken(newToken)
+    .then((decodedToken) => {
+      if (decodedToken.firebase.tenant !== schoolid) {
+        throw new AuthenticationError("User doesn't have access to school");
+      }
 
-        return {
-          ...decodedToken,
-          schoolId: schoolid
-        } as AuthIdentity;
-      })
-      .catch(function(error) {
-        // Handle error
-        throw new AuthenticationError('No Access: Invalid id token');
-      });
-    return header;
-  } else {
-    throw new AuthenticationError('No Access: No id token provided');
-  }
+      return {
+        ...decodedToken,
+        schoolId: schoolid,
+      } as AuthIdentity;
+    })
+    .catch(function (error) {
+      // Handle error
+      throw new AuthenticationError('No Access: Invalid id token');
+    });
+  return header;
 };
 
 export function gqlServer() {
@@ -51,19 +47,26 @@ export function gqlServer() {
     typeDefs,
     resolvers,
     context: async ({ req, res }) => {
+      if (!req.headers.authorization) {
+        return {
+          req,
+          res,
+        } as RequestContext;
+      }
+
       const auth = await verifyToken(req.headers as any);
 
       return {
         auth: auth || {},
         req,
-        res
+        res,
       } as RequestContext;
     },
     // Enable graphiql gui
     introspection: true,
     playground: {
-      endpoint: 'api'
-    }
+      endpoint: 'api',
+    },
   });
 
   apolloServer.applyMiddleware({ app, path: '/', cors: true });

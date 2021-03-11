@@ -1,6 +1,11 @@
 <h1 class="center">Create new user</h1>
 
-<form [formGroup]="form" (submit)="onSubmit()" class="center">
+<form
+  [formGroup]="form"
+  (submit)="onSubmit()"
+  class="center"
+  *ngIf="!isLoading; else loading"
+>
   <div>
     <mat-form-field class="field">
       <mat-label>Email</mat-label>
@@ -46,3 +51,7 @@
     <app-button [size]="'l'" [type]="'submit'">Create</app-button>
   </div>
 </form>
+
+<ng-template #loading>
+  <app-spinner></app-spinner>
+</ng-template>
