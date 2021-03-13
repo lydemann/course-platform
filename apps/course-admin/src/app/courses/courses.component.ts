@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 
 import { CourseFacadeService } from '@course-platform/course-admin-lib';
 import { Course } from '@course-platform/shared/interfaces';
+import { ToastService } from '@course-platform/shared/ui';
 import { CourseModalComponent } from './course-modal/course-modal/course-modal.component';
 import { DeleteCourseModalComponent } from './course-modal/delete-course-modal/delete-course-modal.component';
 
@@ -20,7 +21,8 @@ export class CoursesComponent implements OnInit {
   constructor(
     private courseFacadeService: CourseFacadeService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -38,7 +40,11 @@ export class CoursesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((createdCourse: Course) => {
       if (createdCourse) {
-        this.courseFacadeService.createCourseSubmitted(createdCourse);
+        this.courseFacadeService
+          .createCourseSubmitted(createdCourse)
+          .subscribe(() => {
+            this.toastService.showSuccessToast({ message: 'Course created' });
+          });
       }
     });
   }
@@ -50,7 +56,11 @@ export class CoursesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((editedCourse: Course) => {
       if (editedCourse) {
-        this.courseFacadeService.editCourseSubmitted(editedCourse);
+        this.courseFacadeService
+          .editCourseSubmitted(editedCourse)
+          .subscribe(() => {
+            this.toastService.showSuccessToast({ message: 'Course saved' });
+          });
       }
     });
   }
@@ -63,7 +73,11 @@ export class CoursesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((courseToDelete: Course) => {
       if (courseToDelete) {
-        this.courseFacadeService.deleteCourseSubmitted(courseToDelete.id);
+        this.courseFacadeService
+          .deleteCourseSubmitted(courseToDelete.id)
+          .subscribe(() => {
+            this.toastService.showSuccessToast({ message: 'Course deleted' });
+          });
       }
     });
   }

@@ -8,9 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { Observable } from "rxjs";
 
 import { UserFacadeService } from '@course-platform/course-admin-lib';
+import { ToastService } from '@course-platform/shared/ui';
 
 const NOT_SAME_ERROR_CODE = 'NOT_SAME';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -41,7 +41,8 @@ export class CreateUserComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userFacadeService: UserFacadeService
+    private userFacadeService: UserFacadeService,
+    private toastService: ToastService
   ) {}
 
   private checkPasswords(group: FormGroup) {
@@ -81,7 +82,7 @@ export class CreateUserComponent implements OnInit {
       .subscribe(
         (response) => {
           this.isLoading = false;
-          // TODO: toast user created
+          this.toastService.showSuccessToast({ message: 'User registrered' });
         },
         (error: Error) => {
           this.isLoading = false;
