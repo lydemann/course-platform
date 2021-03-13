@@ -59,7 +59,7 @@ describe('CourseFacadeService', () => {
         name: 'Some new name',
         description: 'Some new description',
       } as Course;
-      spectator.service.editCourseSubmitted(editedCourse);
+      spectator.service.editCourseSubmitted(editedCourse).subscribe();
 
       const operation = controller.expectOne(EDIT_COURSE_MUTATION);
 
@@ -74,7 +74,7 @@ describe('CourseFacadeService', () => {
         name: 'Some new name',
         description: 'Some new description',
       } as Course;
-      spectator.service.createCourseSubmitted(courseToCreate);
+      spectator.service.createCourseSubmitted(courseToCreate).subscribe();
 
       const operation = controller.expectOne(CREATE_COURSE_MUTATION);
 
@@ -86,7 +86,7 @@ describe('CourseFacadeService', () => {
   describe('deleteCourseSubmitted', () => {
     it('should delete course', () => {
       const id = '1';
-      spectator.service.deleteCourseSubmitted(id);
+      spectator.service.deleteCourseSubmitted(id).subscribe();
 
       const operation = controller.expectOne(DELETE_COURSE_MUTATION);
 
