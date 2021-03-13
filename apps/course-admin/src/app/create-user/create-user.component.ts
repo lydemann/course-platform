@@ -82,7 +82,7 @@ export class CreateUserComponent implements OnInit {
       .subscribe(
         (response) => {
           this.isLoading = false;
-          this.toastService.showSuccessToast({ message: 'User registrered' });
+          this.toastService.showSuccessToast({ message: 'User registered' });
         },
         (error: Error) => {
           this.isLoading = false;
