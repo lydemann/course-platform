@@ -87,7 +87,6 @@ export class CourseFacadeService {
   deleteCourseSubmitted(courseId: string) {
     const getCoursesQuery = this.courseResourcesService.GET_COURSES_QUERY;
 
-    // TODO: uodate ui
     return this.apollo.mutate<{ deleteCourse: Course }>({
       mutation: DELETE_COURSE_MUTATION,
       variables: {
