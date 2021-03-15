@@ -7,7 +7,6 @@ import {
   GetCoursesResponseDTO,
 } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
-import { ToastService } from '@course-platform/shared/ui';
 import { createInCache, removeFromCache } from '../graphql-helpers';
 
 export const EDIT_COURSE_MUTATION = gql`
@@ -87,7 +86,6 @@ export class CourseFacadeService {
   deleteCourseSubmitted(courseId: string) {
     const getCoursesQuery = this.courseResourcesService.GET_COURSES_QUERY;
 
-    // TODO: uodate ui
     return this.apollo.mutate<{ deleteCourse: Course }>({
       mutation: DELETE_COURSE_MUTATION,
       variables: {
