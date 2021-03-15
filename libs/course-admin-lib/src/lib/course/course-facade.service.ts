@@ -7,6 +7,7 @@ import {
   GetCoursesResponseDTO,
 } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
+import { ToastService } from '@course-platform/shared/ui';
 import { createInCache, removeFromCache } from '../graphql-helpers';
 
 export const EDIT_COURSE_MUTATION = gql`
