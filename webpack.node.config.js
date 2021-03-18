@@ -69,7 +69,8 @@ function generatePackageJson() {
     'reflect-metadata',
     'rxjs',
     'node-fetch',
-    'inversify'
+    'inversify',
+    'graphql'
   ];
   const dependencies = implicitDeps.reduce((acc, dep) => {
     acc[dep] = packageJson.dependencies[dep];
