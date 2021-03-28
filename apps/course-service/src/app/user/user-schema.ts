@@ -25,5 +25,5 @@ export const userMutationSchema = `
   
   setActionItemCompleted(uid: ID! id: String! isCompleted: Boolean!): String
 
-  createUser(email: String! password: String!): String
+  createUser(email: String! password: String!): User
 `;

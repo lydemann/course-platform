@@ -4,7 +4,9 @@ import { User } from 'firebase';
 
 export const CREATE_USER_MUTATION = gql`
   mutation createUserMutation($email: String!, $password: String!) {
-    createUser(email: $email, password: $password)
+    createUser(email: $email, password: $password) {
+      email
+    }
   }
 `;
 
