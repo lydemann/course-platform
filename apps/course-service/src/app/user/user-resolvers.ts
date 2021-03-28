@@ -34,7 +34,6 @@ export interface ActionItemDTO {
 export interface CreateUserInputDTO {
   email: string;
   password: string;
-  schoolId: string;
 }
 
 const FieldValue = admin.firestore.FieldValue;
