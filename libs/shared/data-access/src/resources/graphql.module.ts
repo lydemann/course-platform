@@ -3,26 +3,8 @@ import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { createPersistedQueryLink } from 'apollo-angular-link-persisted';
 import { HttpLink } from 'apollo-angular/http';
-import { sha256 } from 'crypto-hash';
 
 import { Endpoints, ENDPOINTS_TOKEN } from './endpoints';
-
-// export function createApollo(
-//   httpLink: HttpLink,
-//   endpoints: Endpoints
-// ): ApolloClientOptions<any> {
-//   const requestLink = httpLink.create({ uri: endpoints.courseServiceUrl });
-//   const link =
-//     createPersistedQueryLink({
-//       useGETForHashedQueries: true,
-//       sha256,
-//     })
-
-//   return {
-//     link,
-//     cache: new InMemoryCache(),
-//   };
-// }
 
 export function createApollo(
   httpLink: HttpLink,
