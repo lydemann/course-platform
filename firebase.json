@@ -49,6 +49,27 @@
       ]
     }
   ],
+  "emulators": {
+    "firestore": {
+      "port": "8080"
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "auth": {
+      "port": "9099"
+    },
+    "functions": {
+      "port": "5000"
+    },
+    "database": {
+      "port": "9000"
+    },
+    "pubsub": {
+      "port": "8085"
+    }
+  },
   "functions": {
     "source": "/",
     "runtime": "nodejs12"

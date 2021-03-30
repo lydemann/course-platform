@@ -4370,6 +4370,31 @@ anymatch@^3.0.3, anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+apollo-angular-link-http-common@~1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/apollo-angular-link-http-common/-/apollo-angular-link-http-common-1.10.0.tgz#c8d8666f9f17dbc6e4d60474441548ac83054aac"
+  integrity sha512-Oue8b/naWZvG/oQ+3ZAqaBVreBIwqy16yOk5CpoE7+Gjhett9KGVu/OZcpH89/ifwXyWzHpKnCUnB1fxgbnR7Q==
+  dependencies:
+    tslib "^2.0.0"
+
+apollo-angular-link-http@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/apollo-angular-link-http/-/apollo-angular-link-http-1.11.0.tgz#5465664aac1944881900e845f043cf627af0f812"
+  integrity sha512-/mFytwvHhmWOX3emi8ljpuas8HpwSVOfbKniOeDFSE44g9HsPKkq2bGTucUTUo0Un3cCBEVKei2jTIDVsZPqFA==
+  dependencies:
+    apollo-angular-link-http-common "~1.10.0"
+    extract-files "6.0.0"
+    tslib "^2.0.0"
+
+apollo-angular-link-persisted@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/apollo-angular-link-persisted/-/apollo-angular-link-persisted-1.3.0.tgz#117866ff335222073d19c2a5f40ae523aa4c8f02"
+  integrity sha512-a3cygVzS4nQL2XcqWijQ8TdKXasJ55bxOLN1nI8ysSMtAnGDxY6FyK+qPnF7nc+HMmkAYaUyA/o4KHZw4+nnTg==
+  dependencies:
+    apollo-link-context "^1.0.7"
+    apollo-link-persisted-queries "~0.2.0"
+    tslib "^2.0.0"
+
 apollo-angular@^2.0.4:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/apollo-angular/-/apollo-angular-2.4.0.tgz#a72ae8f0ca58da8e005986381f9a4277b5762c4a"
@@ -4386,6 +4411,14 @@ apollo-cache-control@^0.11.6:
   dependencies:
     apollo-server-env "^3.0.0"
     apollo-server-plugin-base "^0.10.4"
+
+apollo-cache-control@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/apollo-cache-control/-/apollo-cache-control-0.12.0.tgz#45aea0a232d0704e33c2b1a3c428a5500b29818c"
+  integrity sha512-kClF5rfAm159Nboul1LxA+l58Tjz0M8L1GUknEMpZt0UHhILLAn3BfcG3ToX4TbNoR9M57kKMUcbPWLdy3Up7w==
+  dependencies:
+    apollo-server-env "^3.0.0"
+    apollo-server-plugin-base "^0.11.0"
 
 apollo-datasource@^0.7.3:
   version "0.7.3"
@@ -4413,7 +4446,23 @@ apollo-graphql@^0.6.0:
     apollo-env "^0.6.6"
     lodash.sortby "^4.7.0"
 
-apollo-link@^1.2.14:
+apollo-link-context@^1.0.7:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.20.tgz#1939ac5dc65d6dff0c855ee53521150053c24676"
+  integrity sha512-MLLPYvhzNb8AglNsk2NcL9AvhO/Vc9hn2ZZuegbhRHGet3oGr0YH9s30NS9+ieoM0sGT11p7oZ6oAILM/kiRBA==
+  dependencies:
+    apollo-link "^1.2.14"
+    tslib "^1.9.3"
+
+apollo-link-persisted-queries@^0.2.2, apollo-link-persisted-queries@~0.2.0:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/apollo-link-persisted-queries/-/apollo-link-persisted-queries-0.2.2.tgz#156597cb259b7bb56cf4e967a7be0312954f4591"
+  integrity sha512-YL7XBu/5QsSbbYaWUXgm87T2Hn/2AQZk5Wr8CLXGDr3Wl3E/TRhBhKgQQTly9xhaTi7jgBO+AeIyTH5wCBHA9w==
+  dependencies:
+    apollo-link "^1.2.1"
+    hash.js "^1.1.3"
+
+apollo-link@^1.2.1, apollo-link@^1.2.14:
   version "1.2.14"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.14.tgz#3feda4b47f9ebba7f4160bef8b977ba725b684d9"
   integrity sha512-p67CMEFP7kOG1JZ0ZkYZwRDa369w5PIjtMjvrQd/HnIV8FRsHRqLqK+oAZQnFa1DDdZtOtHTi+aMIW6EatC2jg==
@@ -4434,6 +4483,13 @@ apollo-server-caching@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/apollo-server-caching/-/apollo-server-caching-0.5.3.tgz#cf42a77ad09a46290a246810075eaa029b5305e1"
   integrity sha512-iMi3087iphDAI0U2iSBE9qtx9kQoMMEWr6w+LwXruBD95ek9DWyj7OeC2U/ngLjRsXM43DoBDXlu7R+uMjahrQ==
+  dependencies:
+    lru-cache "^6.0.0"
+
+apollo-server-caching@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/apollo-server-caching/-/apollo-server-caching-0.6.0.tgz#3140a023ce0be8c43ba0b2f5be9cc5d15d1a32f6"
+  integrity sha512-SfjKaccrhRzUQ8TAke9FrYppp4pZV3Rp8KCs+4Ox3kGtbco68acRPJkiYYtSVc4idR8XNAUOOVfAEZVNHdZQKQ==
   dependencies:
     lru-cache "^6.0.0"
 
@@ -4511,6 +4567,22 @@ apollo-server-plugin-base@^0.10.4:
   dependencies:
     apollo-server-types "^0.6.3"
 
+apollo-server-plugin-base@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-0.11.0.tgz#6ceeb4d5f643ed739fd00e8b26d9981186c200d0"
+  integrity sha512-Du68x0XCyQ6EWlgoL9Z+1s8fJfXgY131QbKP7ao617StQPzwB0aGCwxBDfcMt1A75VXf4TkvV1rdUH5YeJFlhQ==
+  dependencies:
+    apollo-server-types "^0.7.0"
+
+apollo-server-plugin-response-cache@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/apollo-server-plugin-response-cache/-/apollo-server-plugin-response-cache-0.7.0.tgz#99e4eaf9dddd820e9ef8aac197740c5386f7833a"
+  integrity sha512-FLM3cD9sZAC1mKJmoxCTKhnh45ZDJKS2gTe3tQj5Hht/BHowbKdlYUKB1Vz1BV+soewo0O2s7VWXzsOWjP/kJg==
+  dependencies:
+    apollo-cache-control "^0.12.0"
+    apollo-server-caching "^0.6.0"
+    apollo-server-plugin-base "^0.11.0"
+
 apollo-server-types@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/apollo-server-types/-/apollo-server-types-0.6.3.tgz#f7aa25ff7157863264d01a77d7934aa6e13399e8"
@@ -4518,6 +4590,15 @@ apollo-server-types@^0.6.3:
   dependencies:
     apollo-reporting-protobuf "^0.6.2"
     apollo-server-caching "^0.5.3"
+    apollo-server-env "^3.0.0"
+
+apollo-server-types@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/apollo-server-types/-/apollo-server-types-0.7.0.tgz#a9b62974ada5da5edb6157a41d8ddb993b57203a"
+  integrity sha512-pJ6ri2N4xJ+e2PUUPHeCNpMDzHUagJyn0DDZGQmXDz6aoMlSd4B2KUvK81hHyHkw3wHk9clgcpfM9hKqbfZweA==
+  dependencies:
+    apollo-reporting-protobuf "^0.6.2"
+    apollo-server-caching "^0.6.0"
     apollo-server-env "^3.0.0"
 
 apollo-tracing@^0.12.2:
@@ -6712,6 +6793,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-hash@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/crypto-hash/-/crypto-hash-1.3.0.tgz#b402cb08f4529e9f4f09346c3e275942f845e247"
+  integrity sha512-lyAZ0EMyjDkVvz8WOeVnuCPvKVBXcMv1l5SVqO1yC7PzTwrD/pPje/BIRbWhMoPe436U+Y2nD7f5bFx0kt+Sbg==
+
 crypto-random-string@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-2.0.0.tgz#ef2a7a966ec11083388369baa02ebead229b30d5"
@@ -8229,6 +8315,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+extract-files@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/extract-files/-/extract-files-6.0.0.tgz#a273fd666aac97fd32e788b62d72d978bf43bb71"
+  integrity sha512-v9UVTPkERZR1NjEOIPvmbzLFdh8YZFEGjRdSJraop6HJe9PQ8HU9iv6eRMuF06CXXXO/R5OBmnWMixZHuZ8CsA==
+
 extract-files@9.0.0, extract-files@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/extract-files/-/extract-files-9.0.0.tgz#8a7744f2437f81f5ed3250ed9f1550de902fe54a"
@@ -9545,7 +9636,7 @@ hash-stream-validation@^0.2.2:
   resolved "https://registry.yarnpkg.com/hash-stream-validation/-/hash-stream-validation-0.2.4.tgz#ee68b41bf822f7f44db1142ec28ba9ee7ccb7512"
   integrity sha512-Gjzu0Xn7IagXVkSu9cSFuK1fqzwtLwFhNhVL8IFJijRNMgUttFbBSIAzKuSIrsFMO1+g1RlsoN49zPIbwPDMGQ==
 
-hash.js@^1.0.0, hash.js@^1.0.3:
+hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
   integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==

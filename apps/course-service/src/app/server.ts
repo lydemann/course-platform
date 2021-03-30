@@ -1,22 +1,22 @@
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import * as express from 'express';
 import admin from 'firebase-admin';
 
-import { environment } from '../environments/environment';
 import { AuthIdentity, RequestContext } from './auth-identity';
 import { resolvers } from './resolvers';
 import { typeDefs } from './schema';
 
 /* Async verification with user token */
 const verifyToken = async ({ authorization, schoolid }) => {
-  if (!environment.production) {
-    console.log('Running with mock data');
-    return {
-      admin: true,
-      uid: 'XHjUUmEkvPc0Ye8SZlvtBTAAt622',
-      schoolId: 'christianlydemann-eyy6e',
-    } as AuthIdentity;
-  }
+  // if (!environment.production) {
+  //   console.log('Running with mock data');
+  //   return {
+  //     admin: true,
+  //     uid: 'XHjUUmEkvPc0Ye8SZlvtBTAAt622',
+  //     schoolId: 'christianlydemann-eyy6e',
+  //   } as AuthIdentity;
+  // }
 
   const newToken = authorization.replace('Bearer ', '');
   // TODO: disable for local env and set admin true
@@ -67,6 +67,18 @@ export function gqlServer() {
     playground: {
       endpoint: 'api',
     },
+    persistedQueries: {
+      ttl: 900, // 15 minutes
+    },
+    cacheControl: {
+      defaultMaxAge: 30, // seconds
+    },
+    plugins: [
+      responseCachePlugin({
+        sessionId: (requestContext) =>
+          requestContext.request.http.headers.get('authorization') || null,
+      }),
+    ],
   });
 
   apolloServer.applyMiddleware({ app, path: '/', cors: true });
