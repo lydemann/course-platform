@@ -1,17 +1,17 @@
 const { gql } = require('apollo-server-express');
 
 export const UserQuerySchema = gql`
-  type CompletedLesson {
+  type CompletedLesson @cacheControl(maxAge: 30, scope: PRIVATE) {
     lessonId: String
     completed: Boolean
     lastUpdated: String
   }
 
-  type UserInfo {
+  type UserInfo @cacheControl(maxAge: 30, scope: PRIVATE) {
     completedLessons: [CompletedLesson]
   }
 
-  type User {
+  type User @cacheControl(maxAge: 30, scope: PRIVATE) {
     email: String
   }
 `;

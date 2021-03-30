@@ -1,6 +1,6 @@
 import {
   courseMutationSchema,
-  courseQuerySchema
+  courseQuerySchema,
 } from './course/course-schema';
 import { lessonMutations, lessonQuerySchema } from './lesson/lesson-schema';
 import { sectionMutations, SectionSchema } from './section/section-schema';
@@ -10,8 +10,8 @@ const { gql } = require('apollo-server-express');
 
 const schema = gql`
   type Query {
-    courseSections(uid: String, courseId: String): [Section]
-    user(uid: String!): UserInfo
+    courseSections(uid: String, courseId: String, sectionIds: [String]): [Section]
+    user(uid: String!): UserInfo @cacheControl(maxAge: 30, scope: PRIVATE)
     course: [Course]
   }
   type Mutation {
@@ -27,5 +27,5 @@ export const typeDefs = [
   courseQuerySchema,
   lessonQuerySchema,
   SectionSchema,
-  UserQuerySchema
+  UserQuerySchema,
 ];
