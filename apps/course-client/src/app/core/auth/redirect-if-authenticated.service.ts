@@ -17,9 +17,9 @@ export class RedirectIfAuthenticatedResolver implements Resolve<boolean> {
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.userService.getCurrentUser().pipe(
       first(),
-      map(currentUser => {
+      map((currentUser) => {
         if (!!currentUser) {
-          this.router.navigate([auth().tenantId, 'courses']);
+          this.router.navigate(['courses']);
         }
         return true;
       })

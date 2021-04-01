@@ -1,8 +1,4 @@
-import {
-  HttpClient,
-  HttpClientModule,
-  HTTP_INTERCEPTORS
-} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,12 +9,9 @@ import { environment } from '@course-platform/course-client-env';
 import { CourseClientLibModule } from '@course-platform/course-client-lib';
 import {
   Endpoints,
-  ENDPOINTS_TOKEN
+  ENDPOINTS_TOKEN,
 } from '@course-platform/shared/data-access';
-import {
-  SetTokenInterceptor,
-  SharedFeatAuthModule
-} from '@course-platform/shared/feat-auth';
+import { SharedFeatAuthModule } from '@course-platform/shared/feat-auth';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -41,7 +34,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export function EndpointsFactory() {
   return {
-    courseServiceUrl: environment.courseServiceUrl
+    courseServiceUrl: environment.courseServiceUrl,
   } as Endpoints;
 }
 
@@ -55,8 +48,8 @@ export function EndpointsFactory() {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     HttpClientModule,
     CoreModule,
@@ -64,20 +57,20 @@ export function EndpointsFactory() {
     HomeModule,
     LayoutModule,
     CourseClientLibModule,
-    SharedFeatAuthModule
+    SharedFeatAuthModule,
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       multi: true,
       useFactory: preloadFeagureFlags,
-      deps: [FeatureToggleService]
+      deps: [FeatureToggleService],
     },
     {
       provide: ENDPOINTS_TOKEN,
-      useFactory: EndpointsFactory
-    }
+      useFactory: EndpointsFactory,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

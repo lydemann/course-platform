@@ -2,7 +2,7 @@ import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   Component,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { auth } from 'firebase';
 import { combineLatest, Observable } from 'rxjs';
@@ -21,12 +21,12 @@ interface NavigationItem {
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss']
+  styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent implements OnInit {
   languages = ['en'];
   homeUrl$: Observable<string>;
-  navigationItems$: Observable<NavigationItem[]>;
+  navigationItems: NavigationItem[];
   logo = require('../../../assets/logo.png').default;
   loggedIn$: Observable<boolean>;
 
@@ -37,38 +37,26 @@ export class TopbarComponent implements OnInit {
 
   ngOnInit() {
     this.loggedIn$ = this.userService.isLoggedIn$;
-    this.homeUrl$ = combineLatest([
-      this.courseClientFacade.schoolId$,
-      this.courseClientFacade.courseId$
-    ]).pipe(
-      map(([schoolId, courseId]) =>
-        schoolId ? `${schoolId}/courses/${courseId ? courseId : ''}` : ''
-      )
+    this.homeUrl$ = this.courseClientFacade.courseId$.pipe(
+      map((courseId) => `courses/${courseId ? courseId : ''}`)
     );
-    this.navigationItems$ = this.courseClientFacade.schoolId$.pipe(
-      map(schoolId => {
-        return [
-          // TODO: add dropdowns here
-          // TODO: add icons here
-          {
-            link: 'https://theangulararc-zix2820.slack.com',
-            label: 'Community',
-            icon: 'groups',
-            externalLink: true
-          },
-          {
-            link: `${schoolId}/help`,
-            label: 'Help',
-            icon: 'help'
-          },
-          // { link: 'help', label: 'Help', icon: 'info' },
-          {
-            link: `${schoolId}/profile`,
-            label: 'Profile',
-            icon: 'person'
-          }
-        ];
-      })
-    );
+    this.navigationItems = [
+      {
+        link: 'https://theangulararc-zix2820.slack.com',
+        label: 'Community',
+        icon: 'groups',
+        externalLink: true,
+      },
+      {
+        link: `help`,
+        label: 'Help',
+        icon: 'help',
+      },
+      {
+        link: `profile`,
+        label: 'Profile',
+        icon: 'person',
+      },
+    ];
   }
 }

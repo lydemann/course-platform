@@ -1,0 +1,20 @@
+<h3>Setup Custom Domain</h3>
+
+<app-spinner *ngIf="isLoading$ | async"> </app-spinner>
+
+<ng-container
+  *ngIf="customDomainFormControl$ | async as customDomainFormControl"
+>
+  <div class="mt-m">
+    <mat-form-field class="field">
+      <mat-label>Custom Domain Url</mat-label>
+      <input matInput [formControl]="customDomainFormControl" />
+    </mat-form-field>
+  </div>
+
+  <div class="mt-l">
+    <app-button [size]="'l'" (click)="save(customDomainFormControl)"
+      >Save</app-button
+    >
+  </div>
+</ng-container>

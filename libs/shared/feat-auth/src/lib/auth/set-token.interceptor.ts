@@ -2,7 +2,7 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { auth } from 'firebase';
@@ -19,16 +19,16 @@ export class SetTokenInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!this.userService.currentUser$.value) {
+    if (!this.userService.currentUser$.value || !auth().tenantId) {
       return next.handle(req);
     }
 
     return this.userService.currentUser$.pipe(
       first(),
-      switchMap(user => {
+      switchMap((user) => {
         return from(user?.getIdToken() || '');
       }),
-      exhaustMap(token => {
+      exhaustMap((token) => {
         const tenantId = auth().tenantId;
         let headers = tenantId
           ? req.headers.append('Schoolid', tenantId)

@@ -30,7 +30,7 @@ export class CoursesComponent implements OnInit {
   }
 
   courseSelected(courseId) {
-    this.router.navigate([auth().tenantId, 'course-admin', courseId]);
+    this.router.navigate(['course-admin', courseId]);
   }
 
   onCreateCourseClick() {

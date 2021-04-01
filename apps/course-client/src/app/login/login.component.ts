@@ -8,7 +8,7 @@ import { AuthService } from '@course-platform/shared/feat-auth';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -25,16 +25,16 @@ export class LoginComponent {
   createForm() {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
   tryLogin(value) {
     this.authService.doLogin(value).then(
-      res => {
-        this.router.navigate([auth().tenantId, 'courses']);
+      (res) => {
+        this.router.navigate(['courses']);
       },
-      err => {
+      (err) => {
         console.log(err);
         this.errorMessage = err.message;
       }
