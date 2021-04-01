@@ -1,27 +1,29 @@
 import {
   courseMutationResolvers,
-  courseQueryResolvers
+  courseQueryResolvers,
 } from './course/course-resolvers';
+import { customDomainQueryResolvers } from './custom-domain/custom-domain-resolvers';
 import { lessonMutationResolvers } from './lesson/lesson-resolvers';
 import {
   sectionMutationResolvers,
-  sectionQueryResolvers
+  sectionQueryResolvers,
 } from './section/section-resolvers';
 import {
   userMutationResolvers,
-  userQueryResolvers
+  userQueryResolvers,
 } from './user/user-resolvers';
 
 export const resolvers = {
   Query: {
     ...sectionQueryResolvers,
     ...userQueryResolvers,
-    ...courseQueryResolvers
+    ...courseQueryResolvers,
+    ...customDomainQueryResolvers,
   },
   Mutation: {
     ...userMutationResolvers,
     ...sectionMutationResolvers,
     ...lessonMutationResolvers,
-    ...courseMutationResolvers
-  }
+    ...courseMutationResolvers,
+  },
 };

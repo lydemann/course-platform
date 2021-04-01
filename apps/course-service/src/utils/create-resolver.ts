@@ -3,15 +3,15 @@ import { AuthenticationError } from 'apollo-server-express';
 import { RequestContext } from '../app/auth-identity';
 import { firestoreDB } from '../app/firestore';
 
-export declare type ResolverFn<T, InfoT = any> = (
+export declare type ResolverFn<ArgsT, InfoT = any> = (
   parent: any,
-  args: T,
+  args: ArgsT,
   context?: RequestContext,
   info?: InfoT
 ) => any;
 
-export function createResolver<T, InfoT = any>(
-  resolverFn: ResolverFn<T, InfoT>
+export function createResolver<ArgsT, InfoT = any>(
+  resolverFn: ResolverFn<ArgsT, InfoT>
 ) {
   return resolverFn;
 }

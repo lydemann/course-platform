@@ -11,7 +11,7 @@ import { CreateSectionModalComponent } from './components/create-section-modal/c
 
 @Component({
   selector: 'app-course-admin',
-  templateUrl: './course-admin.component.html'
+  templateUrl: './course-admin.component.html',
 })
 export class CourseAdminComponent implements OnInit {
   panelOpenState = false;
@@ -40,10 +40,10 @@ export class CourseAdminComponent implements OnInit {
 
   onCreateLessonClicked(sectionId: string) {
     const dialogRef = this.dialog.open(CreateLessonModalComponent, {
-      width: '250px'
+      width: '250px',
     });
 
-    dialogRef.afterClosed().subscribe(lessonName => {
+    dialogRef.afterClosed().subscribe((lessonName) => {
       if (lessonName) {
         this.courseAdminFacadeService.createLessonSubmitted(
           sectionId,
@@ -57,11 +57,10 @@ export class CourseAdminComponent implements OnInit {
     event.stopPropagation();
 
     this.router.navigate([
-      auth().tenantId,
       'course-admin',
       currentCourseId,
       'section-admin',
-      sectionId
+      sectionId,
     ]);
   }
 
@@ -69,10 +68,10 @@ export class CourseAdminComponent implements OnInit {
     event.stopPropagation();
 
     const dialogRef = this.dialog.open(CreateSectionModalComponent, {
-      width: '250px'
+      width: '250px',
     });
 
-    dialogRef.afterClosed().subscribe(sectionName => {
+    dialogRef.afterClosed().subscribe((sectionName) => {
       if (sectionName) {
         this.courseAdminFacadeService.createSectionSubmitted(sectionName);
       }

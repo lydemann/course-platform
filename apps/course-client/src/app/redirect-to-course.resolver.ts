@@ -20,7 +20,7 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
     this.courseFacadeService.sections$
       .pipe(
         filter(
-          sections =>
+          (sections) =>
             !!sections &&
             sections.length > 0 &&
             !!courseId &&
@@ -30,13 +30,12 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
         ),
         first()
       )
-      .subscribe(sections => {
+      .subscribe((sections) => {
         this.router.navigate([
-          auth().tenantId,
           'courses',
           courseId,
           sections[0].id,
-          sections[0].lessons[0].id
+          sections[0].lessons[0].id,
         ]);
       });
 

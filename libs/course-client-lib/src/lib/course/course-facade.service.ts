@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { auth } from 'firebase';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import {
   CourseResourcesService,
-  selectRouteParam
+  selectRouteParam,
 } from '@course-platform/shared/data-access';
 import {
   ActionItem,
   Course,
   CourseSection,
-  Lesson
+  Lesson,
 } from '@course-platform/shared/interfaces';
 import { CourseActions } from './state/course.actions';
 import { CourseSelectors } from './state/course.selectors';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CourseFacadeService {
   constructor(
@@ -52,9 +53,6 @@ export class CourseFacadeService {
   schoolId$ = this.store.select(selectRouteParam('schoolId'));
   courseId$ = this.store.select(selectRouteParam('courseId'));
 
-  setSchoolId(schoolId: any) {
-    auth().tenantId = schoolId;
-  }
   getCourses(): Observable<Course[]> {
     return this.courseResourcesService.getCourses();
   }
@@ -70,7 +68,7 @@ export class CourseFacadeService {
       CourseActions.actionItemCompletedChanged({
         resourceId,
         completed,
-        sectionId
+        sectionId,
       })
     );
   }

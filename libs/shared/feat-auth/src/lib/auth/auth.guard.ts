@@ -8,7 +8,7 @@ import { catchError, first, map } from 'rxjs/operators';
 import { UserService } from './user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard {
   constructor(
@@ -20,9 +20,9 @@ export class AuthGuard {
   canActivate(): Observable<boolean> {
     return this.userService.getCurrentUser().pipe(
       first(),
-      map(currentUser => {
+      map((currentUser) => {
         if (!currentUser) {
-          this.router.navigate([auth().tenantId, 'login']);
+          this.router.navigate(['login']);
         }
         return !!currentUser;
       }),

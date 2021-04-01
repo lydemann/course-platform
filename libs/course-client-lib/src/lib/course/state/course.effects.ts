@@ -11,12 +11,12 @@ import {
   map,
   switchMap,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import {
   CourseResourcesService,
-  selectRouteParam
+  selectRouteParam,
 } from '@course-platform/shared/data-access';
 import { UserService } from '@course-platform/shared/feat-auth';
 import { CourseSelectors } from '../state/course.selectors';
@@ -32,10 +32,10 @@ export class CourseEffects {
       switchMap(([_, courseId]) => {
         return this.courseResourcesService.getCourseSections(courseId).pipe(
           first(),
-          map(courseSections =>
+          map((courseSections) =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
-          catchError(error =>
+          catchError((error) =>
             // TODO: use error action
             of(CourseActions.getCourseSectionsFailed({ error }))
           )
@@ -53,11 +53,10 @@ export class CourseEffects {
         ),
         switchMap(([{ selectedSectionId }, sectionsMap, courseId]) =>
           this.router.navigate([
-            auth().tenantId,
             'courses',
             courseId,
             selectedSectionId,
-            sectionsMap[selectedSectionId].lessons[0] || '0'
+            sectionsMap[selectedSectionId].lessons[0] || '0',
           ])
         )
       );
@@ -75,11 +74,10 @@ export class CourseEffects {
         ),
         tap(([{ selectedLessonId }, selectedSectionId, courseId]) => {
           this.router.navigate([
-            auth().tenantId,
             'courses',
             courseId,
             selectedSectionId,
-            selectedLessonId
+            selectedLessonId,
           ]);
         })
       );
@@ -114,13 +112,13 @@ export class CourseEffects {
           .setActionItemCompleted(resourceId, completed)
           .pipe(
             map(() => CourseActions.setActionItemCompletedSuccess()),
-            catchError(error =>
+            catchError((error) =>
               of(
                 CourseActions.setActionItemCompletedFailed({
                   error,
                   resourceId,
                   completed,
-                  sectionId
+                  sectionId,
                 })
               )
             )

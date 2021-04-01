@@ -9,7 +9,7 @@ import { Course } from '@course-platform/shared/interfaces';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>;
@@ -24,6 +24,6 @@ export class CoursesComponent implements OnInit {
   }
 
   courseSelected(courseId) {
-    this.router.navigate([auth().tenantId, 'courses', courseId]);
+    this.router.navigate(['courses', courseId]);
   }
 }

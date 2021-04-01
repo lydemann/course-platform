@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(public afAuth: AngularFireAuth) {}
@@ -13,10 +13,10 @@ export class AuthService {
         .auth()
         .createUserWithEmailAndPassword(value.email, value.password)
         .then(
-          res => {
+          (res) => {
             resolve(res);
           },
-          err => reject(err)
+          (err) => reject(err)
         );
     });
   }
@@ -27,10 +27,10 @@ export class AuthService {
         .auth()
         .signInWithEmailAndPassword(value.email, value.password)
         .then(
-          res => {
+          (res) => {
             resolve(res);
           },
-          err => reject(err)
+          (err) => reject(err)
         );
     });
   }
@@ -39,6 +39,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       if (firebase.auth().currentUser) {
         this.afAuth.signOut();
+        localStorage.clear();
         location.href = '/';
         resolve(true);
       } else {

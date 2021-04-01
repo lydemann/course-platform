@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { auth } from 'firebase';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -12,11 +12,7 @@ import {
 } from 'rxjs/operators';
 
 import { CourseResourcesService } from '@course-platform/shared/data-access';
-import {
-  Course,
-  CourseSection,
-  Lesson,
-} from '@course-platform/shared/interfaces';
+import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 
 interface CourseAdminStore {
   sections: CourseSection[];
@@ -101,7 +97,7 @@ export class CourseAdminFacadeService {
 
   goToCourseAdmin() {
     const courseId = this.courseAdminStore.value.currentCourseId;
-    this.router.navigate([auth().tenantId, 'course-admin', courseId]);
+    this.router.navigate(['course-admin', courseId]);
   }
 
   setSchoolId(schoolId: any) {
@@ -199,7 +195,7 @@ export class CourseAdminFacadeService {
     this.courseResourcesService
       .deleteLesson(sectionId, lessonId, courseId)
       .subscribe(() => {
-        this.router.navigate([auth().tenantId, 'course-admin', courseId]);
+        this.router.navigate(['course-admin', courseId]);
       });
   }
 }
