@@ -28,9 +28,7 @@ export class CourseAdminComponent implements OnInit {
   }
 
   getLessonUrl(sectionId: string, lessonId: string, currentCourseId: string) {
-    const url = `/${
-      auth().tenantId
-    }/course-admin/${currentCourseId}/lesson-admin/${sectionId}/${lessonId}`;
+    const url = `/course-admin/${currentCourseId}/lesson-admin/${sectionId}/${lessonId}`;
     return url;
   }
 
