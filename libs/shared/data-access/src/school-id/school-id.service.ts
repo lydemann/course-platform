@@ -46,8 +46,8 @@ export class SchoolIdService {
       return urlParts.shift();
     }
 
-    const endOfSplitsIdx = urlParts.length - 1;
-    return urlParts.slice(endOfSplitsIdx - hostNameDotCount).join('.');
+    const endOfSplitsIdx = urlParts.length;
+    return urlParts.slice(0, endOfSplitsIdx - hostNameDotCount).join('.');
   }
 
   private getSchoolId(customDomain) {
