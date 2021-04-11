@@ -42,4 +42,4 @@ env.local.json
 # System Files
 .DS_Store
 Thumbs.db
-
+firebase-service-account.json

@@ -1,6 +1,7 @@
 export * from './lib/shared-ui.module';
 export * from './lib/accordion';
 export * from './lib/icon';
+export * from './lib/button';
 export * from './lib/select';
 export * from './lib/spinner';
 export * from './lib/spinner-overlay-wrapper';
