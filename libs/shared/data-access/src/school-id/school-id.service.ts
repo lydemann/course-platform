@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { FirebaseApp } from '@angular/fire';
 import { Apollo, gql } from 'apollo-angular';
-import { auth } from 'firebase';
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ export const schoolIdLocalStorageKey = 'schoolId';
   providedIn: 'root',
 })
 export class SchoolIdService {
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo, private firebaseApp: FirebaseApp) {}
 
   setSchoolIdFromCustomDomain() {
     const schoolIdLocalStorage = localStorage.getItem(schoolIdLocalStorageKey);
@@ -72,6 +72,6 @@ export class SchoolIdService {
   }
 
   private setFirebaseAuthSchoolId(schoolId: string) {
-    auth().tenantId = schoolId;
+    this.firebaseApp.auth().tenantId = schoolId;
   }
 }
