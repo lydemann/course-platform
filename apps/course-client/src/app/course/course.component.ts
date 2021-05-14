@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  SecurityContext,
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -63,11 +64,15 @@ export class CourseComponent implements OnInit, OnDestroy {
 
     this.courseCustomStyle$
       .pipe(
-        filter((style) => !!style),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
+        filter((style) => !!style)
       )
       .subscribe((style) => {
-        this.createStyle(style);
+        const sanitizedStyle = this.sanitizer.sanitize(
+          SecurityContext.STYLE,
+          style
+        );
+        this.createStyle(sanitizedStyle);
       });
   }
 

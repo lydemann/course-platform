@@ -3,11 +3,11 @@ import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import { Course } from '@course-platform/shared/interfaces';
 import {
   CourseResourcesService,
   GetCoursesResponseDTO,
-} from '@course-platform/shared/data-access';
-import { Course } from '@course-platform/shared/interfaces';
+} from '../resources/course-resources.service';
 import {
   createInCache,
   removeFromCache,
