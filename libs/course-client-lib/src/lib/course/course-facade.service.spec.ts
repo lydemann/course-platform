@@ -1,7 +1,7 @@
 import {
   createServiceFactory,
   SpectatorService,
-  SpyObject
+  SpyObject,
 } from '@ngneat/spectator/jest';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -9,18 +9,18 @@ import { of } from 'rxjs';
 
 import { CourseResourcesService } from '@course-platform/shared/data-access';
 import { CourseSection } from '@course-platform/shared/interfaces';
-import { CourseFacadeService } from './course-facade.service';
+import { CourseClientFacade } from './course-facade.service';
 import { CourseActions } from './state/course.actions';
 import { CourseSelectors } from './state/course.selectors';
 
 describe('CourseFacadeService', () => {
-  let spectator: SpectatorService<CourseFacadeService>;
+  let spectator: SpectatorService<CourseClientFacade>;
   let courseResourcesService: SpyObject<CourseResourcesService>;
   let store: MockStore;
   const createService = createServiceFactory({
-    service: CourseFacadeService,
+    service: CourseClientFacade,
     mocks: [CourseResourcesService],
-    providers: [provideMockStore({ initialState: {} })]
+    providers: [provideMockStore({ initialState: {} })],
   });
 
   beforeEach(() => {

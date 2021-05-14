@@ -70,9 +70,10 @@ export function gqlServer() {
     persistedQueries: {
       ttl: 900, // 15 minutes
     },
-    cacheControl: {
-      defaultMaxAge: 30, // seconds
-    },
+    // TODO: bust cache on mutations
+    // cacheControl: {
+    //   defaultMaxAge: 30, // seconds
+    // },
     plugins: [
       responseCachePlugin({
         sessionId: (requestContext) =>

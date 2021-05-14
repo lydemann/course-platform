@@ -1,4 +1,5 @@
 import { CdkTableModule } from '@angular/cdk/table';
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -74,7 +75,8 @@ import { MatTreeModule } from '@angular/material/tree';
     MatTooltipModule,
     MatTreeModule,
     CdkTableModule,
-    CdkTreeModule
+    CdkTreeModule,
+    TextFieldModule,
   ],
   imports: [
     MatAutocompleteModule,
@@ -113,9 +115,10 @@ import { MatTreeModule } from '@angular/material/tree';
     MatTooltipModule,
     MatTreeModule,
     CdkTableModule,
-    CdkTreeModule
+    CdkTreeModule,
+    TextFieldModule,
   ],
   providers: [],
-  declarations: []
+  declarations: [],
 })
 export class AppMaterialModule {}

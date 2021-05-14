@@ -1,3 +1,3 @@
 export * from './course-resources.service';
 export * from './endpoints';
-export * from './graphql.module';
+export * from './graphql';

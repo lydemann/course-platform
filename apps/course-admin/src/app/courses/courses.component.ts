@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 
-import { CourseFacadeService } from '@course-platform/course-admin-lib';
+import { CourseFacadeService } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
 import { ToastService } from '@course-platform/shared/ui';
 import { CourseModalComponent } from './course-modal/course-modal/course-modal.component';

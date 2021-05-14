@@ -4,7 +4,7 @@ import { APOLLO_OPTIONS } from 'apollo-angular';
 import { createPersistedQueryLink } from 'apollo-angular-link-persisted';
 import { HttpLink } from 'apollo-angular/http';
 
-import { Endpoints, ENDPOINTS_TOKEN } from './endpoints';
+import { Endpoints, ENDPOINTS_TOKEN } from '../endpoints';
 
 export function createApollo(
   httpLink: HttpLink,

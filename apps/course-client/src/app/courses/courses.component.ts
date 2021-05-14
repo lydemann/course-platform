@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 
-import { CourseFacadeService } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client-lib';
 import { Course } from '@course-platform/shared/interfaces';
 
 @Component({
@@ -15,7 +15,7 @@ export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>;
 
   constructor(
-    private courseClientFacadeService: CourseFacadeService,
+    private courseClientFacadeService: CourseClientFacade,
     private router: Router
   ) {}
 

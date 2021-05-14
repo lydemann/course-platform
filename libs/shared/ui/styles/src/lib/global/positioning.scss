@@ -45,8 +45,18 @@ $directions: (t, top), (r, right), (b, bottom), (l, left);
   margin-right: auto;
 }
 
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
 .pull-right {
   margin-left: auto;
+}
+
+.pull-children-right {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .center-in-parent {

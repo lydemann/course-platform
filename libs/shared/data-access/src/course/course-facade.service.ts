@@ -1,21 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 
+import { Course } from '@course-platform/shared/interfaces';
 import {
   CourseResourcesService,
   GetCoursesResponseDTO,
-} from '@course-platform/shared/data-access';
-import { Course } from '@course-platform/shared/interfaces';
-import { ToastService } from '@course-platform/shared/ui';
-import { createInCache, removeFromCache } from '../graphql-helpers';
+} from '../resources/course-resources.service';
+import {
+  createInCache,
+  removeFromCache,
+} from '../resources/graphql/graphql-helpers';
 
 export const EDIT_COURSE_MUTATION = gql`
-  mutation editCourseMutation($id: ID!, $name: String!, $description: String!) {
-    updateCourse(id: $id, name: $name, description: $description) {
+  mutation editCourseMutation(
+    $id: ID!
+    $name: String!
+    $description: String!
+    $customStyling: String
+  ) {
+    updateCourse(
+      id: $id
+      name: $name
+      description: $description
+      customStyling: $customStyling
+    ) {
       id
       name
       description
+      customStyling
     }
   }
 `;
@@ -49,19 +63,38 @@ export class CourseFacadeService {
     private courseResourcesService: CourseResourcesService
   ) {}
 
+  isEditingCourse$ = new BehaviorSubject(false);
+
   getCourses(): Observable<Course[]> {
     return this.courseResourcesService.getCourses();
   }
 
+  getCourse(courseId: string): Observable<Course> {
+    return this.getCourses().pipe(
+      map((courses) => courses.find((course) => course.id === courseId))
+    );
+  }
+
+  getCourseCustomStyling(courseId: string): Observable<string> {
+    return this.getCourse(courseId).pipe(map((course) => course.customStyling));
+  }
   editCourseSubmitted(editedCourse: Course) {
-    return this.apollo.mutate<Course>({
-      mutation: EDIT_COURSE_MUTATION,
-      variables: {
-        id: editedCourse.id,
-        name: editedCourse.name,
-        description: editedCourse.description,
-      } as Course,
-    });
+    this.isEditingCourse$.next(true);
+    return this.apollo
+      .mutate<Course>({
+        mutation: EDIT_COURSE_MUTATION,
+        variables: {
+          id: editedCourse.id,
+          name: editedCourse.name,
+          description: editedCourse.description,
+          customStyling: editedCourse.customStyling,
+        } as Course,
+      })
+      .pipe(
+        finalize(() => {
+          this.isEditingCourse$.next(false);
+        })
+      );
   }
 
   createCourseSubmitted(course: Course) {

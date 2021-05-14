@@ -8,7 +8,7 @@ import { auth } from 'firebase';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CourseFacadeService } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client-lib';
 import { UserService } from '@course-platform/shared/feat-auth';
 
 interface NavigationItem {
@@ -32,7 +32,7 @@ export class TopbarComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private courseClientFacade: CourseFacadeService
+    private courseClientFacade: CourseClientFacade
   ) {}
 
   ngOnInit() {
