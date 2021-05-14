@@ -1,21 +1,16 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   OnDestroy,
   OnInit,
   Renderer2,
   SecurityContext,
 } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
-import { filter, map, pluck, switchMap, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
-import {
-  CourseClientFacade,
-  selectedSectionIdRouteParam,
-} from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client-lib';
 import { CourseFacadeService } from '@course-platform/shared/data-access';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 

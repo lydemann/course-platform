@@ -14,6 +14,7 @@ import {
   CourseClientFacade,
   selectedSectionIdRouteParam,
 } from '@course-platform/course-client-lib';
+import { CourseFacadeService } from '@course-platform/shared/data-access';
 import { SpinnerComponent } from '@course-platform/shared/ui';
 import { TopbarComponent } from '../layout/topbar/topbar.component';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
@@ -41,7 +42,11 @@ describe('CourseComponent', () => {
           params: of({ [selectedSectionIdRouteParam]: '1' }),
         },
       },
+      mockProvider(CourseFacadeService, {
+        getCourseCustomStyling: jest.fn(() => of('')),
+      }),
       mockProvider(CourseClientFacade, {
+        courseId$: of('1'),
         sections$: of([
           {
             id: '1',
@@ -62,6 +67,7 @@ describe('CourseComponent', () => {
         ]),
       }),
     ],
+    mocks: [],
   });
 
   beforeEach(() => {
