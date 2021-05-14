@@ -78,6 +78,7 @@ export class CourseAdminFacadeService {
       filter((lesson) => !!lesson)
     );
   }
+
   private courseAdminStore = new BehaviorSubject<CourseAdminStore>({
     isLoadingCourseSections: false,
     loadCourseSectionsError: null,

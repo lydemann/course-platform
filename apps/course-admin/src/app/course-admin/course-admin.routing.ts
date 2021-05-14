@@ -14,28 +14,35 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: CourseAdminComponent
+        component: CourseAdminComponent,
       },
       {
         path: 'lesson-admin',
         loadChildren: () =>
           import('./lesson-admin/lesson-admin.module').then(
-            m => m.LessonAdminModule
-          )
+            (m) => m.LessonAdminModule
+          ),
       },
       {
         path: 'section-admin',
         loadChildren: () =>
           import('./section-admin/section-admin.module').then(
-            m => m.SectionAdminModule
-          )
-      }
-    ]
-  }
+            (m) => m.SectionAdminModule
+          ),
+      },
+      {
+        path: 'styling',
+        loadChildren: () =>
+          import('./course-styling/course-styling.module').then(
+            (m) => m.CourseStylingModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class CourseAdminRoutingModule {}

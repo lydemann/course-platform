@@ -1,8 +1,13 @@
-<div fxLayout="row" class="mb-l" fxLayoutAlign="space-between start">
+<div fxLayout="row" class="mb-l" fxLayoutAlign="space-between center">
   <h1 class="mb-m">Welcome to the course admin</h1>
-  <app-button (clicked)="onCreateSectionClicked($event)">
-    Create Section
-  </app-button>
+  <div class="pull-children-right">
+    <app-button (clicked)="onCreateSectionClicked($event)" class="mr-m">
+      Create Section
+    </app-button>
+    <app-button [routerLink]="'../styling'" [color]="'accent'">
+      Style course
+    </app-button>
+  </div>
 </div>
 
 <div *ngIf="currentCourseId$ | async as currentCourseId">

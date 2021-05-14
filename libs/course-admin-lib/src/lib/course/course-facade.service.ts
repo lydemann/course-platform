@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { finalize, map, tap } from 'rxjs/operators';
 
 import {
   CourseResourcesService,
@@ -49,19 +50,37 @@ export class CourseFacadeService {
     private courseResourcesService: CourseResourcesService
   ) {}
 
+  isEditingCourse$ = new BehaviorSubject(false);
+
   getCourses(): Observable<Course[]> {
     return this.courseResourcesService.getCourses();
   }
 
+  getCourse(courseId: string): Observable<Course> {
+    return this.getCourses().pipe(
+      map((courses) => courses.find((course) => course.id === courseId))
+    );
+  }
+
+  getCourseCustomStyling(courseId: string): Observable<string> {
+    return this.getCourse(courseId).pipe(map((course) => course.customStyling));
+  }
   editCourseSubmitted(editedCourse: Course) {
-    return this.apollo.mutate<Course>({
-      mutation: EDIT_COURSE_MUTATION,
-      variables: {
-        id: editedCourse.id,
-        name: editedCourse.name,
-        description: editedCourse.description,
-      } as Course,
-    });
+    this.isEditingCourse$.next(true);
+    return this.apollo
+      .mutate<Course>({
+        mutation: EDIT_COURSE_MUTATION,
+        variables: {
+          id: editedCourse.id,
+          name: editedCourse.name,
+          description: editedCourse.description,
+        } as Course,
+      })
+      .pipe(
+        finalize(() => {
+          this.isEditingCourse$.next(false);
+        })
+      );
   }
 
   createCourseSubmitted(course: Course) {
