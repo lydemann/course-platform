@@ -5,8 +5,8 @@ import { map, switchMap } from 'rxjs/operators';
 
 import {
   CourseAdminFacadeService,
-  CourseFacadeService,
 } from '@course-platform/course-admin-lib';
+import { CourseFacadeService } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
 import { ToastService } from '@course-platform/shared/ui';
 
@@ -34,7 +34,7 @@ export class CourseStylingComponent implements OnInit {
     this.courseName$ = this.course$.pipe(map((course) => course.name));
     this.customStylingFormControl$ = this.course$.pipe(
       map(
-        (course) => new FormControl(course.customStyling, [Validators.required])
+        (course) => new FormControl(course.customStyling, [])
       )
     );
     this.isEditingCourse$ = this.courseFacade.isEditingCourse$;
@@ -42,16 +42,17 @@ export class CourseStylingComponent implements OnInit {
 
   submit(customStylingFormControl: FormControl, course: Course) {
     if (!customStylingFormControl.valid) {
-      return;
+      return false;
     }
 
     const updatedCourse = {
       ...course,
-      customStyling: customStylingFormControl.value,
+      customStyling: customStylingFormControl.value || '',
     } as Course;
 
     this.courseFacade.editCourseSubmitted(updatedCourse).subscribe(() => {
       this.toastService.showSuccessToast({ message: 'Custom styling saved' });
     });
+    return false;
   }
 }

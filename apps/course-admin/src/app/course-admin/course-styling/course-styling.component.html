@@ -8,13 +8,13 @@
     *ngIf="customStylingFormControl$ | async as customStylingFormControl"
   >
     <app-textarea [formControl]="customStylingFormControl"> </app-textarea>
-    <app-button [type]="'submit'"></app-button>
+    <app-button [type]="'submit'">Save</app-button>
   </form>
 </ng-container>
 
 <ng-container
   *ngIf="isEditingCourse$ | async"
-  ngTemplateOutlet="loading"
+  [ngTemplateOutlet]="loading"
 ></ng-container>
 
 <ng-template #loading>

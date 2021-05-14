@@ -3,13 +3,13 @@ import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { auth } from 'firebase';
 import { filter, first } from 'rxjs/operators';
 
-import { CourseFacadeService } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client-lib';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectToCourseResolver implements Resolve<Observable<void>> {
   constructor(
     private router: Router,
-    private courseFacadeService: CourseFacadeService
+    private courseFacadeService: CourseClientFacade
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): any {

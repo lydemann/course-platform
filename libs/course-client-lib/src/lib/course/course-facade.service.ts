@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { auth } from 'firebase';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import {
   CourseResourcesService,
@@ -20,11 +18,12 @@ import { CourseSelectors } from './state/course.selectors';
 @Injectable({
   providedIn: 'root',
 })
-export class CourseFacadeService {
+export class CourseClientFacade {
   constructor(
     private store: Store<any>,
     private courseResourcesService: CourseResourcesService
   ) {}
+
   actionItems$: Observable<ActionItem[]> = this.store.select(
     CourseSelectors.selectSectionActionItems
   );

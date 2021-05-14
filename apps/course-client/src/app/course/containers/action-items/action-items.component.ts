@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CourseFacadeService } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client-lib';
 import { ActionItem, LessonResource } from '@course-platform/shared/interfaces';
 
 export interface ActionItemAnswer {
@@ -15,13 +15,13 @@ export const actionItemsRouteId = 'action-items';
   selector: 'app-action-items',
   templateUrl: './action-items.component.html',
   styleUrls: ['./action-items.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionItemsComponent implements OnInit {
   public actionItems$: Observable<ActionItem[]>;
   public selectedSectionId$: Observable<string>;
 
-  constructor(private courseFacadeService: CourseFacadeService) {}
+  constructor(private courseFacadeService: CourseClientFacade) {}
   ngOnInit(): void {
     this.actionItems$ = this.courseFacadeService.actionItems$;
     this.selectedSectionId$ = this.courseFacadeService.selectedSectionId$;

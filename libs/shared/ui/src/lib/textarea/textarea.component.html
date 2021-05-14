@@ -1,6 +1,8 @@
 <mat-form-field>
   <textarea
     matInput
+    cdkTextareaAutosize
+    cdkAutosizeMinRows="5"
     [placeholder]="placeholder"
     (ngModelChange)="onChange($event)"
     [ngModel]="value"

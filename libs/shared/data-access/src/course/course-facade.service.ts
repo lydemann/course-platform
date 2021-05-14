@@ -1,22 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import {
   CourseResourcesService,
   GetCoursesResponseDTO,
 } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
-import { ToastService } from '@course-platform/shared/ui';
-import { createInCache, removeFromCache } from '../graphql-helpers';
+import {
+  createInCache,
+  removeFromCache,
+} from '../resources/graphql/graphql-helpers';
 
 export const EDIT_COURSE_MUTATION = gql`
-  mutation editCourseMutation($id: ID!, $name: String!, $description: String!) {
-    updateCourse(id: $id, name: $name, description: $description) {
+  mutation editCourseMutation(
+    $id: ID!
+    $name: String!
+    $description: String!
+    $customStyling: String
+  ) {
+    updateCourse(
+      id: $id
+      name: $name
+      description: $description
+      customStyling: $customStyling
+    ) {
       id
       name
       description
+      customStyling
     }
   }
 `;
@@ -74,6 +87,7 @@ export class CourseFacadeService {
           id: editedCourse.id,
           name: editedCourse.name,
           description: editedCourse.description,
+          customStyling: editedCourse.customStyling,
         } as Course,
       })
       .pipe(
