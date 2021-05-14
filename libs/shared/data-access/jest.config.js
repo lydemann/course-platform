@@ -3,6 +3,7 @@ module.exports = {
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
   coverageDirectory: '../../../coverage/libs/shared/data-access',
   globals: { 'ts-jest': { tsConfig: '<rootDir>/tsconfig.spec.json' } },
