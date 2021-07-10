@@ -39,7 +39,12 @@ export class CourseComponent implements OnInit, OnDestroy {
     private courseFacade: CourseFacadeService
   ) {}
   ngOnDestroy(): void {
-    this.renderer.removeChild(this.elementRef.nativeElement, this.styleElement);
+    if (this.styleElement) {
+      this.renderer.removeChild(
+        this.elementRef.nativeElement,
+        this.styleElement
+      );
+    }
     this.destroy$.next();
     this.destroy$.complete();
   }

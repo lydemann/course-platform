@@ -76,18 +76,21 @@ export const userMutationResolvers = {
   },
   createUser: createResolver<CreateUserInputDTO>(
     async (parent, { email, password }) => {
+      const emailLowerCase = email.toLowerCase();
       const userService = container.get<UserService>(DITypes.userService);
       const acUserDTO = await userService.getACUsers();
-      const acUsers = new Set(acUserDTO.contacts.map((user) => user.email));
+      const acUsers = new Set(
+        acUserDTO.contacts.map((user) => user.email?.toLowerCase())
+      );
 
       // TODO: when implementing for SaaS decode registration token containing an encrypted token with email and schoolId
-      if (!acUsers.has(email)) {
+      if (!acUsers.has(emailLowerCase)) {
         throw new ValidationError('Email is not enrolled');
       }
 
       // TODO: when implementing for SaaS no hardcoded school id
       return await userService.createGoogleIdentityUser(
-        email,
+        emailLowerCase,
         password,
         'christianlydemann-eyy6e'
       );
