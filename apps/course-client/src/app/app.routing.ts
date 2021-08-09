@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SchoolIdResolver } from '../../../../libs/shared/data-access/src/school-id/school-id.resolver';
 import { RedirectIfLoggedOutResolver } from './core/auth/redirect-if-logged-out.service';
+import { CourseResolver } from './course/resolvers/course.resolver';
 
 const routes: Routes = [
   {
@@ -42,6 +43,7 @@ const routes: Routes = [
               },
               {
                 path: ':courseId',
+                resolve: [CourseResolver],
                 loadChildren: () =>
                   import('./course/course.module').then((m) => m.CourseModule),
               },
