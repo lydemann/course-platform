@@ -77,7 +77,7 @@
     "firebase-admin": "^9.5.0",
     "firebase-functions": "^3.13.2",
     "graphql": "^15.0.0",
-    "immer": "^8.0.0",
+    "immer": "^9.0.6",
     "inversify": "^5.0.5",
     "node-fetch": "^2.6.1",
     "reflect-metadata": "^0.1.13",
