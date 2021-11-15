@@ -30,7 +30,8 @@ interface CourseAdminStore {
 export class CourseAdminFacadeService {
   constructor(
     private courseResourcesService: CourseResourcesService,
-    private router: Router
+    private router: Router,
+    private apollo: Apollo
   ) {
     this.currentCourseId$ = this.courseAdminStore.pipe(
       map((store) => store.currentCourseId)
@@ -134,6 +135,41 @@ export class CourseAdminFacadeService {
     this.courseResourcesService
       .updateLesson(lesson, courseId)
       .pipe(first())
+      .subscribe();
+  }
+
+  moveLesson(
+    sectionId: string,
+    previousIndex: number,
+    currentIndex: number,
+    courseId: string
+  ) {
+    const MOVE_LESSON_MUTATION = gql`
+      mutation moveLesson(
+        $sectionId: ID!
+        $previousIndex: Int!
+        $currentIndex: Int!
+        $courseId: ID!
+      ) {
+        moveLesson(
+          sectionId: $sectionId
+          previousIndex: $previousIndex
+          currentIndex: $currentIndex
+          courseId: $courseId
+        )
+      }
+    `;
+
+    this.apollo
+      .mutate({
+        mutation: MOVE_LESSON_MUTATION,
+        variables: {
+          sectionId,
+          previousIndex,
+          currentIndex,
+          courseId,
+        },
+      })
       .subscribe();
   }
 

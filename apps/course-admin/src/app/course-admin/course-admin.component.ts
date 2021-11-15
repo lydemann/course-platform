@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -6,12 +7,14 @@ import { Observable } from 'rxjs';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
 import { CourseSection } from '@course-platform/shared/interfaces';
+import { Lesson } from './../../../../../libs/shared/interfaces/src/lib/course/lesson';
 import { CreateLessonModalComponent } from './components/create-lesson-modal/create-lesson-modal.component';
 import { CreateSectionModalComponent } from './components/create-section-modal/create-section-modal.component';
 
 @Component({
   selector: 'app-course-admin',
   templateUrl: './course-admin.component.html',
+  styleUrls: ['./course-admin.component.scss']
 })
 export class CourseAdminComponent implements OnInit {
   panelOpenState = false;
@@ -49,6 +52,16 @@ export class CourseAdminComponent implements OnInit {
         );
       }
     });
+  }
+
+  drop(event: CdkDragDrop<string[]>, section: CourseSection, currentCourseId: string) {
+    moveItemInArray(section.lessons, event.previousIndex, event.currentIndex);
+    this.courseAdminFacadeService.moveLesson(
+      section.id,
+      event.previousIndex,
+      event.currentIndex,
+      currentCourseId
+    );
   }
 
   onSectionClicked(event: Event, sectionId: string, currentCourseId: string) {

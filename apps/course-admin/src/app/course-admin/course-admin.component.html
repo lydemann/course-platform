@@ -28,16 +28,20 @@
         >
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-selection-list #shoes [multiple]="false">
-        <a
+      <div
+        cdkDropList
+        (cdkDropListDropped)="drop($event, section, currentCourseId)"
+        class="section-lessons"
+      >
+        <div
+          cdkDrag
+          class="lesson"
           *ngFor="let lesson of section.lessons"
           [routerLink]="getLessonUrl(section.id, lesson.id, currentCourseId)"
         >
-          <mat-list-option>
-            {{ lesson.name }}
-          </mat-list-option>
-        </a>
-      </mat-selection-list>
+          {{ lesson.name }}
+        </div>
+      </div>
       <app-button (clicked)="onCreateLessonClicked(section.id)">
         Create lesson
       </app-button>
