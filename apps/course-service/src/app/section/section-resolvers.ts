@@ -12,6 +12,7 @@ import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
+import { CourseSectionDTO } from './../../../../../libs/shared/data-access/src/resources/course-resources.service';
 import { getDefaultActionItems } from './default-action-items';
 
 interface GetCourseSectionsInput {
@@ -191,4 +192,36 @@ export const sectionMutationResolvers = {
       .delete()
       .then(() => 'Deleted section');
   },
+  moveLesson: async (
+    _,
+    { sectionId, courseId, previousIndex, currentIndex },
+    { auth: { admin, schoolId } }: RequestContext
+  ) => {
+    const sectionDoc = firestoreDB.doc(
+      `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
+    );
+    const sectionSnap = await sectionDoc.get();
+    const section = sectionSnap.data() as CourseSectionDTO;
+
+    const reorderedLessons = swapInArray(
+      section.lessons,
+      previousIndex,
+      currentIndex
+    );
+    const updatedSection = {
+      ...section,
+      lessons: reorderedLessons,
+    } as CourseSectionDTO;
+
+    await sectionDoc.update(updatedSection);
+    return 'Reordered lessons';
+  },
 };
+
+function swapInArray(arr: any[], i1: number, i2: number) {
+  const clonedArray = [...arr];
+  const t = clonedArray[i1];
+  clonedArray[i1] = clonedArray[i2];
+  clonedArray[i2] = t;
+  return clonedArray;
+}
