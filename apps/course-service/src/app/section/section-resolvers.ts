@@ -1,5 +1,6 @@
 import { AuthenticationError } from 'apollo-server-express';
 
+import { CourseSectionDTO } from '@course-platform/shared/data-access';
 import {
   ActionItem,
   CourseSection,
@@ -12,7 +13,6 @@ import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
 import { SectionDTO } from '../models/section-dto';
-import { CourseSectionDTO } from './../../../../../libs/shared/data-access/src/resources/course-resources.service';
 import { getDefaultActionItems } from './default-action-items';
 
 interface GetCourseSectionsInput {
