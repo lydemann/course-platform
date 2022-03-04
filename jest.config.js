@@ -9,5 +9,6 @@ module.exports = {
     '<rootDir>/libs/shared/data-access',
     '<rootDir>/libs/shared/feat-auth',
     '<rootDir>/libs/course-admin-lib',
+    '<rootDir>/apps/course-client-next',
   ],
 };
