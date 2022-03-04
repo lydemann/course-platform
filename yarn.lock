@@ -4321,7 +4321,7 @@
     "@nrwl/jest" "11.4.0"
     "@nrwl/node" "11.4.0"
 
-"@nrwl/next@13.8.4":
+"@nrwl/next@^13.8.4":
   version "13.8.4"
   resolved "https://registry.yarnpkg.com/@nrwl/next/-/next-13.8.4.tgz#994633fc7531528e5fac3e08f864c6569677ef84"
   integrity sha512-G+czx7oUO2x3sVtxs4iFYKch7JHPXczTs9BREPha0DC9nOuVCpijOplyUuxKIsMXQhQxE4JBaykM/bKJ1OvScA==
