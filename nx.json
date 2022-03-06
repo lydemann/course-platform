@@ -15,45 +15,94 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
   "projects": {
-    "course-client": {
-      "tags": ["scope:course-client", "type:app"]
-    },
-    "course-client-e2e": {
-      "tags": ["scope:course-client"],
-      "implicitDependencies": ["course-client"]
-    },
-    "course-client-lib": {
-      "tags": ["scope:course-client", "type:data-access"]
-    },
     "course-admin": {
-      "tags": ["scope:course-admin", "type:app"]
+      "tags": [
+        "scope:course-admin",
+        "type:app"
+      ]
     },
     "course-admin-e2e": {
-      "tags": ["scope:course-admin"],
-      "implicitDependencies": ["course-admin"]
-    },
-    "course-service": {
-      "tags": ["scope:course-service", "type:service"]
-    },
-    "shared-interfaces": {
-      "tags": ["scope:shared", "type:interface"]
-    },
-    "shared-util-util-feature-toggle": {
-      "tags": ["scope:shared", "type:util"]
-    },
-    "shared-data-access": {
-      "tags": ["type:data-access", "scope:shared"]
-    },
-    "shared-feat-auth": {
-      "tags": ["scope:shared", "type:feat"]
+      "tags": [
+        "scope:course-admin"
+      ],
+      "implicitDependencies": [
+        "course-admin"
+      ]
     },
     "course-admin-lib": {
-      "tags": ["scope:course-admin", "type:data-access"]
+      "tags": [
+        "scope:course-admin",
+        "type:data-access"
+      ]
+    },
+    "course-client": {
+      "tags": [
+        "scope:course-client",
+        "type:app"
+      ]
+    },
+    "course-client-e2e": {
+      "tags": [
+        "scope:course-client"
+      ],
+      "implicitDependencies": [
+        "course-client"
+      ]
+    },
+    "course-client-lib": {
+      "tags": [
+        "scope:course-client",
+        "type:data-access"
+      ]
+    },
+    "course-client-next": {
+      "tags": []
+    },
+    "course-client-next-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "course-client-next"
+      ]
+    },
+    "course-service": {
+      "tags": [
+        "scope:course-service",
+        "type:service"
+      ]
+    },
+    "shared-data-access": {
+      "tags": [
+        "type:data-access",
+        "scope:shared"
+      ]
+    },
+    "shared-feat-auth": {
+      "tags": [
+        "scope:shared",
+        "type:feat"
+      ]
+    },
+    "shared-interfaces": {
+      "tags": [
+        "scope:shared",
+        "type:interface"
+      ]
+    },
+    "shared-util-util-feature-toggle": {
+      "tags": [
+        "scope:shared",
+        "type:util"
+      ]
     }
   },
   "cli": {
@@ -72,5 +121,13 @@
         "linter": "eslint"
       }
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   }
 }
