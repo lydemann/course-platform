@@ -123,12 +123,12 @@ export namespace CourseSelectors {
   export const selectSelectedLessonId = createSelector(
     selectRouteParam(selectedLessonIdRouteParam),
     selectRouteData,
-    (lessonId, data: LessonRouteData) => {
+    (lessonId: string, data) => {
       if (data.lessonType === LessonTypes.Lesson) {
         return lessonId;
       }
 
-      return data.lessonType;
+      return data.lessonType as string;
     }
   );
 

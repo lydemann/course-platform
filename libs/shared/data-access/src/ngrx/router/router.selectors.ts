@@ -7,7 +7,6 @@ export interface State {
 }
 
 export const selectRouter = createFeatureSelector<
-  State,
   fromRouter.RouterReducerState
 >('router');
 
@@ -18,7 +17,7 @@ export const {
   selectUrl
 } = fromRouter.getSelectors(selectRouter);
 
-const getRouteParams = (route: ActivatedRouteSnapshot) => {
+const getRouteParams = (route: ActivatedRouteSnapshot): Record<string, string> => {
   if (route.children.length === 0) {
     return route.params;
   }
@@ -30,7 +29,7 @@ const getRouteParams = (route: ActivatedRouteSnapshot) => {
   return {
     ...route.params,
     ...combinedChildParams
-  };
+  } as Record<string, string>;
 };
 
 export const selectRouteParams = createSelector(selectRouter, routerState => {

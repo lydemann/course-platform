@@ -36,7 +36,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   public groupingSeparator: string;
   public decimalSeparator: string;
 
-  private destroy$ = new Subject();
+  private destroy$ = new Subject<void>();
   private lastValue = '';
 
   constructor(

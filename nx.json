@@ -20,89 +20,9 @@
           "lint",
           "test",
           "e2e"
-        ]
+        ],
+        "parallel": 3
       }
-    }
-  },
-  "projects": {
-    "course-admin": {
-      "tags": [
-        "scope:course-admin",
-        "type:app"
-      ]
-    },
-    "course-admin-e2e": {
-      "tags": [
-        "scope:course-admin"
-      ],
-      "implicitDependencies": [
-        "course-admin"
-      ]
-    },
-    "course-admin-lib": {
-      "tags": [
-        "scope:course-admin",
-        "type:data-access"
-      ]
-    },
-    "course-client": {
-      "tags": [
-        "scope:course-client",
-        "type:app"
-      ]
-    },
-    "course-client-e2e": {
-      "tags": [
-        "scope:course-client"
-      ],
-      "implicitDependencies": [
-        "course-client"
-      ]
-    },
-    "course-client-lib": {
-      "tags": [
-        "scope:course-client",
-        "type:data-access"
-      ]
-    },
-    "course-client-next": {
-      "tags": []
-    },
-    "course-client-next-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "course-client-next"
-      ]
-    },
-    "course-service": {
-      "tags": [
-        "scope:course-service",
-        "type:service"
-      ]
-    },
-    "shared-data-access": {
-      "tags": [
-        "type:data-access",
-        "scope:shared"
-      ]
-    },
-    "shared-feat-auth": {
-      "tags": [
-        "scope:shared",
-        "type:feat"
-      ]
-    },
-    "shared-interfaces": {
-      "tags": [
-        "scope:shared",
-        "type:interface"
-      ]
-    },
-    "shared-util-util-feature-toggle": {
-      "tags": [
-        "scope:shared",
-        "type:util"
-      ]
     }
   },
   "cli": {
@@ -129,5 +49,8 @@
         "projects": "dependencies"
       }
     ]
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }

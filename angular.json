@@ -98,19 +98,6 @@
             "browserTarget": "course-admin:build"
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/course-admin/tsconfig.app.json",
-              "apps/course-admin/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-admin/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -118,7 +105,11 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": [
+        "scope:course-admin",
+        "type:app"
+      ]
     },
     "course-admin-e2e": {
       "root": "apps/course-admin-e2e",
@@ -137,20 +128,14 @@
               "devServerTarget": "course-admin:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/course-admin-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-admin-e2e/**"
-            ]
-          }
         }
-      }
+      },
+      "tags": [
+        "scope:course-admin"
+      ],
+      "implicitDependencies": [
+        "course-admin"
+      ]
     },
     "course-admin-lib": {
       "root": "libs/course-admin-lib",
@@ -158,19 +143,6 @@
       "projectType": "library",
       "schematics": {},
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/course-admin-lib/tsconfig.lib.json",
-              "libs/course-admin-lib/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/course-admin-lib/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -178,7 +150,11 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": [
+        "scope:course-admin",
+        "type:data-access"
+      ]
     },
     "course-client": {
       "projectType": "application",
@@ -275,19 +251,6 @@
             "browserTarget": "course-client:build"
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/course-client/tsconfig.app.json",
-              "apps/course-client/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-client/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -299,7 +262,11 @@
           "builder": "@angular/fire:deploy",
           "options": {}
         }
-      }
+      },
+      "tags": [
+        "scope:course-client",
+        "type:app"
+      ]
     },
     "course-client-e2e": {
       "root": "apps/course-client-e2e",
@@ -318,20 +285,14 @@
               "devServerTarget": "course-client:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/course-client-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-client-e2e/**"
-            ]
-          }
         }
-      }
+      },
+      "tags": [
+        "scope:course-client"
+      ],
+      "implicitDependencies": [
+        "course-client"
+      ]
     },
     "course-client-lib": {
       "projectType": "library",
@@ -339,19 +300,6 @@
       "sourceRoot": "libs/course-client-lib/src",
       "prefix": "app",
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/course-client-lib/tsconfig.lib.json",
-              "libs/course-client-lib/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/course-client-lib/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -364,7 +312,11 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": [
+        "scope:course-client",
+        "type:data-access"
+      ]
     },
     "course-client-next": {
       "root": "apps/course-client-next",
@@ -425,7 +377,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "course-client-next-e2e": {
       "root": "apps/course-client-next-e2e",
@@ -456,7 +409,11 @@
             ]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": [
+        "course-client-next"
+      ]
     },
     "course-service": {
       "root": "apps/course-service",
@@ -498,19 +455,6 @@
             "buildTarget": "course-service:build"
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/course-service/tsconfig.app.json",
-              "apps/course-service/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/course-service/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -518,7 +462,11 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": [
+        "scope:course-service",
+        "type:service"
+      ]
     },
     "shared-data-access": {
       "root": "libs/shared/data-access",
@@ -526,19 +474,6 @@
       "projectType": "library",
       "schematics": {},
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/data-access/tsconfig.lib.json",
-              "libs/shared/data-access/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/data-access/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -546,7 +481,11 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": [
+        "type:data-access",
+        "scope:shared"
+      ]
     },
     "shared-feat-auth": {
       "projectType": "library",
@@ -554,19 +493,6 @@
       "sourceRoot": "libs/shared/feat-auth/src",
       "prefix": "course-platform",
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/feat-auth/tsconfig.lib.json",
-              "libs/shared/feat-auth/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/feat-auth/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -579,7 +505,11 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": [
+        "scope:shared",
+        "type:feat"
+      ]
     },
     "shared-interfaces": {
       "root": "libs/shared/interfaces",
@@ -587,19 +517,6 @@
       "projectType": "library",
       "schematics": {},
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/interfaces/tsconfig.lib.json",
-              "libs/shared/interfaces/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/interfaces/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -607,7 +524,11 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": [
+        "scope:shared",
+        "type:interface"
+      ]
     },
     "shared-util-util-feature-toggle": {
       "root": "libs/shared/util/util-feature-toggle",
@@ -615,19 +536,6 @@
       "projectType": "library",
       "schematics": {},
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/util/util-feature-toggle/tsconfig.lib.json",
-              "libs/shared/util/util-feature-toggle/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/shared/util/util-feature-toggle/**"
-            ]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -635,7 +543,11 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": [
+        "scope:shared",
+        "type:util"
+      ]
     }
   }
 }

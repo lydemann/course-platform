@@ -1,6 +1,0 @@
-{
-  "version": 2,
-  "projects": {
-    "course-client-next": "apps/course-client-next"
-  }
-}

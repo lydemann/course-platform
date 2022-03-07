@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { auth } from 'firebase';
 import { filter, first } from 'rxjs/operators';
+import { Observable } from "rxjs";
 
 import { CourseClientFacade } from '@course-platform/course-client-lib';
 
