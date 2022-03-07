@@ -27,7 +27,7 @@ export class TopbarComponent implements OnInit {
   languages = ['en'];
   homeUrl$: Observable<string>;
   navigationItems: NavigationItem[];
-  logo = require('../../../assets/logo.png').default;
+  logo = '../../../assets/logo.png';
   loggedIn$: Observable<boolean>;
 
   constructor(
