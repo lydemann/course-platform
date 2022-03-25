@@ -33,13 +33,9 @@
               "apps/course-admin/src/.firebaserc",
               "apps/course-admin/src/firebase.json"
             ],
-            "styles": [
-              "apps/course-admin/src/styles.scss"
-            ],
+            "styles": ["apps/course-admin/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "libs/shared/ui/styles/src/lib"
-              ]
+              "includePaths": ["libs/shared/ui/styles/src/lib"]
             },
             "scripts": [],
             "vendorChunk": true,
@@ -106,10 +102,7 @@
           }
         }
       },
-      "tags": [
-        "scope:course-admin",
-        "type:app"
-      ]
+      "tags": ["scope:course-admin", "type:app"]
     },
     "course-admin-e2e": {
       "root": "apps/course-admin-e2e",
@@ -130,12 +123,8 @@
           }
         }
       },
-      "tags": [
-        "scope:course-admin"
-      ],
-      "implicitDependencies": [
-        "course-admin"
-      ]
+      "tags": ["scope:course-admin"],
+      "implicitDependencies": ["course-admin"]
     },
     "course-admin-lib": {
       "root": "libs/course-admin-lib",
@@ -151,10 +140,7 @@
           }
         }
       },
-      "tags": [
-        "scope:course-admin",
-        "type:data-access"
-      ]
+      "tags": ["scope:course-admin", "type:data-access"]
     },
     "course-client": {
       "projectType": "application",
@@ -187,14 +173,10 @@
               "apps/course-client/src/.firebaserc",
               "apps/course-client/src/firebase.json"
             ],
-            "styles": [
-              "apps/course-client/src/styles.scss"
-            ],
+            "styles": ["apps/course-client/src/styles.scss"],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "libs/shared/ui/styles/src/lib"
-              ]
+              "includePaths": ["libs/shared/ui/styles/src/lib"]
             },
             "vendorChunk": true,
             "extractLicenses": false,
@@ -263,10 +245,7 @@
           "options": {}
         }
       },
-      "tags": [
-        "scope:course-client",
-        "type:app"
-      ]
+      "tags": ["scope:course-client", "type:app"]
     },
     "course-client-e2e": {
       "root": "apps/course-client-e2e",
@@ -287,12 +266,8 @@
           }
         }
       },
-      "tags": [
-        "scope:course-client"
-      ],
-      "implicitDependencies": [
-        "course-client"
-      ]
+      "tags": ["scope:course-client"],
+      "implicitDependencies": ["course-client"]
     },
     "course-client-lib": {
       "projectType": "library",
@@ -313,10 +288,7 @@
           "style": "scss"
         }
       },
-      "tags": [
-        "scope:course-client",
-        "type:data-access"
-      ]
+      "tags": ["scope:course-client", "type:data-access"]
     },
     "course-client-next": {
       "root": "apps/course-client-next",
@@ -325,9 +297,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/next:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "defaultConfiguration": "production",
           "options": {
             "root": "apps/course-client-next",
@@ -358,9 +328,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/course-client-next"
-          ],
+          "outputs": ["coverage/apps/course-client-next"],
           "options": {
             "jestConfig": "apps/course-client-next/jest.config.js",
             "passWithNoTests": true
@@ -368,13 +336,9 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/course-client-next/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["apps/course-client-next/**/*.{ts,tsx,js,jsx}"]
           }
         }
       },
@@ -400,20 +364,99 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/course-client-next-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/course-client-next-e2e/**/*.{js,ts}"]
           }
         }
       },
       "tags": [],
-      "implicitDependencies": [
-        "course-client-next"
-      ]
+      "implicitDependencies": ["course-client-next"]
+    },
+    "course-client-nextjs": {
+      "root": "apps/course-client-nextjs",
+      "sourceRoot": "apps/course-client-nextjs",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "defaultConfiguration": "production",
+          "options": {
+            "root": "apps/course-client-nextjs",
+            "outputPath": "dist/apps/course-client-nextjs"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "course-client-nextjs:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "course-client-nextjs:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "builder": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "course-client-nextjs:build:production"
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/course-client-nextjs"],
+          "options": {
+            "jestConfig": "apps/course-client-nextjs/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": [
+              "apps/course-client-nextjs/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        }
+      },
+      "tags": ["type:app"]
+    },
+    "course-client-nextjs-e2e": {
+      "root": "apps/course-client-nextjs-e2e",
+      "sourceRoot": "apps/course-client-nextjs-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/course-client-nextjs-e2e/cypress.json",
+            "devServerTarget": "course-client-nextjs:serve",
+            "tsConfig": "apps/course-client-nextjs-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "course-client-nextjs:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/course-client-nextjs-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["course-client-nextjs"]
     },
     "course-service": {
       "root": "apps/course-service",
@@ -463,10 +506,7 @@
           }
         }
       },
-      "tags": [
-        "scope:course-service",
-        "type:service"
-      ]
+      "tags": ["scope:course-service", "type:service"]
     },
     "shared-data-access": {
       "root": "libs/shared/data-access",
@@ -482,10 +522,7 @@
           }
         }
       },
-      "tags": [
-        "type:data-access",
-        "scope:shared"
-      ]
+      "tags": ["type:data-access", "scope:shared"]
     },
     "shared-feat-auth": {
       "projectType": "library",
@@ -506,10 +543,7 @@
           "style": "scss"
         }
       },
-      "tags": [
-        "scope:shared",
-        "type:feat"
-      ]
+      "tags": ["scope:shared", "type:feat"]
     },
     "shared-interfaces": {
       "root": "libs/shared/interfaces",
@@ -525,10 +559,7 @@
           }
         }
       },
-      "tags": [
-        "scope:shared",
-        "type:interface"
-      ]
+      "tags": ["scope:shared", "type:interface"]
     },
     "shared-util-util-feature-toggle": {
       "root": "libs/shared/util/util-feature-toggle",
@@ -544,10 +575,7 @@
           }
         }
       },
-      "tags": [
-        "scope:shared",
-        "type:util"
-      ]
+      "tags": ["scope:shared", "type:util"]
     }
   }
 }
