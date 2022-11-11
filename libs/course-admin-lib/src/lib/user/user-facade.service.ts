@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { User } from 'firebase';
+import { User } from 'firebase/auth';
 
 export const CREATE_USER_MUTATION = gql`
   mutation createUserMutation($email: String!, $password: String!) {

@@ -3,5 +3,6 @@
   "compilerOptions": {
     "types": ["node", "jest"]
   },
-  "include": ["**/*.ts", "../shared/data-access/src/graphql-helpers.ts"]
+  "include": ["**/*.ts", "../shared/data-access/src/graphql-helpers.ts"],
+  "exclude": ["jest.config.ts"]
 }

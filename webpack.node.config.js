@@ -9,7 +9,7 @@ const packageJson = require('./package.json');
 module.exports = (config, context) => {
   // Extract output path from context
   const {
-    options: { outputPath }
+    options: { outputPath },
   } = context;
 
   // Install additional plugins
@@ -48,9 +48,9 @@ function copyYarnLockFile(outputPath) {
     patterns: [
       {
         from: 'yarn.lock',
-        to: path.join(outputPath, 'yarn.lock')
-      }
-    ]
+        to: path.join(outputPath, 'yarn.lock'),
+      },
+    ],
   });
 }
 
@@ -64,22 +64,20 @@ function copyYarnLockFile(outputPath) {
  */
 function generatePackageJson() {
   const implicitDeps = [
-    'class-transformer',
-    'class-validator',
     'reflect-metadata',
     'rxjs',
     'node-fetch',
     'inversify',
-    'graphql'
+    'graphql',
   ];
   const dependencies = implicitDeps.reduce((acc, dep) => {
     acc[dep] = packageJson.dependencies[dep];
     return acc;
   }, {});
   const basePackageJson = {
-	main: 'main.js',
-	engines: packageJson.engines,
-    dependencies
+    main: 'main.js',
+    engines: packageJson.engines,
+    dependencies,
   };
   const pathToPackageJson = path.join(__dirname, 'package.json');
   return new GeneratePackageJsonPlugin(basePackageJson, pathToPackageJson);

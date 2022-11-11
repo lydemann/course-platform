@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
-import { auth } from 'firebase';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -13,6 +12,7 @@ import {
 
 import { CourseResourcesService } from '@course-platform/shared/data-access';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import { getAuth } from 'firebase/auth';
 
 interface CourseAdminStore {
   sections: CourseSection[];
@@ -103,7 +103,7 @@ export class CourseAdminFacadeService {
   }
 
   setSchoolId(schoolId: any) {
-    auth().tenantId = schoolId;
+    getAuth().tenantId = schoolId;
   }
 
   courseAdminInit(courseId: string) {

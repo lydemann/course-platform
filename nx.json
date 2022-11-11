@@ -13,47 +13,52 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "parallel": 1
       }
     }
   },
-  "projects": {
-    "course-client": {
-      "tags": ["scope:course-client", "type:app"]
+  "targetDefaults": {
+    "e2e": {
+      "inputs": ["default", "^default"]
     },
-    "course-client-e2e": {
-      "tags": ["scope:course-client"],
-      "implicitDependencies": ["course-client"]
+    "test": {
+      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
     },
-    "course-client-lib": {
-      "tags": ["scope:course-client", "type:data-access"]
-    },
-    "course-admin": {
-      "tags": ["scope:course-admin", "type:app"]
-    },
-    "course-admin-e2e": {
-      "tags": ["scope:course-admin"],
-      "implicitDependencies": ["course-admin"]
-    },
-    "course-service": {
-      "tags": ["scope:course-service", "type:service"]
-    },
-    "shared-interfaces": {
-      "tags": ["scope:shared", "type:interface"]
-    },
-    "shared-util-util-feature-toggle": {
-      "tags": ["scope:shared", "type:util"]
-    },
-    "shared-data-access": {
-      "tags": ["type:data-access", "scope:shared"]
-    },
-    "shared-feat-auth": {
-      "tags": ["scope:shared", "type:feat"]
-    },
-    "course-admin-lib": {
-      "tags": ["scope:course-admin", "type:data-access"]
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "course-client",
+  "generators": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    },
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }

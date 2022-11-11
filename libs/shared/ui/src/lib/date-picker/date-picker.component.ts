@@ -6,14 +6,14 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   FormGroupDirective,
   NgControl,
-  NgForm
+  NgForm,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -24,13 +24,13 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
   private hasError: boolean = undefined;
 
   constructor(hasError$: Observable<boolean>, destroy$: Observable<void>) {
-    hasError$.pipe(takeUntil(destroy$)).subscribe(hasError => {
+    hasError$.pipe(takeUntil(destroy$)).subscribe((hasError) => {
       this.hasError = hasError;
     });
   }
 
   public isErrorState(
-    control: FormControl,
+    control: UntypedFormControl,
     form: NgForm | FormGroupDirective
   ): boolean {
     const isSubmitted = form && form.submitted;
@@ -47,10 +47,11 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.scss']
+  styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent
-  implements ControlValueAccessor, OnDestroy, AfterViewInit {
+  implements ControlValueAccessor, OnDestroy, AfterViewInit
+{
   @Input()
   public date: Date;
 
@@ -62,12 +63,11 @@ export class DatePickerComponent
   public dateChange: EventEmitter<Date> = new EventEmitter();
   public isDisabled = false;
   // used to display mat error
-  public formControl = new FormControl('');
+  public formControl = new UntypedFormControl('');
   private destroy$ = new Subject<void>();
   private _showErrorSubject = new BehaviorSubject<boolean>(undefined);
-  private _showError$: Observable<
-    boolean
-  > = this._showErrorSubject.asObservable();
+  private _showError$: Observable<boolean> =
+    this._showErrorSubject.asObservable();
   // tslint:disable-next-line: member-ordering
   public dateErrorStateMatcher = new DateErrorStateMatcher(
     this._showError$,
@@ -89,7 +89,7 @@ export class DatePickerComponent
   }
   public ngAfterViewInit(): void {
     // syncing with validators on host element
-    this.formControl = this.ngControl.control as FormControl;
+    this.formControl = this.ngControl.control as UntypedFormControl;
   }
 
   public ngOnDestroy(): void {

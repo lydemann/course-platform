@@ -1,6 +1,10 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
@@ -10,16 +14,16 @@ import { AuthService } from '@course-platform/shared/feat-auth';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   user$: Observable<firebase.User>;
-  profileForm$: Observable<FormGroup>;
-  changePwForm: FormGroup;
+  profileForm$: Observable<UntypedFormGroup>;
+  changePwForm: UntypedFormGroup;
   errorMessage: string;
   constructor(
     private profileService: ProfileService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService
   ) {}
 
@@ -27,11 +31,11 @@ export class ProfileComponent implements OnInit {
     this.user$ = this.profileService.getUserProfile();
 
     this.profileForm$ = this.user$.pipe(
-      map(user => {
+      map((user) => {
         return this.formBuilder.group({
           fullName: [user.displayName, Validators.required],
           email: [user.email],
-          uid: [user.uid]
+          uid: [user.uid],
         });
       })
     );
@@ -39,11 +43,11 @@ export class ProfileComponent implements OnInit {
     this.changePwForm = this.formBuilder.group({
       currentPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
     });
   }
 
-  onUpdateProfile(profileForm: FormGroup) {
+  onUpdateProfile(profileForm: UntypedFormGroup) {
     const fullName = profileForm.get('fullName').value;
     this.profileService.updateName(fullName);
   }

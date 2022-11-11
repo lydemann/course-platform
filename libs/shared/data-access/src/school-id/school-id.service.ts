@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FirebaseApp } from '@angular/fire';
+import { FirebaseApp } from '@angular/fire/compat';
 import { Apollo, gql } from 'apollo-angular';
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

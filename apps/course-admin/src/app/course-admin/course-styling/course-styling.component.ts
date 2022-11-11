@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import {
-  CourseAdminFacadeService,
-} from '@course-platform/course-admin-lib';
+import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
 import { CourseFacadeService } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
 import { ToastService } from '@course-platform/shared/ui';
@@ -18,7 +16,7 @@ import { ToastService } from '@course-platform/shared/ui';
 export class CourseStylingComponent implements OnInit {
   course$: Observable<Course>;
   courseName$: Observable<string>;
-  customStylingFormControl$: Observable<FormControl>;
+  customStylingFormControl$: Observable<UntypedFormControl>;
   isEditingCourse$: Observable<boolean>;
 
   constructor(
@@ -33,21 +31,19 @@ export class CourseStylingComponent implements OnInit {
     );
     this.courseName$ = this.course$.pipe(map((course) => course.name));
     this.customStylingFormControl$ = this.course$.pipe(
-      map(
-        (course) => new FormControl(course.customStyling, [])
-      )
+      map((course) => new UntypedFormControl(course.customStyling, []))
     );
     this.isEditingCourse$ = this.courseFacade.isEditingCourse$;
   }
 
-  submit(customStylingFormControl: FormControl, course: Course) {
+  submit(customStylingFormControl: UntypedFormControl, course: Course) {
     if (!customStylingFormControl.valid) {
       return false;
     }
 
     const updatedCourse = {
       ...course,
-      customStyling: customStylingFormControl.value || '',
+      customStyling: customStylingFormControl.value || '',
     } as Course;
 
     this.courseFacade.editCourseSubmitted(updatedCourse).subscribe(() => {

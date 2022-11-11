@@ -3,9 +3,9 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { LessonResourceType } from '@course-platform/shared/interfaces';
 
@@ -13,15 +13,15 @@ import { LessonResourceType } from '@course-platform/shared/interfaces';
   selector: 'app-lesson-admin-form',
   templateUrl: './lesson-admin-form.component.html',
   styleUrls: ['./lesson-admin-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LessonAdminFormComponent {
-  private _formGroup: FormGroup;
-  public get formGroup(): FormGroup {
+  private _formGroup: UntypedFormGroup;
+  public get formGroup(): UntypedFormGroup {
     return this._formGroup;
   }
   @Input()
-  public set formGroup(formGroup: FormGroup) {
+  public set formGroup(formGroup: UntypedFormGroup) {
     this._formGroup = formGroup;
     this.hasTempResource =
       formGroup.controls.resources['controls'][
@@ -29,8 +29,8 @@ export class LessonAdminFormComponent {
       ]?.controls.id.value === '';
   }
 
-  @Output() saveClicked = new EventEmitter<FormGroup>();
-  @Output() deleteClicked = new EventEmitter<FormGroup>();
+  @Output() saveClicked = new EventEmitter<UntypedFormGroup>();
+  @Output() deleteClicked = new EventEmitter<UntypedFormGroup>();
   @Output() addResourceClicked = new EventEmitter();
   @Output() deleteResourceClicked = new EventEmitter<string>();
   hasTempResource: boolean;
@@ -39,7 +39,7 @@ export class LessonAdminFormComponent {
     return [
       LessonResourceType.WorkSheet,
       LessonResourceType.CheatSheet,
-      LessonResourceType.Other
+      LessonResourceType.Other,
     ];
   }
 }
