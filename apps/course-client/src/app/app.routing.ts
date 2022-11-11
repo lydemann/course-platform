@@ -44,7 +44,7 @@ const routes: Routes = [
               },
               {
                 path: ':courseId',
-                resolve: [CourseResolver, RedirectToCourseResolver],
+                resolve: [CourseResolver],
                 loadChildren: () =>
                   import('./course/course.module').then((m) => m.CourseModule),
               },

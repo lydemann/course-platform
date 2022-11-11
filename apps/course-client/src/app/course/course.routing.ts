@@ -18,6 +18,11 @@ import { CourseComponent } from './course.component';
 
 const routes: Routes = [
   {
+    path: '',
+    resolve: [RedirectToCourseResolver],
+    component: CourseComponent,
+  },
+  {
     path: `:${selectedSectionIdRouteParam}`,
     component: CourseComponent,
     children: [
