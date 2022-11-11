@@ -3,7 +3,8 @@
 		"prettier --write"
 	],
 	"*.ts": [
-		"nx affected:lint --fix --uncommitted"
+		"eslint --fix",
+		"git add"
 	],
 	"*.scss": [
 		"stylelint --fix",

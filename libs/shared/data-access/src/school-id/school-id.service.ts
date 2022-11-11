@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FirebaseApp } from '@angular/fire/compat';
+import { FirebaseApp } from '@angular/fire';
 import { Apollo, gql } from 'apollo-angular';
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -65,9 +65,7 @@ export class SchoolIdService {
         },
       })
       .pipe(
-        map(({ data }) => {
-          return data.schoolId;
-        })
+        map(({ data }) => data.schoolId)
       );
   }
 

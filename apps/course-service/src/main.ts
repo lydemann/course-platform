@@ -1,8 +1,8 @@
 import { region } from 'firebase-functions';
+import dotenvJSON from 'dotenv-json';
 
 import { gqlServer } from './app/server';
 import { environment } from './environments/environment';
-const dotenvJSON = require('dotenv-json');
 if (environment.production) {
   dotenvJSON({ path: __dirname + '/assets/env.json' });
 } else {
