@@ -4,11 +4,11 @@
 		"git add"
 	],
 	"*.ts": [
-		"tslint --fix",
+		"eslint --fix",
 		"git add"
 	],
 	"*.scss": [
-		"stylelint --fix",
+		"eslint --fix",
 		"git add"
 	]
 }
