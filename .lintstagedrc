@@ -1,11 +1,9 @@
 {
-	"{apps,libs}/**/*.{ts,json,md,scss,html}": [
-		"prettier --write",
-		"git add"
+	"*.{ts,json,md,scss,html}": [
+		"prettier --write"
 	],
 	"*.ts": [
-		"eslint --fix",
-		"git add"
+		"nx affected:lint --fix --uncommitted"
 	],
 	"*.scss": [
 		"stylelint --fix",
