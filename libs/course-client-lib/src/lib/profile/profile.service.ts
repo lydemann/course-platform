@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
+import 'firebase/auth';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/feat-auth';
-import {
-  AuthCredential,
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-  updateEmail,
-  updatePassword,
-  updateProfile,
-  User,
-} from 'firebase/auth';
+import firebase, { User } from 'firebase';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
-  private currentUser: User;
+  private currentUser: firebase.User;
   constructor(private userService: UserService) {
     this.userService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
@@ -35,20 +28,21 @@ export class ProfileService {
       .getCurrentUser()
       .pipe(
         tap((user) => {
-          updateProfile(user, { displayName: fullName });
+          user.updateProfile({ displayName: fullName });
         })
       )
       .subscribe();
   }
 
   async updateEmail(newEmail: string, password: string): Promise<void> {
-    const credential: AuthCredential = EmailAuthProvider.credential(
-      this.currentUser.email,
-      password
-    );
+    const credential: firebase.auth.AuthCredential =
+      firebase.auth.EmailAuthProvider.credential(
+        this.currentUser.email,
+        password
+      );
     try {
-      await reauthenticateWithCredential(this.currentUser, credential);
-      await updateEmail(this.currentUser, newEmail);
+      await this.currentUser.reauthenticateWithCredential(credential);
+      await this.currentUser.updateEmail(newEmail);
       // return this.userProfile.update({ email: newEmail });
     } catch (error) {
       console.error(error);
@@ -59,11 +53,12 @@ export class ProfileService {
     newPassword: string,
     oldPassword: string
   ): Promise<void> {
-    const credential: AuthCredential = EmailAuthProvider.credential(
-      this.currentUser.email,
-      oldPassword
-    );
-    await reauthenticateWithCredential(this.currentUser, credential);
-    return updatePassword(this.currentUser, newPassword);
+    const credential: firebase.auth.AuthCredential =
+      firebase.auth.EmailAuthProvider.credential(
+        this.currentUser.email,
+        oldPassword
+      );
+    await this.currentUser.reauthenticateWithCredential(credential);
+    return this.currentUser.updatePassword(newPassword);
   }
 }

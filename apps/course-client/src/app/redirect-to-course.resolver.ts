@@ -4,7 +4,7 @@ import { filter, first } from 'rxjs/operators';
 
 import { CourseClientFacade } from '@course-platform/course-client-lib';
 import { Observable } from 'rxjs';
-import { getAuth } from 'firebase/auth';
+import { auth } from 'firebase';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectToCourseResolver implements Resolve<Observable<void>> {
@@ -25,7 +25,7 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
             !!sections &&
             sections.length > 0 &&
             !!courseId &&
-            !!getAuth().tenantId &&
+            !!auth().tenantId &&
             !lessonId &&
             !sectionId
         ),

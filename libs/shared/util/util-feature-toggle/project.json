@@ -1,0 +1,24 @@
+{
+  "sourceRoot": "libs/shared/util/util-feature-toggle/src",
+  "projectType": "library",
+  "generators": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/util/util-feature-toggle/**/*.ts",
+          "libs/shared/util/util-feature-toggle/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/shared/util/util-feature-toggle/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:util"]
+}

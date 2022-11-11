@@ -1,12 +1,7 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { ProfileService } from '@course-platform/course-client-lib';
 import { AuthService } from '@course-platform/shared/feat-auth';
@@ -18,12 +13,12 @@ import { AuthService } from '@course-platform/shared/feat-auth';
 })
 export class ProfileComponent implements OnInit {
   user$: Observable<firebase.User>;
-  profileForm$: Observable<UntypedFormGroup>;
-  changePwForm: UntypedFormGroup;
+  profileForm$: Observable<FormGroup>;
+  changePwForm: FormGroup;
   errorMessage: string;
   constructor(
     private profileService: ProfileService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private authService: AuthService
   ) {}
 
@@ -31,13 +26,13 @@ export class ProfileComponent implements OnInit {
     this.user$ = this.profileService.getUserProfile();
 
     this.profileForm$ = this.user$.pipe(
-      map((user) => {
-        return this.formBuilder.group({
+      map((user) =>
+        this.formBuilder.group({
           fullName: [user.displayName, Validators.required],
           email: [user.email],
           uid: [user.uid],
-        });
-      })
+        })
+      )
     );
 
     this.changePwForm = this.formBuilder.group({
@@ -47,7 +42,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  onUpdateProfile(profileForm: UntypedFormGroup) {
+  onUpdateProfile(profileForm: FormGroup) {
     const fullName = profileForm.get('fullName').value;
     this.profileService.updateName(fullName);
   }

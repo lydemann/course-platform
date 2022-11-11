@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SchoolIdResolver } from '@course-platform/shared/data-access';
 
-import { SchoolIdResolver } from '../../../../libs/shared/data-access/src/school-id/school-id.resolver';
 import { RedirectIfLoggedOutResolver } from './core/auth/redirect-if-logged-out.service';
 import { CourseResolver } from './course/resolvers/course.resolver';
+import { RedirectToCourseResolver } from './redirect-to-course.resolver';
 
 const routes: Routes = [
   {
@@ -43,7 +44,7 @@ const routes: Routes = [
               },
               {
                 path: ':courseId',
-                resolve: [CourseResolver],
+                resolve: [CourseResolver, RedirectToCourseResolver],
                 loadChildren: () =>
                   import('./course/course.module').then((m) => m.CourseModule),
               },

@@ -1,0 +1,24 @@
+{
+  "sourceRoot": "libs/course-admin-lib/src",
+  "projectType": "library",
+  "generators": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/course-admin-lib/**/*.ts",
+          "libs/course-admin-lib/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/course-admin-lib/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:course-admin", "type:data-access"]
+}

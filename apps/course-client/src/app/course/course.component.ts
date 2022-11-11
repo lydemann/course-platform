@@ -21,7 +21,7 @@ import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 })
 export class CourseComponent implements OnInit, OnDestroy {
   sections$: Observable<CourseSection[]>;
-  isLoading$: Observable<Boolean>;
+  isLoading$: Observable<boolean>;
   selectedSection$: Observable<CourseSection>;
   selectedLesson$: Observable<Lesson>;
   selectedLessonId$: Observable<string>;
@@ -29,7 +29,7 @@ export class CourseComponent implements OnInit, OnDestroy {
   sectionCompletedPct$: Observable<number>;
   courseCustomStyle$: Observable<string>;
   styleElement: any;
-  destroy$ = new Subject();
+  destroy$ = new Subject<void>();
 
   constructor(
     private courseClientFacade: CourseClientFacade,

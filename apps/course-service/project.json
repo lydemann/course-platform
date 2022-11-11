@@ -1,0 +1,60 @@
+{
+  "sourceRoot": "apps/course-service/src",
+  "projectType": "application",
+  "prefix": "course-service",
+  "generators": {},
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "options": {
+        "webpackConfig": "webpack.node.config.js",
+        "outputPath": "dist/apps/course-service",
+        "main": "apps/course-service/src/main.ts",
+        "tsConfig": "apps/course-service/tsconfig.app.json",
+        "assets": [
+          "apps/course-service/src/assets",
+          "apps/course-service/src/firebase.json",
+          "apps/course-service/src/.firebaserc"
+        ],
+        "target": "node",
+        "compiler": "tsc"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/course-service/src/environments/environment.ts",
+              "with": "apps/course-service/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "course-service:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/course-service/**/*.ts",
+          "apps/course-service/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/course-service/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:course-service", "type:service"]
+}
