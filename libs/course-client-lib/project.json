@@ -1,0 +1,30 @@
+{
+  "name": "course-client-lib",
+  "projectType": "library",
+  "sourceRoot": "libs/course-client-lib/src",
+  "prefix": "app",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/course-client-lib/**/*.ts",
+          "libs/course-client-lib/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/course-client-lib/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "tags": ["scope:course-client", "type:data-access"]
+}

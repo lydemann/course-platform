@@ -4,20 +4,20 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-section-admin-form',
   templateUrl: './section-admin-form.component.html',
   styleUrls: ['./section-admin-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionAdminFormComponent implements OnInit {
-  @Input() formGroup: FormGroup;
-  @Output() saveClicked = new EventEmitter<FormGroup>();
-  @Output() deleteClicked = new EventEmitter<FormGroup>();
+  @Input() formGroup: UntypedFormGroup;
+  @Output() saveClicked = new EventEmitter<UntypedFormGroup>();
+  @Output() deleteClicked = new EventEmitter<UntypedFormGroup>();
 
   constructor() {}
 

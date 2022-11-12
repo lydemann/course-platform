@@ -10,8 +10,8 @@ import {
 import { of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { CourseResourcesService } from '@course-platform/shared/data-access';
 import { Course } from '@course-platform/shared/interfaces';
+import { CourseResourcesService } from '../resources/course-resources.service';
 import {
   CourseFacadeService,
   CREATE_COURSE_MUTATION,

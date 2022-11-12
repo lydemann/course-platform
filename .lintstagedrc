@@ -1,10 +1,9 @@
 {
-	"{apps,libs}/**/*.{ts,json,md,scss,html}": [
-		"prettier --write",
-		"git add"
+	"*.{ts,json,md,scss,html}": [
+		"prettier --write"
 	],
 	"*.ts": [
-		"tslint --fix",
+		"eslint --fix",
 		"git add"
 	],
 	"*.scss": [

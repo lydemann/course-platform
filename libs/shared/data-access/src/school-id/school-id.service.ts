@@ -64,11 +64,7 @@ export class SchoolIdService {
           customDomain,
         },
       })
-      .pipe(
-        map(({ data }) => {
-          return data.schoolId;
-        })
-      );
+      .pipe(map(({ data }) => data.schoolId));
   }
 
   private setFirebaseAuthSchoolId(schoolId: string) {

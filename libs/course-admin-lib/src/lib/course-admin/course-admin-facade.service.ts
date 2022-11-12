@@ -61,11 +61,11 @@ export class CourseAdminFacadeService {
       this.currentLessonId$,
       this.sections$,
     ]).pipe(
-      map(([sectionId, lessonId, sections]) => {
-        return sections
+      map(([sectionId, lessonId, sections]) =>
+        sections
           ?.find((section) => section.id === sectionId)
-          ?.lessons?.find((lesson) => lesson.id === lessonId);
-      }),
+          ?.lessons?.find((lesson) => lesson.id === lessonId)
+      ),
       filter((lesson) => !!lesson)
     );
 
@@ -73,9 +73,9 @@ export class CourseAdminFacadeService {
       this.currentSectionId$,
       this.sections$,
     ]).pipe(
-      map(([sectionId, sections]) => {
-        return sections?.find((section) => section.id === sectionId);
-      }),
+      map(([sectionId, sections]) =>
+        sections?.find((section) => section.id === sectionId)
+      ),
       filter((lesson) => !!lesson)
     );
   }

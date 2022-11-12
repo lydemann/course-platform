@@ -1,0 +1,120 @@
+{
+  "name": "course-client",
+  "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/course-client/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "allowedCommonJsDependencies": [
+          "firebase",
+          "firebase/app",
+          "firebase/auth"
+        ],
+        "outputPath": "dist/apps/course-client",
+        "index": "apps/course-client/src/index.html",
+        "main": "apps/course-client/src/main.ts",
+        "polyfills": "apps/course-client/src/polyfills.ts",
+        "tsConfig": "apps/course-client/tsconfig.app.json",
+        "aot": true,
+        "assets": [
+          "apps/course-client/src/favicon.ico",
+          "apps/course-client/src/assets",
+          "apps/course-client/src/web.config",
+          "apps/course-client/src/.firebaserc",
+          "apps/course-client/src/firebase.json"
+        ],
+        "styles": ["apps/course-client/src/styles.scss"],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/styles/src/lib"]
+        }
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "libs/course-client-lib/src/environments/environment.ts",
+              "with": "libs/course-client-lib/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "course-client:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "course-client:build:production"
+        },
+        "development": {
+          "browserTarget": "course-client:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "course-client:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/course-client/**/*.ts",
+          "apps/course-client/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/course-client/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "deploy": {
+      "executor": "@angular/fire:deploy",
+      "options": {}
+    }
+  },
+  "tags": ["scope:course-client", "type:app"]
+}

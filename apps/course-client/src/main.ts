@@ -17,7 +17,7 @@ if (environment.production) {
 // load app config
 const xhttp = new XMLHttpRequest();
 xhttp.open('GET', 'assets/app-config.json', true);
-xhttp.onreadystatechange = function() {
+xhttp.onreadystatechange = function () {
   if (this.readyState === 4 && this.status === 200) {
     const config = JSON.parse(this.responseText);
     window.config = config;
@@ -28,8 +28,8 @@ xhttp.onreadystatechange = function() {
 
     platformBrowserDynamic()
       .bootstrapModule(AppModule)
-      // tslint:disable-next-line: no-console
-      .catch(err => console.error(err));
+      // eslint-disable-next-line no-console
+      .catch((err) => console.error(err));
   }
 };
 xhttp.send();

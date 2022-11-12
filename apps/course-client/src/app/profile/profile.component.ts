@@ -1,8 +1,7 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { ProfileService } from '@course-platform/course-client-lib';
 import { AuthService } from '@course-platform/shared/feat-auth';
@@ -10,7 +9,7 @@ import { AuthService } from '@course-platform/shared/feat-auth';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   user$: Observable<firebase.User>;
@@ -27,19 +26,19 @@ export class ProfileComponent implements OnInit {
     this.user$ = this.profileService.getUserProfile();
 
     this.profileForm$ = this.user$.pipe(
-      map(user => {
-        return this.formBuilder.group({
+      map((user) =>
+        this.formBuilder.group({
           fullName: [user.displayName, Validators.required],
           email: [user.email],
-          uid: [user.uid]
-        });
-      })
+          uid: [user.uid],
+        })
+      )
     );
 
     this.changePwForm = this.formBuilder.group({
       currentPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
     });
   }
 

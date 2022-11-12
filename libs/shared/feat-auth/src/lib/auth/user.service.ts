@@ -6,11 +6,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   currentUser$ = new BehaviorSubject<firebase.User>(null);
-  isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
+  isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
 
   constructor(
     public db: AngularFirestore,
@@ -19,8 +19,8 @@ export class UserService {
   ) {}
 
   getCurrentUser(): Observable<firebase.User> {
-    return new Observable(observer => {
-      firebase.auth().onAuthStateChanged(currentUser => {
+    return new Observable((observer) => {
+      firebase.auth().onAuthStateChanged((currentUser) => {
         this.currentUser$.next(currentUser);
         // cb needs to run through zone to work in guard
         this.ngZone.run(() => {
@@ -36,13 +36,13 @@ export class UserService {
       user
         .updateProfile({
           displayName: value.name,
-          photoURL: user.photoURL
+          photoURL: user.photoURL,
         })
         .then(
-          res => {
+          (res) => {
             resolve(res);
           },
-          err => reject(err)
+          (err) => reject(err)
         );
     });
   }

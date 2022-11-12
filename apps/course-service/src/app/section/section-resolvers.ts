@@ -74,7 +74,8 @@ export const sectionQueryResolvers = {
         async ([sections, completedActionItems]) => {
           const lessonsPerSections = sections.map((section) => {
             return section.lessons.map((lesson) =>
-              lesson
+              // TODO: test
+              (lesson as any)
                 .get()
                 .then((lessonRef) =>
                   populateLesson(lessonRef.data() as LessonDTO)
@@ -213,7 +214,8 @@ export const sectionMutationResolvers = {
       lessons: reorderedLessons,
     } as CourseSectionDTO;
 
-    await sectionDoc.update(updatedSection);
+    // TODO: test
+    await sectionDoc.update(updatedSection as any);
     return 'Reordered lessons';
   },
 };

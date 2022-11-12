@@ -25,9 +25,7 @@ export class SetTokenInterceptor implements HttpInterceptor {
 
     return this.userService.currentUser$.pipe(
       first(),
-      switchMap((user) => {
-        return from(user?.getIdToken() || '');
-      }),
+      switchMap((user) => from(user?.getIdToken() || '')),
       exhaustMap((token) => {
         const tenantId = auth().tenantId;
         let headers = tenantId

@@ -1,0 +1,32 @@
+{
+  "name": "course-client-e2e",
+  "sourceRoot": "apps/course-client-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/course-client-e2e/cypress.config.ts",
+        "tsConfig": "apps/course-client-e2e/tsconfig.e2e.json",
+        "devServerTarget": "course-client:serve",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "course-client:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/course-client-e2e/**/*.ts",
+          "apps/course-client-e2e/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["scope:course-client"],
+  "implicitDependencies": ["course-client"]
+}

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
-import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 

@@ -2,17 +2,18 @@ import { ValidationError } from 'apollo-server-express';
 
 import { DITypes } from '../../di/di-types';
 import { container } from '../../di/di.config';
-import { mockInstantiatedClass } from '../../utils/jest-mock-class';
 import { RequestContext } from '../auth-identity';
 import { userMutationResolvers } from './user-resolvers';
 import { CreateUserResponseDTO, UserService } from './user-service';
+
+jest.mock('./user-service');
 
 describe('User Resolvers', () => {
   describe('createUser', () => {
     let userService: jest.Mocked<UserService>;
 
     beforeEach(() => {
-      userService = mockInstantiatedClass(UserService);
+      userService = new UserService() as jest.Mocked<UserService>;
       container
         .rebind<UserService>(DITypes.userService)
         .toConstantValue(userService);
@@ -22,9 +23,7 @@ describe('User Resolvers', () => {
       const email = 'some@gmail.com';
       const password = 'somepassword';
 
-      const users = [
-        { email, firstName: 'somefirstname', lastName: 'somelastname' },
-      ];
+      const users = [];
       const acUsersResponse = { contacts: users };
       userService.getACUsers.mockReturnValue(Promise.resolve(acUsersResponse));
 
@@ -49,6 +48,7 @@ describe('User Resolvers', () => {
       userService.createGoogleIdentityUser.mockReturnValue(
         Promise.resolve({ email } as CreateUserResponseDTO)
       );
+
       const tenantId = 'christianlydemann-eyy6e';
       const res = await userMutationResolvers.createUser(
         null,

@@ -20,6 +20,7 @@ const routes: Routes = [
   {
     path: '',
     resolve: [RedirectToCourseResolver],
+    component: CourseComponent,
   },
   {
     path: `:${selectedSectionIdRouteParam}`,

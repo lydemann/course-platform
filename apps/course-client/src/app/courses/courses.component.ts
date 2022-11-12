@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { auth } from 'firebase';
 import { Observable } from 'rxjs';
 
 import { CourseClientFacade } from '@course-platform/course-client-lib';

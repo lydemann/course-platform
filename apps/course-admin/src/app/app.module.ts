@@ -17,11 +17,11 @@ import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { TopbarModule } from './layout/topbar/topbar.module';
 
-export function HttpLoaderFactory(http: HttpClient) {
+export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
 }
 
-export function EndpointsFactory() {
+export function endpointsFactory() {
   return {
     courseServiceUrl: environment.courseServiceUrl,
   } as Endpoints;
@@ -40,7 +40,7 @@ export function EndpointsFactory() {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: httpLoaderFactory,
         deps: [HttpClient],
       },
     }),
@@ -49,7 +49,7 @@ export function EndpointsFactory() {
   providers: [
     {
       provide: ENDPOINTS_TOKEN,
-      useFactory: EndpointsFactory,
+      useFactory: endpointsFactory,
     },
   ],
   bootstrap: [AppComponent],

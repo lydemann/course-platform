@@ -38,6 +38,7 @@ firebase-debug.log
 serviceAccountKey.json
 ui-debug.log
 env.local.json
+.angular
 
 # System Files
 .DS_Store

@@ -26,8 +26,8 @@ describe('CourseFacadeService', () => {
   beforeEach(() => {
     spectator = createService();
     courseResourcesService = spectator.inject(CourseResourcesService);
-    store = (spectator.inject(Store) as unknown) as MockStore;
-    spyOn(store, 'dispatch');
+    store = spectator.inject(Store) as unknown as MockStore;
+    jest.spyOn(store, 'dispatch');
     store.overrideSelector(CourseSelectors.selectSections, []);
     store.overrideSelector(CourseSelectors.selectIsLoadingSections, false);
   });

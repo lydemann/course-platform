@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   FormGroupDirective,
   NgForm,
   Validators,
@@ -16,7 +16,7 @@ import { ToastService } from '@course-platform/shared/ui';
 const NOT_SAME_ERROR_CODE = 'NOT_SAME';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
-    control: FormControl | null,
+    control: UntypedFormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
     const invalidCtrl = !!(control?.invalid && control?.parent?.dirty);
@@ -34,19 +34,19 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./create-user.component.scss'],
 })
 export class CreateUserComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   serverError: string;
   matcher = new MyErrorStateMatcher();
-  passwordFormGroup: FormGroup;
+  passwordFormGroup: UntypedFormGroup;
   isLoading: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private userFacadeService: UserFacadeService,
     private toastService: ToastService
   ) {}
 
-  private checkPasswords(group: FormGroup) {
+  private checkPasswords(group: UntypedFormGroup) {
     // here we have the 'passwords' group
     const password = group.get('password').value;
     const confirmPassword = group.get('confirmPassword').value;
@@ -96,7 +96,7 @@ export class CreateUserComponent implements OnInit {
       );
   }
 
-  getErrorMessage(control: FormControl) {
+  getErrorMessage(control: UntypedFormControl) {
     if (control.hasError('required')) {
       return 'You must enter a value';
     }

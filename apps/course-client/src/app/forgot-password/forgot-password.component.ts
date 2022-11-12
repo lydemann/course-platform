@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { AuthService } from '@course-platform/shared/feat-auth';
 
@@ -9,13 +9,13 @@ import { AuthService } from '@course-platform/shared/feat-auth';
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
-  emailFormControl: FormControl;
+  emailFormControl: UntypedFormControl;
   isResetMailSent: boolean;
   errorMessage: string;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.emailFormControl = new FormControl(null, [
+    this.emailFormControl = new UntypedFormControl(null, [
       Validators.required,
       Validators.email,
     ]);

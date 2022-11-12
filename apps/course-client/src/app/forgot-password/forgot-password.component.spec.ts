@@ -1,6 +1,10 @@
 import { waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { byTestId, createComponentFactory, Spectator } from '@ngneat/spectator';
+import {
+  byTestId,
+  createComponentFactory,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { MockComponents } from 'ng-mocks';
 
 import { AuthService } from '@course-platform/shared/feat-auth';
@@ -19,19 +23,17 @@ describe('ForgotPasswordComponent', () => {
   beforeEach(() => (spectator = createComponent()));
 
   describe('Reset password', () => {
-    it(
-      'should show reset password text on reset',
-      waitForAsync(async () => {
-        spectator.typeInElement('abcd@abcd.dk', byTestId('email'));
+    it('should show reset password text on reset', waitForAsync(async () => {
+      spectator.typeInElement('abcd@abcd.dk', byTestId('email'));
 
-        spectator.component.sendResetPasswordEmail(new Event(''));
+      spectator.component.sendResetPasswordEmail(new Event(''));
 
-        await spectator.fixture.whenStable();
-        spectator.detectChanges();
+      await spectator.fixture.whenStable();
+      spectator.detectChanges();
 
-        const confirmationText = spectator.query(byTestId('confirmation'));
+      const confirmationText = spectator.query(byTestId('confirmation'));
 
-        expect(confirmationText).toMatchInlineSnapshot(`
+      expect(confirmationText).toMatchInlineSnapshot(`
           <p
             class="center"
             data-testid="confirmation"
@@ -39,7 +41,6 @@ describe('ForgotPasswordComponent', () => {
              Password reset mail has been sent 
           </p>
         `);
-      })
-    );
+    }));
   });
 });

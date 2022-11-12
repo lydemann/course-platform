@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,25 +14,25 @@ import { CourseSection } from '@course-platform/shared/interfaces';
 @Component({
   selector: 'app-section-admin',
   templateUrl: './section-admin.component.html',
-  styleUrls: ['./section-admin.component.scss']
+  styleUrls: ['./section-admin.component.scss'],
 })
 export class SectionAdminComponent implements OnInit {
   section$: Observable<CourseSection>;
-  formGroup$: Observable<FormGroup>;
+  formGroup$: Observable<UntypedFormGroup>;
 
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit() {
     this.section$ = this.courseAdminFacade.currentSection$;
     this.formGroup$ = this.section$.pipe(
-      filter(section => !!section),
-      map(section => {
+      filter((section) => !!section),
+      map((section) => {
         return this.formBuilder.group({
           name: [section.name, Validators.required],
-          theme: [section.theme]
+          theme: [section.theme],
         });
       })
     );
@@ -38,10 +42,10 @@ export class SectionAdminComponent implements OnInit {
     this.courseAdminFacade.goToCourseAdmin();
   }
 
-  submit(formGroup: FormGroup, sectionId: string) {
+  submit(formGroup: UntypedFormGroup, sectionId: string) {
     this.courseAdminFacade.updateSectionSubmitted({
       id: sectionId,
-      ...formGroup.value
+      ...formGroup.value,
     } as CourseSection);
   }
 

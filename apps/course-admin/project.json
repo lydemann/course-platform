@@ -1,0 +1,118 @@
+{
+  "name": "course-admin",
+  "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/course-admin/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "allowedCommonJsDependencies": [
+          "firebase",
+          "firebase/app",
+          "firebase/auth",
+          "graphql-tag",
+          "zen-observable"
+        ],
+        "outputPath": "dist/apps/course-admin",
+        "index": "apps/course-admin/src/index.html",
+        "main": "apps/course-admin/src/main.ts",
+        "polyfills": "apps/course-admin/src/polyfills.ts",
+        "tsConfig": "apps/course-admin/tsconfig.app.json",
+        "aot": true,
+        "assets": [
+          "apps/course-admin/src/favicon.ico",
+          "apps/course-admin/src/assets",
+          "apps/course-admin/src/.firebaserc",
+          "apps/course-admin/src/firebase.json"
+        ],
+        "styles": ["apps/course-admin/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/styles/src/lib"]
+        },
+        "scripts": [],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "5mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "10kb"
+          }
+        ]
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/course-admin/src/environments/environment.ts",
+              "with": "apps/course-admin/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "course-admin:build",
+        "port": 4201
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "course-admin:build:production"
+        },
+        "development": {
+          "browserTarget": "course-admin:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "course-admin:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/course-admin/**/*.ts",
+          "apps/course-admin/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/course-admin/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:course-admin", "type:app"]
+}

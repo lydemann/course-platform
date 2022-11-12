@@ -23,16 +23,14 @@ import { SharedModule } from './shared/shared.module';
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
 ) {
-  return () => {
-    return featureToggleService.getFeatureFlags().toPromise();
-  };
+  return () => featureToggleService.getFeatureFlags().toPromise();
 }
 
-export function HttpLoaderFactory(http: HttpClient) {
+export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
 }
 
-export function EndpointsFactory() {
+export function endpointsFactory() {
   return {
     courseServiceUrl: environment.courseServiceUrl,
   } as Endpoints;
@@ -47,7 +45,7 @@ export function EndpointsFactory() {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: httpLoaderFactory,
         deps: [HttpClient],
       },
     }),
@@ -68,7 +66,7 @@ export function EndpointsFactory() {
     },
     {
       provide: ENDPOINTS_TOKEN,
-      useFactory: EndpointsFactory,
+      useFactory: endpointsFactory,
     },
   ],
   bootstrap: [AppComponent],

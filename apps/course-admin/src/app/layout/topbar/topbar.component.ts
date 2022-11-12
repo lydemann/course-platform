@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { auth } from 'firebase';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin-lib';
 import { UserService } from '@course-platform/shared/feat-auth';
@@ -23,7 +21,6 @@ export class TopbarComponent implements OnInit {
   languages = ['en'];
   homeUrl: string;
   navigationItems: NavigationItem[];
-  logo = require('../../../assets/logo.png').default;
   loggedIn$: Observable<boolean>;
 
   constructor(

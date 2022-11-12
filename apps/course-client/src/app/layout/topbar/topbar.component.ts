@@ -1,11 +1,5 @@
-import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
-import { auth } from 'firebase';
-import { combineLatest, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { CourseClientFacade } from '@course-platform/course-client-lib';
@@ -27,7 +21,6 @@ export class TopbarComponent implements OnInit {
   languages = ['en'];
   homeUrl$: Observable<string>;
   navigationItems: NavigationItem[];
-  logo = require('../../../assets/logo.png').default;
   loggedIn$: Observable<boolean>;
 
   constructor(
