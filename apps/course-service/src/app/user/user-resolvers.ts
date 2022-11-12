@@ -8,7 +8,7 @@ import { container } from '../../di/di.config';
 import { createResolver } from '../../utils/create-resolver';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
-import { UserService } from './user-service';
+import { CreateUserResponseDTO, UserService } from './user-service';
 
 export const userQueryResolvers = {
   user: async (parent, { uid }, context: RequestContext): Promise<UserInfo> => {
@@ -36,7 +36,7 @@ export interface CreateUserInputDTO {
   password: string;
 }
 
-const FieldValue = admin.firestore.FieldValue;
+const fieldValue = admin.firestore.FieldValue;
 
 export const userMutationResolvers = {
   setLessonCompleted: (
@@ -55,7 +55,7 @@ export const userMutationResolvers = {
       .set({
         completed: isCompleted,
         lessonId,
-        lastUpdated: FieldValue.serverTimestamp(),
+        lastUpdated: fieldValue.serverTimestamp(),
       })
       .then(() => `Got updated`);
   },
@@ -75,7 +75,7 @@ export const userMutationResolvers = {
       .then(() => `Got updated`);
   },
   createUser: createResolver<CreateUserInputDTO>(
-    async (parent, { email, password }) => {
+    async (parent, { email, password }): Promise<CreateUserResponseDTO> => {
       const emailLowerCase = email.toLowerCase();
       const userService = container.get<UserService>(DITypes.userService);
       const acUserDTO = await userService.getACUsers();

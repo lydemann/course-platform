@@ -1,4 +1,5 @@
 {
+  "name": "shared-util-util-feature-toggle",
   "sourceRoot": "libs/shared/util/util-feature-toggle/src",
   "projectType": "library",
   "generators": {},

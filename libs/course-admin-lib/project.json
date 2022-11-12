@@ -1,4 +1,5 @@
 {
+  "name": "course-admin-lib",
   "sourceRoot": "libs/course-admin-lib/src",
   "projectType": "library",
   "generators": {},

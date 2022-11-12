@@ -1,4 +1,5 @@
 {
+  "name": "course-admin",
   "projectType": "application",
   "generators": {
     "@nrwl/angular:component": {

@@ -1,4 +1,5 @@
 {
+  "name": "course-service",
   "sourceRoot": "apps/course-service/src",
   "projectType": "application",
   "prefix": "course-service",

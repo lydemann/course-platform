@@ -1,4 +1,5 @@
 {
+  "name": "shared-data-access",
   "sourceRoot": "libs/shared/data-access/src",
   "projectType": "library",
   "generators": {},

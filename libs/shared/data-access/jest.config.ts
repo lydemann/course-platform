@@ -1,12 +1,22 @@
 /* eslint-disable */
 export default {
-  preset: '../../../jest.preset.js',
-  transform: {
-    '^.+\\.[tj]sx?$': 'ts-jest',
-  },
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
-  coverageDirectory: '../../../coverage/libs/shared/data-access',
-  globals: { 'ts-jest': { tsconfig: '<rootDir>/tsconfig.spec.json' } },
   displayName: 'shared-data-access',
+  preset: '../../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
+      stringifyContentPathRegex: '\\.(html|svg)$',
+    },
+  },
+  coverageDirectory: '../../../coverage/libs/tester',
+  transform: {
+    '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
+  },
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
+  snapshotSerializers: [
+    'jest-preset-angular/build/serializers/no-ng-attributes',
+    'jest-preset-angular/build/serializers/ng-snapshot',
+    'jest-preset-angular/build/serializers/html-comment',
+  ],
 };

@@ -1,4 +1,5 @@
 {
+  "name": "course-client-lib",
   "projectType": "library",
   "sourceRoot": "libs/course-client-lib/src",
   "prefix": "app",

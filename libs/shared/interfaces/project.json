@@ -1,4 +1,5 @@
 {
+  "name": "shared-interfaces",
   "sourceRoot": "libs/shared/interfaces/src",
   "projectType": "library",
   "generators": {},
