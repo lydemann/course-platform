@@ -6,9 +6,10 @@
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/course-admin-e2e/cypress.json",
+        "cypressConfig": "apps/course-admin-e2e/cypress.config.ts",
         "tsConfig": "apps/course-admin-e2e/tsconfig.e2e.json",
-        "devServerTarget": "course-admin:serve"
+        "devServerTarget": "course-admin:serve",
+        "testingType": "e2e"
       },
       "configurations": {
         "production": {
