@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 import { firestoreDB } from '../firestore';
 
@@ -31,11 +31,7 @@ export class UserService {
       .doc(`schools/${schoolId}/users/${uid}`)
       .collection(userCollection)
       .get()
-      .then((snap) => {
-        return snap.docs.map((doc) => {
-          return doc.data() as T;
-        });
-      });
+      .then((snap) => snap.docs.map((doc) => doc.data() as T));
   }
 
   getACUsers(): Promise<{
@@ -52,9 +48,7 @@ export class UserService {
     return fetch(
       `${process.env.acOrigin}/api/3/contacts?listid=11&limit=0`,
       options
-    ).then(async (response) => {
-      return await response.json();
-    });
+    ).then(async (response) => await response.json()) as any;
   }
 
   async createGoogleIdentityUser(
@@ -81,10 +75,11 @@ export class UserService {
       options
     );
     if (response.ok) {
-      return response.json();
+      return response.json() as any;
     } else {
       const errorCode =
-        (await response.json())?.error?.message || 'Error while creating user';
+        ((await response.json()) as any)?.error?.message ||
+        'Error while creating user';
       const translatedErrorMessage = getGoogleIdentityError(errorCode);
       throw new Error(translatedErrorMessage);
     }

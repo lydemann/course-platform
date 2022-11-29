@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
 
 export const UserQuerySchema = gql`
   type CompletedLesson @cacheControl(maxAge: 30, scope: PRIVATE) {

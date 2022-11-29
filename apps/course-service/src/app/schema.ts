@@ -1,3 +1,4 @@
+import { gql } from 'apollo-server-express';
 import {
   courseMutationSchema,
   courseQuerySchema,
@@ -9,8 +10,6 @@ import {
 import { lessonMutations, lessonQuerySchema } from './lesson/lesson-schema';
 import { sectionMutations, SectionSchema } from './section/section-schema';
 import { userMutationSchema, UserQuerySchema } from './user/user-schema';
-
-const { gql } = require('apollo-server-express');
 
 const schema = gql`
   type Query {

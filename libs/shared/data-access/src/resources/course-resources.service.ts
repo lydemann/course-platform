@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Apollo } from 'apollo-angular';
@@ -19,17 +20,8 @@ export const COURSE_SECTIONS_URL = '/api/sections';
 export interface CourseSectionDTO {
   id: string;
   name: string;
-  lessons: DocumentReference[];
-}
-
-export interface LessonDTO {
-  id: string;
-  name: string;
-  videoUrl: string;
-  description: string;
-  resources: DocumentReference[];
-  // set by client
-  isCompleted?: boolean;
+  theme: string;
+  lessons: Lesson[];
 }
 
 export interface CompletedLessonData {
@@ -97,18 +89,14 @@ export class CourseResourcesService {
   getCourses(): Observable<Course[]> {
     return this.apollo
       .watchQuery<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
-      .valueChanges.pipe(
-        map(({ data }) => {
-          return data.course;
-        })
-      );
+      .valueChanges.pipe(map(({ data }) => data.course));
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
     this.courseId = courseId;
     return this.userService.getCurrentUser().pipe(
-      switchMap((user) => {
-        return this.apollo
+      switchMap((user) =>
+        this.apollo
           .watchQuery<GetCourseSectionsResponseDTO>({
             query: courseSectionsQuery,
             variables: {
@@ -139,8 +127,8 @@ export class CourseResourcesService {
               });
               return updatedSections;
             })
-          );
-      })
+          )
+      )
     );
   }
 
@@ -178,17 +166,16 @@ export class CourseResourcesService {
     `;
 
     return this.userService.getCurrentUser().pipe(
-      switchMap((user) => {
-        return this.apollo
+      switchMap((user) =>
+        this.apollo
           .mutate<any>({
             mutation: createLessonMutation,
             update: (cache, { data: { createLesson } }) => {
-              const courseSectionsData = cache.readQuery<GetCourseSectionsResponseDTO>(
-                {
+              const courseSectionsData =
+                cache.readQuery<GetCourseSectionsResponseDTO>({
                   query: courseSectionsQuery,
                   variables: { uid: user.uid, courseId: this.courseId },
-                }
-              );
+                });
 
               cache.writeQuery({
                 query: courseSectionsQuery,
@@ -217,8 +204,8 @@ export class CourseResourcesService {
               });
             },
           })
-          .pipe(map(({ data }) => data));
-      })
+          .pipe(map(({ data }) => data))
+      )
     );
   }
 
@@ -250,8 +237,8 @@ export class CourseResourcesService {
     // TODO: this should be handled with automatic cache update by returning updated entity
     return this.userService.getCurrentUser().pipe(
       first(),
-      switchMap((user) => {
-        return this.apollo.mutate<any>({
+      switchMap((user) =>
+        this.apollo.mutate<any>({
           mutation: updateLessonMutation,
           variables: {
             courseId,
@@ -262,12 +249,11 @@ export class CourseResourcesService {
             resources: lesson.resources,
           },
           update: (cache, { data: { updateLesson } }) => {
-            const courseSectionsData = cache.readQuery<GetCourseSectionsResponseDTO>(
-              {
+            const courseSectionsData =
+              cache.readQuery<GetCourseSectionsResponseDTO>({
                 query: courseSectionsQuery,
                 variables: { uid: user.uid, courseId: this.courseId },
-              }
-            );
+              });
 
             cache.writeQuery({
               query: courseSectionsQuery,
@@ -295,8 +281,8 @@ export class CourseResourcesService {
               variables: { uid: user.uid, courseId: this.courseId },
             });
           },
-        });
-      })
+        })
+      )
     );
   }
 
@@ -311,8 +297,8 @@ export class CourseResourcesService {
       }
     `;
     return this.userService.getCurrentUser().pipe(
-      switchMap((user) => {
-        return this.apollo.mutate({
+      switchMap((user) =>
+        this.apollo.mutate({
           mutation: deleteLessonMutation,
           variables: { courseId: this.courseId, sectionId, lessonId },
           refetchQueries: [
@@ -321,8 +307,8 @@ export class CourseResourcesService {
               variables: { uid: user.uid, courseId: this.courseId },
             },
           ],
-        });
-      })
+        })
+      )
     );
   }
 
@@ -338,8 +324,8 @@ export class CourseResourcesService {
     `;
 
     return this.userService.getCurrentUser().pipe(
-      switchMap((user) => {
-        return this.apollo.mutate({
+      switchMap((user) =>
+        this.apollo.mutate({
           mutation: setActionItemCompletedMutation,
           variables: {
             uid: user.uid,
@@ -350,8 +336,8 @@ export class CourseResourcesService {
               variables: { uid: user.uid, courseId: this.courseId },
             },
           ],
-        });
-      })
+        })
+      )
     );
   }
 

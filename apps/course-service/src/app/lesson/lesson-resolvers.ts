@@ -5,8 +5,6 @@ import { removeEmptyFields } from '@course-platform/shared/util';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
-import { SectionDTO } from '../models/section-dto';
-import { populateLesson } from '../section/section-resolvers';
 
 interface UpdateLessonInput extends LessonDTO {
   courseId;
