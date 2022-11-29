@@ -4,7 +4,7 @@
   <div fxLayout="row">
     <mat-card
       *ngFor="let course of courses"
-      fxFlex.gt-md="33"
+      fxFlex.gt-sm="33"
       class="course-card"
       (click)="courseSelected(course.id)"
       ><mat-card-title>{{ course.name }}</mat-card-title>
