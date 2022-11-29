@@ -196,7 +196,7 @@ export const sectionMutationResolvers = {
   },
 };
 
-function swapInArray(arr: any[], i1: number, i2: number) {
+function swapInArray<T>(arr: T[], i1: number, i2: number): T[] {
   const clonedArray = [...arr];
   const t = clonedArray[i1];
   clonedArray[i1] = clonedArray[i2];
