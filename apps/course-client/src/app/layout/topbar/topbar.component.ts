@@ -35,7 +35,7 @@ export class TopbarComponent implements OnInit {
     );
     this.navigationItems = [
       {
-        link: 'https://theangulararc-zix2820.slack.com',
+        link: 'https://discord.gg/c8NxzFcwDP',
         label: 'Community',
         icon: 'groups',
         externalLink: true,
