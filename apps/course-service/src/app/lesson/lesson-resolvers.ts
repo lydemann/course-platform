@@ -22,20 +22,12 @@ export const lessonMutationResolvers = {
     }
 
     const cleanedPayload = removeEmptyFields({
+      id: new Date().getTime().toString(),
       sectionId,
       name,
       description,
       videoUrl,
-    });
-    const newLessonRef = firestoreDB
-      .collection(`schools/${schoolId}/courses/${courseId}/lessons`)
-      .doc();
-    const createLessonPromise = newLessonRef
-      .set({
-        ...cleanedPayload,
-        id: newLessonRef.id,
-      } as LessonDTO)
-      .then(() => newLessonRef.id);
+    } as LessonDTO);
 
     const sectionRef = firestoreDB.doc(
       `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
@@ -44,13 +36,11 @@ export const lessonMutationResolvers = {
       .get()
       .then((snapshot) => snapshot.data())
       .then((section: CourseSectionDTO) => {
-        const newLessons = [...section.lessons, newLessonRef];
+        const newLessons = [...section.lessons, cleanedPayload];
         sectionRef.update({ lessons: newLessons });
       });
 
-    return Promise.all([createLessonPromise, updateSectionPromise]).then(() =>
-      newLessonRef.get().then((snapshot) => snapshot.data())
-    );
+    return updateSectionPromise.then(() => cleanedPayload);
   },
   updateLesson: async (
     parent,
@@ -107,28 +97,10 @@ export const lessonMutationResolvers = {
       .then((snapshot) => snapshot.data())
       .then((section: CourseSectionDTO) => {
         const newLessons = section.lessons.filter((lesson) => lesson.id !== id);
-        // TODO: test
-        sectionRef.update({ lessons: newLessons } as any);
+        sectionRef.update({ lessons: newLessons } as CourseSectionDTO);
       });
 
-    const lessonDocRef = firestoreDB.doc(
-      `schools/${schoolId}/courses/${courseId}/lessons/${id}`
-    );
-
-    const lessonSnapshot = await lessonDocRef.get();
-
-    const deleteResourcesPromise = lessonSnapshot
-      .data()
-      .resources?.map((resource) => {
-        resource.delete();
-      });
-
-    const deleteLessonPromise = lessonDocRef.delete();
-    await Promise.all([
-      deleteLessonPromise,
-      deleteSectionLessonPromise,
-      deleteResourcesPromise,
-    ]);
+    await deleteSectionLessonPromise;
 
     return 'Lesson deleted';
   },
