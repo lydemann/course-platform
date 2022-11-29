@@ -1,14 +1,11 @@
-import {
-  LessonResource,
-  LessonResourceType
-} from '@course-platform/shared/interfaces';
+import { LessonResourceType } from '@course-platform/shared/interfaces';
 
 export interface LessonDTO {
   id: string;
   name: string;
   videoUrl: string;
   description: string;
-  resources: FirebaseFirestore.DocumentReference<LessonResource>[];
+  resources: LessonResourcePayload[];
   sectionId?: string;
 }
 

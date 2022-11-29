@@ -5,6 +5,7 @@ import { removeEmptyFields } from '@course-platform/shared/util';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
+import { CourseSectionDTO } from '@course-platform/shared/data-access';
 
 interface UpdateLessonInput extends LessonDTO {
   courseId;
@@ -42,7 +43,7 @@ export const lessonMutationResolvers = {
     const updateSectionPromise = sectionRef
       .get()
       .then((snapshot) => snapshot.data())
-      .then((section: SectionDTO) => {
+      .then((section: CourseSectionDTO) => {
         const newLessons = [...section.lessons, newLessonRef];
         sectionRef.update({ lessons: newLessons });
       });
@@ -67,45 +68,24 @@ export const lessonMutationResolvers = {
     if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
-    let resourceReferences: FirebaseFirestore.DocumentReference<LessonResource>[] =
-      [];
-    if (resources) {
-      const lessonResourcesRef = firestoreDB.collection(
-        `schools/${schoolId}/courses/${courseId}/resources`
-      );
-      resourceReferences = await Promise.all(
-        resources.map((resource) => {
-          const doc = resource.id
-            ? lessonResourcesRef.doc(resource.id)
-            : lessonResourcesRef.doc();
-          return doc
-            .set({
-              ...resource,
-              id: doc.id,
-            })
-            .then(() => {
-              return doc as FirebaseFirestore.DocumentReference<LessonResource>;
-            });
-        })
-      );
-    }
-
-    const cleanedPayload = removeEmptyFields({
+    const lessonToUpdate = removeEmptyFields({
       sectionId,
       id,
       name,
       description,
       videoUrl,
-      resources: resourceReferences || [],
+      resources,
     } as LessonDTO);
 
-    const lessonRef = firestoreDB.doc(
-      `schools/${schoolId}/courses/${courseId}/lessons/${id}`
+    const sectionRef = firestoreDB.doc(
+      `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
     );
-    return lessonRef
-      .update(cleanedPayload)
-      .then((data) => lessonRef.get().then((lesSnap) => lesSnap.data()))
-      .then((lesson: LessonDTO) => populateLesson(lesson));
+
+    const section = (await sectionRef.get()).data() as CourseSectionDTO;
+    section.lessons = section.lessons.map((lesson) =>
+      lesson.id === lessonToUpdate ? lessonToUpdate : lesson
+    );
+    return sectionRef.update(section);
   },
   deleteLesson: async (
     parent,
@@ -125,7 +105,7 @@ export const lessonMutationResolvers = {
     const deleteSectionLessonPromise = sectionRef
       .get()
       .then((snapshot) => snapshot.data())
-      .then((section: SectionDTO) => {
+      .then((section: CourseSectionDTO) => {
         const newLessons = section.lessons.filter((lesson) => lesson.id !== id);
         // TODO: test
         sectionRef.update({ lessons: newLessons } as any);
