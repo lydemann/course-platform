@@ -10,7 +10,7 @@
   "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nrwl/angular:webpack-browser",
       "options": {
         "allowedCommonJsDependencies": [
           "firebase",
@@ -34,6 +34,9 @@
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/shared/ui/styles/src/lib"]
+        },
+        "customWebpackConfig": {
+          "path": "apps/course-client/webpack.config.js"
         }
       },
       "configurations": {
@@ -62,7 +65,10 @@
               "maximumWarning": "6kb",
               "maximumError": "10kb"
             }
-          ]
+          ],
+          "customWebpackConfig": {
+            "path": "apps/course-client/webpack.prod.config.js"
+          }
         },
         "development": {
           "buildOptimizer": false,
@@ -75,10 +81,7 @@
       }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
-      "options": {
-        "browserTarget": "course-client:build"
-      },
+      "executor": "@nrwl/angular:module-federation-dev-server",
       "configurations": {
         "production": {
           "browserTarget": "course-client:build:production"
@@ -87,7 +90,11 @@
           "browserTarget": "course-client:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4200,
+        "publicHost": "http://localhost:4200"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
-import {
-  ApolloClientOptions,
-  DefaultOptions,
-  InMemoryCache,
-} from '@apollo/client/core';
+import { InMemoryCache } from '@apollo/client/cache';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { createPersistedQueryLink } from 'apollo-angular-link-persisted';
 import { HttpLink } from 'apollo-angular/http';
 
 import { Endpoints, ENDPOINTS_TOKEN } from '../endpoints';
 
-const defaultOptions: DefaultOptions = {
+const defaultOptions: any = {
   watchQuery: {
     fetchPolicy: 'no-cache',
     errorPolicy: 'ignore',
@@ -21,10 +17,7 @@ const defaultOptions: DefaultOptions = {
   },
 };
 
-export function createApollo(
-  httpLink: HttpLink,
-  endpoints: Endpoints
-): ApolloClientOptions<any> {
+export function createApollo(httpLink: HttpLink, endpoints: Endpoints): any {
   const requestLink = httpLink.create({ uri: endpoints.courseServiceUrl });
   const link = createPersistedQueryLink({
     useGETForHashedQueries: true,
