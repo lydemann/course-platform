@@ -10,7 +10,8 @@
   "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nrwl/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": [
           "firebase",
@@ -47,7 +48,10 @@
             "maximumWarning": "6kb",
             "maximumError": "10kb"
           }
-        ]
+        ],
+        "customWebpackConfig": {
+          "path": "apps/course-admin/webpack.config.js"
+        }
       },
       "configurations": {
         "production": {
@@ -63,7 +67,10 @@
           "namedChunks": false,
           "extractLicenses": true,
           "vendorChunk": false,
-          "buildOptimizer": true
+          "buildOptimizer": true,
+          "customWebpackConfig": {
+            "path": "apps/course-admin/webpack.prod.config.js"
+          }
         },
         "development": {
           "buildOptimizer": false,
@@ -76,11 +83,7 @@
       }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
-      "options": {
-        "browserTarget": "course-admin:build",
-        "port": 4201
-      },
+      "executor": "@nrwl/angular:webpack-dev-server",
       "configurations": {
         "production": {
           "browserTarget": "course-admin:build:production"
@@ -89,7 +92,27 @@
           "browserTarget": "course-admin:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4201,
+        "publicHost": "http://localhost:4201"
+      }
+    },
+    "serve-static": {
+      "executor": "@nrwl/angular:file-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "course-admin:build",
+        "port": 4201
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "course-admin:build:development"
+        },
+        "production": {
+          "buildTarget": "course-admin:build:production"
+        }
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

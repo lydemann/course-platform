@@ -1,4 +1,5 @@
 {
+  "name": "shared-feat-auth",
   "projectType": "library",
   "sourceRoot": "libs/shared/feat-auth/src",
   "prefix": "course-platform",

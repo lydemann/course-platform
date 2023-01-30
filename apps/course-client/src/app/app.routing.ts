@@ -4,7 +4,6 @@ import { SchoolIdResolver } from '@course-platform/shared/data-access';
 
 import { RedirectIfLoggedOutResolver } from './core/auth/redirect-if-logged-out.service';
 import { CourseResolver } from './course/resolvers/course.resolver';
-import { RedirectToCourseResolver } from './redirect-to-course.resolver';
 
 const routes: Routes = [
   {
@@ -68,6 +67,11 @@ const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('course-admin/Module').then((m) => m.RemoteEntryModule),
   },
   // {
   //   path: '',

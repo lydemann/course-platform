@@ -1,4 +1,4 @@
-import { ApolloCache } from '@apollo/client/core';
+import { ApolloCache } from '@apollo/client/cache';
 import { DocumentNode } from 'graphql';
 
 export interface EntityObject {
