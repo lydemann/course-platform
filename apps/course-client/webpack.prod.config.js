@@ -8,6 +8,6 @@ module.exports = withModuleFederation({
    */
   // TODO: move to dynamic config + and set in CI
   remotes: [
-    ['course-admin', 'https://app.christianlydemann.com/admin']
+    ['course-admin', 'https://aaa-course-portal-admin.web.app']
   ],
 });
