@@ -9,7 +9,6 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 describe('course-admin', () => {
   beforeEach(() => {
-    cy.server();
     CourseAdminPage.goToPage();
   });
 

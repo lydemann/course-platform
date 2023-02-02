@@ -9,7 +9,8 @@
     "tsconfig.json": "*",
     "tslint.json": "*",
     "nx.json": "*",
-    "webpack.node.config.js": "*"
+    "webpack.node.config.js": "*",
+    "libs/shared/ui/styles": "*"
   },
   "tasksRunnerOptions": {
     "default": {

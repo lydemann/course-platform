@@ -1,8 +1,7 @@
 export class CoursePage {
   static goToPage() {
     cy.visit('/course');
-    cy.server();
-    cy.route(
+    cy.intercept(
       'http://localhost:3333/api/sections',
       'fixture:course-sections.json'
     );
