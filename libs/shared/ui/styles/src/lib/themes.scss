@@ -4,7 +4,6 @@
 @import './themes/dark-theme';
 
 @include mat.core;
-@include mat.strong-focus-indicators;
 
 body {
   @include generateUnitColors;
