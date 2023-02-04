@@ -5,6 +5,7 @@
 @import './theme-common';
 @import 'palette';
 
+// setup theme colors
 $todo-light-theme: mat.define-light-theme(
   (
     color: (
