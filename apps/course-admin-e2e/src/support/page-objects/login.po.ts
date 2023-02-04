@@ -1,10 +1,12 @@
 export namespace LoginPage {
   export const login = () => {
-    cy.route(
+    // TODO(@nrwl/cypress): this command has been removed, use cy.intercept instead. https://docs.cypress.io/guides/references/migration-guide#cy-server-cy-route-and-Cypress-Server-defaults
+    cy.intercept(
       'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword**',
       'fixture:auth/verify-password'
     );
-    cy.route(
+    // TODO(@nrwl/cypress): this command has been removed, use cy.intercept instead. https://docs.cypress.io/guides/references/migration-guide#cy-server-cy-route-and-Cypress-Server-defaults
+    cy.intercept(
       'https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo**',
       'fixture:auth/get-account-info'
     );

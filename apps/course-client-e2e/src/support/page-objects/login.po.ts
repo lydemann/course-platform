@@ -1,10 +1,6 @@
 export namespace LoginPage {
   export const login = () => {
-    cy.route(
-      'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword**',
-      'fixture:auth/verify-password'
-    );
-    cy.route(
+    cy.intercept(
       'https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo**',
       'fixture:auth/get-account-info'
     );

@@ -1,4 +1,5 @@
-@import '../helpers/colors.scss';
+@import '../helpers/colors';
+
 .theme-primary {
   background-color: get-color('primary');
 }

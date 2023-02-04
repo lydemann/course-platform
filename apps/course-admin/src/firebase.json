@@ -12,6 +12,15 @@
               "value": "public,max-age=31536000,immutable"
             }
           ]
+        },
+        {
+          "source": "*",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
         }
       ],
       "rewrites": [
