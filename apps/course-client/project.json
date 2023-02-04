@@ -7,6 +7,7 @@
     }
   },
   "sourceRoot": "apps/course-client/src",
+  "implicitDependencies": ["shared-ui-styles"],
   "prefix": "app",
   "targets": {
     "build": {

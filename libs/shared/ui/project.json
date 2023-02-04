@@ -1,0 +1,7 @@
+{
+  "name": "shared-ui",
+  "projectType": "library",
+  "prefix": "app",
+  "sourceRoot": "libs/shared/ui/src",
+  "tags": ["scope:shared", "type:ui"]
+}
