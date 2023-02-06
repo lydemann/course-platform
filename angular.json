@@ -9,6 +9,8 @@
     "course-client-lib": "libs/course-client-lib",
     "course-service": "apps/course-service",
     "shared-data-access": "libs/shared/data-access",
+    "shared-ui": "libs/shared/ui",
+    "shared-ui-styles": "libs/shared/ui/styles",
     "shared-feat-auth": "libs/shared/feat-auth",
     "shared-interfaces": "libs/shared/interfaces",
     "shared-ui": "libs/shared/ui",
