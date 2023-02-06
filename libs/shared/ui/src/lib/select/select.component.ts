@@ -1,6 +1,9 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
+  AfterViewInit,
   Component,
+  ContentChild,
   ContentChildren,
   EventEmitter,
   forwardRef,
@@ -8,9 +11,18 @@ import {
   OnChanges,
   Output,
   QueryList,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatOption } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { AppMaterialModule } from '../material/material.module';
 
 import { SelectOptionGroupComponent } from './select-option-group/select-option-group.component';
 import { SelectOptionGroup } from './select-option-group/select-option-group.interface';
@@ -19,26 +31,57 @@ import { SelectOption } from './select-option/select-option.interface';
 
 @Component({
   selector: 'app-select',
-  templateUrl: './select.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SelectOptionComponent,
+    SelectOptionGroupComponent,
+  ],
+  template: `
+    <mat-form-field class="form">
+      <mat-select
+        [disabled]="disabled"
+        [placeholder]="placeholder"
+        (selectionChange)="onSelected($event)"
+        [(ngModel)]="selected"
+      >
+        <mat-option *ngFor="let option of options" [value]="option.value">
+          <ng-template [ngTemplateOutlet]="option?.templateRef"></ng-template>
+        </mat-option>
+        <mat-optgroup *ngFor="let group of optionsGroups" [label]="group.label">
+          <mat-option
+            *ngFor="let option of group.options"
+            [value]="option.value"
+          >
+            <ng-template [ngTemplateOutlet]="option?.templateRef"></ng-template>
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+  `,
   styleUrls: ['./select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       // tslint:disable-next-line: no-forward-ref
       useExisting: forwardRef(() => SelectComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SelectComponent
-  implements OnChanges, AfterContentInit, ControlValueAccessor {
+  implements OnChanges, AfterContentInit, ControlValueAccessor
+{
   @Input() public set value(value: string) {
     this.selected = value;
   }
   @Input() public placeholder: string;
-  @ContentChildren(SelectOptionComponent) public selectOptions: QueryList<
-    SelectOptionComponent
-  >;
+  @ContentChildren(SelectOptionComponent)
+  public selectOptions: QueryList<SelectOptionComponent>;
   @ContentChildren(SelectOptionGroupComponent)
   public selectOptionGroups: QueryList<SelectOptionGroupComponent>;
   @Output() public valueChange = new EventEmitter();
@@ -48,13 +91,18 @@ export class SelectComponent
   public disabled = false;
   public touched = false;
   private internalValue: SelectOption;
+  optionsLala = [
+    {
+      id: 'some',
+    } as MatOption,
+  ];
 
-  public onChange: any = _ => {
+  public onChange: any = (_) => {
     /*Empty*/
   };
 
   // tslint:disable-next-line: no-empty
-  public onTouched: any = _ => {};
+  public onTouched: any = (_) => {};
 
   public onSelected($event) {
     this.selected = $event.value;
@@ -116,9 +164,9 @@ export class SelectComponent
 
   private getOptionGroups(list: QueryList<SelectOptionGroupComponent>) {
     return list.length
-      ? list.map(group => ({
+      ? list.map((group) => ({
           label: group.label,
-          options: this.getOptions(group.selectOptions)
+          options: this.getOptions(group.selectOptions),
         }))
       : [];
   }
@@ -127,7 +175,7 @@ export class SelectComponent
     return list.length
       ? list.map((item: SelectOptionComponent) => ({
           value: item.value,
-          templateRef: item.templateRef
+          templateRef: item.templateRef,
         }))
       : [];
   }
