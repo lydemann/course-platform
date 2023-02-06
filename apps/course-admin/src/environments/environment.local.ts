@@ -10,8 +10,7 @@ export const environment = {
     appId: '1:274665468824:web:0d3a55a3aca4ce4fc9b1ed',
     measurementId: 'G-4D02VHTXTV',
   },
-  courseServiceUrl:
-    'https://europe-west3-aaa-course-portal.cloudfunctions.net/api',
+  courseServiceUrl: 'http://localhost:5000/aaa-course-portal/europe-west3/api',
 };
 
 import 'zone.js/dist/zone-error'; // Included with Angular CLI.

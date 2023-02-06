@@ -1,6 +1,6 @@
 <h1 class="headline">Your Training Programs</h1>
 
-<ng-container *ngIf="courses$ | async as courses">
+<ng-container *ngIf="courses$ | async as courses; else loading">
   <div fxLayout="row">
     <mat-card
       *ngFor="let course of courses"
@@ -17,3 +17,7 @@
     </mat-card>
   </div>
 </ng-container>
+
+<ng-template #loading>
+  <app-spinner class="center-in-parent"></app-spinner>
+</ng-template>

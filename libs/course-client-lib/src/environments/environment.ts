@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  courseServiceUrl: 'http://localhost:5000/aaa-course-portal/europe-west3/api'
+  courseServiceUrl:
+    'https://europe-west3-aaa-course-portal.cloudfunctions.net/api',
   // get courseServiceUrl() {
   //   return window.config.courseServiceUrl;
   // }
@@ -17,4 +18,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error'; // Included with Angular CLI.

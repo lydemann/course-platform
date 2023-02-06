@@ -1,18 +1,47 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 
 import { Lesson, LessonTypes } from '@course-platform/shared/interfaces';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-section-lessons',
-  templateUrl: './section-lessons.component.html',
+  standalone: true,
+  imports: [SharedModule],
+  template: `<div class="lessons">
+    <ul class="menu-vertical">
+      <li
+        class="lesson"
+        data-test="lesson"
+        *ngFor="let lesson of lessons"
+        [class.selected]="lesson.id === selectedLessonId"
+      >
+        <a (click)="lessonSelected.emit(lesson.id)">
+          <span>{{ lesson.name }}</span>
+          <!-- TODO: save isComplete for user and check here -->
+          <mat-icon class="icon" *ngIf="lesson.isCompleted"
+            >check_circle</mat-icon
+          >
+        </a>
+      </li>
+
+      <li
+        class="lesson"
+        data-test="lesson"
+        [class.selected]="lessonType.ActionItems === selectedLessonId"
+      >
+        <a routerLink="action-items"> Action items </a>
+      </li>
+    </ul>
+  </div> `,
   styleUrls: ['./section-lessons.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionLessonsComponent {
   @Input() lessons: Lesson[];

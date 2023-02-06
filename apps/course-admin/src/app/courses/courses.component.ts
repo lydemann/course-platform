@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { CourseFacadeService } from '@course-platform/shared/data-access';
@@ -26,10 +26,6 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit() {
     this.courses$ = this.courseFacadeService.getCourses();
-  }
-
-  courseSelected(courseId) {
-    this.router.navigate(['course-admin', courseId]);
   }
 
   onCreateCourseClick() {

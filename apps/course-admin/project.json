@@ -27,6 +27,12 @@
         "polyfills": "apps/course-admin/src/polyfills.ts",
         "tsConfig": "apps/course-admin/tsconfig.app.json",
         "aot": true,
+        "buildOptimizer": false,
+        "optimization": false,
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "sourceMap": true,
+        "namedChunks": true,
         "assets": [
           "apps/course-admin/src/favicon.ico",
           "apps/course-admin/src/assets",
@@ -73,14 +79,15 @@
             "path": "apps/course-admin/webpack.prod.config.js"
           }
         },
-        "development": {
-          "buildOptimizer": false,
-          "optimization": false,
-          "vendorChunk": true,
-          "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true
-        }
+        "local": {
+          "fileReplacements": [
+            {
+              "replace": "apps/course-admin/src/environments/environment.ts",
+              "with": "apps/course-admin/src/environments/environment.local.ts"
+            }
+          ]
+        },
+        "development": {}
       }
     },
     "serve": {
