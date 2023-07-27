@@ -2,7 +2,7 @@
 export default {
   preset: '../../jest.preset.js',
   coverageDirectory: '../../coverage/apps/course-service',
-  globals: { 'ts-jest': { tsconfig: '<rootDir>/tsconfig.spec.json' } },
+  globals: {  },
   displayName: 'course-service',
   testEnvironment: 'node',
 };

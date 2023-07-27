@@ -1,18 +1,23 @@
 {
   "name": "course-admin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
   "sourceRoot": "apps/course-admin/src",
-  "implicitDependencies": ["shared-ui-styles"],
+  "implicitDependencies": [
+    "shared-ui-styles"
+  ],
   "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:webpack-browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "allowedCommonJsDependencies": [
           "firebase",
@@ -39,23 +44,15 @@
           "apps/course-admin/src/.firebaserc",
           "apps/course-admin/src/firebase.json"
         ],
-        "styles": ["apps/course-admin/src/styles.scss"],
+        "styles": [
+          "apps/course-admin/src/styles.scss"
+        ],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/shared/ui/styles/src/lib"]
+          "includePaths": [
+            "libs/shared/ui/styles/src/lib"
+          ]
         },
         "scripts": [],
-        "budgets": [
-          {
-            "type": "initial",
-            "maximumWarning": "2mb",
-            "maximumError": "5mb"
-          },
-          {
-            "type": "anyComponentStyle",
-            "maximumWarning": "6kb",
-            "maximumError": "10kb"
-          }
-        ],
         "customWebpackConfig": {
           "path": "apps/course-admin/webpack.config.js"
         }
@@ -91,7 +88,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-dev-server",
+      "executor": "@nx/angular:webpack-dev-server",
       "configurations": {
         "production": {
           "browserTarget": "course-admin:build:production"
@@ -107,7 +104,7 @@
       }
     },
     "serve-static": {
-      "executor": "@nrwl/angular:file-server",
+      "executor": "@nrwl/web:file-server",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "course-admin:build",
@@ -129,7 +126,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/course-admin/**/*.ts",
@@ -138,12 +135,15 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "apps/course-admin/jest.config.ts",
         "passWithNoTests": true
       }
     }
   },
-  "tags": ["scope:course-admin", "type:app"]
+  "tags": [
+    "scope:course-admin",
+    "type:app"
+  ]
 }

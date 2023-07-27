@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import * as firebase from 'firebase';
+import { Auth, User, updateProfile } from '@angular/fire/auth';
+import { Firestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9,18 +8,18 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserService {
-  currentUser$ = new BehaviorSubject<firebase.User>(null);
+  currentUser$ = new BehaviorSubject<User>(null);
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
 
   constructor(
-    public db: AngularFirestore,
-    public afAuth: AngularFireAuth,
+    public db: Firestore,
+    public afAuth: Auth,
     public ngZone: NgZone
   ) {}
 
-  getCurrentUser(): Observable<firebase.User> {
+  getCurrentUser(): Observable<User> {
     return new Observable((observer) => {
-      firebase.auth().onAuthStateChanged((currentUser) => {
+      this.afAuth.onAuthStateChanged((currentUser) => {
         this.currentUser$.next(currentUser);
         // cb needs to run through zone to work in guard
         this.ngZone.run(() => {
@@ -32,9 +31,8 @@ export class UserService {
 
   updateCurrentUser(value) {
     return new Promise<any>((resolve, reject) => {
-      const user = firebase.auth().currentUser;
-      user
-        .updateProfile({
+      const user = this.afAuth.currentUser;
+        updateProfile(user,{
           displayName: value.name,
           photoURL: user.photoURL,
         })

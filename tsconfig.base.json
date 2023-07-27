@@ -10,14 +10,68 @@
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom", "esnext.asynciterable"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom",
+      "esnext.asynciterable"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@course-platform/course-admin-lib": [
-        "libs/course-admin-lib/src/index.ts"
+      "@course-platform/course-admin/course-admin": [
+        "libs/course-admin/course-admin/src/index.ts"
+      ],
+      "@course-platform/course-admin/course-admin/course-styling/feature": [
+        "libs/course-admin/course-admin/course-styling/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/course-admin/domain": [
+        "libs/course-admin/course-admin/domain/src/index.ts"
+      ],
+      "@course-platform/course-admin/course-admin/feature": [
+        "libs/course-admin/course-admin/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/course-admin/lesson-admin/feature": [
+        "libs/course-admin/course-admin/lesson-admin/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/course-admin/section-admin/feature": [
+        "libs/course-admin/course-admin/section-admin/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/courses/domain": [
+        "libs/course-admin/courses/domain/src/index.ts"
+      ],
+      "@course-platform/course-admin/courses/feature": [
+        "libs/course-admin/courses/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/create-user/domain": [
+        "libs/course-admin/create-user/domain/src/index.ts"
+      ],
+      "@course-platform/course-admin/create-user/feature": [
+        "libs/course-admin/create-user/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/feature": [
+        "libs/course-admin/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/login/feature": [
+        "libs/course-admin/login/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/settings/feature": [
+        "libs/course-admin/settings/feature/src/index.ts"
+      ],
+      "@course-platform/course-admin/shared/domain": [
+        "libs/course-admin/shared/domain/src/index.ts"
+      ],
+      "@course-platform/course-admin/shared/ui": [
+        "libs/course-admin/shared/ui/src/index.ts"
+      ],
+      "@course-platform/course-admin/shell": [
+        "libs/course-admin/shell/src/index.ts"
+      ],
+      "@course-platform/course-admin/some": [
+        "libs/course-admin/some/src/index.ts"
       ],
       "@course-platform/course-client-env": [
         "libs/course-client-lib/src/environments/environment.ts"
@@ -25,8 +79,8 @@
       "@course-platform/course-client-lib": [
         "libs/course-client-lib/src/index.ts"
       ],
-      "@course-platform/shared/data-access": [
-        "libs/shared/data-access/src/index.ts"
+      "@course-platform/shared/domain": [
+        "libs/shared/domain/src/index.ts"
       ],
       "@course-platform/shared/feat-auth": [
         "libs/shared/feat-auth/src/index.ts"
@@ -34,13 +88,20 @@
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
       ],
-      "@course-platform/shared/ui": ["libs/shared/ui/src/index.ts"],
-      "@course-platform/shared/util": ["libs/shared/util/index.ts"],
+      "@course-platform/shared/ui": [
+        "libs/shared/ui/src/index.ts"
+      ],
+      "@course-platform/shared/util": [
+        "libs/shared/util/index.ts"
+      ],
       "@course-platform/shared/util/util-feature-toggle": [
         "libs/shared/util/util-feature-toggle/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

@@ -1,8 +1,8 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { environment } from '@course-platform/course-admin/shared/domain';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { AppModule } from '@course-platform/course-admin/shell';
 
 declare global {
   interface Window {
@@ -27,7 +27,8 @@ xhttp.onreadystatechange = function () {
     }
 
     platformBrowserDynamic()
-      .bootstrapModule(AppModule)
+      .bootstrapModule(AppModule, {
+      })
       // eslint-disable-next-line no-console
       .catch((err) => console.error(err));
   }

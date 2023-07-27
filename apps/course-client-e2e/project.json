@@ -1,13 +1,13 @@
 {
   "name": "course-client-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/course-client-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/course-client-e2e/cypress.config.ts",
-        "tsConfig": "apps/course-client-e2e/tsconfig.e2e.json",
         "devServerTarget": "course-client:serve",
         "testingType": "e2e"
       },
@@ -18,7 +18,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/course-client-e2e/**/*.ts",
@@ -27,6 +27,10 @@
       }
     }
   },
-  "tags": ["scope:course-client"],
-  "implicitDependencies": ["course-client"]
+  "tags": [
+    "scope:course-client"
+  ],
+  "implicitDependencies": [
+    "course-client"
+  ]
 }

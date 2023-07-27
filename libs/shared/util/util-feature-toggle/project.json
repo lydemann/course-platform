@@ -1,11 +1,12 @@
 {
   "name": "shared-util-util-feature-toggle",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/util/util-feature-toggle/src",
   "projectType": "library",
   "generators": {},
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/shared/util/util-feature-toggle/**/*.ts",
@@ -14,12 +15,15 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "libs/shared/util/util-feature-toggle/jest.config.ts",
         "passWithNoTests": true
       }
     }
   },
-  "tags": ["scope:shared", "type:util"]
+  "tags": [
+    "scope:shared",
+    "type:util"
+  ]
 }

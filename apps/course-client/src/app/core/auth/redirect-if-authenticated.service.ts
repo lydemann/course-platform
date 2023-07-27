@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { UserService } from '@course-platform/shared/feat-auth';
 @Injectable({ providedIn: 'root' })
 export class RedirectIfAuthenticatedResolver implements Resolve<boolean> {
   constructor(
-    public afAuth: AngularFireAuth,
+    public afAuth: Auth,
     public userService: UserService,
     private router: Router
   ) {}

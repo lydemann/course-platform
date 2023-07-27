@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import {
   CourseResourcesService,
   selectRouteParam,
-} from '@course-platform/shared/data-access';
+} from '@course-platform/shared/domain';
 import {
   ActionItem,
   Course,

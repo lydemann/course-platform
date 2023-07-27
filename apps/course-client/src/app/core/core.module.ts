@@ -1,7 +1,7 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SharedDataAccessModule } from '@course-platform/shared/data-access';
+import { SharedDataAccessModule } from '@course-platform/shared/domain';
 
 @NgModule({
   imports: [SharedDataAccessModule]

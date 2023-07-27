@@ -1,12 +1,12 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
@@ -17,54 +17,52 @@
                 "onlyDependOnLibsWithTags": ["scope:shared"]
               },
               {
-                "sourceTag": "scope:course-client",
+                "sourceTag": "scope:todo-app",
+                "onlyDependOnLibsWithTags": ["scope:todo-app", "scope:shared"]
+              },
+              {
+                "sourceTag": "scope:todo-admin",
+                "onlyDependOnLibsWithTags": ["scope:todo-admin", "scope:shared"]
+              },
+              {
+                "sourceTag": "type:app",
                 "onlyDependOnLibsWithTags": [
-                  "scope:course-client",
-                  "scope:shared"
-                ]
-              },
-              {
-                "sourceTag": "scope:course-admin",
-                "onlyDependOnLibsWithTags": [
-                  "scope:course-admin",
-                  "scope:shared"
-                ]
-              },
-              {
-                "sourceTag": "scope:course-service",
-                "onlyDependOnLibsWithTags": [
-                  "scope:course-client",
-                  "scope:shared"
-                ]
-              },
-              {
-                "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": ["type:util"]
-              },
-              {
-                "sourceTag": "type:feat",
-                "onlyDependOnLibsWithTags": ["type:shared"]
-              },
-              {
-                "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": [
-                  "type:ui",
-                  "type:interface",
+                  "type:feature",
+                  "type:shell",
+                  "type:domain",
+                  "type:api",
                   "type:util"
                 ]
               },
               {
-                "sourceTag": "type:data-access",
+                "sourceTag": "type:feature",
                 "onlyDependOnLibsWithTags": [
-                  "type:data-access",
+                  "type:feature",
+                  "type:api",
+                  "type:ui",
+                  "type:domain",
                   "type:util",
-                  "type:interface",
-                  "type:feat"
                 ]
               },
               {
-                "sourceTag": "type:e2e",
-                "onlyDependOnLibsWithTags": ["type:e2e"]
+                "sourceTag": "type:api",
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:domain",
+                  "type:util"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": ["type:domain", "type:ui", "type:util"]
+              },
+              {
+                "sourceTag": "type:domain",
+                "onlyDependOnLibsWithTags": ["type:domain", "type:util"]
+              },
+              {
+                "sourceTag": "type:util",
+                "onlyDependOnLibsWithTags": ["type:util"]
               }
             ]
           }
@@ -73,7 +71,7 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "extends": ["plugin:@nx/typescript"],
       "rules": {
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-namespace": "off",
@@ -82,7 +80,7 @@
     },
     {
       "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {

@@ -5,21 +5,21 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { auth } from 'firebase';
-import { from, Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { exhaustMap, first, switchMap } from 'rxjs/operators';
 
+import { Auth } from '@angular/fire/auth';
 import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class SetTokenInterceptor implements HttpInterceptor {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private auth: Auth) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!this.userService.currentUser$.value || !auth().tenantId) {
+    if (!this.userService.currentUser$.value || !this.auth.tenantId) {
       return next.handle(req);
     }
 
@@ -27,7 +27,7 @@ export class SetTokenInterceptor implements HttpInterceptor {
       first(),
       switchMap((user) => from(user?.getIdToken() || '')),
       exhaustMap((token) => {
-        const tenantId = auth().tenantId;
+        const tenantId = this.auth.tenantId;
         let headers = tenantId
           ? req.headers.append('Schoolid', tenantId)
           : req.headers;
