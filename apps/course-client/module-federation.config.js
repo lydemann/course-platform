@@ -10,5 +10,9 @@ module.exports = {
     ['firebase/firestore', { singleton: true, requiredVersion: false }],
     ['firebase/auth', { singleton: true, requiredVersion: false }],
     ['firebase', { singleton: true, requiredVersion: false }],
+    ['firebase/remote-config', { singleton: true, requiredVersion: false }],
+    ['firebase/messaging', { singleton: true, requiredVersion: false }],
+    ['firebase/analytics', { singleton: true, requiredVersion: false }],
+    ['firebase/app-check', { singleton: true, requiredVersion: false }],
   ],
 };

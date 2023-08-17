@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { filter, first } from 'rxjs/operators';
 
+import { Auth } from '@angular/fire/auth';
 import { CourseClientFacade } from '@course-platform/course-client-lib';
 import { Observable } from 'rxjs';
-import { auth } from 'firebase';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectToCourseResolver implements Resolve<Observable<void>> {
   constructor(
     private router: Router,
-    private courseFacadeService: CourseClientFacade
+    private courseFacadeService: CourseClientFacade,
+    private auth: Auth
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): any {
@@ -25,7 +26,7 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
             !!sections &&
             sections.length > 0 &&
             !!courseId &&
-            !!auth().tenantId &&
+            !!this.auth.tenantId &&
             !lessonId &&
             !sectionId
         ),

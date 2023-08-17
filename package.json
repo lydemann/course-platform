@@ -138,7 +138,7 @@
     "firebase-tools": "12.4.6",
     "fuzzy": "^0.1.3",
     "generate-package-json-webpack-plugin": "^2.0.0",
-    "husky": "8.0.3",
+    "husky": "^8.0.3",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "jasmine-marbles": "~0.9.1",
@@ -171,4 +171,3 @@
     "typescript": "5.1.6"
   }
 }
-
