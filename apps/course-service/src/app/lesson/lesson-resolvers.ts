@@ -70,7 +70,7 @@ export const lessonMutationResolvers = {
       `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
     );
 
-    const section = (await sectionRef.get()).data() as CourseSectionDTO;
+    const section = (await sectionRef.get()).data();
     section.lessons = section.lessons.map((lesson) =>
       lesson.id === lessonToUpdate ? lessonToUpdate : lesson
     );
@@ -96,7 +96,7 @@ export const lessonMutationResolvers = {
       .then((snapshot) => snapshot.data())
       .then((section: CourseSectionDTO) => {
         const newLessons = section.lessons.filter((lesson) => lesson.id !== id);
-        sectionRef.update({ lessons: newLessons } as CourseSectionDTO);
+        sectionRef.update({ lessons: newLessons });
       });
 
     await deleteSectionLessonPromise;
