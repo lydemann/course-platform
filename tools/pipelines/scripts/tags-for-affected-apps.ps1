@@ -56,8 +56,8 @@ $sourceVersion = $env:SYSTEM_PULLREQUEST_SOURCECOMMITID;
 Write-Host "Tagging git hash in artifact: $($sourceVersion)";
 addTagToBuildArtifact -tag $sourceVersion;
 
-
-$AffectedAppsString = Invoke-Expression 'npx nx print-affected --type=app --select=projects --base=origin/master';
+$AffectedAppsObj = Invoke-Expression 'npx nx show projects -t build --affected --base=origin/master';
+$AffectedAppsString = $AffectedAppsObj -join ' ';
 
 if (!$AffectedAppsString -and $AffectedAppsString -eq "") {
     Write-Host "No affected apps. Tagging with all apps.";
@@ -65,13 +65,12 @@ if (!$AffectedAppsString -and $AffectedAppsString -eq "") {
     $AffectedAppsString = $AffectedAppsObj -join ' ';
 }
 
-$AffectedApps = $AffectedAppsString.Split(" ");
-Write-Host "Affected apps: " $AffectedApps;
+Write-Host "Affected apps: " $AffectedAppsString;
 
 $branchname = $env:SYSTEM_PULLREQUEST_SOURCEBRANCHNAME;
 Write-Host "Branch is $branchname";
     
-$AffectedApps | ForEach-Object {
+$AffectedAppsObj | ForEach-Object {
     $AffectedAppName = $_;
     addTagToBuildArtifact -tag $AffectedAppName;
 }

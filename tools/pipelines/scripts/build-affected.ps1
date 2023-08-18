@@ -1,5 +1,5 @@
-$AffectedAppsObj = Invoke-Expression "npm run affected:apps -- --base=origin/master";
-$AffectedAppsString = $AffectedAppsObj[4];
+$AffectedAppsObj = Invoke-Expression "npx nx show projects -t build --affected --base=origin/master";
+$AffectedAppsString = $AffectedAppsObj -join ' ';
 
 if (!$AffectedAppsString -and $AffectedAppsString -eq "") {
     Write-Host "No affected apps. Building all apps.";
