@@ -11,7 +11,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 
-import { CourseResourcesService } from '@course-platform/shared/data-access';
+import { CourseResourcesService } from '@course-platform/shared/domain';
 import { UserService } from '@course-platform/shared/feat-auth';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';

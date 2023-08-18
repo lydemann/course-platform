@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SchoolIdResolver } from '@course-platform/shared/data-access';
+import { SchoolIdResolver } from '@course-platform/shared/domain';
 
 import { RedirectIfLoggedOutResolver } from './core/auth/redirect-if-logged-out.service';
 import { CourseResolver } from './course/resolvers/course.resolver';

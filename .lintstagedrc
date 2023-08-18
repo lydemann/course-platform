@@ -1,13 +1,11 @@
 {
 	"*.{ts,json,md,scss,html}": [
-		"prettier --write"
+		"npx prettier --write"
 	],
 	"*.ts": [
-		"eslint --fix",
-		"git add"
+		"npx eslint --fix"
 	],
 	"*.scss": [
-		"stylelint --fix",
-		"git add"
+		"npx stylelint --fix"
 	]
 }

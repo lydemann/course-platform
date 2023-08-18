@@ -1,0 +1,46 @@
+<h1 class="center">Courses</h1>
+
+<ng-container *ngIf="courses$ | async as courses">
+  <div fxLayout="row" fxLayoutGap="4px">
+    <mat-card
+      *ngFor="let course of courses"
+      fxFlex.gt-sm="33"
+      fxFlex.gt-xs="50"
+      class="course-card"
+      ><mat-card-title [routerLink]="['/course-admin', course.id]">{{
+        course.name
+      }}</mat-card-title>
+      <img
+        mat-card-image
+        [routerLink]="['/course-admin', course.id]"
+        src="/assets/img/login.jpg"
+        alt="course picture"
+      />
+      <mat-card-content class="content">
+        <p>
+          {{ course.description }}
+        </p>
+        <div class="action-buttons">
+          <app-button
+            class="center mt-m"
+            [color]="'accent'"
+            (click)="onEditCourseClick(course)"
+            >Edit course</app-button
+          >
+          <app-button
+            class="center mt-m ml-m"
+            [color]="'warn'"
+            (click)="onDeleteCourseClick(course)"
+            >Delete course</app-button
+          >
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="mt-l">
+    <app-button [color]="'success'" (click)="onCreateCourseClick()"
+      >Create course</app-button
+    >
+  </div>
+</ng-container>

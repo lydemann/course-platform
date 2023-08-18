@@ -1,12 +1,12 @@
 import { AuthenticationError } from 'apollo-server-express';
 
+import { CourseSectionDTO } from '@course-platform/shared/domain';
 import {
   ActionItem,
   CourseSection,
   LessonResourceType,
 } from '@course-platform/shared/interfaces';
 import { removeEmptyFields } from '@course-platform/shared/util';
-import { CourseSectionDTO } from '@course-platform/shared/data-access';
 import { createResolver } from '../../utils/create-resolver';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';

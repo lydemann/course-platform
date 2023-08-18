@@ -1,11 +1,12 @@
 {
   "name": "shared-feat-auth",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/feat-auth/src",
   "prefix": "course-platform",
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/shared/feat-auth/**/*.ts",
@@ -14,7 +15,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "libs/shared/feat-auth/jest.config.ts",
         "passWithNoTests": true
@@ -22,9 +23,12 @@
     }
   },
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
-  "tags": ["scope:shared", "type:feat"]
+  "tags": [
+    "scope:shared",
+    "type:feature"
+  ]
 }

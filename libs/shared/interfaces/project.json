@@ -1,11 +1,12 @@
 {
   "name": "shared-interfaces",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/interfaces/src",
   "projectType": "library",
   "generators": {},
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/shared/interfaces/**/*.ts",
@@ -14,12 +15,15 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "libs/shared/interfaces/jest.config.ts",
         "passWithNoTests": true
       }
     }
   },
-  "tags": ["scope:shared", "type:interface"]
+  "tags": [
+    "scope:shared",
+    "type:interface"
+  ]
 }

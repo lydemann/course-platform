@@ -1,13 +1,13 @@
 {
   "name": "course-admin-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/course-admin-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/course-admin-e2e/cypress.config.ts",
-        "tsConfig": "apps/course-admin-e2e/tsconfig.e2e.json",
         "devServerTarget": "course-admin:serve",
         "testingType": "e2e"
       },
@@ -18,13 +18,21 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/course-admin-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": [
+          "apps/course-admin-e2e/**/*.{js,ts}"
+        ]
       }
     }
   },
-  "tags": ["scope:course-admin"],
-  "implicitDependencies": ["course-admin"]
+  "tags": [
+    "scope:course-admin"
+  ],
+  "implicitDependencies": [
+    "course-admin"
+  ]
 }

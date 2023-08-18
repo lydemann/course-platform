@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { User } from '@angular/fire/auth';
 import { ProfileService } from '@course-platform/course-client-lib';
 import { AuthService } from '@course-platform/shared/feat-auth';
 
@@ -12,7 +13,7 @@ import { AuthService } from '@course-platform/shared/feat-auth';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  user$: Observable<firebase.User>;
+  user$: Observable<User>;
   profileForm$: Observable<FormGroup>;
   changePwForm: FormGroup;
   errorMessage: string;

@@ -1,17 +1,20 @@
 {
   "name": "course-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
   "sourceRoot": "apps/course-client/src",
-  "implicitDependencies": ["shared-ui-styles"],
+  "implicitDependencies": [
+    "shared-ui-styles"
+  ],
   "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:webpack-browser",
+      "executor": "@nx/angular:webpack-browser",
       "options": {
         "allowedCommonJsDependencies": [
           "firebase",
@@ -37,10 +40,14 @@
           "apps/course-client/src/.firebaserc",
           "apps/course-client/src/firebase.json"
         ],
-        "styles": ["apps/course-client/src/styles.scss"],
+        "styles": [
+          "apps/course-client/src/styles.scss"
+        ],
         "scripts": [],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/shared/ui/styles/src/lib"]
+          "includePaths": [
+            "libs/shared/ui/styles/src/lib"
+          ]
         },
         "customWebpackConfig": {
           "path": "apps/course-client/webpack.config.js"
@@ -89,7 +96,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/angular:module-federation-dev-server",
+      "executor": "@nx/angular:module-federation-dev-server",
       "configurations": {
         "production": {
           "browserTarget": "course-client:build:production"
@@ -111,7 +118,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/course-client/**/*.ts",
@@ -120,7 +127,7 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "apps/course-client/jest.config.ts",
         "passWithNoTests": true
@@ -131,5 +138,8 @@
       "options": {}
     }
   },
-  "tags": ["scope:course-client", "type:app"]
+  "tags": [
+    "scope:course-client",
+    "type:app"
+  ]
 }

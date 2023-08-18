@@ -1,11 +1,10 @@
 import { AuthenticationError } from 'apollo-server-express';
 
-import { LessonResource } from '@course-platform/shared/interfaces';
+import { CourseSectionDTO } from '@course-platform/shared/domain';
 import { removeEmptyFields } from '@course-platform/shared/util';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
-import { CourseSectionDTO } from '@course-platform/shared/data-access';
 
 interface UpdateLessonInput extends LessonDTO {
   courseId;
@@ -71,7 +70,7 @@ export const lessonMutationResolvers = {
       `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
     );
 
-    const section = (await sectionRef.get()).data() as CourseSectionDTO;
+    const section = (await sectionRef.get()).data();
     section.lessons = section.lessons.map((lesson) =>
       lesson.id === lessonToUpdate ? lessonToUpdate : lesson
     );
@@ -97,7 +96,7 @@ export const lessonMutationResolvers = {
       .then((snapshot) => snapshot.data())
       .then((section: CourseSectionDTO) => {
         const newLessons = section.lessons.filter((lesson) => lesson.id !== id);
-        sectionRef.update({ lessons: newLessons } as CourseSectionDTO);
+        sectionRef.update({ lessons: newLessons });
       });
 
     await deleteSectionLessonPromise;

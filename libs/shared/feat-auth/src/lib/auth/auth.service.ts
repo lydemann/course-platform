@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase';
+import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(public afAuth: AngularFireAuth) {}
+  constructor(public afAuth: Auth) {}
   doRegister(value) {
     return new Promise<any>((resolve, reject) => {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(value.email, value.password)
+        createUserWithEmailAndPassword(this.afAuth, value.email, value.password,)
         .then(
           (res) => {
             resolve(res);
@@ -23,9 +20,7 @@ export class AuthService {
 
   doLogin(value) {
     return new Promise<any>((resolve, reject) => {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(value.email, value.password)
+        signInWithEmailAndPassword(this.afAuth, value.email, value.password)
         .then(
           (res) => {
             resolve(res);
@@ -36,12 +31,12 @@ export class AuthService {
   }
 
   sendPasswordResetEmail(email: string) {
-    return this.afAuth.sendPasswordResetEmail(email);
+    return sendPasswordResetEmail(this.afAuth, email);
   }
 
   doLogout() {
     return new Promise((resolve, reject) => {
-      if (firebase.auth().currentUser) {
+      if (this.afAuth.currentUser) {
         this.afAuth.signOut();
         localStorage.clear();
         location.href = '/';

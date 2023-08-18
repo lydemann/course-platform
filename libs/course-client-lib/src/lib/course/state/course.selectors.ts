@@ -1,10 +1,9 @@
-import { getSelectors } from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {
   selectRouteData,
   selectRouteParam
-} from '@course-platform/shared/data-access';
+} from '@course-platform/shared/domain';
 import {
   ActionItem,
   CourseSection,
@@ -17,9 +16,9 @@ import {
   selectedSectionIdRouteParam
 } from '../variables';
 import {
+  CourseState,
   courseLessonAdapter,
-  courseSectionAdapter,
-  CourseState
+  courseSectionAdapter
 } from './course.model';
 
 export namespace CourseSelectors {

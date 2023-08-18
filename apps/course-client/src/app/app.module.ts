@@ -10,7 +10,7 @@ import { CourseClientLibModule } from '@course-platform/course-client-lib';
 import {
   Endpoints,
   ENDPOINTS_TOKEN,
-} from '@course-platform/shared/data-access';
+} from '@course-platform/shared/domain';
 import { SharedFeatAuthModule } from '@course-platform/shared/feat-auth';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';

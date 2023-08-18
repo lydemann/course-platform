@@ -1,0 +1,41 @@
+{
+  "name": "course-admin-settings-feature",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/course-admin/settings/feature/src",
+  "prefix": "course-platform",
+  "tags": [
+    "type:feature",
+    "scope:course-admin"
+  ],
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/course-admin/settings/feature/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/course-admin/settings/feature/**/*.ts",
+          "libs/course-admin/settings/feature/**/*.html"
+        ]
+      }
+    }
+  }
+}
