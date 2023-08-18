@@ -144,7 +144,7 @@
     "jasmine-marbles": "~0.9.1",
     "jest": "29.4.3",
     "jest-environment-jsdom": "29.4.3",
-    "jest-preset-angular": "12.2.3",
+    "jest-preset-angular": "13.1.1",
     "lint-staged": "^10.1.5",
     "ng-mocks": "14.3.2",
     "ng-packagr": "15.1.1",
@@ -171,3 +171,4 @@
     "typescript": "5.1.6"
   }
 }
+
