@@ -1,7 +1,7 @@
 {
-  "name": "shared-data-access",
+  "name": "shared-domain",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared/data-access/src",
+  "sourceRoot": "libs/shared/domain/src",
   "projectType": "library",
   "generators": {},
   "targets": {
@@ -9,21 +9,18 @@
       "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/shared/data-access/**/*.ts",
-          "libs/shared/data-access/**/*.html"
+          "libs/shared/domain/**/*.ts",
+          "libs/shared/domain/**/*.html"
         ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/data-access/jest.config.ts",
+        "jestConfig": "libs/shared/domain/jest.config.ts",
         "passWithNoTests": true
       }
     }
   },
-  "tags": [
-    "type:domain",
-    "scope:shared"
-  ]
+  "tags": ["type:domain", "scope:shared"]
 }
