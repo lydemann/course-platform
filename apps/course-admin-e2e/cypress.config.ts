@@ -1,6 +1,6 @@
-import { defineConfig } from 'cypress';
 import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
-import setupNodeEvents from './src/plugins/index';
+import { defineConfig } from 'cypress';
+import setupNodeEvents from './src/plugins';
 
 const cypressJsonConfig = {
   fileServerFolder: '.',

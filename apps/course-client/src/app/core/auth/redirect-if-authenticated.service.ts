@@ -11,17 +11,17 @@ export class RedirectIfAuthenticatedResolver implements Resolve<boolean> {
   constructor(
     public afAuth: Auth,
     public userService: UserService,
-    private router: Router
+    private router: Router,
   ) {}
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.userService.getCurrentUser().pipe(
       first(),
       map((currentUser) => {
-        if (!!currentUser) {
+        if (currentUser) {
           this.router.navigate(['courses']);
         }
         return true;
-      })
+      }),
     );
   }
 }

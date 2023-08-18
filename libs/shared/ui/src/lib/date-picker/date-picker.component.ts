@@ -31,7 +31,7 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
 
   public isErrorState(
     control: UntypedFormControl,
-    form: NgForm | FormGroupDirective
+    form: NgForm | FormGroupDirective,
   ): boolean {
     const isSubmitted = form && form.submitted;
     const isInvalidAndTouched = !!(
@@ -58,8 +58,8 @@ export class DatePickerComponent
   @Input() public minDate: Date;
   @Input() public maxDate: Date;
 
-  @Input() public errorMessage: string = 'Invalid input';
-  @Input() public placeholder: string = 'Choose a date';
+  @Input() public errorMessage = 'Invalid input';
+  @Input() public placeholder = 'Choose a date';
   public dateChange: EventEmitter<Date> = new EventEmitter();
   public isDisabled = false;
   // used to display mat error
@@ -71,7 +71,7 @@ export class DatePickerComponent
   // tslint:disable-next-line: member-ordering
   public dateErrorStateMatcher = new DateErrorStateMatcher(
     this._showError$,
-    this.destroy$.asObservable()
+    this.destroy$.asObservable(),
   );
 
   private onTouched = Function;
@@ -79,7 +79,7 @@ export class DatePickerComponent
   constructor(
     public ngControl: NgControl,
     private changeDetectionRef: ChangeDetectorRef,
-    private applicationRef: ApplicationRef
+    private applicationRef: ApplicationRef,
   ) {
     ngControl.valueAccessor = this;
   }

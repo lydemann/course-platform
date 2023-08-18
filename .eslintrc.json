@@ -1,6 +1,5 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
   "plugins": ["@nx"],
   "overrides": [
     {
@@ -41,7 +40,7 @@
                   "type:api",
                   "type:ui",
                   "type:domain",
-                  "type:util",
+                  "type:util"
                 ]
               },
               {
@@ -54,7 +53,11 @@
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:domain", "type:ui", "type:util"]
+                "onlyDependOnLibsWithTags": [
+                  "type:domain",
+                  "type:ui",
+                  "type:util"
+                ]
               },
               {
                 "sourceTag": "type:domain",
@@ -71,7 +74,11 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
+      "extends": [
+        "plugin:@nx/typescript",
+        "plugin:@nx/angular",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
       "rules": {
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-namespace": "off",
