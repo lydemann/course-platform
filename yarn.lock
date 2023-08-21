@@ -5499,7 +5499,7 @@
     yargs "^17.6.2"
     yargs-parser "21.1.1"
 
-"@nx/workspace@16.7.2", "@nx/workspace@^16.7.1":
+"@nx/workspace@16.7.2":
   version "16.7.2"
   resolved "https://registry.yarnpkg.com/@nx/workspace/-/workspace-16.7.2.tgz#25b54090b37db9f45d795327c013781d290b6a95"
   integrity sha512-6bI2EBXxbMcUI/Gtin+M95l9kQdoov9UIB97j8pX/V/4K8Xvegn01+MF99De9/oApkQjNehmR2dpi4hPo0FFUw==
@@ -15452,7 +15452,7 @@ nx@16.5.5:
     "@nx/nx-win32-arm64-msvc" "16.5.5"
     "@nx/nx-win32-x64-msvc" "16.5.5"
 
-nx@16.7.2, nx@^16.7.1:
+nx@16.7.2:
   version "16.7.2"
   resolved "https://registry.yarnpkg.com/nx/-/nx-16.7.2.tgz#d5886f183f0b99c1e218f0c0e6edac72f9be637d"
   integrity sha512-T7cRC97qJ4H9fg498ZGwFQaTzJdLQaRp6DFUwzFo1B9qzR56A2tA3HBvT/huo85THaDX+/pcgLyeixJKEE5RPg==
