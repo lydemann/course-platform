@@ -4,12 +4,7 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "parallel": 1,
         "accessToken": "ZmU4ZTJkZjctYjU3MC00NjAxLWEwNTktY2ZiM2U1NGNkYTg5fHJlYWQtd3JpdGU="
       }
@@ -17,19 +12,11 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "lint": {
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json"
-      ]
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     }
   },
   "generators": {
@@ -56,10 +43,7 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultProject": "course-client",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
       "{workspaceRoot}/angular.json",
       "{workspaceRoot}/tsconfig.json",
@@ -67,9 +51,6 @@
       "{workspaceRoot}/nx.json",
       "{workspaceRoot}/webpack.node.config.js"
     ],
-    "production": [
-      "default",
-      "!{projectRoot}/src/test-setup.[jt]s"
-    ]
+    "production": ["default", "!{projectRoot}/src/test-setup.[jt]s"]
   }
 }
