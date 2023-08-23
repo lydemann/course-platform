@@ -1,7 +1,7 @@
 @import 'helpers';
 
 button {
-  font-family: AvenirNextLTPro-Medium Arial, Helvetica, sans-serif;
+  font-family: "AvenirNextLTPro-Medium Arial", Helvetica, sans-serif;
   font-weight: bold;
 
   &.size-l {
@@ -12,6 +12,6 @@ button {
 }
 
 .success {
-  background-color: get-color('success');
-  color: get-color('white');
+  background-color: get-color('success') !important;
+  color: get-color('white') !important;
 }
