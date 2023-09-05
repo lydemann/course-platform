@@ -1,5 +1,5 @@
-import { region } from 'firebase-functions';
 import dotenvJSON from 'dotenv-json';
+import { region } from 'firebase-functions';
 
 import { gqlServer } from './app/server';
 import { environment } from './environments/environment';
@@ -9,7 +9,7 @@ if (environment.production) {
   dotenvJSON({ path: __dirname + '/assets/env.local.json' });
 }
 
-const server = gqlServer();
+const server = await gqlServer();
 
 // Graphql api
 // https://us-central1-<project-name>.cloudfunctions.net/api/
