@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  courseServiceUrl:
-    'https://europe-west3-aaa-course-portal.cloudfunctions.net/api',
+  courseServiceUrl: 'http://localhost:5000/aaa-course-portal/europe-west3/api',
   // get courseServiceUrl() {
   //   return window.config.courseServiceUrl;
   // }

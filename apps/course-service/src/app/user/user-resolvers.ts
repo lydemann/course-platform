@@ -1,6 +1,5 @@
 import { AuthenticationError, ValidationError } from 'apollo-server-express';
 import admin from 'firebase-admin';
-import {} from 'inversify';
 
 import { UserInfo } from '@course-platform/shared/interfaces';
 import { DITypes } from '../../di/di-types';
@@ -89,6 +88,7 @@ export const userMutationResolvers = {
       }
 
       // TODO: when implementing for SaaS no hardcoded school id
+      console.log('creating user');
       return await userService.createGoogleIdentityUser(
         emailLowerCase,
         password,

@@ -28,6 +28,7 @@
                 "onlyDependOnLibsWithTags": [
                   "type:feature",
                   "type:shell",
+                  "type:ui",
                   "type:domain",
                   "type:api",
                   "type:util"
