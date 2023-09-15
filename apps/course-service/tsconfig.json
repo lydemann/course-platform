@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "esnext",
     "types": ["node", "jest"],
     "emitDecoratorMetadata": true,
     "target": "es2020",

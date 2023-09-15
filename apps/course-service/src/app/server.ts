@@ -4,6 +4,7 @@ import * as express from 'express';
 import admin from 'firebase-admin';
 
 import { AuthIdentity, RequestContext } from './auth-identity';
+
 import { resolvers } from './resolvers';
 import { typeDefs } from './schema';
 

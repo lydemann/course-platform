@@ -1,4 +1,5 @@
 import { region } from 'firebase-functions';
+
 import dotenvJSON from 'dotenv-json';
 
 import { gqlServer } from './app/server';

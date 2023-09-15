@@ -22,8 +22,5 @@
       }
     }
   },
-  "tags": [
-    "scope:shared",
-    "type:interface"
-  ]
+  "tags": ["scope:shared", "type:interface", "type:domain"]
 }

@@ -58,8 +58,5 @@
       }
     }
   },
-  "tags": [
-    "scope:course-service",
-    "type:service"
-  ]
+  "tags": ["scope:course-service", "type:service", "type:app"]
 }

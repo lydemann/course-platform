@@ -8,10 +8,21 @@ import {
   customDomainQueries,
 } from './custom-domain/custom-domain-schema';
 import { lessonMutations, lessonQuerySchema } from './lesson/lesson-schema';
-import { sectionMutations, SectionSchema } from './section/section-schema';
-import { userMutationSchema, UserQuerySchema } from './user/user-schema';
+import { SectionSchema, sectionMutations } from './section/section-schema';
+import { UserQuerySchema, userMutationSchema } from './user/user-schema';
 
 const schema = gql`
+  enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+  }
+
+  directive @cacheControl(
+    maxAge: Int
+    scope: CacheControlScope
+    inheritMaxAge: Boolean
+  ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
+
   type Query {
     courseSections(uid: String, courseId: String, sectionIds: [String]): [Section]
     user(uid: String!): UserInfo @cacheControl(maxAge: 30, scope: PRIVATE)
