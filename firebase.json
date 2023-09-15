@@ -84,8 +84,11 @@
       "port": 8085
     }
   },
-  "functions": {
-    "source": "/",
-    "runtime": "nodejs20"
-  }
+  "functions": [
+    {
+      "source": "/",
+      "runtime": "nodejs16",
+      "codebase": "default"
+    }
+  ]
 }

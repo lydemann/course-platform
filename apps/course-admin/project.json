@@ -8,16 +8,12 @@
     }
   },
   "sourceRoot": "apps/course-admin/src",
-  "implicitDependencies": [
-    "shared-ui-styles"
-  ],
+  "implicitDependencies": ["shared-ui-styles"],
   "prefix": "app",
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": [
           "firebase",
@@ -44,13 +40,9 @@
           "apps/course-admin/src/.firebaserc",
           "apps/course-admin/src/firebase.json"
         ],
-        "styles": [
-          "apps/course-admin/src/styles.scss"
-        ],
+        "styles": ["apps/course-admin/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "libs/shared/ui/styles/src/lib"
-          ]
+          "includePaths": ["libs/shared/ui/styles/src/lib"]
         },
         "scripts": [],
         "customWebpackConfig": {
@@ -79,8 +71,8 @@
         "local": {
           "fileReplacements": [
             {
-              "replace": "apps/course-admin/src/environments/environment.ts",
-              "with": "apps/course-admin/src/environments/environment.local.ts"
+              "replace": "libs/course-admin/shared/domain/src/lib/environments/environment.ts",
+              "with": "libs/course-admin/shared/domain/src/lib/environments/environment.local.ts"
             }
           ]
         },
@@ -95,6 +87,9 @@
         },
         "development": {
           "browserTarget": "course-admin:build:development"
+        },
+        "local": {
+          "browserTarget": "course-admin:build:local"
         }
       },
       "defaultConfiguration": "development",
@@ -142,8 +137,5 @@
       }
     }
   },
-  "tags": [
-    "scope:course-admin",
-    "type:app"
-  ]
+  "tags": ["scope:course-admin", "type:app"]
 }

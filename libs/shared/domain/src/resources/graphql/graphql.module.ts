@@ -1,9 +1,11 @@
+import { HttpHeaders } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { InMemoryCache } from '@apollo/client/cache';
-import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { createPersistedQueryLink } from 'apollo-angular-link-persisted';
 import { HttpLink } from 'apollo-angular/http';
 
+import { ApolloClientOptions } from '@apollo/client/core';
 import { Endpoints, ENDPOINTS_TOKEN } from '../endpoints';
 
 const defaultOptions: any = {
@@ -17,8 +19,14 @@ const defaultOptions: any = {
   },
 };
 
-export function createApollo(httpLink: HttpLink, endpoints: Endpoints): any {
-  const requestLink = httpLink.create({ uri: endpoints.courseServiceUrl });
+export function createApollo(
+  httpLink: HttpLink,
+  endpoints: Endpoints
+): ApolloClientOptions<any> {
+  const requestLink = httpLink.create({
+    uri: endpoints.courseServiceUrl,
+    headers: new HttpHeaders({ 'x-apollo-operation-name': 'true' }),
+  });
   const link = createPersistedQueryLink({
     useGETForHashedQueries: true,
   }).concat(requestLink as any) as any;
