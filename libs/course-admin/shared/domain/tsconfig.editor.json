@@ -1,0 +1,27 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["src/**/*.ts", "**/*.d.ts", "cypress/**/*.ts"],
+    "compilerOptions": {
+      "types": ["node"]
+    },
+    "exclude": [
+      "**/*.spec.ts",
+      "**/*.cy.ts",
+      "jest.config.ts",
+      "**/*.spec.ts",
+      "**/*.test.ts",
+      "**/*.spec.tsx",
+      "**/*.test.tsx",
+      "**/*.spec.js",
+      "**/*.test.js",
+      "**/*.spec.jsx",
+      "**/*.test.jsx",
+      "cypress/**/*",
+      "cypress.config.ts",
+      "**/*.cy.ts",
+      "**/*.cy.js",
+      "**/*.cy.tsx",
+      "**/*.cy.jsx"
+    ]
+  }
+  

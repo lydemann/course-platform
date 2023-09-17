@@ -35,6 +35,7 @@ export function createApollo(
     link,
     cache: new InMemoryCache(),
     defaultOptions,
+    connectToDevTools: true
   };
 }
 

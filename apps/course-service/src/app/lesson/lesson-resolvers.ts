@@ -72,9 +72,10 @@ export const lessonMutationResolvers = {
 
     const section = (await sectionRef.get()).data();
     section.lessons = section.lessons.map((lesson) =>
-      lesson.id === lessonToUpdate ? lessonToUpdate : lesson
+      lesson.id === id ? lessonToUpdate : lesson
     );
-    return sectionRef.update(section);
+    await sectionRef.update(section);
+    return lessonToUpdate;
   },
   deleteLesson: async (
     parent,
