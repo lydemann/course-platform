@@ -44,7 +44,7 @@ export class CourseAdminComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((lessonName) => {
       if (lessonName) {
-        this.courseAdminFacadeService.createLessonSubmitted(
+        this.courseAdminFacadeService.createLesson(
           sectionId,
           lessonName
         );

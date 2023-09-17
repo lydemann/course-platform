@@ -33,6 +33,6 @@ export const lessonQuerySchema = gql`
 
 export const lessonMutations = `
     createLesson(sectionId: String!, courseId: ID!, name: String, description: String, videoUrl: String): Lesson
-    updateLesson(id: ID!, courseId: ID!, name: String, description: String, videoUrl: String, resources: [LessonResourceInput]): Lesson
+    updateLesson(sectionId: String!, id: ID!, courseId: ID!, name: String, description: String, videoUrl: String, resources: [LessonResourceInput]): Lesson
     deleteLesson(id: ID!, courseId: ID!, sectionId: String!): String
 `;

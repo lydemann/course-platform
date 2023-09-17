@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { produce } from 'immer';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
@@ -73,7 +72,7 @@ export const courseSectionsQuery = gql`
 })
 export class CourseResourcesService {
   private courseId: string;
-  constructor(private apollo: Apollo, private userService: UserService) {}
+  constructor(private apollo: Apollo, private userService: UserService) { }
 
   GET_COURSES_QUERY = gql`
     query getCourses {
@@ -96,14 +95,14 @@ export class CourseResourcesService {
     return this.userService.getCurrentUser().pipe(
       switchMap((user) =>
         this.apollo
-          .watchQuery<GetCourseSectionsResponseDTO>({
+          .query<GetCourseSectionsResponseDTO>({
             query: courseSectionsQuery,
             variables: {
               uid: user.uid,
               courseId,
             },
           })
-          .valueChanges.pipe(
+          .pipe(
             map(({ data }) => {
               const updatedSections = data.courseSections.map((section) => {
                 const completedLessonsMap = data.user.completedLessons.reduce(
@@ -186,9 +185,9 @@ export class CourseResourcesService {
                         const currentSection =
                           section.id === sectionId
                             ? {
-                                ...section,
-                                lessons: [...section.lessons, createLesson],
-                              }
+                              ...section,
+                              lessons: [...section.lessons, createLesson],
+                            }
                             : section;
                         return [
                           ...prev,
@@ -208,7 +207,7 @@ export class CourseResourcesService {
     );
   }
 
-  updateLesson(lesson: Lesson, courseId: string) {
+  updateLesson(lesson: Lesson, courseId: string, sectionId: string) {
     const updateLessonMutation = gql`
       mutation updateLessonMutation(
         $courseId: ID!
@@ -217,6 +216,7 @@ export class CourseResourcesService {
         $description: String
         $videoUrl: String
         $resources: [LessonResourceInput]
+        $sectionId: String!
       ) {
         updateLesson(
           courseId: $courseId
@@ -225,6 +225,7 @@ export class CourseResourcesService {
           description: $description
           videoUrl: $videoUrl
           resources: $resources
+          sectionId: $sectionId
         ) {
           ...LessonFields
         }
@@ -233,11 +234,10 @@ export class CourseResourcesService {
       ${courseFragments.lesson}
     `;
 
-    // TODO: this should be handled with automatic cache update by returning updated entity
     return this.userService.getCurrentUser().pipe(
       first(),
       switchMap((user) =>
-        this.apollo.mutate<any>({
+        this.apollo.mutate({
           mutation: updateLessonMutation,
           variables: {
             courseId,
@@ -246,39 +246,7 @@ export class CourseResourcesService {
             description: lesson.description,
             videoUrl: lesson.videoUrl,
             resources: lesson.resources,
-          },
-          update: (cache, { data: { updateLesson } }) => {
-            const courseSectionsData =
-              cache.readQuery<GetCourseSectionsResponseDTO>({
-                query: courseSectionsQuery,
-                variables: { uid: user.uid, courseId: this.courseId },
-              });
-
-            cache.writeQuery({
-              query: courseSectionsQuery,
-              data: {
-                ...courseSectionsData,
-                courseSections: [
-                  ...courseSectionsData.courseSections.reduce(
-                    (prev, section) => {
-                      const currentLessonIdx = section.lessons.findIndex(
-                        (les) => les.id === lesson.id
-                      );
-
-                      const updatedSection = produce(section, (draft) => {
-                        if (currentLessonIdx !== -1) {
-                          draft.lessons[currentLessonIdx] = updateLesson;
-                        }
-                      });
-
-                      return [...prev, { ...updatedSection } as CourseSection];
-                    },
-                    []
-                  ),
-                ],
-              },
-              variables: { uid: user.uid, courseId: this.courseId },
-            });
+            sectionId: sectionId,
           },
         })
       )
@@ -347,21 +315,12 @@ export class CourseResourcesService {
       }
     `;
 
-    return this.apollo.mutate({
+    return this.apollo.mutate<CourseSectionDTO>({
       mutation: createSectionMutation,
       variables: {
         sectionName,
         courseId,
-      },
-      refetchQueries: [
-        {
-          query: courseSectionsQuery,
-          variables: {
-            uid: this.userService.currentUser$.value.uid,
-            courseId: this.courseId,
-          },
-        },
-      ],
+      }
     });
   }
 
@@ -387,23 +346,14 @@ export class CourseResourcesService {
       }
     `;
 
-    return this.apollo.mutate({
+    return this.apollo.mutate<CourseSectionDTO>({
       mutation: updateSectionMutation,
       variables: {
         sectionId,
         sectionName,
         sectionTheme,
         courseId,
-      },
-      refetchQueries: [
-        {
-          query: courseSectionsQuery,
-          variables: {
-            uid: this.userService.currentUser$.value.uid,
-            courseId: this.courseId,
-          },
-        },
-      ],
+      }
     });
   }
   deleteSection(sectionId: string, courseId: string) {
@@ -418,16 +368,7 @@ export class CourseResourcesService {
       variables: {
         sectionId,
         courseId,
-      },
-      refetchQueries: [
-        {
-          query: courseSectionsQuery,
-          variables: {
-            uid: this.userService.currentUser$.value.uid,
-            courseId: this.courseId,
-          },
-        },
-      ],
+      }
     });
   }
 }

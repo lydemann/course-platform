@@ -4701,6 +4701,13 @@
     jquery "3.5.0"
     replace-in-file "^4.1.3"
 
+"@ngrx/component-store@^16.2.0":
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-16.2.0.tgz#507667c91ddc1f4d0568bdab3729fd45c6383992"
+  integrity sha512-XpLt2AY6BiITv/pQjr0ATNMRflxY0XWy/DRMaTvoR7DPH5o3E/wojbogpj9lDi07rTWmONlvmbUuUoF5QmKB0Q==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngrx/effects@16.1.0":
   version "16.1.0"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-16.1.0.tgz#6d8f46d15d32f13fac518361ab376bffb4138108"

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormGroup,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -12,8 +13,7 @@ import { filter, map } from 'rxjs/operators';
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 import {
   Lesson,
-  LessonResource,
-  LessonResourceType,
+  LessonResource
 } from '@course-platform/shared/interfaces';
 
 @Component({
@@ -23,32 +23,21 @@ import {
 })
 export class LessonAdminComponent implements OnInit {
   lesson$: Observable<Lesson>;
-  formGroup$: Observable<UntypedFormGroup> = of(null);
+  formGroup$: Observable<UntypedFormGroup> = of(new FormGroup({}));
   isAddingResource$ = new BehaviorSubject(false);
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.lesson$ = combineLatest([
-      this.courseAdminFacade.currentLesson$,
-      this.formGroup$,
-    ]).pipe(
-      map(([lesson, form]) => {
-        return {
-          ...lesson,
-          ...form?.value,
-        };
-      })
-    );
+    this.lesson$ = this.courseAdminFacade.currentLesson$;
     this.formGroup$ = combineLatest([
       this.lesson$,
-      this.isAddingResource$,
     ]).pipe(
       filter(([lesson]) => !!lesson),
-      map(([lesson, isAddingresource]) => {
+      map(([lesson]) => {
         const form = this.formBuilder.group({
           name: [lesson.name, Validators.required],
           description: [lesson.description, Validators.required],
@@ -65,15 +54,15 @@ export class LessonAdminComponent implements OnInit {
           ]),
         });
 
-        if (isAddingresource) {
-          const newResource = this.formBuilder.group({
-            id: [''],
-            name: [''],
-            url: [''],
-            type: [LessonResourceType.WorkSheet],
-          } as { [key in keyof LessonResource]: any });
-          (form.get('resources') as UntypedFormArray).push(newResource);
-        }
+        // if (isAddingresource) {
+        //   const newResource = this.formBuilder.group({
+        //     id: [''],
+        //     name: [''],
+        //     url: [''],
+        //     type: [LessonResourceType.WorkSheet],
+        //   } as { [key in keyof LessonResource]: any });
+        //   (form.get('resources') as UntypedFormArray).push(newResource);
+        // }
 
         return form;
       })
@@ -86,10 +75,10 @@ export class LessonAdminComponent implements OnInit {
 
   submit(formGroup: UntypedFormGroup, lesson: Lesson) {
     // TODO: show spinner
-    this.courseAdminFacade.saveLessonClicked({
+    this.courseAdminFacade.saveLesson({
       id: lesson.id,
-      ...formGroup.value,
-    } as Lesson);
+      ...formGroup.value
+    } as Lesson, this.route.snapshot.params['sectionId']);
     this.isAddingResource$.next(false);
   }
 
@@ -102,14 +91,14 @@ export class LessonAdminComponent implements OnInit {
       .controls as UntypedFormGroup[];
 
     const idxToRemove = resourcesFormGroups.findIndex(
-      (group) => group.get('id').value === resourceId
+      (group) => group.get('id')?.value === resourceId
     );
 
     (form.get('resources') as UntypedFormArray).removeAt(idxToRemove);
   }
 
   onDelete(lesson: Lesson) {
-    const sectionId = this.route.snapshot.params.sectionId;
+    const sectionId = this.route.snapshot.params['sectionId'];
     this.courseAdminFacade.deleteLessonClicked(sectionId, lesson.id);
   }
 }
