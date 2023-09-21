@@ -4,10 +4,12 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { LessonResourceType } from '@course-platform/shared/interfaces';
+import { LessonAdminForm } from '../lesson-admin.component';
 
 @Component({
   selector: 'app-lesson-admin-form',
@@ -16,24 +18,43 @@ import { LessonResourceType } from '@course-platform/shared/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LessonAdminFormComponent {
-  private _formGroup: UntypedFormGroup;
-  public get formGroup(): UntypedFormGroup {
+  private _formGroup!: LessonAdminForm;
+  public get formGroup(): LessonAdminForm {
     return this._formGroup;
   }
   @Input()
-  public set formGroup(formGroup: UntypedFormGroup) {
+  public set formGroup(formGroup: LessonAdminForm) {
     this._formGroup = formGroup;
-    this.hasTempResource =
-      formGroup.controls.resources['controls'][
-        formGroup.controls.resources['controls'].length - 1
-      ]?.controls.id.value === '';
   }
 
-  @Output() saveClicked = new EventEmitter<UntypedFormGroup>();
+  hasTempResource() {
+    const lastFormControl =
+      this.formGroup.controls.resources.controls[
+        this.formGroup.controls.resources.controls.length - 1
+      ];
+    return lastFormControl?.controls.id.value === '';
+  }
+
+  @Output() save = new EventEmitter<UntypedFormGroup>();
   @Output() deleteClicked = new EventEmitter<UntypedFormGroup>();
   @Output() addResourceClicked = new EventEmitter();
   @Output() deleteResourceClicked = new EventEmitter<string>();
-  hasTempResource: boolean;
+  private formBuilder = inject(FormBuilder);
+
+  addResource() {
+    const newResource = this.formBuilder.group({
+      id: '',
+      name: ['', Validators.required],
+      url: ['', Validators.required],
+      type: [LessonResourceType.WorkSheet, Validators.required],
+    });
+
+    this.formGroup.controls.resources.push(newResource);
+  }
+
+  onSave() {
+    this.save.emit(this.formGroup);
+  }
 
   get resourceTypes() {
     return [

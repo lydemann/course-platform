@@ -1,73 +1,71 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
+  FormArray,
+  FormBuilder,
+  FormControl,
   FormGroup,
   UntypedFormArray,
-  UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
-import {
-  Lesson,
-  LessonResource
-} from '@course-platform/shared/interfaces';
+import { Lesson, LessonResourceType } from '@course-platform/shared/interfaces';
+import { Observable } from 'rxjs';
+
+export type ResourceFormGroup = FormGroup<{
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+  url: FormControl<string | null>;
+  type: FormControl<LessonResourceType | null>;
+}>;
+
+export type LessonAdminResourcesFormArray = FormArray<ResourceFormGroup>;
+
+export type LessonAdminForm = FormGroup<{
+  name: FormControl<string | null>;
+  description: FormControl<string | null>;
+  videoUrl: FormControl<string | null>;
+  resources: LessonAdminResourcesFormArray;
+}>;
 
 @Component({
   selector: 'app-lesson-admin',
   templateUrl: './lesson-admin.component.html',
   styleUrls: ['./lesson-admin.component.scss'],
 })
-export class LessonAdminComponent implements OnInit {
-  lesson$: Observable<Lesson>;
-  formGroup$: Observable<UntypedFormGroup> = of(new FormGroup({}));
+export class LessonAdminComponent {
+  lesson$ = this.courseAdminFacade.currentLesson$;
+  formGroup$: Observable<LessonAdminForm> = combineLatest([this.lesson$]).pipe(
+    filter(([lesson]) => !!lesson),
+    map(([lesson]) => {
+      return this.formBuilder.group({
+        name: [lesson.name, Validators.required],
+        description: [lesson.description, Validators.required],
+        videoUrl: [lesson.videoUrl, Validators.required],
+        resources: this.formBuilder.array(
+          lesson.resources?.map((resource) => {
+            return this.formBuilder.group({
+              id: [resource.id],
+              name: [resource.name],
+              url: [resource.url],
+              type: [resource.type],
+            });
+          })
+        ),
+      });
+    })
+  );
+
   isAddingResource$ = new BehaviorSubject(false);
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute
-  ) { }
-
-  ngOnInit() {
-    this.lesson$ = this.courseAdminFacade.currentLesson$;
-    this.formGroup$ = combineLatest([
-      this.lesson$,
-    ]).pipe(
-      filter(([lesson]) => !!lesson),
-      map(([lesson]) => {
-        const form = this.formBuilder.group({
-          name: [lesson.name, Validators.required],
-          description: [lesson.description, Validators.required],
-          videoUrl: [lesson.videoUrl, Validators.required],
-          resources: this.formBuilder.array([
-            ...(lesson.resources?.map((resource) => {
-              return this.formBuilder.group({
-                id: [resource.id],
-                name: [resource.name],
-                url: [resource.url],
-                type: [resource.type],
-              } as { [key in keyof LessonResource]: any });
-            }) || []),
-          ]),
-        });
-
-        // if (isAddingresource) {
-        //   const newResource = this.formBuilder.group({
-        //     id: [''],
-        //     name: [''],
-        //     url: [''],
-        //     type: [LessonResourceType.WorkSheet],
-        //   } as { [key in keyof LessonResource]: any });
-        //   (form.get('resources') as UntypedFormArray).push(newResource);
-        // }
-
-        return form;
-      })
-    );
-  }
+  ) {}
 
   goBack() {
     this.courseAdminFacade.goToCourseAdmin();
@@ -75,10 +73,13 @@ export class LessonAdminComponent implements OnInit {
 
   submit(formGroup: UntypedFormGroup, lesson: Lesson) {
     // TODO: show spinner
-    this.courseAdminFacade.saveLesson({
-      id: lesson.id,
-      ...formGroup.value
-    } as Lesson, this.route.snapshot.params['sectionId']);
+    this.courseAdminFacade.saveLesson(
+      {
+        id: lesson.id,
+        ...formGroup.value,
+      } as Lesson,
+      this.route.snapshot.params['sectionId']
+    );
     this.isAddingResource$.next(false);
   }
 

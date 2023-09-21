@@ -7,7 +7,11 @@ import { CheckboxModule } from './checkbox/checkbox.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
 import { IconModule } from './icon/icon.module';
 import { InputModule } from './input/input.module';
-import { SelectComponent, SelectOptionGroupComponent } from './select';
+import {
+  SelectComponent,
+  SelectOptionComponent,
+  SelectOptionGroupComponent,
+} from './select';
 import { SpinnerOverlayWrapperModule } from './spinner-overlay-wrapper/spinner-overlay-wrapper.module';
 import { SpinnerModule } from './spinner/spinner.module';
 import { TextareaModule } from './textarea/textarea.module';
@@ -25,6 +29,7 @@ const IMPORTS = [
   DatePickerModule,
   InputModule,
   SelectComponent,
+  SelectOptionComponent,
   SelectOptionGroupComponent,
   ButtonModule,
   ToastModule,
