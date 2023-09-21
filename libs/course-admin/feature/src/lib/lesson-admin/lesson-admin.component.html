@@ -11,7 +11,7 @@
     class="mt-l"
     *ngIf="lesson$ | async as lesson"
     [formGroup]="formGroup"
-    (saveClicked)="submit($event, lesson)"
+    (save)="submit($event, lesson)"
     (deleteClicked)="onDelete(lesson)"
     (addResourceClicked)="onAddResourceClicked()"
     (deleteResourceClicked)="onDeleteResourceClicked($event, formGroup)"

@@ -20,52 +20,55 @@
   </mat-form-field>
 
   <h3 class="mt-m">Lesson resources</h3>
-
-  <div
-    class="mb-l"
-    *ngFor="
-      let resourceFromGroup of formGroup.controls.resources['controls'];
-      let i = index
-    "
-  >
-    <mat-form-field class="flex">
-      <mat-label>Name</mat-label>
-      <input matInput [formControl]="resourceFromGroup.controls.name" />
-    </mat-form-field>
-    <mat-form-field class="flex">
-      <mat-label>Url</mat-label>
-      <input matInput [formControl]="resourceFromGroup.controls.url" />
-    </mat-form-field>
-
-    <app-select class="flex" [formControl]="resourceFromGroup.controls.type">
-      <app-select-option
-        *ngFor="let resourceType of resourceTypes"
-        [value]="resourceType"
-      >
-        {{ resourceType }}
-      </app-select-option>
-    </app-select>
-
-    <app-button
-      color="warn"
-      type="button"
-      (clicked)="
-        deleteResourceClicked.emit(resourceFromGroup.controls.id.value)
+  <ng-container formArrayName="resources">
+    <div
+      class="mb-l"
+      *ngFor="
+        let resourceFromGroup of formGroup.controls.resources['controls'];
+        let i = index
       "
-      >delete resource</app-button
     >
-  </div>
+      <div [formGroup]="resourceFromGroup">
+        <mat-form-field class="flex">
+          <mat-label>Name</mat-label>
+          <input matInput [formControl]="resourceFromGroup.controls.name" />
+        </mat-form-field>
+        <mat-form-field class="flex">
+          <mat-label>Url</mat-label>
+          <input matInput [formControl]="resourceFromGroup.controls.url" />
+        </mat-form-field>
+
+        <app-select
+          class="flex"
+          [formControl]="resourceFromGroup.controls.type"
+        >
+          <app-select-option
+            *ngFor="let resourceType of resourceTypes"
+            [value]="resourceType"
+          >
+            {{ resourceType }}
+          </app-select-option>
+        </app-select>
+      </div>
+
+      <app-button
+        color="warn"
+        type="button"
+        (clicked)="
+          deleteResourceClicked.emit(resourceFromGroup.controls.id.value!)
+        "
+        >delete resource</app-button
+      >
+    </div>
+  </ng-container>
 
   <app-button
     class="mr-s"
-    *ngIf="!hasTempResource"
-    (clicked)="addResourceClicked.emit()"
+    [disabled]="hasTempResource()"
+    (clicked)="addResource()"
     >Add resource</app-button
   >
-  <app-button
-    class="mr-s"
-    color="success"
-    (clicked)="saveClicked.emit(formGroup)"
+  <app-button class="mr-s" color="success" (clicked)="onSave()"
     >Save lesson</app-button
   >
   <app-button color="warn" (clicked)="deleteClicked.emit(formGroup)"
