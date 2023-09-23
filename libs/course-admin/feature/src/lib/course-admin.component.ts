@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
@@ -21,7 +21,8 @@ export class CourseAdminComponent implements OnInit {
   constructor(
     private courseAdminFacadeService: CourseAdminFacadeService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute
   ) {}
   ngOnInit(): void {
     this.sections$ = this.courseAdminFacadeService.sections$;
@@ -29,7 +30,7 @@ export class CourseAdminComponent implements OnInit {
   }
 
   getLessonUrl(sectionId: string, lessonId: string, currentCourseId: string) {
-    const url = `/course-admin/${currentCourseId}/lesson-admin/${sectionId}/${lessonId}`;
+    const url = `lesson-admin/${sectionId}/${lessonId}`;
     return url;
   }
 
@@ -44,10 +45,7 @@ export class CourseAdminComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((lessonName) => {
       if (lessonName) {
-        this.courseAdminFacadeService.createLesson(
-          sectionId,
-          lessonName
-        );
+        this.courseAdminFacadeService.createLesson(sectionId, lessonName);
       }
     });
   }
@@ -64,17 +62,6 @@ export class CourseAdminComponent implements OnInit {
       event.currentIndex,
       currentCourseId
     );
-  }
-
-  onSectionClicked(event: Event, sectionId: string, currentCourseId: string) {
-    event.stopPropagation();
-
-    this.router.navigate([
-      'course-admin',
-      currentCourseId,
-      'section-admin',
-      sectionId,
-    ]);
   }
 
   onCreateSectionClicked(event: Event) {

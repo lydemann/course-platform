@@ -1,6 +1,8 @@
 <h1 class="mb-m">Edit Course Lesson</h1>
 
-<app-button (click)="goBack()" color="accent">Back to sections</app-button>
+<app-button [routerLink]="['../../..']" color="accent"
+  >Back to sections</app-button
+>
 <ng-container
   *ngIf="
     !(isAddingResource$ | async) && (formGroup$ | async) as formGroup;

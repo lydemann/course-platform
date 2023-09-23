@@ -18,14 +18,10 @@
       [expanded]="true"
     >
       <mat-expansion-panel-header>
-        <mat-panel-title
-          (click)="onSectionClicked($event, section.id, currentCourseId)"
-        >
+        <mat-panel-title [routerLink]="['section-admin', section.id]">
           {{ section.name }}
         </mat-panel-title>
-        <mat-panel-description
-          (click)="onSectionClicked($event, section.id, currentCourseId)"
-        >
+        <mat-panel-description [routerLink]="['section-admin', section.id]">
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div
