@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -29,14 +29,17 @@ export class CourseAdminComponent implements OnInit {
     this.currentCourseId$ = this.courseAdminFacadeService.currentCourseId$;
   }
 
-  getLessonUrl(sectionId: string, lessonId: string, currentCourseId: string) {
+  getLessonUrl(sectionId: string, lessonId: string) {
     const url = `lesson-admin/${sectionId}/${lessonId}`;
     return url;
   }
 
-  trackBy(index, item) {
+  trackBy: TrackByFunction<CourseSection> = (
+    _: number,
+    item: CourseSection
+  ) => {
     return item.id;
-  }
+  };
 
   onCreateLessonClicked(sectionId: string) {
     const dialogRef = this.dialog.open(CreateLessonModalComponent, {

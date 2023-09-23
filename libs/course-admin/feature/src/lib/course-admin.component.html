@@ -33,7 +33,7 @@
           cdkDrag
           class="lesson"
           *ngFor="let lesson of section.lessons"
-          [routerLink]="getLessonUrl(section.id, lesson.id, currentCourseId)"
+          [routerLink]="[getLessonUrl(section.id, lesson.id)]"
         >
           {{ lesson.name }}
         </div>
