@@ -1,8 +1,8 @@
-<h1 class="mb-m">
-  Edit Course Section
-</h1>
+<h1 class="mb-m">Edit Course Section</h1>
 
-<button (click)="goBack()">Back to sections</button>
+<app-button [routerLink]="['../../']" color="accent"
+  >Back to sections</app-button
+>
 <ng-container *ngIf="formGroup$ | async as formGroup; else loading">
   <app-section-admin-form
     class="mt-l"

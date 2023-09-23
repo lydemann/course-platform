@@ -2,17 +2,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
-import {
-  filter,
-  first,
-  switchMap
-} from 'rxjs/operators';
+import { filter, first, switchMap } from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
 import { CourseResourcesService } from '@course-platform/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { ComponentStore } from '@ngrx/component-store';
-import { SectionsStateService } from "./+state/sections-state.service";
+import { SectionsStateService } from './+state/sections-state.service';
 
 interface CourseAdminStore {
   sections: CourseSection[];
@@ -29,44 +25,56 @@ interface CourseAdminStore {
   providedIn: 'root',
 })
 export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
-
-  readonly sections$ = this.select(state => state.sections);
-  readonly isLoadingCourseSections$ = this.select(state => state.isLoadingCourseSections);
-  readonly loadCourseSectionsError$ = this.select(state => state.loadCourseSectionsError);
-  readonly currentSectionId$ = this.select(state => state.currentSectionId);
-  readonly currentLessonId$ = this.select(state => state.currentLessonId);
-  currentCourseId$ = this.select(state => state.currentCourseId);
-  readonly currentSection$ = this.select(this.currentSectionId$, this.sections$, (sectionId, sections) => {
-    return sections.find((section) => section.id === sectionId)!
-  }).pipe(
-    filter((section) => !!section)
-  )
-  readonly currentLesson$ = this.select(this.currentLessonId$, this.currentSection$, (lessonId, section) => {
-    return section.lessons.find((lesson) => lesson.id === lessonId)!;
-  }).pipe(
-    filter((lesson) => !!lesson)
-  )
+  readonly sections$ = this.select((state) => state.sections);
+  readonly isLoadingCourseSections$ = this.select(
+    (state) => state.isLoadingCourseSections
+  );
+  readonly loadCourseSectionsError$ = this.select(
+    (state) => state.loadCourseSectionsError
+  );
+  readonly currentSectionId$ = this.select((state) => state.currentSectionId);
+  readonly currentLessonId$ = this.select((state) => state.currentLessonId);
+  currentCourseId$ = this.select((state) => state.currentCourseId);
+  readonly currentSection$ = this.select(
+    this.currentSectionId$,
+    this.sections$,
+    (sectionId, sections) => {
+      return sections.find((section) => section.id === sectionId)!;
+    }
+  ).pipe(filter((section) => !!section));
+  readonly currentLesson$ = this.select(
+    this.currentLessonId$,
+    this.currentSection$,
+    (lessonId, section) => {
+      return section.lessons.find((lesson) => lesson.id === lessonId)!;
+    }
+  ).pipe(filter((lesson) => !!lesson));
   private snapshot: CourseAdminStore | null = null;
   private _setLesson = this.updater((state, lesson: Lesson) => {
-    const sectionIndex = state.sections.findIndex((section) => section.id === state.currentSectionId);
+    const sectionIndex = state.sections.findIndex(
+      (section) => section.id === state.currentSectionId
+    );
     const section = { ...state.sections[sectionIndex] };
-    const lessonIndex = section.lessons!.findIndex((l) => l.id === state.currentLessonId);
+    const lessonIndex = section.lessons!.findIndex(
+      (l) => l.id === state.currentLessonId
+    );
     section.lessons![lessonIndex] = lesson;
     return {
       ...state,
       sections: state.sections,
-    }
+    };
   });
   private _createSection = this.updater((state, section: CourseSection) => {
-
-
     return {
       ...state,
       isCreatingSection: false,
-      sections: [...state.sections, {
-        ...section
-      }],
-    }
+      sections: [
+        ...state.sections,
+        {
+          ...section,
+        },
+      ],
+    };
   });
   private _updateSection = this.updater((state, section: CourseSection) => {
     const sectionIndex = state.sections.findIndex((s) => s.id === section.id);
@@ -75,17 +83,19 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       ...state,
       isSavingLesson: false,
       sections: [...state.sections],
-    }
+    };
   });
-  private _deleteSection = this.updater((state, { sectionId }: { sectionId: string }) => {
-    const sectionIndex = state.sections.findIndex((s) => s.id === sectionId);
-    state.sections.splice(sectionIndex, 1);
-    return {
-      ...state,
-      isSavingLesson: false,
-      sections: [...state.sections],
+  private _deleteSection = this.updater(
+    (state, { sectionId }: { sectionId: string }) => {
+      const sectionIndex = state.sections.findIndex((s) => s.id === sectionId);
+      state.sections.splice(sectionIndex, 1);
+      return {
+        ...state,
+        isSavingLesson: false,
+        sections: [...state.sections],
+      };
     }
-  });
+  );
 
   private restoreLastSnapshot() {
     if (this.snapshot) {
@@ -97,48 +107,59 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.snapshot = this.get();
   }
 
-  private _createLesson = this.updater((state, { lessonId, sectionId }: { sectionId: string, lessonId: string }) => {
-    const lesson = {
-      id: lessonId,
-      name: '',
-      description: '',
-      videoUrl: '',
-      resources: [],
-    } as Lesson;
+  private _createLesson = this.updater(
+    (
+      state,
+      { lessonId, sectionId }: { sectionId: string; lessonId: string }
+    ) => {
+      const lesson = {
+        id: lessonId,
+        name: '',
+        description: '',
+        videoUrl: '',
+        resources: [],
+      } as Lesson;
 
-    const sectionIndex = state.sections.findIndex((section) => section.id === sectionId);
-    const section = state.sections[sectionIndex];
-    section.lessons = [...section.lessons!, lesson];
+      const sectionIndex = state.sections.findIndex(
+        (section) => section.id === sectionId
+      );
+      const section = state.sections[sectionIndex];
+      section.lessons = [...section.lessons!, lesson];
 
-    return {
-      ...state,
-      sections: [...state.sections],
+      return {
+        ...state,
+        sections: [...state.sections],
+      };
     }
-  });
+  );
 
   setSections = this.updater((state, sections: CourseSection[]) => ({
     ...state,
     sections,
     isLoadingCourseSections: false,
-    loadCourseSectionsError: null
+    loadCourseSectionsError: null,
   }));
 
-  setIsLoadingCourseSections = this.updater((state, isLoadingCourseSections: boolean) => ({
-    ...state,
-    isLoadingCourseSections: isLoadingCourseSections
-  }));
+  setIsLoadingCourseSections = this.updater(
+    (state, isLoadingCourseSections: boolean) => ({
+      ...state,
+      isLoadingCourseSections: isLoadingCourseSections,
+    })
+  );
 
-  setLoadCourseSectionsError = this.updater((state, loadCourseSectionsError: Error) => ({
-    ...state,
-    loadCourseSectionsError: loadCourseSectionsError
-  }));
+  setLoadCourseSectionsError = this.updater(
+    (state, loadCourseSectionsError: Error) => ({
+      ...state,
+      loadCourseSectionsError: loadCourseSectionsError,
+    })
+  );
   setCourseId = this.updater((state, currentCourseId: string) => ({
     ...state,
-    currentCourseId
+    currentCourseId,
   }));
   setIsCreatingSection = this.updater((state, isCreatingSection: boolean) => ({
     ...state,
-    isCreatingSection
+    isCreatingSection,
   }));
 
   constructor(
@@ -158,20 +179,22 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     });
 
     // TODO: call this from top level resolver
-    this.currentCourseId$.pipe(
-      filter((courseId) => !!courseId),
-      first(),
-      switchMap((courseId) =>
-        this.courseResourcesService.getCourseSections(courseId!)
+    this.currentCourseId$
+      .pipe(
+        filter((courseId) => !!courseId),
+        first(),
+        switchMap((courseId) =>
+          this.courseResourcesService.getCourseSections(courseId!)
+        )
       )
-    ).subscribe((sections) => {
-      this.setSections(sections);
-    });
+      .subscribe((sections) => {
+        this.setSections(sections);
+      });
   }
 
   goToCourseAdmin() {
-    const courseId = this.get(state => state.currentCourseId);
-    this.router.navigate(['course-admin', courseId]);
+    const courseId = this.get((state) => state.currentCourseId);
+    this.router.navigate(['../course-admin', courseId]);
   }
 
   setSchoolId(schoolId: any) {
@@ -198,7 +221,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   saveLesson(lesson: Lesson, sectionId: string) {
-    const courseId = this.get(state => state.currentCourseId)!;
+    const courseId = this.get((state) => state.currentCourseId)!;
     this.createSnapshot();
     this._setLesson(lesson);
 
@@ -210,7 +233,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
         },
         error: () => {
           this.restoreLastSnapshot();
-        }
+        },
       });
   }
 
@@ -252,18 +275,21 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   createSectionSubmitted(sectionName: string) {
     this.setIsCreatingSection(true);
 
-    const courseId = this.get(state => state.currentCourseId)!;
+    const courseId = this.get((state) => state.currentCourseId)!;
     this.courseResourcesService
       .createSection(sectionName, courseId)
       .subscribe((section) => {
-
-        if(section.errors) {
+        if (section.errors) {
           this.setIsCreatingSection(false);
           throw new Error(section.errors[0].message);
         }
 
         const createdSection = section.data!;
-        this._createSection({id: createdSection.id, name: createdSection?.name, lessons: createdSection?.lessons} as CourseSection)
+        this._createSection({
+          id: createdSection.id,
+          name: createdSection?.name,
+          lessons: createdSection?.lessons,
+        } as CourseSection);
       });
   }
 
@@ -271,11 +297,11 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.patchState({
       isSavingLesson: true,
     });
-    const courseId = this.get(state => state.currentCourseId)!;
+    const courseId = this.get((state) => state.currentCourseId)!;
     this.courseResourcesService
       .updateSection(section.id, section.name, section.theme, courseId)
       .subscribe(() => {
-        this._updateSection(section)
+        this._updateSection(section);
       });
   }
 
@@ -300,7 +326,6 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.courseResourcesService
       .createLesson(sectionId, section, courseId)
       .subscribe((lessonId) => {
-
         this._createLesson({ lessonId, sectionId });
         // TODO: error handling
       });

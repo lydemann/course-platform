@@ -7,12 +7,12 @@
       fxFlex.gt-sm="33"
       fxFlex.gt-xs="50"
       class="course-card"
-      ><mat-card-title [routerLink]="['course-admin', course.id]">{{
+      ><mat-card-title [routerLink]="['../course-admin', course.id]">{{
         course.name
       }}</mat-card-title>
       <img
         mat-card-image
-        [routerLink]="['/course-admin', course.id]"
+        [routerLink]="['../course-admin', course.id]"
         src="/assets/img/login.jpg"
         alt="course picture"
       />

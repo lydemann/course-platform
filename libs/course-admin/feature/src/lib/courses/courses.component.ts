@@ -41,6 +41,7 @@ export class CoursesComponent implements OnInit {
       }
     });
   }
+
   onEditCourseClick(course: Course) {
     const dialogRef = this.dialog.open(CourseModalComponent, {
       width: '600px',
