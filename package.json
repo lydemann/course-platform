@@ -154,7 +154,7 @@
     "nx-cloud": "16.1.1",
     "open": "^7.0.3",
     "post-npm-install": "^2.0.0",
-    "postcss": "^8.4.5",
+    "postcss": "^8.4.31",
     "postcss-import": "~14.1.0",
     "postcss-preset-env": "~7.5.0",
     "postcss-url": "~10.1.3",
