@@ -25,7 +25,8 @@ export const lessonMutationResolvers = {
       sectionId,
       name,
       description,
-      videoUrl,
+      videoUrl: videoUrl || '',
+      resources: [],
     } as LessonDTO);
 
     const sectionRef = firestoreDB.doc(

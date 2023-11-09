@@ -72,7 +72,7 @@ export const courseSectionsQuery = gql`
 })
 export class CourseResourcesService {
   private courseId: string;
-  constructor(private apollo: Apollo, private userService: UserService) { }
+  constructor(private apollo: Apollo, private userService: UserService) {}
 
   GET_COURSES_QUERY = gql`
     query getCourses {
@@ -152,7 +152,7 @@ export class CourseResourcesService {
     sectionId: string,
     lessonName = '',
     courseId: string
-  ): Observable<string> {
+  ): Observable<Lesson> {
     const createLessonMutation = gql`
       mutation {
         createLesson(courseId: "${courseId}", sectionId: "${sectionId}", name: "${lessonName}") {
@@ -163,48 +163,11 @@ export class CourseResourcesService {
       ${courseFragments.lesson}
     `;
 
-    return this.userService.getCurrentUser().pipe(
-      switchMap((user) =>
-        this.apollo
-          .mutate<any>({
-            mutation: createLessonMutation,
-            update: (cache, { data: { createLesson } }) => {
-              const courseSectionsData =
-                cache.readQuery<GetCourseSectionsResponseDTO>({
-                  query: courseSectionsQuery,
-                  variables: { uid: user.uid, courseId: this.courseId },
-                });
-
-              cache.writeQuery({
-                query: courseSectionsQuery,
-                data: {
-                  ...courseSectionsData,
-                  courseSections: [
-                    ...courseSectionsData.courseSections.reduce(
-                      (prev, section) => {
-                        const currentSection =
-                          section.id === sectionId
-                            ? {
-                              ...section,
-                              lessons: [...section.lessons, createLesson],
-                            }
-                            : section;
-                        return [
-                          ...prev,
-                          { ...currentSection } as CourseSection,
-                        ];
-                      },
-                      []
-                    ),
-                  ],
-                },
-                variables: { uid: user.uid, courseId: this.courseId },
-              });
-            },
-          })
-          .pipe(map(({ data }) => data))
-      )
-    );
+    return this.apollo
+      .mutate<any>({
+        mutation: createLessonMutation,
+      })
+      .pipe(map(({ data }) => data.createLesson));
   }
 
   updateLesson(lesson: Lesson, courseId: string, sectionId: string) {
@@ -320,7 +283,7 @@ export class CourseResourcesService {
       variables: {
         sectionName,
         courseId,
-      }
+      },
     });
   }
 
@@ -353,7 +316,7 @@ export class CourseResourcesService {
         sectionName,
         sectionTheme,
         courseId,
-      }
+      },
     });
   }
   deleteSection(sectionId: string, courseId: string) {
@@ -368,7 +331,7 @@ export class CourseResourcesService {
       variables: {
         sectionId,
         courseId,
-      }
+      },
     });
   }
 }

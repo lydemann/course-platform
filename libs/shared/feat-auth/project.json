@@ -27,8 +27,5 @@
       "style": "scss"
     }
   },
-  "tags": [
-    "scope:shared",
-    "type:feature"
-  ]
+  "tags": ["scope:shared", "type:domain"]
 }

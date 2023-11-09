@@ -77,7 +77,7 @@
     "dotenv-json": "^1.0.0",
     "firebase": "^9.8.2",
     "firebase-admin": "11.10.1",
-    "firebase-functions": "4.4.1",
+    "firebase-functions": "^4.5.0",
     "graphql": "^15.0.0",
     "immer": "^8.0.0",
     "inversify": "^5.0.5",

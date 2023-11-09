@@ -47,7 +47,7 @@ export class LessonAdminComponent {
         description: [lesson.description, Validators.required],
         videoUrl: [lesson.videoUrl, Validators.required],
         resources: this.formBuilder.array(
-          lesson.resources?.map((resource) => {
+          (lesson.resources || [])?.map((resource) => {
             return this.formBuilder.group({
               id: [resource.id],
               name: [resource.name],

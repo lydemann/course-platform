@@ -108,23 +108,30 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   private _createLesson = this.updater(
-    (
-      state,
-      { lessonId, sectionId }: { sectionId: string; lessonId: string }
-    ) => {
-      const lesson = {
-        id: lessonId,
-        name: '',
-        description: '',
-        videoUrl: '',
-        resources: [],
-      } as Lesson;
-
+    (state, { lesson, sectionId }: { sectionId: string; lesson: Lesson }) => {
       const sectionIndex = state.sections.findIndex(
         (section) => section.id === sectionId
       );
       const section = state.sections[sectionIndex];
       section.lessons = [...section.lessons!, lesson];
+
+      return {
+        ...state,
+        sections: [...state.sections],
+      };
+    }
+  );
+
+  private _deleteLesson = this.updater(
+    (
+      state,
+      { lessonId, sectionId }: { sectionId: string; lessonId: string }
+    ) => {
+      const sectionIndex = state.sections.findIndex(
+        (section) => section.id === sectionId
+      );
+      const section = state.sections[sectionIndex];
+      section.lessons = section.lessons.filter((l) => l.id !== lessonId);
 
       return {
         ...state,
@@ -325,8 +332,8 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     const courseId = this.get().currentCourseId!;
     this.courseResourcesService
       .createLesson(sectionId, section, courseId)
-      .subscribe((lessonId) => {
-        this._createLesson({ lessonId, sectionId });
+      .subscribe((createdLesson) => {
+        this._createLesson({ lesson: createdLesson, sectionId });
         // TODO: error handling
       });
   }
@@ -337,6 +344,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.courseResourcesService
       .deleteLesson(sectionId, lessonId, courseId)
       .subscribe(() => {
+        this._deleteLesson({ sectionId, lessonId });
         this.router.navigate(['course-admin', courseId]);
       });
   }
