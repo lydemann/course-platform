@@ -38,7 +38,7 @@
     }
   },
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultProject": "course-client",

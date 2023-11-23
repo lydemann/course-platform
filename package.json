@@ -8,7 +8,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "test:pr": "npm run affected:test -- --base origin/master --head HEAD --parallel",
+    "test:pr": "npm run affected:test -- --base origin/main --head HEAD --parallel",
     "nx-decorate-angular-cli": "node ./decorate-angular-cli.js",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",

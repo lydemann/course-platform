@@ -1,7 +1,7 @@
 trigger:
-  - master
+  - main
 pr:
-  - master
+  - main
 
 variables:
   CI: 'true'
@@ -36,8 +36,8 @@ jobs:
 
       - script: npx nx-cloud start-agent
 
-  - job: master
-    displayName: Nx Cloud master
+  - job: main
+    displayName: Nx Cloud main
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -56,7 +56,7 @@ jobs:
         env:
           AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
 
-      - script: git branch --track master origin/master
+      - script: git branch --track main origin/main
 
       - task: Cache@2
         inputs:
