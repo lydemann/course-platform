@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import {
   createServiceFactory,
   SpectatorService,
-  SpyObject
+  SpyObject,
 } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -11,8 +11,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 
+import { UserService } from '@course-platform/shared/auth-domain';
 import { CourseResourcesService } from '@course-platform/shared/domain';
-import { UserService } from '@course-platform/shared/feat-auth';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';
 import { CourseEffects } from './course.effects';
@@ -29,9 +29,9 @@ describe('CourseEffects', () => {
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({
-        selectors: [{ selector: CourseSelectors.selectCourseId, value: '123' }]
-      })
-    ]
+        selectors: [{ selector: CourseSelectors.selectCourseId, value: '123' }],
+      }),
+    ],
   });
 
   beforeEach(() => {
@@ -52,7 +52,7 @@ describe('CourseEffects', () => {
       actions$ = hot('a', { a: CourseActions.courseInitiated });
 
       const expected = cold('a', {
-        a: CourseActions.getCourseSectionsSuccess({ courseSections })
+        a: CourseActions.getCourseSectionsSuccess({ courseSections }),
       });
       expect(spectator.service.fetchCourseSections$).toBeObservable(expected);
     });
@@ -65,7 +65,7 @@ describe('CourseEffects', () => {
       actions$ = hot('a', { a: CourseActions.courseInitiated });
 
       const expected = cold('a', {
-        a: CourseActions.getCourseSectionsFailed({ error })
+        a: CourseActions.getCourseSectionsFailed({ error }),
       });
       expect(spectator.service.fetchCourseSections$).toBeObservable(expected);
     });

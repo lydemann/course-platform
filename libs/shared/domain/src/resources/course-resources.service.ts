@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
-import { UserService } from '@course-platform/shared/feat-auth';
+import { UserService } from '@course-platform/shared/auth-domain';
 import {
   Course,
   CourseSection,
@@ -72,7 +72,7 @@ export const courseSectionsQuery = gql`
 })
 export class CourseResourcesService {
   private courseId: string;
-  constructor(private apollo: Apollo, private userService: UserService) { }
+  constructor(private apollo: Apollo, private userService: UserService) {}
 
   GET_COURSES_QUERY = gql`
     query getCourses {
@@ -185,9 +185,9 @@ export class CourseResourcesService {
                         const currentSection =
                           section.id === sectionId
                             ? {
-                              ...section,
-                              lessons: [...section.lessons, createLesson],
-                            }
+                                ...section,
+                                lessons: [...section.lessons, createLesson],
+                              }
                             : section;
                         return [
                           ...prev,
@@ -320,7 +320,7 @@ export class CourseResourcesService {
       variables: {
         sectionName,
         courseId,
-      }
+      },
     });
   }
 
@@ -353,7 +353,7 @@ export class CourseResourcesService {
         sectionName,
         sectionTheme,
         courseId,
-      }
+      },
     });
   }
   deleteSection(sectionId: string, courseId: string) {
@@ -368,7 +368,7 @@ export class CourseResourcesService {
       variables: {
         sectionId,
         courseId,
-      }
+      },
     });
   }
 }

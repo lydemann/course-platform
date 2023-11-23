@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
-import { UserService } from '@course-platform/shared/feat-auth';
+import { UserService } from '@course-platform/shared/auth-domain';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectIfLoggedOutResolver implements Resolve<boolean> {

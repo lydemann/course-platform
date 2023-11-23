@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { CourseClientFacade } from '@course-platform/course-client-lib';
-import { UserService } from '@course-platform/shared/feat-auth';
+import { UserService } from '@course-platform/shared/auth-domain';
 
 interface NavigationItem {
   link: string;

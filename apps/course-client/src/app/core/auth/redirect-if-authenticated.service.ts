@@ -4,14 +4,14 @@ import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
-import { UserService } from '@course-platform/shared/feat-auth';
+import { UserService } from '@course-platform/shared/auth-domain';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectIfAuthenticatedResolver implements Resolve<boolean> {
   constructor(
     public afAuth: Auth,
     public userService: UserService,
-    private router: Router,
+    private router: Router
   ) {}
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.userService.getCurrentUser().pipe(
@@ -21,7 +21,7 @@ export class RedirectIfAuthenticatedResolver implements Resolve<boolean> {
           this.router.navigate(['courses']);
         }
         return true;
-      }),
+      })
     );
   }
 }

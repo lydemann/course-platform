@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -8,25 +13,27 @@ export class AuthService {
   constructor(public afAuth: Auth) {}
   doRegister(value) {
     return new Promise<any>((resolve, reject) => {
-        createUserWithEmailAndPassword(this.afAuth, value.email, value.password,)
-        .then(
-          (res) => {
-            resolve(res);
-          },
-          (err) => reject(err)
-        );
+      createUserWithEmailAndPassword(
+        this.afAuth,
+        value.email,
+        value.password
+      ).then(
+        (res) => {
+          resolve(res);
+        },
+        (err) => reject(err)
+      );
     });
   }
 
   doLogin(value) {
     return new Promise<any>((resolve, reject) => {
-        signInWithEmailAndPassword(this.afAuth, value.email, value.password)
-        .then(
-          (res) => {
-            resolve(res);
-          },
-          (err) => reject(err)
-        );
+      signInWithEmailAndPassword(this.afAuth, value.email, value.password).then(
+        (res) => {
+          resolve(res);
+        },
+        (err) => reject(err)
+      );
     });
   }
 

@@ -7,7 +7,7 @@ import { SetTokenInterceptor } from './auth/set-token.interceptor';
 @NgModule({
   imports: [CommonModule],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: SetTokenInterceptor, multi: true }
-  ]
+    { provide: HTTP_INTERCEPTORS, useClass: SetTokenInterceptor, multi: true },
+  ],
 })
-export class SharedFeatAuthModule {}
+export class SharedAuthDomainModule {}

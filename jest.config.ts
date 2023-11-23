@@ -1,4 +1,4 @@
-const { getJestProjects } = require('@nx/jest');
+import { getJestProjects } from '@nx/jest';
 
 export default {
   projects: [
@@ -10,7 +10,7 @@ export default {
     '<rootDir>/libs/shared/util/util-feature-toggle',
     '<rootDir>/apps/course-service',
     '<rootDir>/libs/shared/data-access',
-    '<rootDir>/libs/shared/feat-auth',
+    '<rootDir>/libs/shared/auth-domain',
     '<rootDir>/libs/course-admin-lib',
   ],
 };

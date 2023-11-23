@@ -1,15 +1,18 @@
 /* eslint-disable */
 export default {
-  displayName: 'shared-feat-auth',
-  preset: '../../../jest.preset.js',
+  displayName: 'shared-auth-domain',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: {  },
+  globals: {},
   coverageDirectory: '../../../coverage/libs/tester',
   transform: {
-    '^.+\\.(ts|mjs|js|html)$': ['jest-preset-angular', {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.(html|svg)$',
-    }],
+    '^.+\\.(ts|mjs|js|html)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+      },
+    ],
   },
   transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   snapshotSerializers: [

@@ -13,11 +13,11 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
+import { UserService } from '@course-platform/shared/auth-domain';
 import {
   CourseResourcesService,
   selectRouteParam,
 } from '@course-platform/shared/domain';
-import { UserService } from '@course-platform/shared/feat-auth';
 import { CourseSelectors } from '../state/course.selectors';
 import { CourseActions } from './course.actions';
 

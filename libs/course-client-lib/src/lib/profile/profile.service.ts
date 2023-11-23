@@ -3,8 +3,13 @@ import 'firebase/auth';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { reauthenticateWithCredential, updateEmail, updatePassword, updateProfile } from '@angular/fire/auth';
-import { UserService } from '@course-platform/shared/feat-auth';
+import {
+  reauthenticateWithCredential,
+  updateEmail,
+  updatePassword,
+  updateProfile,
+} from '@angular/fire/auth';
+import { UserService } from '@course-platform/shared/auth-domain';
 import { AuthCredential, EmailAuthProvider, User } from 'firebase/auth';
 
 @Injectable({
@@ -36,11 +41,10 @@ export class ProfileService {
   }
 
   async updateEmail(newEmail: string, password: string): Promise<void> {
-    const credential: AuthCredential =
-      EmailAuthProvider.credential(
-        this.currentUser.email,
-        password
-      );
+    const credential: AuthCredential = EmailAuthProvider.credential(
+      this.currentUser.email,
+      password
+    );
     try {
       await reauthenticateWithCredential(this.currentUser, credential);
       await updateEmail(this.currentUser, newEmail);
@@ -54,11 +58,10 @@ export class ProfileService {
     newPassword: string,
     oldPassword: string
   ): Promise<void> {
-    const credential: AuthCredential =
-      EmailAuthProvider.credential(
-        this.currentUser.email,
-        oldPassword
-      );
+    const credential: AuthCredential = EmailAuthProvider.credential(
+      this.currentUser.email,
+      oldPassword
+    );
     await reauthenticateWithCredential(this.currentUser, credential);
     return updatePassword(this.currentUser, newPassword);
   }

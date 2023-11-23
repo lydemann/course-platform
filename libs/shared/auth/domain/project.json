@@ -1,23 +1,23 @@
 {
-  "name": "shared-feat-auth",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "shared-auth-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/shared/feat-auth/src",
+  "sourceRoot": "libs/shared/auth-domain/src",
   "prefix": "course-platform",
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/shared/feat-auth/**/*.ts",
-          "libs/shared/feat-auth/**/*.html"
+          "libs/shared/auth/domain/**/*.ts",
+          "libs/shared/auth/domain/**/*.html"
         ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/feat-auth/jest.config.ts",
+        "jestConfig": "libs/shared/auth/domain/jest.config.ts",
         "passWithNoTests": true
       }
     }
@@ -27,8 +27,5 @@
       "style": "scss"
     }
   },
-  "tags": [
-    "scope:shared",
-    "type:feature"
-  ]
+  "tags": ["scope:shared", "type:domain"]
 }
