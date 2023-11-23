@@ -73,10 +73,10 @@
       "@course-platform/course-client-lib": [
         "libs/course-client-lib/src/index.ts"
       ],
-      "@course-platform/shared/domain": ["libs/shared/domain/src/index.ts"],
-      "@course-platform/shared/feat-auth": [
-        "libs/shared/feat-auth/src/index.ts"
+      "@course-platform/shared/auth-domain": [
+        "libs/shared/auth/domain/src/index.ts"
       ],
+      "@course-platform/shared/domain": ["libs/shared/domain/src/index.ts"],
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
       ],

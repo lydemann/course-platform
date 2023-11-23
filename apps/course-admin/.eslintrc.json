@@ -1,6 +1,6 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*", "environments/*"],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -8,9 +8,6 @@
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
-      "parserOptions": {
-        "project": ["apps/course-admin/tsconfig.*?.json"]
-      },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -28,7 +25,8 @@
             "style": "kebab-case"
           }
         ]
-      }
+      },
+      "plugins": ["@angular-eslint/eslint-plugin", "@typescript-eslint"]
     },
     {
       "files": ["*.html"],

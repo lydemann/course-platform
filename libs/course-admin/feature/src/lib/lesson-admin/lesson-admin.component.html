@@ -5,7 +5,7 @@
 >
 <ng-container
   *ngIf="
-    !(isAddingResource$ | async) && (formGroup$ | async) as formGroup;
+    (isAddingResource$ | async) === false && (formGroup$ | async) as formGroup;
     else loading
   "
 >

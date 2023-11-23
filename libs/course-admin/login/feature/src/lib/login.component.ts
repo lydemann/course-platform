@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '@course-platform/shared/feat-auth';
+import { AuthService } from '@course-platform/shared/auth-domain';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,7 @@ import { AuthService } from '@course-platform/shared/feat-auth';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  loginForm: UntypedFormGroup;
+  loginForm!: UntypedFormGroup;
   errorMessage = '';
 
   constructor(
@@ -32,7 +32,7 @@ export class LoginComponent {
     });
   }
 
-  tryLogin(value) {
+  tryLogin(value: unknown) {
     this.authService.doLogin(value).then(
       (res) => {
         // TODO: when extracting to shared component, set redirect url as input

@@ -32,16 +32,15 @@ export class UserService {
   updateCurrentUser(value) {
     return new Promise<any>((resolve, reject) => {
       const user = this.afAuth.currentUser;
-        updateProfile(user,{
-          displayName: value.name,
-          photoURL: user.photoURL,
-        })
-        .then(
-          (res) => {
-            resolve(res);
-          },
-          (err) => reject(err)
-        );
+      updateProfile(user, {
+        displayName: value.name,
+        photoURL: user.photoURL,
+      }).then(
+        (res) => {
+          resolve(res);
+        },
+        (err) => reject(err)
+      );
     });
   }
 }

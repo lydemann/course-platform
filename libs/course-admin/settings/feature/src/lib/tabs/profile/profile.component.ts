@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { User } from '@angular/fire/auth';
 import { SharedModule } from '@course-platform/course-admin/shared/ui';
 import { ProfileService } from '@course-platform/course-client-lib';
-import { AuthService } from '@course-platform/shared/feat-auth';
+import { AuthService } from '@course-platform/shared/auth-domain';
 
 @Component({
   selector: 'app-profile',

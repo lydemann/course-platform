@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '@course-platform/shared/feat-auth';
+import { AuthService } from '@course-platform/shared/auth-domain';
 
 @Component({
   selector: 'app-login',

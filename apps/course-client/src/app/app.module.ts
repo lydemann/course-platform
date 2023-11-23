@@ -7,11 +7,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { environment } from '@course-platform/course-client-env';
 import { CourseClientLibModule } from '@course-platform/course-client-lib';
-import {
-  Endpoints,
-  ENDPOINTS_TOKEN,
-} from '@course-platform/shared/domain';
-import { SharedFeatAuthModule } from '@course-platform/shared/feat-auth';
+import { SharedFeatAuthModule } from '@course-platform/shared/auth-domain';
+import { Endpoints, ENDPOINTS_TOKEN } from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
