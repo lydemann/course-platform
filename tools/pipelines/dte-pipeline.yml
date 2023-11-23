@@ -22,7 +22,18 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-      - script: npm ci
+      - task: Cache@2
+        inputs:
+          key: '"yarn" | "$(Agent.OS)" | yarn.lock'
+          restoreKeys: |
+            "yarn" | "$(Agent.OS)"
+            "yarn"
+          path: $(YARN_CACHE_FOLDER)
+        displayName: Cache Yarn packages
+
+      - script: yarn --frozen-lockfile
+        displayName: 'Install dependencies'
+
       - script: npx nx-cloud start-agent
 
   - job: master
@@ -46,7 +57,18 @@ jobs:
           AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
 
       - script: git branch --track master origin/master
-      - script: npm ci
+
+      - task: Cache@2
+        inputs:
+          key: '"yarn" | "$(Agent.OS)" | yarn.lock'
+          restoreKeys: |
+            "yarn" | "$(Agent.OS)"
+            "yarn"
+          path: $(YARN_CACHE_FOLDER)
+        displayName: Cache Yarn packages
+
+      - script: yarn --frozen-lockfile
+        displayName: 'Install dependencies'
       - script: npx nx-cloud start-ci-run --stop-agents-after="build"
       - script: npx nx-cloud record -- npx nx format:check --base=$(BASE_SHA) --head=$(HEAD_SHA)
       - script: npx nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) -t lint,test,build --parallel=2
