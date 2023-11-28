@@ -49,7 +49,8 @@
       "{workspaceRoot}/tsconfig.json",
       "{workspaceRoot}/tslint.json",
       "{workspaceRoot}/nx.json",
-      "{workspaceRoot}/webpack.node.config.js"
+      "{workspaceRoot}/webpack.node.config.js",
+      "{workspaceRoot}/tools/**/*"
     ],
     "production": ["default", "!{projectRoot}/src/test-setup.[jt]s"]
   }
