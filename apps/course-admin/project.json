@@ -49,6 +49,7 @@
           "path": "apps/course-admin/webpack.config.js"
         }
       },
+      "defaultConfiguration": "production",
       "configurations": {
         "production": {
           "fileReplacements": [
