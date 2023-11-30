@@ -47,6 +47,7 @@
           "path": "apps/course-client/webpack.config.js"
         }
       },
+      "defaultConfiguration": "production",
       "configurations": {
         "production": {
           "fileReplacements": [
