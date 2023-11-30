@@ -72,11 +72,11 @@ jobs:
         displayName: Start CI run
       - script: yarn nx-cloud record -- yarn nx format:check --base=$(BASE_SHA) --head=$(HEAD_SHA)
         displayName: Check format
-      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=lint --parallel=3
+      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=lint --parallel=3 --skip-nx-cache
         displayName: Run lint
-      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=test --parallel=3 --ci --code-coverage
+      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=test --parallel=3 --ci --code-coverage --skip-nx-cache
         displayName: Run test
-      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3
+      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3 --skip-nx-cache
         displayName: Run build
         # archive and publish artifacts
       - task: ArchiveFiles@2
