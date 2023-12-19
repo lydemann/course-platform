@@ -6,19 +6,12 @@
   "generators": {},
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/domain/**/*.ts",
-          "libs/shared/domain/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/domain/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/domain/jest.config.ts"
       }
     }
   },

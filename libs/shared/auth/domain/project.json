@@ -6,19 +6,12 @@
   "prefix": "course-platform",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/auth/domain/**/*.ts",
-          "libs/shared/auth/domain/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/auth/domain/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/auth/domain/jest.config.ts"
       }
     }
   },

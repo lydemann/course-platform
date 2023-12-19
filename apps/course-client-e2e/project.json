@@ -18,19 +18,9 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/course-client-e2e/**/*.ts",
-          "apps/course-client-e2e/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
-  "tags": [
-    "scope:course-client"
-  ],
-  "implicitDependencies": [
-    "course-client"
-  ]
+  "tags": ["scope:course-client"],
+  "implicitDependencies": ["course-client"]
 }

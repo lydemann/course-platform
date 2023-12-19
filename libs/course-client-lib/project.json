@@ -6,19 +6,12 @@
   "prefix": "app",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/course-client-lib/**/*.ts",
-          "libs/course-client-lib/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/course-client-lib/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/course-client-lib/jest.config.ts"
       }
     }
   },
@@ -27,8 +20,5 @@
       "style": "scss"
     }
   },
-  "tags": [
-    "scope:course-client",
-    "type:domain"
-  ]
+  "tags": ["scope:course-client", "type:domain"]
 }
