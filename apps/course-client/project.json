@@ -94,13 +94,13 @@
       "executor": "@nx/angular:module-federation-dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "course-client:build:production"
+          "buildTarget": "course-client:build:production"
         },
         "development": {
-          "browserTarget": "course-client:build:development"
+          "buildTarget": "course-client:build:development"
         },
         "local": {
-          "browserTarget": "course-client:build:local"
+          "buildTarget": "course-client:build:local"
         }
       },
       "defaultConfiguration": "development",
@@ -112,23 +112,16 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "course-client:build"
+        "buildTarget": "course-client:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/course-client/**/*.ts",
-          "apps/course-client/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/course-client/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/course-client/jest.config.ts"
       }
     },
     "deploy": {

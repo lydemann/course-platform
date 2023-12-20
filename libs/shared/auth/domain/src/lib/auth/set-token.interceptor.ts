@@ -16,9 +16,9 @@ export class SetTokenInterceptor implements HttpInterceptor {
   constructor(private userService: UserService, private auth: Auth) {}
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     if (!this.userService.currentUser$.value || !this.auth.tenantId) {
       return next.handle(req);
     }

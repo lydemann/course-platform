@@ -63,6 +63,7 @@ export const sectionQueryResolvers = {
 
       sectionsPromise = sectionsPromise.then((sections) =>
         sections.filter((section) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           return (section.lessons[0] as any).firestore === undefined;
         })
       );
@@ -191,6 +192,7 @@ export const sectionMutationResolvers = {
     } as CourseSectionDTO;
 
     // TODO: test
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await sectionDoc.update(updatedSection as any);
     return 'Reordered lessons';
   },

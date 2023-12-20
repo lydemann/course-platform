@@ -14,10 +14,10 @@ import { courseReducer } from './course/state/course.reducers';
     EffectsModule.forRoot([CourseEffects]),
     StoreModule.forRoot({
       course: courseReducer,
-      router: routerReducer
+      router: routerReducer,
     }),
     StoreRouterConnectingModule.forRoot(),
-    StoreDevtoolsModule.instrument()
-  ]
+    StoreDevtoolsModule.instrument({ connectInZone: true }),
+  ],
 })
 export class CourseClientLibModule {}

@@ -20,7 +20,7 @@ import { CourseSelectors } from './state/course.selectors';
 })
 export class CourseClientFacade {
   constructor(
-    private store: Store<any>,
+    private store: Store<unknown>,
     private courseResourcesService: CourseResourcesService
   ) {}
 

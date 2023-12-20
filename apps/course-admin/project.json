@@ -81,16 +81,16 @@
       }
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "course-admin:build:production"
+          "buildTarget": "course-admin:build:production"
         },
         "development": {
-          "browserTarget": "course-admin:build:development"
+          "buildTarget": "course-admin:build:development"
         },
         "local": {
-          "browserTarget": "course-admin:build:local"
+          "buildTarget": "course-admin:build:local"
         }
       },
       "defaultConfiguration": "development",
@@ -118,23 +118,16 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "course-admin:build"
+        "buildTarget": "course-admin:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/course-admin/**/*.ts",
-          "apps/course-admin/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/course-admin/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/course-admin/jest.config.ts"
       }
     }
   },

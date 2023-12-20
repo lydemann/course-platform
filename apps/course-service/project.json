@@ -42,19 +42,12 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/course-service/**/*.ts",
-          "apps/course-service/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/course-service/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/course-service/jest.config.ts"
       }
     }
   },

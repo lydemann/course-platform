@@ -45,3 +45,5 @@ env.local.json
 Thumbs.db
 firebase-service-account.json
 .firebase/**
+
+.nx/cache

@@ -1,23 +1,16 @@
+const { composePlugins, withNx } = require('@nx/webpack');
+
 const CopyPlugin = require('copy-webpack-plugin');
 const GeneratePackageJsonPlugin = require('generate-package-json-webpack-plugin');
 const path = require('path');
 const packageJson = require('./package.json');
 
-/**
- * Extend the default Webpack configuration from nx / ng.
- */
-module.exports = (config, context) => {
-  // Extract output path from context
-  const {
-    options: { outputPath },
-  } = context;
-
+module.exports = composePlugins(withNx(), (config, context) => {
   // Install additional plugins
   config.plugins = config.plugins || [];
-  config.plugins.push(...extractRelevantNodeModules(outputPath));
-
+  config.plugins.push(...extractRelevantNodeModules());
   return config;
-};
+});
 
 /**
  * This repository only contains one single package.json file that lists the dependencies
@@ -32,33 +25,41 @@ module.exports = (config, context) => {
  * @param {String} outputPath The path to the bundle being built
  * @returns {Array} An array of Webpack plugins
  */
-function extractRelevantNodeModules(outputPath) {
-  return [generatePackageJson()];
+function extractRelevantNodeModules() {
+  return [copyYarnLockFile(), generatePackageJson()];
+}
+
+/**
+ * Copy the Yarn lock file to the bundle to make sure that the right dependencies are
+ * installed when running `yarn install`.
+ *
+ * @param {String} outputPath The path to the bundle being built
+ * @returns {*} A Webpack plugin
+ */
+function copyYarnLockFile() {
+  return new CopyPlugin({
+    patterns: [
+      {
+        from: path.join(process.cwd(), 'yarn.lock'),
+        to: 'yarn.lock',
+      },
+    ],
+  });
 }
 
 /**
  * Generate a package.json file that contains only the dependencies which are actually
  * used in the code.
  *
- *
- *
  * @returns {*} A Webpack plugin
  */
 function generatePackageJson() {
-  const implicitDeps = [
-    'reflect-metadata',
-    'rxjs',
-    'node-fetch',
-    'inversify',
-    'graphql',
-  ];
+  const implicitDeps = ['@nestjs/platform-express', 'reflect-metadata', 'rxjs'];
   const dependencies = implicitDeps.reduce((acc, dep) => {
     acc[dep] = packageJson.dependencies[dep];
     return acc;
   }, {});
   const basePackageJson = {
-    main: 'main.js',
-    engines: packageJson.engines,
     dependencies,
   };
   const pathToPackageJson = path.join(__dirname, 'package.json');

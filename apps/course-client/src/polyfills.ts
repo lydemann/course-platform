@@ -55,7 +55,7 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone'; // Included with Angular CLI.
+import 'zone.js'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
@@ -63,15 +63,15 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 
 if (!('toJSON' in Error.prototype))
   Object.defineProperty(Error.prototype, 'toJSON', {
-    value: function() {
+    value: function () {
       const alt = {};
 
-      Object.getOwnPropertyNames(this).forEach(function(key) {
+      Object.getOwnPropertyNames(this).forEach(function (key) {
         alt[key] = this[key];
       }, this);
 
       return alt;
     },
     configurable: true,
-    writable: true
+    writable: true,
   });
