@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 
-import { CourseClientFacade } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 
 @Injectable({ providedIn: 'root' })
 export class CourseResolver implements Resolve<null> {

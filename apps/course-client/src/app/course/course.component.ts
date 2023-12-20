@@ -10,7 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
-import { CourseClientFacade } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { CourseFacadeService } from '@course-platform/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 

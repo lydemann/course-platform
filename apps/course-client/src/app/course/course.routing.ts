@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   selectedLessonIdRouteParam,
   selectedSectionIdRouteParam,
-} from '@course-platform/course-client-lib';
+} from '@course-platform/course-client/shared/domain';
 import {
   LessonRouteData,
   LessonTypes,

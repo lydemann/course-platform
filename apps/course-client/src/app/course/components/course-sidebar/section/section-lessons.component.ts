@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,9 +5,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import { Lesson, LessonTypes } from '@course-platform/shared/interfaces';
-import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-section-lessons',

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { ProfileComponent } from './profile.component';
 import { ProfileRoutingModule } from './profile.routing';
 
@@ -11,8 +11,8 @@ import { ProfileRoutingModule } from './profile.routing';
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
-    ProfileRoutingModule
+    ProfileRoutingModule,
   ],
-  declarations: [ProfileComponent]
+  declarations: [ProfileComponent],
 })
 export class ProfileModule {}

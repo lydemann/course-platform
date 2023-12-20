@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CourseClientFacade } from '@course-platform/course-client-lib';
-import { ActionItem, LessonResource } from '@course-platform/shared/interfaces';
+import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
+import { ActionItem } from '@course-platform/shared/interfaces';
 
 export interface ActionItemAnswer {
   id: string;

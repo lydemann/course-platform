@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { SelectOptionComponent } from '@course-platform/shared/ui';
-import { SharedModule } from '../../../shared/shared.module';
 import { SectionLessonsComponent } from './section/section-lessons.component';
 
 export interface SectionDropDownValue {
@@ -27,7 +27,7 @@ export interface SectionDropDownValue {
 
     <div class="progress-bar-wrapper">
       <small class="label"
-        >{{ sectionCompletedPct | number: '1.0-2' }}% complete</small
+        >{{ sectionCompletedPct | number : '1.0-2' }}% complete</small
       >
       <mat-progress-bar
         class="progress-bar"

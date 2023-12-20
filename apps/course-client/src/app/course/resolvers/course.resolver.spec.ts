@@ -4,7 +4,7 @@ import {
   SpyObject,
 } from '@ngneat/spectator/jest';
 
-import { CourseClientFacade } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { CourseResolver } from './course.resolver';
 
 describe('CourseResolver', () => {

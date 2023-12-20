@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '@angular/fire/auth';
-import { ProfileService } from '@course-platform/course-client-lib';
+import { ProfileService } from '@course-platform/course-client/shared/domain';
 import { AuthService } from '@course-platform/shared/auth-domain';
 
 @Component({

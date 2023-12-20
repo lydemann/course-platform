@@ -8,7 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
-import { CourseClientFacade } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { Lesson } from '@course-platform/shared/interfaces';
 
 @Component({

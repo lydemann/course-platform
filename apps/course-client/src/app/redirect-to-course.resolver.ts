@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { filter, first } from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
-import { CourseClientFacade } from '@course-platform/course-client-lib';
+import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectToCourseResolver implements Resolve<void> {

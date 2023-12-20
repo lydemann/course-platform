@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseContentComponent } from './course-content.component';
 
 const EXPORTED_DECLARATIONS = [CourseContentComponent];
@@ -8,6 +8,6 @@ const EXPORTED_DECLARATIONS = [CourseContentComponent];
 @NgModule({
   declarations: [...EXPORTED_DECLARATIONS],
   imports: [SharedModule],
-  exports: [...EXPORTED_DECLARATIONS]
+  exports: [...EXPORTED_DECLARATIONS],
 })
 export class CourseContentModule {}
