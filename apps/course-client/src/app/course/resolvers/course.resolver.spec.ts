@@ -26,6 +26,7 @@ describe('CourseResolver', () => {
         selectedSectionId: '0',
         selectedLessonId: '0',
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
     expect(courseFacadeService.courseInitiated).toHaveBeenCalled();

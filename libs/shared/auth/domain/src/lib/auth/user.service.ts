@@ -30,6 +30,7 @@ export class UserService {
   }
 
   updateCurrentUser(value) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>((resolve, reject) => {
       const user = this.afAuth.currentUser;
       updateProfile(user, {
