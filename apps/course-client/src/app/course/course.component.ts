@@ -28,7 +28,7 @@ export class CourseComponent implements OnInit, OnDestroy {
   sectionLessons$: Observable<Lesson[]>;
   sectionCompletedPct$: Observable<number>;
   courseCustomStyle$: Observable<string>;
-  styleElement: any;
+  styleElement: unknown;
   destroy$ = new Subject<void>();
 
   constructor(

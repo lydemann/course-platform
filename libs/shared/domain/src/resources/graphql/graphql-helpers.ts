@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloCache } from '@apollo/client/cache';
 import { DocumentNode } from 'graphql';
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpHeaders } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { InMemoryCache } from '@apollo/client/cache';
@@ -35,7 +36,7 @@ export function createApollo(
     link,
     cache: new InMemoryCache(),
     defaultOptions,
-    connectToDevTools: true
+    connectToDevTools: true,
   };
 }
 

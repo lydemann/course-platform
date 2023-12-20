@@ -130,11 +130,7 @@ export class CourseResourcesService {
     );
   }
 
-  setCompleteLesson(
-    isCompleted: boolean,
-    lessonId: string,
-    userId: string
-  ): Observable<any> {
+  setCompleteLesson(isCompleted: boolean, lessonId: string, userId: string) {
     const completedLessonMutation = gql`
       mutation {
         setLessonCompleted(
@@ -166,6 +162,7 @@ export class CourseResourcesService {
     return this.userService.getCurrentUser().pipe(
       switchMap((user) =>
         this.apollo
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .mutate<any>({
             mutation: createLessonMutation,
             update: (cache, { data: { createLesson } }) => {

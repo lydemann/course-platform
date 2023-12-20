@@ -55,6 +55,7 @@ export function gqlServer() {
         } as RequestContext;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const auth = await verifyToken(req.headers as any);
 
       return {

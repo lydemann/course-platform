@@ -4,17 +4,16 @@ import { filter, first } from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
 import { CourseClientFacade } from '@course-platform/course-client-lib';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class RedirectToCourseResolver implements Resolve<Observable<void>> {
+export class RedirectToCourseResolver implements Resolve<void> {
   constructor(
     private router: Router,
     private courseFacadeService: CourseClientFacade,
     private auth: Auth
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot): any {
+  resolve(route: ActivatedRouteSnapshot) {
     const courseId = route.params.courseId;
     const sectionId = route.params.sectionId;
     const lessonId = route.params.lessonId;
@@ -40,7 +39,5 @@ export class RedirectToCourseResolver implements Resolve<Observable<void>> {
           sections[0].lessons[0].id,
         ]);
       });
-
-    return true;
   }
 }

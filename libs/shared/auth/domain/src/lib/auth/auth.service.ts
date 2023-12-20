@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 import {
   Auth,
@@ -12,7 +13,7 @@ import {
 export class AuthService {
   constructor(public afAuth: Auth) {}
   doRegister(value) {
-    return new Promise<any>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       createUserWithEmailAndPassword(
         this.afAuth,
         value.email,

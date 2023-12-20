@@ -197,7 +197,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.router.navigate(['../course-admin', courseId]);
   }
 
-  setSchoolId(schoolId: any) {
+  setSchoolId(schoolId: string) {
     this.auth.tenantId = schoolId;
   }
 
