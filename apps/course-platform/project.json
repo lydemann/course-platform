@@ -1,0 +1,68 @@
+{
+  "name": "course-platform",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/course-platform/src",
+  "targets": {
+    "build": {
+      "executor": "@analogjs/platform:vite",
+      "outputs": [
+        "{options.outputPath}",
+        "{workspaceRoot}/dist/apps/course-platform/.nitro",
+        "{workspaceRoot}/dist/apps/course-platform/ssr",
+        "{workspaceRoot}/dist/apps/course-platform/analog"
+      ],
+      "options": {
+        "main": "apps/course-platform/src/main.ts",
+        "configFile": "apps/course-platform/vite.config.ts",
+        "outputPath": "dist/apps/course-platform/client",
+        "tsConfig": "apps/course-platform/tsconfig.app.json"
+      },
+      "defaultConfiguration": "production",
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "sourcemap": false,
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@analogjs/platform:vite-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "course-platform:build",
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "course-platform:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "course-platform:build:production"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "course-platform:build"
+      }
+    },
+    "test": {
+      "executor": "@analogjs/platform:vitest",
+      "outputs": ["{projectRoot}/coverage"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/course-platform/**/*.{ts,html}"]
+      }
+    }
+  },
+  "tags": []
+}
