@@ -86,7 +86,8 @@
     "reset-css": "^5.0.1",
     "rxjs": "7.8.1",
     "tslib": "^2.3.0",
-    "zone.js": "0.13.1"
+    "zone.js": "0.13.1",
+    "guid-typescript": "^1.0.9"
   },
   "devDependencies": {
     "@angular-devkit/architect": "0.1700.7",

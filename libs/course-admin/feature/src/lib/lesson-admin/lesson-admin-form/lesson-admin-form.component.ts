@@ -7,6 +7,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Guid } from 'guid-typescript';
 
 import { LessonResourceType } from '@course-platform/shared/interfaces';
 import { LessonAdminForm } from '../lesson-admin.component';
@@ -27,14 +28,6 @@ export class LessonAdminFormComponent {
     this._formGroup = formGroup;
   }
 
-  hasTempResource() {
-    const lastFormControl =
-      this.formGroup.controls.resources.controls[
-        this.formGroup.controls.resources.controls.length - 1
-      ];
-    return lastFormControl?.controls.id.value === '';
-  }
-
   @Output() save = new EventEmitter<UntypedFormGroup>();
   @Output() deleteClicked = new EventEmitter<UntypedFormGroup>();
   @Output() addResourceClicked = new EventEmitter();
@@ -43,7 +36,7 @@ export class LessonAdminFormComponent {
 
   addResource() {
     const newResource = this.formBuilder.group({
-      id: '',
+      id: [Guid.create().toString()],
       name: ['', Validators.required],
       url: ['', Validators.required],
       type: [LessonResourceType.WorkSheet, Validators.required],
