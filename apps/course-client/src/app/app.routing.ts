@@ -71,7 +71,9 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
-      import('course-admin/Module').then((m) => m.RemoteEntryModule),
+      import('@course-platform/course-admin/shell').then(
+        (m) => m.RemoteEntryModule
+      ),
   },
   // {
   //   path: '',
