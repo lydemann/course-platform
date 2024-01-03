@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import { AuthService } from '@course-platform/shared/auth-domain';
 
@@ -12,6 +15,8 @@ import { AuthService } from '@course-platform/shared/auth-domain';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [CommonModule, SharedModule, ReactiveFormsModule],
 })
 export class LoginComponent {
   loginForm: UntypedFormGroup;

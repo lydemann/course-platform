@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SchoolIdResolver } from '@course-platform/shared/domain';
 
+import { RedirectIfAuthenticatedResolver } from './core/auth/redirect-if-authenticated.service';
 import { RedirectIfLoggedOutResolver } from './core/auth/redirect-if-logged-out.service';
 import { CourseResolver } from './course/resolvers/course.resolver';
 
@@ -17,8 +18,9 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        loadChildren: () =>
-          import('./login/login.module').then((m) => m.LoginModule),
+        resolve: [RedirectIfAuthenticatedResolver],
+        loadComponent: () =>
+          import('./login/login.component').then((m) => m.LoginComponent),
       },
       {
         path: 'forgot-password',
