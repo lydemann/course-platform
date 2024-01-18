@@ -64,5 +64,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["type:app", "scope:course-client", "scope:course-admin"]
 }

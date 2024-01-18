@@ -16,7 +16,7 @@ import { AuthCredential, EmailAuthProvider, User } from 'firebase/auth';
   providedIn: 'root',
 })
 export class ProfileService {
-  private currentUser: User;
+  private currentUser!: User;
   constructor(private userService: UserService) {
     this.userService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
@@ -42,7 +42,7 @@ export class ProfileService {
 
   async updateEmail(newEmail: string, password: string): Promise<void> {
     const credential: AuthCredential = EmailAuthProvider.credential(
-      this.currentUser.email,
+      this.currentUser.email!,
       password
     );
     try {
@@ -59,7 +59,7 @@ export class ProfileService {
     oldPassword: string
   ): Promise<void> {
     const credential: AuthCredential = EmailAuthProvider.credential(
-      this.currentUser.email,
+      this.currentUser.email!,
       oldPassword
     );
     await reauthenticateWithCredential(this.currentUser, credential);

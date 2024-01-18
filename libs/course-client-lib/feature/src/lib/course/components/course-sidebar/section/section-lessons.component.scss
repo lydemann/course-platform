@@ -1,0 +1,39 @@
+:host {
+  margin-top: 20px;
+  display: block;
+
+  .lessons {
+    .lesson {
+      cursor: pointer;
+
+      &.selected {
+        font-weight: bold;
+      }
+    }
+
+    .menu-vertical {
+      margin: 0;
+      list-style-type: none;
+
+      a {
+        padding: 15px 0;
+        color: #4c4c4c;
+        display: flex;
+        justify-content: space-between;
+
+        .icon {
+          font-size: 1.2rem;
+          color: #00be49;
+          width: 18px;
+          height: 18px;
+        }
+
+        &:hover {
+          color: #000;
+        }
+
+        text-decoration: none;
+      }
+    }
+  }
+}

@@ -8,6 +8,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  AppRoutingModule,
+  HomeModule,
+} from '@course-platform/course-client/feature';
+import {
+  CoreModule,
   CourseClientLibModule,
   environment,
 } from '@course-platform/course-client/shared/domain';
@@ -15,12 +20,10 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { SharedAuthDomainModule } from '@course-platform/shared/auth-domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
+
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app/app.component';
-import { AppRoutingModule } from './app/app.routing';
-import { CoreModule } from './app/core/core.module';
-import { HomeModule } from './app/home/home.module';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -28,14 +31,14 @@ export function preloadFeagureFlags(
   return () => featureToggleService.getFeatureFlags().toPromise();
 }
 
-export function httpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
-}
-
 export function endpointsFactory() {
   return {
     courseServiceUrl: environment.courseServiceUrl,
   } as Endpoints;
+}
+
+export function httpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
 }
 
 declare global {
@@ -74,8 +77,6 @@ xhttp.onreadystatechange = function () {
           useFactory: endpointsFactory,
         },
         importProvidersFrom([
-          BrowserAnimationsModule,
-          AppRoutingModule,
           TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,
@@ -83,6 +84,8 @@ xhttp.onreadystatechange = function () {
               deps: [HttpClient],
             },
           }),
+          BrowserAnimationsModule,
+          AppRoutingModule,
           HttpClientModule,
           CoreModule,
           SharedModule,
