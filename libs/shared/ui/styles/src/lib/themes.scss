@@ -6,7 +6,7 @@
 @include mat.core;
 
 body {
-  @include generateUnitColors;
+  @include generate-unit-colors;
 }
 
 body,

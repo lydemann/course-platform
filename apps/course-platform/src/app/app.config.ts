@@ -25,7 +25,11 @@ export function endpointsFactory() {
 }
 
 export function httpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `/assets/i18n22/`, '.json');
+  return new TranslateHttpLoader(
+    http,
+    `http:localhost:4200/assets/i18n/`,
+    '.json'
+  );
 }
 
 export const appConfig: ApplicationConfig = {
