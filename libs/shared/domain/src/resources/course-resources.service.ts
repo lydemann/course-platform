@@ -86,8 +86,12 @@ export class CourseResourcesService {
   `;
   getCourses(): Observable<Course[]> {
     return this.apollo
-      .watchQuery<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
-      .valueChanges.pipe(map(({ data }) => data.course));
+      .query<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
+      .pipe(
+        map(({ data }) => {
+          return data.course;
+        })
+      );
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {

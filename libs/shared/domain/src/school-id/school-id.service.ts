@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FirebaseApp } from '@angular/fire/app';
 import { Auth } from '@angular/fire/auth';
 import { Apollo, gql } from 'apollo-angular';
 import { of } from 'rxjs';
@@ -11,16 +10,16 @@ export const schoolIdLocalStorageKey = 'schoolId';
   providedIn: 'root',
 })
 export class SchoolIdService {
-  constructor(private apollo: Apollo, private firebaseApp: FirebaseApp, private auth: Auth) {}
+  constructor(private apollo: Apollo, private auth: Auth) {}
 
   setSchoolIdFromCustomDomain() {
-    const schoolIdLocalStorage = localStorage.getItem(schoolIdLocalStorageKey);
-    if (schoolIdLocalStorage) {
-      this.setFirebaseAuthSchoolId(schoolIdLocalStorage);
-      return of(schoolIdLocalStorage);
+    const schoolId = 'christianlydemann-eyy6e';
+    if (schoolId) {
+      this.setFirebaseAuthSchoolId(schoolId);
+      return of(schoolId);
     }
 
-    const customDomain = location.hostname;
+    const customDomain = '';
     return this.getSchoolId(customDomain).pipe(
       tap((schoolIdFromCustomDomain) => {
         let schoolId = schoolIdFromCustomDomain;
@@ -29,13 +28,12 @@ export class SchoolIdService {
         }
 
         this.setFirebaseAuthSchoolId(schoolId);
-        localStorage.setItem(schoolIdLocalStorageKey, schoolId);
       })
     );
   }
 
   private getSchoolIdFromSubdomain() {
-    const urlParts = location.hostname.split('.');
+    const urlParts = ''.split('.');
 
     const hostNameDotCount = 2;
 

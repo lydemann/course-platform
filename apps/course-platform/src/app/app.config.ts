@@ -1,16 +1,23 @@
 import { provideFileRouter } from '@analogjs/router';
-import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
 import {
   CoreModule,
   CourseClientLibModule,
   environment,
 } from '@course-platform/course-client/shared/domain';
+import { SharedAuthDomainModule } from '@course-platform/shared/auth-domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { cookieInterceptor } from './interceptors/cookie.interceptor';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -27,7 +34,7 @@ export function endpointsFactory() {
 export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
     http,
-    `http:localhost:4200/assets/i18n/`,
+    `http://localhost:4200/assets/i18n/`,
     '.json'
   );
 }
@@ -35,8 +42,8 @@ export function httpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideFileRouter(),
-    provideClientHydration(),
-    provideHttpClient(withFetch()),
+    // provideClientHydration(),
+    provideHttpClient(withFetch(), withInterceptors([cookieInterceptor])),
     // TODO: add feature flags
     // {
     //   provide: APP_INITIALIZER,
@@ -51,6 +58,8 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom([
       CoreModule,
       CourseClientLibModule,
+      SharedAuthDomainModule,
+      HttpClientModule,
       TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,

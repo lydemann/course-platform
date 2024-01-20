@@ -29,10 +29,10 @@ export class SetTokenInterceptor implements HttpInterceptor {
       exhaustMap((token) => {
         const tenantId = this.auth.tenantId;
         let headers = tenantId
-          ? req.headers.append('Schoolid', tenantId)
+          ? req.headers.set('Schoolid', tenantId)
           : req.headers;
 
-        headers = headers.append('Authorization', token);
+        headers = headers.set('Authorization', token);
         const authReq = req.clone({ headers });
         return next.handle(authReq);
       })
