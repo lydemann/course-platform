@@ -13,7 +13,7 @@ import {
 } from '@course-platform/course-client/feature';
 import {
   CoreModule,
-  CourseClientLibModule,
+  CourseClientDomainModule,
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
@@ -90,7 +90,7 @@ xhttp.onreadystatechange = function () {
           CoreModule,
           SharedModule,
           HomeModule,
-          CourseClientLibModule,
+          CourseClientDomainModule,
           SharedAuthDomainModule,
         ]),
       ],

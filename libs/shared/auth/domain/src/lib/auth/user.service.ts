@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -15,16 +15,11 @@ export class UserService {
     public db: Firestore,
     public afAuth: Auth,
     public ngZone: NgZone
-  ) {}
-
-  getCurrentUser(): Observable<User> {
-    return new Observable((observer) => {
-      this.afAuth.onAuthStateChanged((currentUser) => {
+  ) {
+    this.afAuth.onAuthStateChanged((currentUser) => {
+      // document.cookie = `token=${currentUser.getIdToken()};`;
+      this.ngZone.run(() => {
         this.currentUser$.next(currentUser);
-        // cb needs to run through zone to work in guard
-        this.ngZone.run(() => {
-          observer.next(currentUser);
-        });
       });
     });
   }

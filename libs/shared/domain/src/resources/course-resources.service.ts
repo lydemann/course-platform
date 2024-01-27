@@ -96,7 +96,7 @@ export class CourseResourcesService {
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
     this.courseId = courseId;
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       switchMap((user) =>
         this.apollo
           .query<GetCourseSectionsResponseDTO>({
@@ -163,7 +163,7 @@ export class CourseResourcesService {
       ${courseFragments.lesson}
     `;
 
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       switchMap((user) =>
         this.apollo
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -235,7 +235,7 @@ export class CourseResourcesService {
       ${courseFragments.lesson}
     `;
 
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       first(),
       switchMap((user) =>
         this.apollo.mutate({
@@ -264,7 +264,7 @@ export class CourseResourcesService {
         deleteLesson(courseId: $courseId, sectionId: $sectionId, id: $lessonId)
       }
     `;
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       switchMap((user) =>
         this.apollo.mutate({
           mutation: deleteLessonMutation,
@@ -291,7 +291,7 @@ export class CourseResourcesService {
       }
     `;
 
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       switchMap((user) =>
         this.apollo.mutate({
           mutation: setActionItemCompletedMutation,

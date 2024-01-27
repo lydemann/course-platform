@@ -9,7 +9,7 @@ import {
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import {
   CoreModule,
-  CourseClientLibModule,
+  CourseClientDomainModule,
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedAuthDomainModule } from '@course-platform/shared/auth-domain';
@@ -57,7 +57,7 @@ export const appConfig: ApplicationConfig = {
     },
     importProvidersFrom([
       CoreModule,
-      CourseClientLibModule,
+      CourseClientDomainModule,
       SharedAuthDomainModule,
       HttpClientModule,
       TranslateModule.forRoot({

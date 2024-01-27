@@ -12,6 +12,6 @@ export const routeMeta: RouteMeta = {
   selector: 'course-platform-home',
   standalone: true,
   imports: [],
-  template: ` <h3>Welcome to course platform</h3> `,
+  template: ` <h3 class="text-center mt-10">Welcome to course platform</h3> `,
 })
 export default class HomeComponent {}

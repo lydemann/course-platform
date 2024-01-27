@@ -4,7 +4,7 @@ export default {
   projects: [
     ...getJestProjects(),
     '<rootDir>/apps/course-client',
-    '<rootDir>/libs/course-client-lib',
+    '<rootDir>/libs/course-client',
     '<rootDir>/apps/course-admin',
     '<rootDir>/libs/shared/interfaces',
     '<rootDir>/libs/shared/util/util-feature-toggle',

@@ -52,8 +52,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "libs/course-client-lib/src/environments/environment.ts",
-              "with": "libs/course-client-lib/src/environments/environment.prod.ts"
+              "replace": "libs/course-client/src/environments/environment.ts",
+              "with": "libs/course-client/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
@@ -82,8 +82,8 @@
         "local": {
           "fileReplacements": [
             {
-              "replace": "libs/course-client-lib/src/environments/environment.ts",
-              "with": "libs/course-client-lib/src/environments/environment.local.ts"
+              "replace": "libs/course-client/src/environments/environment.ts",
+              "with": "libs/course-client/src/environments/environment.local.ts"
             }
           ]
         },
