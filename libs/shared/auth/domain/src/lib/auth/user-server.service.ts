@@ -18,9 +18,9 @@ export class UserServerService {
     try {
       const decodedToken = await admin.auth().verifyIdToken(token);
       this.idToken.set(decodedToken);
-      return Promise.resolve(decodedToken);
+      return decodedToken;
     } catch (error) {
-      return Promise.resolve(null);
+      return null;
     }
   }
 

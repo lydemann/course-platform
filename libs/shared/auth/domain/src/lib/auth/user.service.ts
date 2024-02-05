@@ -3,8 +3,9 @@ import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UserServerService } from './user-server.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,15 @@ export class UserService {
     public db: Firestore,
     public afAuth: Auth,
     public ngZone: NgZone,
-    cookieService: CookieService
+    cookieService: CookieService,
+    userServerService: UserServerService
   ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
+    } else {
+      this.isLoggedIn$ = from(userServerService.isLoggedIn());
+    }
+
     this.afAuth.onAuthStateChanged(async (currentUser) => {
       if (isPlatformBrowser(this.platformId)) {
         const token = await currentUser.getIdToken();
