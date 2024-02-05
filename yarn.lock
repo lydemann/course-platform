@@ -17817,6 +17817,20 @@ ng-packagr@15.1.1:
   optionalDependencies:
     esbuild "^0.16.0"
 
+ngx-cookie-service-ssr@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service-ssr/-/ngx-cookie-service-ssr-17.0.1.tgz#0fc562abab5352868df7b9d01bb4d96e21929c59"
+  integrity sha512-2gakJTcSbp8A0MIwI2uUHtstnzmC62u1IgYb/iO7oQTxCHtfAo3ObMVUnTv9ksaOSbB/fUBaFpPxVKxNpmtJqQ==
+  dependencies:
+    tslib "^2.6.2"
+
+ngx-cookie-service@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-17.0.1.tgz#5e2fdca126dbcfd8de8372359fe35e91f6ba1c16"
+  integrity sha512-3/5GqMz83VH4VJWgxxv/rGjjIZRZqlp7kNrzisgkxccHsgBe3DMOr/zQyeKZPu7vEqwqyR58hKzegPwAm1Pr3Q==
+  dependencies:
+    tslib "^2.6.2"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"

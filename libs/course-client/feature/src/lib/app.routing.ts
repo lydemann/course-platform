@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SchoolIdResolver } from '@course-platform/shared/domain';
 
 import {
-  RedirectIfAuthenticatedResolver,
+  RedirectIfLoggedInResolver,
   RedirectIfLoggedOutResolver,
 } from '@course-platform/course-client/shared/domain';
 import { courseRoutes } from './course/course.routing';
@@ -21,7 +21,7 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        resolve: [RedirectIfAuthenticatedResolver],
+        resolve: [RedirectIfLoggedInResolver],
         loadComponent: () =>
           import('./login/login.component').then((m) => m.LoginComponent),
       },

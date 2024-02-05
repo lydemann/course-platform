@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { catchError, first, map, switchMap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/auth-domain';
 import {
@@ -90,6 +90,9 @@ export class CourseResourcesService {
       .pipe(
         map(({ data }) => {
           return data.course;
+        }),
+        catchError((error) => {
+          throw error;
         })
       );
   }

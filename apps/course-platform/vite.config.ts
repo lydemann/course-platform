@@ -31,7 +31,12 @@ export default defineConfig(({ mode }) => {
       },
     },
     ssr: {
-      noExternal: ['rxfire/**', '@ngx-translate/**'],
+      noExternal: [
+        'rxfire/**',
+        '@ngx-translate/**',
+        'ngx-cookie-service/**',
+        'ngx-cookie-service-ssr/**',
+      ],
     },
     define: {
       'import.meta.vitest': mode !== 'production',

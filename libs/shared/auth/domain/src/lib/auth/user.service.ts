@@ -1,6 +1,8 @@
-import { Injectable, NgZone } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
+import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,14 +12,19 @@ import { map } from 'rxjs/operators';
 export class UserService {
   currentUser$ = new BehaviorSubject<User>(null);
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
+  private platformId = inject(PLATFORM_ID);
 
   constructor(
     public db: Firestore,
     public afAuth: Auth,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    cookieService: CookieService
   ) {
-    this.afAuth.onAuthStateChanged((currentUser) => {
-      // document.cookie = `token=${currentUser.getIdToken()};`;
+    this.afAuth.onAuthStateChanged(async (currentUser) => {
+      if (isPlatformBrowser(this.platformId)) {
+        const token = await currentUser.getIdToken();
+        cookieService.set('token', token);
+      }
       this.ngZone.run(() => {
         this.currentUser$.next(currentUser);
       });

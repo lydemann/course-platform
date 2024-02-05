@@ -3,6 +3,9 @@
   "compilerOptions": {
     "types": ["node", "jest"]
   },
-  "include": ["**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "../../../course-client/shared/domain/src/auth/redirect-if-logged-out-server.guard.ts"
+  ],
   "exclude": ["jest.config.ts"]
 }

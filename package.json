@@ -95,6 +95,8 @@
     "marked-gfm-heading-id": "^3.1.0",
     "marked-highlight": "^2.0.1",
     "mermaid": "^10.2.4",
+    "ngx-cookie-service": "^17.0.1",
+    "ngx-cookie-service-ssr": "^17.0.1",
     "node-fetch": "^2.6.1",
     "prismjs": "^1.29.0",
     "reflect-metadata": "^0.1.13",

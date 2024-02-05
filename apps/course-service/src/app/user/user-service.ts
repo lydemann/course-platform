@@ -23,7 +23,7 @@ export const getGoogleIdentityError = (errorCode) => {
 
 @injectable()
 export class UserService {
-  getUserData<T = any>(
+  getUseData<T = any>(
     schoolId: string,
     uid: string,
     userCollection: string

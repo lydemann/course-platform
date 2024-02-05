@@ -7,12 +7,16 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideClientHydration } from '@angular/platform-browser';
 import {
   CoreModule,
   CourseClientDomainModule,
   environment,
 } from '@course-platform/course-client/shared/domain';
-import { SharedAuthDomainModule } from '@course-platform/shared/auth-domain';
+import {
+  SharedAuthDomainModule,
+  authServerInterceptor,
+} from '@course-platform/shared/auth-domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -42,8 +46,12 @@ export function httpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideFileRouter(),
-    // provideClientHydration(),
-    provideHttpClient(withFetch(), withInterceptors([cookieInterceptor])),
+    // makes sure the client is hydrated with the server state to avoid dublicate requests
+    provideClientHydration(),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([cookieInterceptor, authServerInterceptor])
+    ),
     // TODO: add feature flags
     // {
     //   provide: APP_INITIALIZER,

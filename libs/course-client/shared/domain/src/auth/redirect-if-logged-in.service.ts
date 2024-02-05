@@ -8,7 +8,7 @@ import { isPlatformServer } from '@angular/common';
 import { UserService } from '@course-platform/shared/auth-domain';
 
 @Injectable({ providedIn: 'root' })
-export class RedirectIfAuthenticatedResolver implements Resolve<boolean> {
+export class RedirectIfLoggedInResolver implements Resolve<boolean> {
   private platformId = inject(PLATFORM_ID);
   constructor(
     public afAuth: Auth,
