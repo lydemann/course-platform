@@ -1,17 +1,22 @@
 import { isPlatformServer } from '@angular/common';
-import { HttpHandlerFn, HttpHeaders, HttpRequest } from '@angular/common/http';
+import {
+  HttpHandlerFn,
+  HttpHeaders,
+  HttpInterceptorFn,
+  HttpRequest,
+} from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { from } from 'rxjs';
 import { UserServerService } from './user-server.service';
 
-export function authServerInterceptor(
+export const authServerInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   location = inject(PLATFORM_ID),
   cookieService = inject(SsrCookieService),
   userServerService = inject(UserServerService)
-) {
+) => {
   return from(
     handleAuthServerInterceptor(
       req,
@@ -21,7 +26,7 @@ export function authServerInterceptor(
       userServerService
     )
   );
-}
+};
 
 async function handleAuthServerInterceptor(
   req: HttpRequest<unknown>,

@@ -18,10 +18,10 @@ import {
   authServerInterceptor,
 } from '@course-platform/shared/auth-domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
+import { cookieInterceptor } from '@course-platform/shared/ssr/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { cookieInterceptor } from './interceptors/cookie.interceptor';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -46,19 +46,12 @@ export function httpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideFileRouter(),
-    // makes sure the client is hydrated with the server state to avoid dublicate requests
+    // makes sure the client is hydrated with the server state to avoid redundant client requests
     provideClientHydration(),
     provideHttpClient(
       withFetch(),
       withInterceptors([cookieInterceptor, authServerInterceptor])
     ),
-    // TODO: add feature flags
-    // {
-    //   provide: APP_INITIALIZER,
-    //   multi: true,
-    //   useFactory: preloadFeagureFlags,
-    //   deps: [FeatureToggleService],
-    // },
     {
       provide: ENDPOINTS_TOKEN,
       useFactory: endpointsFactory,
