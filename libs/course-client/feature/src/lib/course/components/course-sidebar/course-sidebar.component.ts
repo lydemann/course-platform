@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import { BrowserOnlyDirective } from '@course-platform/shared/ssr/ui';
 import { SelectOptionComponent } from '@course-platform/shared/ui';
 import { SectionLessonsComponent } from './section/section-lessons.component';
 
@@ -18,6 +19,7 @@ export interface SectionDropDownValue {
     SharedModule,
     SectionLessonsComponent,
     SelectOptionComponent,
+    BrowserOnlyDirective,
   ],
   template: ` @if (selectedSection) {
     <div class="sidebar">
