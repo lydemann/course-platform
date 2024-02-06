@@ -1,4 +1,4 @@
-import { NgZone, PLATFORM_ID, inject } from '@angular/core';
+import { PLATFORM_ID, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 import { isPlatformServer } from '@angular/common';
@@ -6,15 +6,12 @@ import { UserServerService } from '@course-platform/shared/auth/domain';
 
 export const redirectIfLoggedInServerGuard: CanActivateFn = async () => {
   const platformId = inject(PLATFORM_ID);
-  const ngZone = inject(NgZone);
   if (isPlatformServer(platformId)) {
     const userServerService = inject(UserServerService);
     const router = inject(Router);
     const isLoggedIn = await userServerService.isLoggedIn();
     if (isLoggedIn) {
-      ngZone.run(() => {
-        router.navigate(['courses']);
-      });
+      router.navigate(['courses']);
       return false;
     }
     return true;

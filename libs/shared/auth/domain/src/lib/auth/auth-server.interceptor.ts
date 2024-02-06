@@ -32,7 +32,7 @@ async function handleAuthServerInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   location,
-  cookieService,
+  cookieService: SsrCookieService,
   userServerService
 ) {
   if (isPlatformServer(location)) {

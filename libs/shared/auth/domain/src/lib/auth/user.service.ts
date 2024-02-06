@@ -44,7 +44,7 @@ export class UserService {
     this.afAuth.onAuthStateChanged(async (currentUser) => {
       if (isPlatformBrowser(this.platformId)) {
         const token = await currentUser.getIdToken();
-        cookieService.set('token', token, 365, '/');
+        cookieService.set('token', token);
         this.ngZone.run(() => {
           this.currentUser.set(currentUser);
           this.currentUser$.next(currentUser);

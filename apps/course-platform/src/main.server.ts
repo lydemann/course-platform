@@ -14,6 +14,7 @@ import {
   RESPONSE_TOKEN,
 } from '@course-platform/shared/ssr/domain';
 import admin, { ServiceAccount } from 'firebase-admin';
+import { ClientRequest, ServerResponse } from 'http';
 import { AppComponent } from './app/app.component';
 import { config } from './app/app.config.server';
 
@@ -26,7 +27,7 @@ const bootstrap = () => bootstrapApplication(AppComponent, config);
 export default async function render(
   url: string,
   document: string,
-  { req, res }: { req: Request; res: Response }
+  { req, res }: { req: ClientRequest; res: ServerResponse }
 ) {
   if (!admin.apps.length) {
     admin.initializeApp({
@@ -44,7 +45,9 @@ export default async function render(
       { provide: 'RESPONSE', useValue: res },
     ],
   });
-  res.headers.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
-  res.headers.set('expires', '600');
+
+  res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=1200');
+  res.setHeader('expires', '600');
+
   return html;
 }
