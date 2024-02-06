@@ -9,8 +9,6 @@ import {
   LessonTypes,
 } from '@course-platform/shared/interfaces';
 import { RedirectToCourseResolver } from '../redirect-to-course.resolver';
-import { ActionItemsComponent } from './containers/action-items/action-items.component';
-import { QuestionsComponent } from './containers/questions/questions.component';
 
 export const courseRoutes: Routes = [
   {
@@ -26,12 +24,18 @@ export const courseRoutes: Routes = [
     children: [
       {
         path: `action-items`,
-        component: ActionItemsComponent,
+        loadComponent: () =>
+          import('./containers/action-items/action-items.component').then(
+            (m) => m.ActionItemsComponent
+          ),
         data: { lessonType: LessonTypes.ActionItems } as LessonRouteData,
       },
       {
         path: `questions`,
-        component: QuestionsComponent,
+        loadComponent: () =>
+          import('./containers/questions/questions.component').then(
+            (m) => m.QuestionsComponent
+          ),
         data: { lessonType: LessonTypes.Questions } as LessonRouteData,
       },
       {

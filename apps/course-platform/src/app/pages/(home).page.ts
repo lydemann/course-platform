@@ -1,9 +1,10 @@
 import { RouteMeta } from '@analogjs/router';
 import { Component } from '@angular/core';
+import { redirectIfLoggedInServerGuard } from '@course-platform/course-client/shared/domain';
 
 export const routeMeta: RouteMeta = {
   title: 'Course Platform',
-  // canActivate: [redirectIfLoggedInServerGuard],
+  canActivate: [redirectIfLoggedInServerGuard],
   providers: [],
 };
 

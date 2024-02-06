@@ -16,8 +16,8 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseFacadeService } from '@course-platform/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
-import { ActionItemsModule } from './containers/action-items/action-items.module';
-import { QuestionsModule } from './containers/questions/questions.module';
+import { ActionItemsComponent } from './containers/action-items/action-items.component';
+import { QuestionsComponent } from './containers/questions/questions.component';
 
 @Component({
   selector: 'app-course',
@@ -82,8 +82,8 @@ import { QuestionsModule } from './containers/questions/questions.module';
   imports: [
     CommonModule,
     SharedModule,
-    ActionItemsModule,
-    QuestionsModule,
+    ActionItemsComponent,
+    QuestionsComponent,
     CourseSidebarComponent,
   ],
 })

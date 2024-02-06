@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
+import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { ActionItem } from '@course-platform/shared/interfaces';
 
 export interface ActionItemAnswer {
@@ -16,6 +17,8 @@ export const actionItemsRouteId = 'action-items';
   templateUrl: './action-items.component.html',
   styleUrls: ['./action-items.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [SharedModule],
 })
 export class ActionItemsComponent implements OnInit {
   public actionItems$: Observable<ActionItem[]>;
