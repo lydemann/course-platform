@@ -2,3 +2,7 @@
 @import 'reset-css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import 'global-styling';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
