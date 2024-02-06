@@ -12,12 +12,14 @@ import { Course } from '@course-platform/shared/interfaces';
     <h1 class="headline">Your Training Programs</h1>
 
     <ng-container *ngIf="courses$ | async as courses; else loading">
-      <div class="flex">
+      <div class="mx-4">
         <mat-card
           *ngFor="let course of courses"
-          class="course-card w-1/3"
+          class="course-card mx-auto lg:w-1/3 sm:w-1/2"
           (click)="courseSelected(course.id)"
-          ><mat-card-title>{{ course.name }}</mat-card-title>
+          ><mat-card-title class="text-center py-3">{{
+            course.name
+          }}</mat-card-title>
           <img
             mat-card-image
             src="/assets/img/login.jpg"
