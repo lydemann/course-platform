@@ -9,6 +9,7 @@ import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
+  withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -52,7 +53,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideFileRouter(),
     // makes sure the client is hydrated with the server state to avoid redundant client requests
-    provideClientHydration(),
+    provideClientHydration(
+      withHttpTransferCacheOptions({
+        includePostRequests: true,
+      })
+    ),
     provideHttpClient(
       withFetch(),
       withInterceptors([
