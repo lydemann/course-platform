@@ -2,7 +2,7 @@
   "name": "shared-auth-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/shared/auth-domain/src",
+  "sourceRoot": "libs/shared/auth/domain/src",
   "prefix": "course-platform",
   "targets": {
     "lint": {

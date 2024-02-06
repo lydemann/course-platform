@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
-import { AuthService } from '@course-platform/shared/auth-domain';
+import { AuthService } from '@course-platform/shared/auth/domain';
 
 @Component({
   selector: 'app-login',

@@ -12,11 +12,10 @@ import { Course } from '@course-platform/shared/interfaces';
     <h1 class="headline">Your Training Programs</h1>
 
     <ng-container *ngIf="courses$ | async as courses; else loading">
-      <div fxLayout="row">
+      <div class="flex">
         <mat-card
           *ngFor="let course of courses"
-          fxFlex.gt-sm="33"
-          class="course-card"
+          class="course-card w-1/3"
           (click)="courseSelected(course.id)"
           ><mat-card-title>{{ course.name }}</mat-card-title>
           <img

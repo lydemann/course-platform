@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '@course-platform/shared/auth-domain';
+import { AuthGuard } from '@course-platform/shared/auth/domain';
 import { SectionAdminComponent } from './section-admin.component';
 import { SectionAdminResolver } from './section-admin.resolver';
 

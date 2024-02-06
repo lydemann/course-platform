@@ -10,7 +10,7 @@ export default {
     '<rootDir>/libs/shared/util/util-feature-toggle',
     '<rootDir>/apps/course-service',
     '<rootDir>/libs/shared/data-access',
-    '<rootDir>/libs/shared/auth-domain',
+    '<rootDir>/libs/shared/auth/domain',
     '<rootDir>/libs/course-admin-lib',
   ],
 };

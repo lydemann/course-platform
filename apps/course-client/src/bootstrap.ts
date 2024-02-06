@@ -17,7 +17,7 @@ import {
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
-import { SharedAuthDomainModule } from '@course-platform/shared/auth-domain';
+import { SharedAuthDomainModule } from '@course-platform/shared/auth/domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 

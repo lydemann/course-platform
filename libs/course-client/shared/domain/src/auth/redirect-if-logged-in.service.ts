@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 import { isPlatformServer } from '@angular/common';
-import { UserService } from '@course-platform/shared/auth-domain';
+import { UserService } from '@course-platform/shared/auth/domain';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectIfLoggedInResolver implements Resolve<boolean> {

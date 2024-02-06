@@ -21,7 +21,7 @@ import {
   SharedAuthDomainModule,
   authInterceptor,
   authServerInterceptor,
-} from '@course-platform/shared/auth-domain';
+} from '@course-platform/shared/auth/domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
 import { NgrxUniversalRehydrateBrowserModule } from '@course-platform/shared/ngrx-universal-rehydrate';
 import { cookieInterceptor } from '@course-platform/shared/ssr/domain';

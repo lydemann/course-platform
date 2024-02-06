@@ -9,7 +9,7 @@ import {
   updatePassword,
   updateProfile,
 } from '@angular/fire/auth';
-import { UserService } from '@course-platform/shared/auth-domain';
+import { UserService } from '@course-platform/shared/auth/domain';
 import { AuthCredential, EmailAuthProvider, User } from 'firebase/auth';
 
 @Injectable({

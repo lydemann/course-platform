@@ -79,7 +79,7 @@
       "@course-platform/course-client/shared/ui": [
         "libs/course-client/shared/ui/src/index.ts"
       ],
-      "@course-platform/shared/auth-domain": [
+      "@course-platform/shared/auth/domain": [
         "libs/shared/auth/domain/src/index.ts"
       ],
       "@course-platform/shared/domain": ["libs/shared/domain/src/index.ts"],

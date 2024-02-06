@@ -12,7 +12,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { BehaviorSubject, throwError } from 'rxjs';
 
 import { User } from '@angular/fire/auth';
-import { UserService } from '@course-platform/shared/auth-domain';
+import { UserService } from '@course-platform/shared/auth/domain';
 import { CourseResourcesService } from '@course-platform/shared/domain';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';

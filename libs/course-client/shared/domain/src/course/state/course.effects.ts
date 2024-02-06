@@ -12,7 +12,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { UserService } from '@course-platform/shared/auth-domain';
+import { UserService } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,
   selectRouteParam,

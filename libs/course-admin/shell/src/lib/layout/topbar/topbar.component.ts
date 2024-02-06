@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
-import { UserService } from '@course-platform/shared/auth-domain';
+import { UserService } from '@course-platform/shared/auth/domain';
 import { Observable } from 'rxjs';
 
 interface NavigationItem {

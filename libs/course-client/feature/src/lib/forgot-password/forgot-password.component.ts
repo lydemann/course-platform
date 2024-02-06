@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
-import { AuthService } from '@course-platform/shared/auth-domain';
+import { AuthService } from '@course-platform/shared/auth/domain';
 
 @Component({
   selector: 'app-forgot-password',

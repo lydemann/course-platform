@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
 import { catchError, filter, first, map, switchMap } from 'rxjs/operators';
 
-import { UserService } from '@course-platform/shared/auth-domain';
+import { UserService } from '@course-platform/shared/auth/domain';
 import {
   Course,
   CourseSection,
