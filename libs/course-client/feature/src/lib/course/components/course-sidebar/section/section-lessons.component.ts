@@ -21,10 +21,10 @@ import { Lesson, LessonTypes } from '@course-platform/shared/interfaces';
         *ngFor="let lesson of lessons"
         [class.selected]="lesson.id === selectedLessonId"
       >
-        <a (click)="lessonSelected.emit(lesson.id)">
+        <a (click)="lessonSelected.emit(lesson.id)" class="flex items-center">
           <span>{{ lesson.name }}</span>
           <!-- TODO: save isComplete for user and check here -->
-          <mat-icon class="icon" *ngIf="lesson.isCompleted"
+          <mat-icon class="icon flex-shrink-0" *ngIf="lesson.isCompleted"
             >check_circle</mat-icon
           >
         </a>
