@@ -10,7 +10,7 @@ export class UserServerService {
 
   constructor(private cookieService: SsrCookieService) {}
 
-  async getUserInfo(): Promise<DecodedIdToken> {
+  async getUserInfo(): Promise<DecodedIdToken | null> {
     const token = this.cookieService.get('token');
     if (!token) return Promise.resolve(null);
 
@@ -20,7 +20,7 @@ export class UserServerService {
       this.idToken.set(decodedToken);
       return decodedToken;
     } catch (error) {
-      return null;
+      return Promise.resolve(null);
     }
   }
 

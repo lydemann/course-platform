@@ -44,5 +44,7 @@ export default async function render(
       { provide: 'RESPONSE', useValue: res },
     ],
   });
+  res.headers.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
+  res.headers.set('expires', '600');
   return html;
 }
