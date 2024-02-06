@@ -12,7 +12,6 @@ export const redirectIfLoggedInServerGuard: CanActivateFn = async () => {
     const router = inject(Router);
     const isLoggedIn = await userServerService.isLoggedIn();
     if (isLoggedIn) {
-      console.log('Redirecting to courses');
       ngZone.run(() => {
         router.navigate(['courses']);
       });

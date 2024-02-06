@@ -1,12 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import { produce } from 'immer';
 
+import { Lesson } from '@course-platform/shared/interfaces';
 import { CourseActions, CourseActionsUnion } from './course.actions';
 import {
+  CourseState,
   courseInitState,
   courseLessonAdapter,
   courseSectionAdapter,
-  CourseState,
 } from './course.model';
 
 export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
@@ -37,7 +38,10 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
       },
       lessonsState: {
         ...courseLessonAdapter.setAll(
-          courseSections.reduce((prev, cur) => [...prev, ...cur.lessons], []),
+          courseSections.reduce(
+            (prev: Lesson[], cur) => [...prev, ...cur.lessons],
+            []
+          ),
           state.lessonsState
         ),
         isLoading: false,

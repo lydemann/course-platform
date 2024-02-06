@@ -39,6 +39,7 @@ export class CourseClientFacade {
   isLoading$: Observable<boolean> = this.store.select(
     CourseSelectors.isCourseLoading
   );
+  isLoading = this.store.selectSignal(CourseSelectors.isCourseLoading);
   sectionLessons$: Observable<Lesson[]> = this.store.select(
     CourseSelectors.selectSectionLessons
   );

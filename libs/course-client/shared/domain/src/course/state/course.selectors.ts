@@ -35,18 +35,23 @@ export namespace CourseSelectors {
 
   export const selectIsLoadingSections = createSelector(
     getCourseFeature,
-    (state) => state.sectionsState.isLoading
+    (state) => {
+      return state.sectionsState.isLoading;
+    }
   );
   export const selectIsLoadingLessons = createSelector(
     getCourseFeature,
-    (state) => state.lessonsState.isLoading
+    (state) => {
+      return state.lessonsState.isLoading;
+    }
   );
 
   export const isCourseLoading = createSelector(
     selectIsLoadingSections,
     selectIsLoadingLessons,
-    (isLoadingSections, isLoadingLessons) =>
-      isLoadingSections || isLoadingLessons
+    (isLoadingSections, isLoadingLessons) => {
+      return isLoadingSections || isLoadingLessons;
+    }
   );
 
   export const selectCourseSectionsState = createSelector(

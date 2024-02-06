@@ -1,13 +1,16 @@
 import { provideFileRouter } from '@analogjs/router';
 import {
   HttpClient,
-  HttpClientModule,
   provideHttpClient,
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CoreModule,
   CourseClientDomainModule,
@@ -15,9 +18,11 @@ import {
 } from '@course-platform/course-client/shared/domain';
 import {
   SharedAuthDomainModule,
+  authInterceptor,
   authServerInterceptor,
 } from '@course-platform/shared/auth-domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
+import { NgrxUniversalRehydrateBrowserModule } from '@course-platform/shared/ngrx-universal-rehydrate';
 import { cookieInterceptor } from '@course-platform/shared/ssr/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -50,17 +55,22 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(
       withFetch(),
-      withInterceptors([cookieInterceptor, authServerInterceptor])
+      withInterceptors([
+        cookieInterceptor,
+        authServerInterceptor,
+        authInterceptor,
+      ])
     ),
     {
       provide: ENDPOINTS_TOKEN,
       useFactory: endpointsFactory,
     },
     importProvidersFrom([
+      BrowserModule,
+      BrowserAnimationsModule,
       CoreModule,
       CourseClientDomainModule,
       SharedAuthDomainModule,
-      HttpClientModule,
       TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,
@@ -68,6 +78,7 @@ export const appConfig: ApplicationConfig = {
           deps: [HttpClient],
         },
       }),
+      NgrxUniversalRehydrateBrowserModule.forRoot({}),
     ]),
   ],
 };

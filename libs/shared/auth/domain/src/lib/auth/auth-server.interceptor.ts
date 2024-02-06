@@ -42,7 +42,7 @@ async function handleAuthServerInterceptor(
     headers = headers.set('Authorization', token);
 
     const userInfo = await userServerService.getUserInfo();
-    const tenantId = userInfo.firebase.tenant;
+    const tenantId = userInfo?.firebase?.tenant;
     headers = headers.set('Schoolid', tenantId);
 
     const cookiedRequest = req.clone({

@@ -1,5 +1,12 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import {
+  Injectable,
+  NgZone,
+  PLATFORM_ID,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
@@ -12,6 +19,9 @@ import { UserServerService } from './user-server.service';
 })
 export class UserService {
   currentUser$ = new BehaviorSubject<User>(null);
+  currentUser = signal<User>(null);
+  uid$ = this.currentUser$.pipe(map((user) => user?.uid));
+  uid = signal<string>('');
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
   private platformId = inject(PLATFORM_ID);
 
@@ -19,24 +29,40 @@ export class UserService {
     public db: Firestore,
     public afAuth: Auth,
     public ngZone: NgZone,
-    cookieService: CookieService,
-    userServerService: UserServerService
+    private userServerService: UserServerService,
+    cookieService: CookieService
   ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
-    } else {
+    if (isPlatformServer(this.platformId)) {
       this.isLoggedIn$ = from(userServerService.isLoggedIn());
+      this.uid$ = from(userServerService.getUserInfo()).pipe(
+        map((user) => user.uid)
+      );
+    } else {
+      this.uid$ = this.currentUser$.pipe(map((user) => user?.uid));
     }
 
     this.afAuth.onAuthStateChanged(async (currentUser) => {
       if (isPlatformBrowser(this.platformId)) {
         const token = await currentUser.getIdToken();
-        cookieService.set('token', token);
+        cookieService.set('token', token, 365, '/');
+        this.ngZone.run(() => {
+          this.currentUser.set(currentUser);
+          this.currentUser$.next(currentUser);
+        });
       }
-      this.ngZone.run(() => {
-        this.currentUser$.next(currentUser);
-      });
     });
+
+    effect(
+      async () => {
+        if (isPlatformServer(this.platformId)) {
+          const userInfo = await this.userServerService.getUserInfo();
+          this.uid.set(userInfo?.uid || '');
+        } else {
+          return this.uid.set(this.currentUser()?.uid || '');
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   updateCurrentUser(value) {

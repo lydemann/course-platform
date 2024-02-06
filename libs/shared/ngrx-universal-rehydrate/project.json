@@ -1,0 +1,40 @@
+{
+  "name": "ngrx-universal-rehydrate",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/ngrx-universal-rehydrate/src",
+  "prefix": "trellisorg",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ngrx-universal-rehydrate/tsconfig.lib.json",
+        "project": "libs/shared/ngrx-universal-rehydrate/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ngrx-universal-rehydrate/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ngrx-universal-rehydrate/src/**/*.ts",
+          "libs/shared/ngrx-universal-rehydrate/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/shared/ngrx-universal-rehydrate"
+      ],
+      "options": {
+        "jestConfig": "libs/shared/ngrx-universal-rehydrate/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["type:util", "scope:shared"]
+}

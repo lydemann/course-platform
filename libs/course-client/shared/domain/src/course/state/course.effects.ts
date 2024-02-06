@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import {
   catchError,
   filter,
-  first,
   map,
   switchMap,
   tap,
@@ -30,7 +29,6 @@ export class CourseEffects {
       filter(([_, courseId]) => !!courseId),
       switchMap(([_, courseId]) => {
         return this.courseResourcesService.getCourseSections(courseId).pipe(
-          first(),
           map((courseSections) =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),

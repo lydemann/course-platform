@@ -86,6 +86,12 @@
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
       ],
+      "@course-platform/shared/ngrx-universal-rehydrate": [
+        "libs/shared/ngrx-universal-rehydrate/src/index.ts"
+      ],
+      "@course-platform/shared/ngrx-universal-rehydrate/server": [
+        "libs/shared/ngrx-universal-rehydrate/server/src/index.ts"
+      ],
       "@course-platform/shared/ssr/domain": [
         "libs/shared/ssr/domain/src/index.ts"
       ],

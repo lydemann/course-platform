@@ -17,7 +17,6 @@ import { CourseFacadeService } from '@course-platform/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
 import { ActionItemsModule } from './containers/action-items/action-items.module';
-import { CourseContentModule } from './containers/course-content/course-content.module';
 import { QuestionsModule } from './containers/questions/questions.module';
 
 @Component({
@@ -29,18 +28,18 @@ import { QuestionsModule } from './containers/questions/questions.module';
       fxLayout.lt-sm="column"
       xLayoutAlign="space-between"
     >
-      <ng-container *ngIf="isLoading$ | async; else notLoading">
+      <ng-container *ngIf="isLoading(); else notLoading">
         <app-spinner class="spinner"></app-spinner>
       </ng-container>
       <ng-template #notLoading>
         <app-course-sidebar
           fxFlex.gt-xs="25"
           class="sidebar"
-          [sections]="sections$ | async"
-          [selectedSection]="selectedSection$ | async"
-          [lessons]="sectionLessons$ | async"
-          [sectionCompletedPct]="sectionCompletedPct$ | async"
-          [selectedLessonId]="selectedLessonId$ | async"
+          [sections]="(sections$ | async)!"
+          [selectedSection]="(selectedSection$ | async)!"
+          [lessons]="(sectionLessons$ | async)!"
+          [sectionCompletedPct]="(sectionCompletedPct$ | async)!"
+          [selectedLessonId]="(selectedLessonId$ | async)!"
           (lessonSelected)="onLessonSelected($event)"
           (sectionChanged)="onSectionSelected($event)"
         ></app-course-sidebar>
@@ -83,21 +82,28 @@ import { QuestionsModule } from './containers/questions/questions.module';
   imports: [
     CommonModule,
     SharedModule,
-    CourseContentModule,
     ActionItemsModule,
     QuestionsModule,
     CourseSidebarComponent,
   ],
 })
-export class CourseComponent implements OnInit, OnDestroy {
-  sections$: Observable<CourseSection[]>;
-  isLoading$: Observable<boolean>;
-  selectedSection$: Observable<CourseSection>;
-  selectedLesson$: Observable<Lesson>;
-  selectedLessonId$: Observable<string>;
-  sectionLessons$: Observable<Lesson[]>;
-  sectionCompletedPct$: Observable<number>;
-  courseCustomStyle$: Observable<string>;
+export class CourseLayoutComponent implements OnInit, OnDestroy {
+  sections$: Observable<CourseSection[]> = this.courseClientFacade.sections$;
+  isLoading = this.courseClientFacade.isLoading;
+  selectedSection$: Observable<CourseSection> =
+    this.courseClientFacade.selectedSection$;
+  selectedLessonId$: Observable<string> =
+    this.courseClientFacade.selectedLessonId$;
+  sectionLessons$: Observable<Lesson[]> =
+    this.courseClientFacade.sectionLessons$;
+  sectionCompletedPct$: Observable<number> =
+    this.courseClientFacade.sectionCompletedPct$;
+  courseCustomStyle$: Observable<string> =
+    this.courseClientFacade.courseId$.pipe(
+      switchMap((courseId) =>
+        this.courseFacade.getCourseCustomStyling(courseId)
+      )
+    );
   styleElement: unknown;
   destroy$ = new Subject<void>();
 
@@ -120,28 +126,14 @@ export class CourseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isLoading$ = this.courseClientFacade.isLoading$;
-    this.sections$ = this.courseClientFacade.sections$;
-    this.selectedSection$ = this.courseClientFacade.selectedSection$;
-    this.sectionLessons$ = this.courseClientFacade.sectionLessons$;
-    this.selectedLessonId$ = this.courseClientFacade.selectedLessonId$;
-    this.sectionCompletedPct$ = this.courseClientFacade.sectionCompletedPct$;
-    this.courseCustomStyle$ = this.courseClientFacade.courseId$.pipe(
-      switchMap((courseId) =>
-        this.courseFacade.getCourseCustomStyling(courseId)
-      )
-    );
-
     this.courseCustomStyle$
       .pipe(
         takeUntil(this.destroy$),
         filter((style) => !!style)
       )
       .subscribe((style) => {
-        const sanitizedStyle = this.sanitizer.sanitize(
-          SecurityContext.STYLE,
-          style
-        );
+        const sanitizedStyle =
+          this.sanitizer.sanitize(SecurityContext.STYLE, style) ?? '';
         this.createStyle(sanitizedStyle);
       });
   }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
-import { catchError, first, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, first, map, switchMap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/auth-domain';
 import {
@@ -99,13 +99,14 @@ export class CourseResourcesService {
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
     this.courseId = courseId;
-    return this.userService.currentUser$.pipe(
-      switchMap((user) =>
-        this.apollo
+    return this.userService.uid$.pipe(
+      filter((uid) => !!uid),
+      switchMap((uid) => {
+        return this.apollo
           .query<GetCourseSectionsResponseDTO>({
             query: courseSectionsQuery,
             variables: {
-              uid: user.uid,
+              uid,
               courseId,
             },
           })
@@ -132,8 +133,8 @@ export class CourseResourcesService {
               });
               return updatedSections;
             })
-          )
-      )
+          );
+      })
     );
   }
 

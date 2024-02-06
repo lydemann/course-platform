@@ -19,39 +19,44 @@ export interface SectionDropDownValue {
     SectionLessonsComponent,
     SelectOptionComponent,
   ],
-  template: `<div class="sidebar">
-    <div class="section-box">
-      <small class="week-theme-label">WEEK THEME</small>
-      <h5 class="week-theme">{{ selectedSection.theme }}</h5>
-    </div>
+  template: ` @if (selectedSection) {
+    <div class="sidebar">
+      <div class="section-box">
+        <small class="week-theme-label">WEEK THEME</small>
+        <h5 class="week-theme">{{ selectedSection.theme }}</h5>
+      </div>
 
-    <div class="progress-bar-wrapper">
-      <small class="label"
-        >{{ sectionCompletedPct | number : '1.0-2' }}% complete</small
+      <div class="progress-bar-wrapper">
+        <small class="label"
+          >{{ sectionCompletedPct | number : '1.0-2' }}% complete</small
+        >
+        <mat-progress-bar
+          class="progress-bar"
+          mode="determinate"
+          [value]="sectionCompletedPct"
+        ></mat-progress-bar>
+      </div>
+
+      <app-select
+        class="section-select-form-field"
+        [value]="selectedSection.id"
+        (valueChange)="sectionChanged.emit($event)"
       >
-      <mat-progress-bar
-        class="progress-bar"
-        mode="determinate"
-        [value]="sectionCompletedPct"
-      ></mat-progress-bar>
+        <app-select-option
+          *ngFor="let section of sections"
+          [value]="section.id"
+        >
+          {{ section.name }}
+        </app-select-option>
+      </app-select>
+
+      <app-section-lessons
+        [lessons]="lessons"
+        [selectedLessonId]="selectedLessonId"
+        (lessonSelected)="lessonSelected.emit($event)"
+      ></app-section-lessons>
     </div>
-
-    <app-select
-      class="section-select-form-field"
-      [value]="selectedSection.id"
-      (valueChange)="sectionChanged.emit($event)"
-    >
-      <app-select-option *ngFor="let section of sections" [value]="section.id">
-        {{ section.name }}
-      </app-select-option>
-    </app-select>
-
-    <app-section-lessons
-      [lessons]="lessons"
-      [selectedLessonId]="selectedLessonId"
-      (lessonSelected)="lessonSelected.emit($event)"
-    ></app-section-lessons>
-  </div> `,
+    }`,
   styleUrls: ['./course-sidebar.component.scss'],
 })
 export class CourseSidebarComponent {
