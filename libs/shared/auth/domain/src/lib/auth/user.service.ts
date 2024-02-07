@@ -8,7 +8,6 @@ import {
   signal,
 } from '@angular/core';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -29,7 +28,6 @@ export class UserService {
   private platformId = inject(PLATFORM_ID);
 
   constructor(
-    public db: Firestore,
     public afAuth: Auth,
     public ngZone: NgZone,
     private userServerService: UserServerService,
@@ -41,8 +39,6 @@ export class UserService {
         filter((user) => !!user),
         map((user) => user!.uid)
       );
-    } else {
-      this.uid$ = this.currentUser$.pipe(map((user) => user?.uid));
     }
 
     this.afAuth.onAuthStateChanged(async (currentUser) => {

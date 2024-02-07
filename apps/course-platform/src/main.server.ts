@@ -9,10 +9,6 @@ import { REQUEST as SSR_REQUEST } from 'ngx-cookie-service-ssr';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import serviceAccount from '../../../serviceAccountKey.json';
 
-import {
-  REQUEST_TOKEN,
-  RESPONSE_TOKEN,
-} from '@course-platform/shared/ssr/domain';
 import admin, { ServiceAccount } from 'firebase-admin';
 import { ClientRequest, ServerResponse } from 'http';
 import { AppComponent } from './app/app.component';
@@ -39,9 +35,7 @@ export default async function render(
     document,
     url,
     platformProviders: [
-      { provide: REQUEST_TOKEN, useValue: req },
       { provide: SSR_REQUEST, useValue: req },
-      { provide: RESPONSE_TOKEN, useValue: res },
       { provide: 'RESPONSE', useValue: res },
     ],
   });

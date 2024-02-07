@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { isPlatformServer } from '@angular/common';
 import { HttpHandlerFn, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
@@ -26,7 +27,6 @@ export const authServerInterceptor = (
 async function handleAuthServerInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
-  // eslint-disable-next-line @typescript-eslint/ban-types
   location: Object,
   cookieService: SsrCookieService,
   userServerService: UserServerService
@@ -47,8 +47,8 @@ async function handleAuthServerInterceptor(
       headers,
     });
 
-    return next(cookiedRequest!).toPromise()!;
+    return next(cookiedRequest).toPromise();
   } else {
-    return next(req)!.toPromise()!;
+    return next(req).toPromise()!;
   }
 }
