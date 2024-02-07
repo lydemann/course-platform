@@ -71,7 +71,7 @@ export const courseSectionsQuery = gql`
   providedIn: 'root',
 })
 export class CourseResourcesService {
-  private courseId: string;
+  private courseId = '';
   constructor(private apollo: Apollo, private userService: UserService) {}
 
   GET_COURSES_QUERY = gql`
@@ -114,12 +114,15 @@ export class CourseResourcesService {
             map(({ data }) => {
               const updatedSections = data.courseSections.map((section) => {
                 const completedLessonsMap = data.user.completedLessons.reduce(
-                  (prev, cur) => {
+                  (prev: Record<string, boolean>, cur) => {
                     if (!cur.completed) {
-                      return { ...prev };
+                      return { ...prev } as Record<string, boolean>;
                     }
 
-                    return { ...prev, [cur.lessonId]: true };
+                    return { ...prev, [cur.lessonId]: true } as Record<
+                      string,
+                      boolean
+                    >;
                   },
                   {}
                 );
@@ -173,39 +176,6 @@ export class CourseResourcesService {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .mutate<any>({
             mutation: createLessonMutation,
-            update: (cache, { data: { createLesson } }) => {
-              const courseSectionsData =
-                cache.readQuery<GetCourseSectionsResponseDTO>({
-                  query: courseSectionsQuery,
-                  variables: { uid: user.uid, courseId: this.courseId },
-                });
-
-              cache.writeQuery({
-                query: courseSectionsQuery,
-                data: {
-                  ...courseSectionsData,
-                  courseSections: [
-                    ...courseSectionsData.courseSections.reduce(
-                      (prev, section) => {
-                        const currentSection =
-                          section.id === sectionId
-                            ? {
-                                ...section,
-                                lessons: [...section.lessons, createLesson],
-                              }
-                            : section;
-                        return [
-                          ...prev,
-                          { ...currentSection } as CourseSection,
-                        ];
-                      },
-                      []
-                    ),
-                  ],
-                },
-                variables: { uid: user.uid, courseId: this.courseId },
-              });
-            },
           })
           .pipe(map(({ data }) => data))
       )

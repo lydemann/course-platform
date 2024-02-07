@@ -9,9 +9,9 @@ import { AuthService } from '@course-platform/shared/auth/domain';
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
-  emailFormControl: UntypedFormControl;
-  isResetMailSent: boolean;
-  errorMessage: string;
+  emailFormControl!: UntypedFormControl;
+  isResetMailSent!: boolean;
+  errorMessage!: string;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class ForgotPasswordComponent implements OnInit {
         this.emailFormControl.value
       );
     } catch (error) {
-      this.errorMessage = error.message;
+      this.errorMessage = (error as Error).message;
     }
 
     this.isResetMailSent = true;

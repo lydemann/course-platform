@@ -15,6 +15,7 @@ import {
 import { UserService } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,
+  State,
   selectRouteParam,
 } from '@course-platform/shared/domain';
 import { CourseActions } from './course.actions';
@@ -48,14 +49,14 @@ export class CourseEffects {
           this.store.select(CourseSelectors.selectSectionsEntitiesRaw),
           this.store.select(selectRouteParam('courseId'))
         ),
-        switchMap(([{ selectedSectionId }, sectionsMap, courseId]) =>
-          this.router.navigate([
+        switchMap(([{ selectedSectionId }, sectionsMap, courseId]) => {
+          return this.router.navigate([
             'courses',
             courseId,
             selectedSectionId,
-            sectionsMap[selectedSectionId].lessons[0] || '0',
-          ])
-        )
+            sectionsMap[selectedSectionId]!.lessons[0] || '0',
+          ]);
+        })
       );
     },
     { dispatch: false }
@@ -128,7 +129,8 @@ export class CourseEffects {
     private actions$: Actions,
     private courseResourcesService: CourseResourcesService,
     private router: Router,
-    private store: Store,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private store: Store<State>,
     private userService: UserService
   ) {}
 }

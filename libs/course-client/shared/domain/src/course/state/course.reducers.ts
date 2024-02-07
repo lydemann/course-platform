@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import { produce } from 'immer';
 
 import { Lesson } from '@course-platform/shared/interfaces';
@@ -10,7 +10,10 @@ import {
   courseSectionAdapter,
 } from './course.model';
 
-export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
+export const courseReducer = createReducer<
+  CourseState,
+  Action | CourseActionsUnion
+>(
   courseInitState,
   on(CourseActions.courseInitiated, (state) => ({
     ...state,
@@ -104,11 +107,21 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
     CourseActions.actionItemCompletedChanged,
     (state, { completed, resourceId, sectionId }) => {
       return produce<CourseState>(state, (draft) => {
-        const actionItemToUpdate = draft.sectionsState.entities[
-          sectionId
-        ].actionItems.find((actionItem) => actionItem.id === resourceId);
-        actionItemToUpdate.isCompleted = completed;
+        const section = draft.sectionsState.entities[sectionId];
 
+        if (!section) {
+          throw new Error(`Section not found with id: ${sectionId}`);
+        }
+
+        const actionItemToUpdate = section.actionItems.find(
+          (actionItem) => actionItem.id === resourceId
+        );
+
+        if (!actionItemToUpdate) {
+          throw new Error(`Action item not found with id: ${resourceId}`);
+        }
+
+        actionItemToUpdate.isCompleted = !completed;
         return draft;
       });
     }
@@ -117,9 +130,20 @@ export const courseReducer = createReducer<CourseState, CourseActionsUnion>(
     CourseActions.setActionItemCompletedFailed,
     (state, { completed, resourceId, sectionId }) => {
       return produce<CourseState>(state, (draft) => {
-        const actionItemToUpdate = draft.sectionsState.entities[
-          sectionId
-        ].actionItems.find((actionItem) => actionItem.id === resourceId);
+        const section = draft.sectionsState.entities[sectionId];
+
+        if (!section) {
+          throw new Error(`Section not found with id: ${sectionId}`);
+        }
+
+        const actionItemToUpdate = section.actionItems.find(
+          (actionItem) => actionItem.id === resourceId
+        );
+
+        if (!actionItemToUpdate) {
+          throw new Error(`Action item not found with id: ${resourceId}`);
+        }
+
         actionItemToUpdate.isCompleted = !completed;
 
         return draft;

@@ -1,11 +1,25 @@
 {
   "extends": "../../../../tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["node", "jest"]
-  },
   "include": [
     "**/*.ts",
     "../../../course-client/shared/domain/src/auth/redirect-if-logged-out-server.guard.ts"
   ],
-  "exclude": ["jest.config.ts"]
+  "exclude": ["jest.config.ts"],
+  "compilerOptions": {
+    "target": "es2020",
+    "types": ["node", "jest"],
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }

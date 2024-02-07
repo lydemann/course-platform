@@ -8,7 +8,6 @@ import {
   ActionItem,
   CourseSection,
   Lesson,
-  LessonRouteData,
   LessonTypes,
 } from '@course-platform/shared/interfaces';
 import {
@@ -89,7 +88,9 @@ export namespace CourseSelectors {
     (sections, lessonsMap): CourseSection[] => {
       return sections.map((section) => ({
         ...section,
-        lessons: section.lessons.map((lessonId) => lessonsMap[lessonId]),
+        lessons: section.lessons
+          .map((lessonId) => lessonsMap[lessonId])
+          .filter((lesson) => lesson !== undefined) as Lesson[],
       }));
     }
   );
@@ -127,12 +128,12 @@ export namespace CourseSelectors {
   export const selectSelectedLessonId = createSelector(
     selectRouteParam(selectedLessonIdRouteParam),
     selectRouteData,
-    (lessonId, data: LessonRouteData) => {
-      if (data.lessonType === LessonTypes.Lesson) {
+    (lessonId, data) => {
+      if (data['lessonType'] === LessonTypes.Lesson) {
         return lessonId;
       }
 
-      return data.lessonType;
+      return data['lessonType'];
     }
   );
 
@@ -147,7 +148,11 @@ export namespace CourseSelectors {
     selectSelectedLessonId,
     selectLessonsEntities,
     (selectedLessonId, courseLessons) => {
-      return courseLessons[selectedLessonId];
+      const lesson = courseLessons[selectedLessonId];
+      if (!lesson) {
+        throw new Error(`Lesson with id ${selectedLessonId} not found`);
+      }
+      return lesson;
     }
   );
 

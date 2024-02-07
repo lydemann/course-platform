@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import {
   CourseResourcesService,
+  State,
   selectRouteParam,
 } from '@course-platform/shared/domain';
 import {
@@ -20,7 +21,7 @@ import { CourseSelectors } from './state/course.selectors';
 })
 export class CourseClientFacade {
   constructor(
-    private store: Store<unknown>,
+    private store: Store<State>,
     private courseResourcesService: CourseResourcesService
   ) {}
 

@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (!this.userService.currentUser$.value || !this.auth.tenantId) {
+    if (!this.userService.currentUser() || !this.auth.tenantId) {
       return next.handle(req);
     }
 
@@ -44,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const userService = inject(UserService);
   const auth = inject(Auth);
-  if (!userService.currentUser$.value || !auth.tenantId) {
+  if (!userService.currentUser() || !auth.tenantId) {
     return next(req);
   }
 

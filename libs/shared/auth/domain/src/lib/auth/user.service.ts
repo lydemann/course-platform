@@ -10,16 +10,19 @@ import {
 import { Auth, User, updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, from } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { UserServerService } from './user-server.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  currentUser$ = new BehaviorSubject<User>(null);
-  currentUser = signal<User>(null);
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject
+    .asObservable()
+    .pipe(filter((user) => !!user)) as Observable<User>;
+  currentUser = signal<User | null>(null);
   uid$ = this.currentUser$.pipe(map((user) => user?.uid));
   uid = signal<string>('');
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
@@ -35,19 +38,20 @@ export class UserService {
     if (isPlatformServer(this.platformId)) {
       this.isLoggedIn$ = from(userServerService.isLoggedIn());
       this.uid$ = from(userServerService.getUserInfo()).pipe(
-        map((user) => user.uid)
+        filter((user) => !!user),
+        map((user) => user!.uid)
       );
     } else {
       this.uid$ = this.currentUser$.pipe(map((user) => user?.uid));
     }
 
     this.afAuth.onAuthStateChanged(async (currentUser) => {
-      if (isPlatformBrowser(this.platformId)) {
+      if (isPlatformBrowser(this.platformId) && currentUser) {
         const token = await currentUser.getIdToken();
         cookieService.set('token', token);
         this.ngZone.run(() => {
           this.currentUser.set(currentUser);
-          this.currentUser$.next(currentUser);
+          this.currentUserSubject.next(currentUser);
         });
       }
     });
@@ -65,9 +69,10 @@ export class UserService {
     );
   }
 
-  updateCurrentUser(value) {
+  updateCurrentUser(value: { name: string }) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>((resolve, reject) => {
+      if (!this.afAuth.currentUser) return reject('No user');
       const user = this.afAuth.currentUser;
       updateProfile(user, {
         displayName: value.name,

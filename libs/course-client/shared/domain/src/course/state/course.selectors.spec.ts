@@ -1,8 +1,4 @@
-import {
-  courseInitState,
-  courseSectionAdapter,
-  CourseSectionStore,
-} from './course.model';
+import { courseInitState, CourseSectionStore } from './course.model';
 import { CourseSelectors } from './course.selectors';
 
 describe('Course list selectors', () => {
@@ -19,7 +15,9 @@ describe('Course list selectors', () => {
 
   describe('getCourseSections', () => {
     it('should select course sections', () => {
-      const courseSections = [{ id: '1', lessons: [] }] as CourseSectionStore[];
+      const courseSections = [
+        { id: '1', lessons: [] as string[] } as CourseSectionStore,
+      ];
 
       const sections = CourseSelectors.selectSections.projector(
         courseSections,

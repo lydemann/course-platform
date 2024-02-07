@@ -42,14 +42,14 @@ export class SchoolIdService {
     }
 
     if (urlParts.length <= hostNameDotCount) {
-      return urlParts.shift();
+      return urlParts.shift() || '';
     }
 
     const endOfSplitsIdx = urlParts.length;
     return urlParts.slice(0, endOfSplitsIdx - hostNameDotCount).join('.');
   }
 
-  private getSchoolId(customDomain) {
+  private getSchoolId(customDomain: string) {
     const query = gql`
       query getSchoolIdQuery($customDomain: String!) {
         schoolId(customDomain: $customDomain)

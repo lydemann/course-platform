@@ -33,8 +33,8 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   @Input() public thousandToDecimalSeparatorEnabled = true;
   @Input() public thousandSeparatorEnabled = true;
   @Input() public decimalsEnabled = true;
-  public groupingSeparator: string;
-  public decimalSeparator: string;
+  public groupingSeparator!: string;
+  public decimalSeparator!: string;
 
   private destroy$ = new Subject<void>();
   private lastValue = '';
@@ -60,8 +60,8 @@ export class NumberInputDirective implements OnInit, OnDestroy {
     );
 
     this.lastValue = this.hostElement.nativeElement.value;
-    return this.ngControl.valueChanges
-      .pipe(
+    return this.ngControl
+      .valueChanges!.pipe(
         takeUntil(this.destroy$),
         map((value) => value || ''),
         map((value) => this.convertThousandToDecimalSeparator(value)),
@@ -81,6 +81,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public formatNoDecimals(value: string): any {
     if (this.decimalsEnabled) {
       return value;
@@ -91,7 +92,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
       decimalIdx !== -1 ? value.substring(0, decimalIdx) : value;
 
     const inputElm = this.hostElement.nativeElement as HTMLInputElement;
-    this.updateVal(noDecimalVal, inputElm, inputElm.selectionStart);
+    this.updateVal(noDecimalVal, inputElm, inputElm.selectionStart!);
     return noDecimalVal;
   }
 
@@ -100,7 +101,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
       return value;
     }
     const inputElement = this.hostElement.nativeElement;
-    const cursorPosition = inputElement.selectionStart;
+    const cursorPosition = inputElement.selectionStart!;
     const lengthBeforeFormatting = value.length;
     const formattedVal = this.getNumberWithThousandSeparator(
       value,
@@ -145,9 +146,9 @@ export class NumberInputDirective implements OnInit, OnDestroy {
     if (hasAddedThousandSeparator) {
       const inputElement = this.hostElement.nativeElement;
       const cursorPosition = inputElement.selectionStart;
-      val = this.replaceAt(val, cursorPosition - 1, this.decimalSeparator);
+      val = this.replaceAt(val, cursorPosition! - 1, this.decimalSeparator);
 
-      this.updateVal(val, inputElement, cursorPosition);
+      this.updateVal(val, inputElement, cursorPosition!);
     }
 
     return val;
@@ -240,7 +241,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
       return;
     }
 
-    this.ngControl.control.setValue(formattedVal, {
+    this.ngControl.control!.setValue(formattedVal, {
       emitEvent: false,
       onlySelf: true,
     });
@@ -249,7 +250,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
       this.getValWithoutThousandSeparators(formattedVal);
 
     // This is for setting the formControl value without thousand separators but not reflecting it in the view
-    this.ngControl.control.setValue(valWithoutThousandSeparator, {
+    this.ngControl.control!.setValue(valWithoutThousandSeparator, {
       emitEvent: false,
       emitModelToViewChange: false,
     });

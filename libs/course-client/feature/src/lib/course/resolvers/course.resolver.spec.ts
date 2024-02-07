@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createServiceFactory,
   SpectatorService,
@@ -21,13 +22,15 @@ describe('CourseResolver', () => {
   });
 
   it('should fetch sections', () => {
-    spectator.service.resolve({
-      params: {
-        selectedSectionId: '0',
-        selectedLessonId: '0',
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    spectator.service.resolve(
+      {
+        params: {
+          selectedSectionId: '0',
+          selectedLessonId: '0',
+        } as any,
+      } as any,
+      {} as any
+    );
 
     expect(courseFacadeService.courseInitiated).toHaveBeenCalled();
   });

@@ -14,7 +14,7 @@ export interface CourseState {
 
 export interface SectionsState extends EntityState<CourseSectionStore> {
   isLoading: boolean;
-  error: HttpErrorResponse;
+  error: HttpErrorResponse | null;
 }
 export const courseSectionAdapter: EntityAdapter<CourseSectionStore> =
   createEntityAdapter<CourseSectionStore>({
@@ -23,7 +23,7 @@ export const courseSectionAdapter: EntityAdapter<CourseSectionStore> =
 
 export interface LessonsState extends EntityState<Lesson> {
   isLoading: boolean;
-  error: HttpErrorResponse;
+  error: HttpErrorResponse | null;
 }
 
 export const courseLessonAdapter: EntityAdapter<Lesson> =

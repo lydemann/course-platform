@@ -14,18 +14,17 @@ export class CourseResolver implements Resolve<null> {
   constructor(private courseFacadeService: CourseClientFacade) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): null {
-    courseResolver(route, state);
+    courseResolver(route, state, this.courseFacadeService);
 
     return null;
   }
 }
 
-export const courseResolver: ResolveFn<null> = (
+export const courseResolver = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
+  courseFacadeService = inject(CourseClientFacade)
 ) => {
-  const courseFacadeService = inject(CourseClientFacade);
-
   courseFacadeService.courseInitiated();
 
   return null;
@@ -33,9 +32,9 @@ export const courseResolver: ResolveFn<null> = (
 
 export const courseServerResolver: ResolveFn<null> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
+  courseFacadeService = inject(CourseClientFacade)
 ) => {
-  const courseFacadeService = inject(CourseClientFacade);
   const platformId = inject(PLATFORM_ID);
 
   if (isPlatformServer(platformId)) {

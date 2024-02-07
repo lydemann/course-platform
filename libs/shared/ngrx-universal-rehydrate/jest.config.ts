@@ -4,7 +4,7 @@ export default {
 
   setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../coverage/libs/shared/ngrx-universal-rehydrate',
+  coverageDirectory: '../../../coverage/libs/shared/ngrx-universal-rehydrate',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
@@ -21,5 +21,5 @@ export default {
     ],
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
-  preset: '../../jest.preset.js',
+  preset: '../../../jest.preset.js',
 };

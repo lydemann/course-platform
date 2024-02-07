@@ -1,19 +1,14 @@
 import { isPlatformServer } from '@angular/common';
-import {
-  HttpHandlerFn,
-  HttpHeaders,
-  HttpInterceptorFn,
-  HttpRequest,
-} from '@angular/common/http';
+import { HttpHandlerFn, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { from } from 'rxjs';
 import { UserServerService } from './user-server.service';
 
-export const authServerInterceptor: HttpInterceptorFn = (
+export const authServerInterceptor = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
-  location = inject(PLATFORM_ID),
+  platformId = inject(PLATFORM_ID),
   cookieService = inject(SsrCookieService),
   userServerService = inject(UserServerService)
 ) => {
@@ -21,19 +16,20 @@ export const authServerInterceptor: HttpInterceptorFn = (
     handleAuthServerInterceptor(
       req,
       next,
-      location,
+      platformId,
       cookieService,
       userServerService
-    )
-  );
+    )!
+  )!;
 };
 
 async function handleAuthServerInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
-  location,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  location: Object,
   cookieService: SsrCookieService,
-  userServerService
+  userServerService: UserServerService
 ) {
   if (isPlatformServer(location)) {
     let headers = new HttpHeaders();
@@ -43,14 +39,16 @@ async function handleAuthServerInterceptor(
 
     const userInfo = await userServerService.getUserInfo();
     const tenantId = userInfo?.firebase?.tenant;
-    headers = headers.set('Schoolid', tenantId);
+    if (tenantId) {
+      headers = headers.set('Schoolid', tenantId);
+    }
 
     const cookiedRequest = req.clone({
       headers,
     });
 
-    return next(cookiedRequest).toPromise();
+    return next(cookiedRequest!).toPromise()!;
   } else {
-    return next(req).toPromise();
+    return next(req)!.toPromise()!;
   }
 }

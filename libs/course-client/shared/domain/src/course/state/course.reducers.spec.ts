@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { CourseSection } from '@course-platform/shared/interfaces';
+import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';
-import { courseInitState, CourseState } from './course.model';
+import { CourseState, courseInitState } from './course.model';
 import { courseReducer } from './course.reducers';
 
 fdescribe('Course List reducers', () => {
@@ -21,7 +21,9 @@ fdescribe('Course List reducers', () => {
   });
 
   describe('fetchSectionsSuccess', () => {
-    const courseSections = [{ id: '1', lessons: [] }] as CourseSection[];
+    const courseSections = [
+      { id: '1', lessons: [] as Lesson[] } as CourseSection,
+    ];
 
     beforeEach(() => {
       updatedState = courseReducer(

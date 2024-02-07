@@ -9,7 +9,7 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { User } from '@angular/fire/auth';
 import { UserService } from '@course-platform/shared/auth/domain';
@@ -45,7 +45,7 @@ describe('CourseEffects', () => {
     it('should fetch sections', () => {
       const courseSections = [{ id: '1' }] as CourseSection[];
 
-      userService.currentUser$ = new BehaviorSubject<User>(null!);
+      userService.currentUser$ = of<User>({} as User);
       courseResourcesService.getCourseSections.andReturn(
         cold('a|', { a: courseSections })
       );

@@ -6,7 +6,7 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
   providedIn: 'root',
 })
 export class UserServerService {
-  idToken = signal<DecodedIdToken>(null);
+  idToken = signal<DecodedIdToken | null>(null);
 
   constructor(private cookieService: SsrCookieService) {}
 
