@@ -2,5 +2,12 @@
   "functions": {
     "source": "/",
     "runtime": "nodejs16"
-  }
+  },
+  "hosting": [
+    {
+      "public": "public",
+      "cleanUrls": true,
+      "rewrites": [{ "source": "**", "function": "server" }]
+    }
+  ]
 }
