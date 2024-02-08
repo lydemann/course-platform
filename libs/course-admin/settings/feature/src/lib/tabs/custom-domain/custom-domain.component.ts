@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import * as rxjs from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { CustomDomainService } from '@course-platform/shared/domain';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-custom-domain',
   templateUrl: './custom-domain.component.html',
   styleUrls: ['./custom-domain.component.scss'],
 })
-export class CustomDomainComponent implements OnInit {
-  isLoading$: rxjs.Observable<boolean>;
+export class CustomDomainComponent {
+  isLoading$: Observable<boolean>;
   customDomainFormControl$: rxjs.Observable<UntypedFormControl>;
 
-  constructor(private customDomainService: CustomDomainService) {}
-
-  ngOnInit() {
+  constructor(private customDomainService: CustomDomainService) {
     this.isLoading$ = this.customDomainService.isLoading$;
     this.customDomainFormControl$ = this.customDomainService
       .getCustomDomain()

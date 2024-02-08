@@ -62,11 +62,11 @@ export interface SectionDropDownValue {
   styleUrls: ['./course-sidebar.component.scss'],
 })
 export class CourseSidebarComponent {
-  @Input() sections: CourseSection[];
-  @Input() selectedSection: CourseSection;
-  @Input() selectedLessonId: string;
-  @Input() lessons: Lesson[];
-  @Input() sectionCompletedPct: number;
+  @Input() sections: CourseSection[] = [];
+  @Input() selectedSection: CourseSection = {} as CourseSection;
+  @Input() selectedLessonId: string = '';
+  @Input() lessons: Lesson[] = [];
+  @Input() sectionCompletedPct: number = 0;
   @Output() lessonSelected = new EventEmitter<string>();
   @Output() sectionChanged = new EventEmitter<string>();
 }

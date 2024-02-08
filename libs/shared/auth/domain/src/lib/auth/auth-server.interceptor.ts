@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { isPlatformServer } from '@angular/common';
-import { HttpHandlerFn, HttpHeaders, HttpRequest } from '@angular/common/http';
+import {
+  HttpHandlerFn,
+  HttpHeaders,
+  HttpInterceptorFn,
+  HttpRequest,
+} from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
-import { from } from 'rxjs';
+import { from, lastValueFrom } from 'rxjs';
 import { UserServerService } from './user-server.service';
 
-export const authServerInterceptor = (
+export const authServerInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   platformId = inject(PLATFORM_ID),
@@ -47,8 +52,8 @@ async function handleAuthServerInterceptor(
       headers,
     });
 
-    return next(cookiedRequest).toPromise();
+    return lastValueFrom(next(cookiedRequest));
   } else {
-    return next(req).toPromise()!;
+    return lastValueFrom(next(req));
   }
 }

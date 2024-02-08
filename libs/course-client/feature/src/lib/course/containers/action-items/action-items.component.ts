@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
@@ -20,15 +20,13 @@ export const actionItemsRouteId = 'action-items';
   standalone: true,
   imports: [SharedModule],
 })
-export class ActionItemsComponent implements OnInit {
-  public actionItems$: Observable<ActionItem[]>;
-  public selectedSectionId$: Observable<string>;
+export class ActionItemsComponent {
+  public actionItems$: Observable<ActionItem[]> =
+    this.courseFacadeService.actionItems$;
+  public selectedSectionId$: Observable<string> =
+    this.courseFacadeService.selectedSectionId$;
 
   constructor(private courseFacadeService: CourseClientFacade) {}
-  ngOnInit(): void {
-    this.actionItems$ = this.courseFacadeService.actionItems$;
-    this.selectedSectionId$ = this.courseFacadeService.selectedSectionId$;
-  }
 
   public onCompleteChanged(
     resourceId: string,

@@ -13,7 +13,8 @@ import { FeatureToggleService } from '../services/feature-toggle.service';
   selector: '[appFeatureToggle]',
 })
 export class FeatureToggleDirective implements OnInit {
-  @Input('appFeatureToggle') public featureFlag: featureFlags | featureFlags[];
+  @Input('appFeatureToggle') public featureFlag: featureFlags | featureFlags[] =
+    [];
 
   constructor(
     private vcr: ViewContainerRef,

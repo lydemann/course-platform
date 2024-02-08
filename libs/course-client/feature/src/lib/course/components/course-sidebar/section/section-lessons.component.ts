@@ -43,8 +43,8 @@ import { Lesson, LessonTypes } from '@course-platform/shared/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionLessonsComponent {
-  @Input() lessons: Lesson[];
-  @Input() selectedLessonId: string;
+  @Input() lessons: Lesson[] = [];
+  @Input() selectedLessonId: string = '';
   @Output() lessonSelected = new EventEmitter<string>();
 
   get lessonType() {

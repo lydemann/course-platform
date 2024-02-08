@@ -1,10 +1,10 @@
 import { RouteMeta } from '@analogjs/router';
 import { Component } from '@angular/core';
-import { RedirectToCourseResolver } from '@course-platform/course-client/feature';
+import { redirectToCourseResolver } from '@course-platform/course-client/feature';
 
 export const routeMeta: RouteMeta = {
   title: '',
-  resolve: [RedirectToCourseResolver],
+  resolve: { redirectToCourseResolver },
 };
 
 @Component({

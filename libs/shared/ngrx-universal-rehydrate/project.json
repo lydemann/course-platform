@@ -5,18 +5,6 @@
   "sourceRoot": "libs/shared/ngrx-universal-rehydrate/src",
   "prefix": "trellisorg",
   "targets": {
-    "build": {
-      "executor": "@nx/angular:package",
-      "options": {
-        "tsConfig": "libs/shared/ngrx-universal-rehydrate/tsconfig.lib.json",
-        "project": "libs/shared/ngrx-universal-rehydrate/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/shared/ngrx-universal-rehydrate/tsconfig.lib.prod.json"
-        }
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {

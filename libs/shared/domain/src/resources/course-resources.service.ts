@@ -88,8 +88,9 @@ export class CourseResourcesService {
     return this.apollo
       .query<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
       .pipe(
-        map(({ data }) => {
-          return data.course;
+        map((data) => {
+          console.log('getCourses data', data);
+          return data?.data?.course || [];
         }),
         catchError((error) => {
           throw error;
@@ -112,6 +113,7 @@ export class CourseResourcesService {
           })
           .pipe(
             map(({ data }) => {
+              console.log('data', data);
               const updatedSections = data.courseSections.map((section) => {
                 const completedLessonsMap = data.user.completedLessons.reduce(
                   (prev: Record<string, boolean>, cur) => {

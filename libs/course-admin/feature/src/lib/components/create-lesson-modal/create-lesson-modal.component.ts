@@ -4,10 +4,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-create-lesson-modal',
   templateUrl: './create-lesson-modal.component.html',
-  styleUrls: ['./create-lesson-modal.component.scss']
+  styleUrls: ['./create-lesson-modal.component.scss'],
 })
 export class CreateLessonModalComponent {
-  lessonName: string;
+  lessonName: string = '';
 
   constructor(public dialogRef: MatDialogRef<CreateLessonModalComponent>) {}
 

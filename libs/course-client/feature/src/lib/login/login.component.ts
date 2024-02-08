@@ -9,7 +9,10 @@ import {
 import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
-import { AuthService } from '@course-platform/shared/auth/domain';
+import {
+  AuthService,
+  UserCredentials,
+} from '@course-platform/shared/auth/domain';
 
 @Component({
   selector: 'app-login',
@@ -80,8 +83,8 @@ export class LoginComponent {
     });
   }
 
-  tryLogin(value: unknown) {
-    this.authService.doLogin(value).then(
+  tryLogin(userCredentials: UserCredentials) {
+    this.authService.doLogin(userCredentials).then(
       (res) => {
         this.router.navigate(['courses']);
       },
