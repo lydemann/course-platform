@@ -64,9 +64,9 @@ export interface SectionDropDownValue {
 export class CourseSidebarComponent {
   @Input() sections: CourseSection[] = [];
   @Input() selectedSection: CourseSection = {} as CourseSection;
-  @Input() selectedLessonId: string = '';
+  @Input() selectedLessonId = '';
   @Input() lessons: Lesson[] = [];
-  @Input() sectionCompletedPct: number = 0;
+  @Input() sectionCompletedPct = 0;
   @Output() lessonSelected = new EventEmitter<string>();
   @Output() sectionChanged = new EventEmitter<string>();
 }

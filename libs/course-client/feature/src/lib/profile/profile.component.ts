@@ -28,7 +28,7 @@ export class ProfileComponent {
     newPassword: ['', Validators.required],
     confirmPassword: ['', Validators.required],
   });
-  errorMessage: string = '';
+  errorMessage = '';
   constructor(
     private profileService: ProfileService,
     private formBuilder: FormBuilder,

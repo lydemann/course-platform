@@ -1,11 +1,11 @@
 {
   "functions": {
-    "source": "dist/analog/server"
+    "source": "server"
   },
   "hosting": [
     {
-      "site": "analog-js",
-      "public": "dist/analog/public",
+      "site": "course-portal-analog",
+      "public": "public",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true,
       "rewrites": [{ "source": "**", "function": "server" }]

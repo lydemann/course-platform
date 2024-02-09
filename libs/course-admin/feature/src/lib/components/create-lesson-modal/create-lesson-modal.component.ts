@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./create-lesson-modal.component.scss'],
 })
 export class CreateLessonModalComponent {
-  lessonName: string = '';
+  lessonName = '';
 
   constructor(public dialogRef: MatDialogRef<CreateLessonModalComponent>) {}
 

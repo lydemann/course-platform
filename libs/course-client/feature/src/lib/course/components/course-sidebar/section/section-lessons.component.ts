@@ -44,7 +44,7 @@ import { Lesson, LessonTypes } from '@course-platform/shared/interfaces';
 })
 export class SectionLessonsComponent {
   @Input() lessons: Lesson[] = [];
-  @Input() selectedLessonId: string = '';
+  @Input() selectedLessonId = '';
   @Output() lessonSelected = new EventEmitter<string>();
 
   get lessonType() {

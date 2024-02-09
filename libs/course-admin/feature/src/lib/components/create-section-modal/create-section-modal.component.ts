@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./create-section-modal.component.scss'],
 })
 export class CreateSectionModalComponent {
-  sectionName: string = '';
+  sectionName = '';
 
   constructor(public dialogRef: MatDialogRef<CreateSectionModalComponent>) {}
 

@@ -4,7 +4,7 @@
   },
   "hosting": [
     {
-      "site": "<your_project_id>",
+      "site": "course-portal-analog",
       "public": "../../dist/apps/course-platform-analog/analog/public",
       "cleanUrls": true,
       "rewrites": [
