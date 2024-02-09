@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "source": "dist/analog/server"
+  },
+  "hosting": [
+    {
+      "site": "analog-js",
+      "public": "dist/analog/public",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "cleanUrls": true,
+      "rewrites": [{ "source": "**", "function": "server" }]
+    }
+  ]
+}

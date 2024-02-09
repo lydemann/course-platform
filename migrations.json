@@ -1,67 +1,77 @@
 {
   "migrations": [
     {
-      "version": "1.9.0",
-      "description": "Updates @angular-eslint to v2",
-      "factory": "./migrations/update-2-0-0/update-2-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-2-0-0"
+      "cli": "nx",
+      "version": "17.3.0-beta.6",
+      "description": "Updates the nx wrapper.",
+      "implementation": "./src/migrations/update-17-3-0/update-nxw",
+      "package": "nx",
+      "name": "17.3.0-update-nx-wrapper"
     },
     {
-      "version": "2.9.0",
-      "description": "Updates @angular-eslint to v3",
-      "factory": "./migrations/update-3-0-0/update-3-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-3-0-0"
+      "cli": "nx",
+      "version": "18.0.0-beta.2",
+      "description": "Updates .env to disabled adding plugins when generating projects in an existing Nx workspace",
+      "implementation": "./src/migrations/update-18-0-0/disable-crystal-for-existing-workspaces",
+      "x-repair-skip": true,
+      "package": "nx",
+      "name": "18.0.0-disable-adding-plugins-for-existing-workspaces"
     },
     {
-      "version": "3.9.0",
-      "description": "Updates @angular-eslint to v4",
-      "factory": "./migrations/update-4-0-0/update-4-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-4-0-0"
+      "cli": "nx",
+      "version": "18.0.0-beta.0",
+      "description": "Add NX_MF_DEV_SERVER_STATIC_REMOTES to inputs for task hashing when '@nx/angular:webpack-browser' is used for Module Federation.",
+      "factory": "./src/migrations/update-18-0-0/add-mf-env-var-to-target-defaults",
+      "package": "@nx/angular",
+      "name": "add-module-federation-env-var-to-target-defaults"
     },
     {
-      "version": "4.9.0",
-      "description": "Updates @angular-eslint to v12",
-      "factory": "./migrations/update-12-0-0/update-12-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-12-0-0"
+      "version": "17.2.9",
+      "description": "Move executor options to target defaults",
+      "implementation": "./src/migrations/update-17-2-9/move-options-to-target-defaults",
+      "package": "@nx/eslint",
+      "name": "move-options-to-target-defaults"
     },
     {
-      "version": "13.0.0-alpha.0",
-      "description": "Updates @angular-eslint to v13",
-      "factory": "./migrations/update-13-0-0/update-13-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-13-0-0"
+      "cli": "nx",
+      "version": "17.3.0-beta.10",
+      "requires": {
+        "@angular/core": ">=17.1.0"
+      },
+      "description": "Update the @angular/cli package version to ~17.1.0.",
+      "factory": "./src/migrations/update-17-3-0/update-angular-cli",
+      "package": "@nrwl/angular",
+      "name": "update-angular-cli-version-17-1-0"
     },
     {
-      "version": "14.0.0-alpha.0",
-      "description": "Updates @angular-eslint to v14",
-      "factory": "./migrations/update-14-0-0/update-14-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-14-0-0"
+      "cli": "nx",
+      "version": "17.3.0-beta.10",
+      "requires": {
+        "@angular/core": ">=17.1.0"
+      },
+      "description": "Add 'browser-sync' as dev dependency when '@angular-devkit/build-angular:ssr-dev-server' or '@nx/angular:module-federation-dev-ssr' is used.",
+      "factory": "./src/migrations/update-17-3-0/add-browser-sync-dependency",
+      "package": "@nrwl/angular",
+      "name": "add-browser-sync-dependency"
     },
     {
-      "version": "15.0.0-alpha.1",
-      "description": "Updates @angular-eslint to v15",
-      "factory": "./migrations/update-15-0-0/update-15-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-15-0-0"
+      "cli": "nx",
+      "version": "17.3.0-beta.10",
+      "requires": {
+        "@angular/core": ">=17.1.0"
+      },
+      "description": "Add 'autoprefixer' as dev dependency when '@nx/angular:ng-packagr-lite' or '@nx/angular:package` is used.",
+      "factory": "./src/migrations/update-17-3-0/add-autoprefixer-dependency",
+      "package": "@nrwl/angular",
+      "name": "add-autoprefixer-dependency"
     },
     {
-      "version": "16.0.0-alpha.0",
-      "description": "Updates @angular-eslint to v16",
-      "factory": "./migrations/update-16-0-0/update-16-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-16-0-0"
-    },
-    {
-      "version": "17.0.0-alpha.0",
-      "description": "Updates @angular-eslint to v17",
-      "factory": "./migrations/update-17-0-0/update-17-0-0",
-      "package": "@angular-eslint/schematics",
-      "name": "update-17-0-0"
+      "cli": "nx",
+      "version": "18.0.0-beta.0",
+      "description": "Add NX_MF_DEV_SERVER_STATIC_REMOTES to inputs for task hashing when '@nx/angular:webpack-browser' is used for Module Federation.",
+      "factory": "./src/migrations/update-18-0-0/add-mf-env-var-to-target-defaults",
+      "package": "@nrwl/angular",
+      "name": "add-module-federation-env-var-to-target-defaults"
     }
   ]
 }

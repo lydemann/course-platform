@@ -87,8 +87,7 @@
   "functions": [
     {
       "source": "/",
-      "runtime": "nodejs16",
-      "codebase": "default"
+      "runtime": "nodejs20"
     }
   ]
 }

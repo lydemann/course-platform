@@ -1,22 +1,23 @@
 {
-  "name": "course-platform",
+  "name": "course-platform-analog",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/course-platform/src",
+  "sourceRoot": "apps/course-platform-analog/src",
   "targets": {
     "build": {
       "executor": "@analogjs/platform:vite",
       "outputs": [
         "{options.outputPath}",
-        "{workspaceRoot}/dist/apps/course-platform/.nitro",
-        "{workspaceRoot}/dist/apps/course-platform/ssr",
-        "{workspaceRoot}/dist/apps/course-platform/analog"
+        "{workspaceRoot}/dist/apps/course-platform-analog/.nitro",
+        "{workspaceRoot}/dist/apps/course-platform-analog/firebase.json",
+        "{workspaceRoot}/dist/apps/course-platform-analog/ssr",
+        "{workspaceRoot}/dist/apps/course-platform-analog/analog"
       ],
       "options": {
-        "main": "apps/course-platform/src/main.ts",
-        "configFile": "apps/course-platform/vite.config.ts",
-        "outputPath": "dist/apps/course-platform/client",
-        "tsConfig": "apps/course-platform/tsconfig.app.json"
+        "main": "apps/course-platform-analog/src/main.ts",
+        "configFile": "apps/course-platform-analog/vite.config.ts",
+        "outputPath": "dist/apps/course-platform-analog/client",
+        "tsConfig": "apps/course-platform-analog/tsconfig.app.json"
       },
       "defaultConfiguration": "production",
       "configurations": {
@@ -33,23 +34,23 @@
       "executor": "@analogjs/platform:vite-dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "course-platform:build",
+        "buildTarget": "course-platform-analog:build",
         "port": 4200
       },
       "configurations": {
         "development": {
-          "buildTarget": "course-platform:build:development",
+          "buildTarget": "course-platform-analog:build:development",
           "hmr": true
         },
         "production": {
-          "buildTarget": "course-platform:build:production"
+          "buildTarget": "course-platform-analog:build:production"
         }
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "course-platform:build"
+        "browserTarget": "course-platform-analog:build"
       }
     },
     "test": {
@@ -58,9 +59,8 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/course-platform/**/*.{ts,html}"]
+        "lintFilePatterns": ["{projectRoot}/**/*.{ts,html}"]
       }
     }
   },

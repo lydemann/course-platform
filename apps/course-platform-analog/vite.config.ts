@@ -3,16 +3,34 @@
 import analog from '@analogjs/platform';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
+// import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
     publicDir: 'src/public',
-
     build: {
-      target: ['esnext'],
+      target: ['es2020'],
     },
-    plugins: [analog(), nxViteTsPaths(), splitVendorChunkPlugin()],
+    resolve: {
+      mainFields: ['module'],
+    },
+    plugins: [
+      analog({
+        nitro: {
+          preset: 'firebase',
+          firebase: {
+            nodeVersion: '20',
+            gen: 2,
+            httpsOptions: {
+              region: 'europe-west3',
+            },
+          },
+        },
+      }),
+      nxViteTsPaths(),
+      splitVendorChunkPlugin(),
+    ],
     test: {
       globals: true,
       environment: 'jsdom',
