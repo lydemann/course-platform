@@ -26,9 +26,13 @@ export default async function render(
   { req, res }: { req: ClientRequest; res: ServerResponse }
 ) {
   if (!admin.apps.length) {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount as ServiceAccount),
-    });
+    if (serviceAccount) {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount as ServiceAccount),
+      });
+    } else {
+      admin.initializeApp();
+    }
   }
 
   const html = await renderApplication(bootstrap, {

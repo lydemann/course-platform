@@ -23,7 +23,8 @@ export default defineConfig(({ mode }) => {
             nodeVersion: '20',
             gen: 2,
             httpsOptions: {
-              region: 'europe-west3',
+              region: 'us-central1',
+              maxInstances: 10,
             },
           },
         },
@@ -54,6 +55,7 @@ export default defineConfig(({ mode }) => {
         '@ngx-translate/**',
         'ngx-cookie-service/**',
         'ngx-cookie-service-ssr/**',
+        'firebase-admin/**',
       ],
     },
     optimizeDeps: {

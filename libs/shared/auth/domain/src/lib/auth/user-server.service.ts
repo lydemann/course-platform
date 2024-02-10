@@ -14,7 +14,7 @@ export class UserServerService {
     const token = this.cookieService.get('token');
     if (!token) return Promise.resolve(null);
 
-    const admin = await import('firebase-admin');
+    const admin = (await import('firebase-admin')).default;
     try {
       const decodedToken = await admin.auth().verifyIdToken(token);
       this.idToken.set(decodedToken);
