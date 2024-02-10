@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'firebase/auth';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -10,7 +9,7 @@ import {
   updateProfile,
 } from '@angular/fire/auth';
 import { UserService } from '@course-platform/shared/auth/domain';
-import { AuthCredential, EmailAuthProvider, User } from 'firebase/auth';
+import { AuthCredential, EmailAuthProvider, User } from '@firebase/auth';
 
 @Injectable({
   providedIn: 'root',

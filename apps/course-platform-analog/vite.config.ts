@@ -11,9 +11,9 @@ export default defineConfig(({ mode }) => {
     publicDir: 'src/public',
     build: {
       target: ['es2020'],
-    },
-    resolve: {
-      mainFields: ['module'],
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
     },
     plugins: [
       analog({
@@ -55,6 +55,9 @@ export default defineConfig(({ mode }) => {
         'ngx-cookie-service/**',
         'ngx-cookie-service-ssr/**',
       ],
+    },
+    optimizeDeps: {
+      include: ['hash.js/**'],
     },
     define: {
       'import.meta.vitest': mode !== 'production',
