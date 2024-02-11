@@ -3,7 +3,6 @@
 import analog from '@analogjs/platform';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
-// import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -56,10 +55,11 @@ export default defineConfig(({ mode }) => {
         'ngx-cookie-service/**',
         'ngx-cookie-service-ssr/**',
         'firebase-admin/**',
+        'firebase/**',
       ],
     },
     optimizeDeps: {
-      include: ['hash.js/**'],
+      include: ['hash.js/**', 'firebase-admin/**', 'firebase/**'],
     },
     define: {
       'import.meta.vitest': mode !== 'production',

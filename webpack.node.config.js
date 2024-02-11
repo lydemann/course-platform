@@ -54,7 +54,12 @@ function copyYarnLockFile() {
  * @returns {*} A Webpack plugin
  */
 function generatePackageJson() {
-  const implicitDeps = ['@nestjs/platform-express', 'reflect-metadata', 'rxjs'];
+  const implicitDeps = [
+    '@nestjs/platform-express',
+    'graphql',
+    'reflect-metadata',
+    'rxjs',
+  ];
   const dependencies = implicitDeps.reduce((acc, dep) => {
     acc[dep] = packageJson.dependencies[dep];
     return acc;

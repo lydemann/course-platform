@@ -17,6 +17,7 @@
     "deploy:functions": "npm run firebase-deploy -- --only functions",
     "deploy:course-client": "npm run firebase-deploy -- --only hosting:course-client",
     "deploy:course-admin": "npm run firebase-deploy -- --only hosting:course-admin",
+    "deploy:analog": "nx build course-platform-analog && cp apps/course-platform-analog/src/firebase.json dist/apps/course-platform-analog/analog && cp apps/course-platform-analog/src/.firebaserc dist/apps/course-platform-analog/analog && cd dist/apps/course-platform-analog/analog && firebase deploy",
     "course-service:serve": "concurrently --kill-others \"npm run build -- course-service --source-map --watch\" \"firebase serve --only functions\"",
     "course-service:debug": "concurrently --kill-others \"npm run build -- course-service --source-map --watch\" \"firebase emulators:start --only functions --inspect-functions \"",
     "affected:apps": "nx affected:apps",

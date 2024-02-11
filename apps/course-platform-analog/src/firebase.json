@@ -4,7 +4,7 @@
   },
   "hosting": [
     {
-      "site": "course-portal-analog",
+      "site": "course-platform-analog",
       "public": "public",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true,
