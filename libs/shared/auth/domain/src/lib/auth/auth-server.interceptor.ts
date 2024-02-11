@@ -7,7 +7,6 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { from, lastValueFrom } from 'rxjs';
 import { UserServerService } from './user-server.service';
 
@@ -15,17 +14,10 @@ export const authServerInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   platformId = inject(PLATFORM_ID),
-  cookieService = inject(SsrCookieService),
   userServerService = inject(UserServerService)
 ) => {
   return from(
-    handleAuthServerInterceptor(
-      req,
-      next,
-      platformId,
-      cookieService,
-      userServerService
-    )!
+    handleAuthServerInterceptor(req, next, platformId, userServerService)!
   )!;
 };
 
@@ -33,13 +25,12 @@ async function handleAuthServerInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   location: Object,
-  cookieService: SsrCookieService,
   userServerService: UserServerService
 ) {
   if (isPlatformServer(location)) {
     let headers = new HttpHeaders();
 
-    const token = cookieService.get('token');
+    const token = userServerService.getIdToken();
     headers = headers.set('Authorization', token);
 
     const userInfo = await userServerService.getUserInfo();

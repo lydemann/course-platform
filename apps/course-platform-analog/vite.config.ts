@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
             gen: 2,
             httpsOptions: {
               region: 'us-central1',
-              maxInstances: 10,
+              maxInstances: 3,
             },
           },
         },

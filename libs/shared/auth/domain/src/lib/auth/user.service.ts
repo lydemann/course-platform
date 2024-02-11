@@ -8,7 +8,6 @@ import {
   signal,
 } from '@angular/core';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
-import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UserServerService } from './user-server.service';
@@ -30,8 +29,7 @@ export class UserService {
   constructor(
     public afAuth: Auth,
     public ngZone: NgZone,
-    private userServerService: UserServerService,
-    cookieService: CookieService
+    private userServerService: UserServerService
   ) {
     if (isPlatformServer(this.platformId)) {
       this.isLoggedIn$ = from(userServerService.isLoggedIn());
@@ -44,7 +42,7 @@ export class UserService {
     this.afAuth.onAuthStateChanged(async (currentUser) => {
       if (isPlatformBrowser(this.platformId) && currentUser) {
         const token = await currentUser.getIdToken();
-        cookieService.set('token', token);
+        userServerService.setIdToken(token);
         this.ngZone.run(() => {
           this.currentUser.set(currentUser);
           this.currentUserSubject.next(currentUser);
