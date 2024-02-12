@@ -12,7 +12,7 @@
   "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
+      "executor": "@nx/angular:browser-esbuild",
       "options": {
         "allowedCommonJsDependencies": [
           "firebase",
