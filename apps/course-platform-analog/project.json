@@ -53,10 +53,6 @@
         "browserTarget": "course-platform-analog:build"
       }
     },
-    "test": {
-      "executor": "@analogjs/platform:vitest",
-      "outputs": ["{projectRoot}/coverage"]
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
