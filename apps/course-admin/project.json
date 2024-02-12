@@ -44,10 +44,7 @@
         "stylePreprocessorOptions": {
           "includePaths": ["libs/shared/ui/styles/src/lib"]
         },
-        "scripts": [],
-        "customWebpackConfig": {
-          "path": "apps/course-admin/webpack.config.js"
-        }
+        "scripts": []
       },
       "defaultConfiguration": "production",
       "configurations": {
@@ -64,10 +61,7 @@
           "namedChunks": false,
           "extractLicenses": true,
           "vendorChunk": false,
-          "buildOptimizer": true,
-          "customWebpackConfig": {
-            "path": "apps/course-admin/webpack.prod.config.js"
-          }
+          "buildOptimizer": true
         },
         "local": {
           "fileReplacements": [

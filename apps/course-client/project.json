@@ -42,9 +42,6 @@
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/shared/ui/styles/src/lib"]
-        },
-        "customWebpackConfig": {
-          "path": "apps/course-client/webpack.config.js"
         }
       },
       "defaultConfiguration": "production",
@@ -74,10 +71,7 @@
               "maximumWarning": "6kb",
               "maximumError": "10kb"
             }
-          ],
-          "customWebpackConfig": {
-            "path": "apps/course-client/webpack.prod.config.js"
-          }
+          ]
         },
         "local": {
           "fileReplacements": [
