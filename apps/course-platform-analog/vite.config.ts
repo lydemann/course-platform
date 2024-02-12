@@ -56,10 +56,18 @@ export default defineConfig(({ mode }) => {
         'ngx-cookie-service-ssr/**',
         'firebase-admin/**',
         'firebase/**',
+        '@apollo/client/**',
       ],
     },
     optimizeDeps: {
       include: ['hash.js/**', 'firebase-admin/**', 'firebase/**'],
+      esbuildOptions: {
+        tsconfigRaw: {
+          compilerOptions: {
+            experimentalDecorators: true,
+          },
+        },
+      },
     },
     define: {
       'import.meta.vitest': mode !== 'production',

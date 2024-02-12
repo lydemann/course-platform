@@ -15,9 +15,7 @@
     }
   ],
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "target": "es2020",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
