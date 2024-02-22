@@ -22,6 +22,7 @@
           "graphql-tag",
           "zen-observable"
         ],
+        "plugins": ["esbuild-polyfills-node.js"],
         "outputPath": "dist/apps/course-admin",
         "index": "apps/course-admin/src/index.html",
         "main": "apps/course-admin/src/main.ts",

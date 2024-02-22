@@ -19,6 +19,7 @@
           "firebase/app",
           "firebase/auth"
         ],
+        "plugins": ["esbuild-polyfills-node.js"],
         "outputPath": "dist/apps/course-client",
         "index": "apps/course-client/src/index.html",
         "main": "apps/course-client/src/main.ts",
