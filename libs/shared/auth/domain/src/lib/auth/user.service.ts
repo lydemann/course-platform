@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import {
   Injectable,
@@ -7,8 +8,9 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UserServerService } from './user-server.service';
 
@@ -16,11 +18,10 @@ import { UserServerService } from './user-server.service';
   providedIn: 'root',
 })
 export class UserService {
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSubject
-    .asObservable()
-    .pipe(filter((user) => !!user)) as Observable<User>;
   currentUser = signal<User | null>(null);
+  currentUser$ = toObservable(this.currentUser).pipe(
+    filter((user) => !!user)
+  ) as Observable<User>;
   uid$ = this.currentUser$.pipe(map((user) => user?.uid));
   uid = signal<string>('');
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
@@ -39,16 +40,17 @@ export class UserService {
       );
     }
 
-    this.afAuth.onAuthStateChanged(async (currentUser) => {
-      if (isPlatformBrowser(this.platformId) && currentUser) {
-        const token = await currentUser.getIdToken();
-        userServerService.setIdToken(token);
-        this.ngZone.run(() => {
-          this.currentUser.set(currentUser);
-          this.currentUserSubject.next(currentUser);
-        });
-      }
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.afAuth.onAuthStateChanged(async (currentUser) => {
+        if (currentUser) {
+          const token = await currentUser.getIdToken();
+          userServerService.setIdToken(token);
+          this.ngZone.run(() => {
+            this.currentUser.set(currentUser);
+          });
+        }
+      });
+    }
 
     effect(
       async () => {

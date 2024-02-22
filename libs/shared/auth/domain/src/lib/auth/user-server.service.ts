@@ -26,8 +26,8 @@ export class UserServerService {
     }
 
     try {
-      const admin = (await import('firebase-admin')).default;
-      const decodedToken = await admin.auth().verifyIdToken(token);
+      const { auth } = (await import('firebase-admin')).default;
+      const decodedToken = await auth().verifyIdToken(token);
       return decodedToken;
     } catch (error) {
       console.error('Error while verifying token', error);

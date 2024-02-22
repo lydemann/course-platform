@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import '@angular/platform-server/init';
 import 'zone.js/node';
 
@@ -8,7 +9,9 @@ import { renderApplication } from '@angular/platform-server';
 import { REQUEST as SSR_REQUEST } from 'ngx-cookie-service-ssr';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 
-// import admin, { ServiceAccount } from 'firebase-admin';
+import serviceAccount from '../../../serviceAccountKey.json';
+
+import admin, { ServiceAccount } from 'firebase-admin';
 import { ClientRequest, ServerResponse } from 'http';
 import { AppComponent } from './app/app.component';
 import { config } from './app/app.config.server';
@@ -24,15 +27,15 @@ export default async function render(
   document: string,
   { req, res }: { req: ClientRequest; res: ServerResponse }
 ) {
-  // if (!admin.apps.length) {
-  //   if (serviceAccount) {
-  //     admin.initializeApp({
-  //       credential: admin.credential.cert(serviceAccount as ServiceAccount),
-  //     });
-  //   } else {
-  //     admin.initializeApp();
-  //   }
-  // }
+  if (!admin.apps.length) {
+    if (serviceAccount) {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount as ServiceAccount),
+      });
+    } else {
+      admin.initializeApp();
+    }
+  }
 
   const html = await renderApplication(bootstrap, {
     document,
