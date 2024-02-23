@@ -34,7 +34,7 @@ jobs:
 
       - script: yarn --frozen-lockfile
         displayName: 'Install dependencies'
-      - script: npx nx-cloud start-agent
+      - script: export NODE_OPTIONS="--max-old-space-size=8192" && npx nx-cloud start-agent
         displayName: Start Nx-Cloud agent
 
   - job: main
