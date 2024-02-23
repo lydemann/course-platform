@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
-  AfterViewInit,
   Component,
-  ContentChild,
   ContentChildren,
   EventEmitter,
   forwardRef,
@@ -22,7 +21,6 @@ import {
 import { MatOption } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { AppMaterialModule } from '../material/material.module';
 
 import { SelectOptionGroupComponent } from './select-option-group/select-option-group.component';
 import { SelectOptionGroup } from './select-option-group/select-option-group.interface';
@@ -50,14 +48,16 @@ import { SelectOption } from './select-option/select-option.interface';
         [(ngModel)]="selected"
       >
         <mat-option *ngFor="let option of options" [value]="option.value">
-          <ng-template [ngTemplateOutlet]="option?.templateRef"></ng-template>
+          <ng-template [ngTemplateOutlet]="option?.templateRef!"></ng-template>
         </mat-option>
         <mat-optgroup *ngFor="let group of optionsGroups" [label]="group.label">
           <mat-option
             *ngFor="let option of group.options"
             [value]="option.value"
           >
-            <ng-template [ngTemplateOutlet]="option?.templateRef"></ng-template>
+            <ng-template
+              [ngTemplateOutlet]="option?.templateRef!"
+            ></ng-template>
           </mat-option>
         </mat-optgroup>
       </mat-select>
@@ -79,43 +79,44 @@ export class SelectComponent
   @Input() public set value(value: string) {
     this.selected = value;
   }
-  @Input() public placeholder: string;
+  @Input()
+  public placeholder!: string;
   @ContentChildren(SelectOptionComponent)
-  public selectOptions: QueryList<SelectOptionComponent>;
+  public selectOptions!: QueryList<SelectOptionComponent>;
   @ContentChildren(SelectOptionGroupComponent)
-  public selectOptionGroups: QueryList<SelectOptionGroupComponent>;
+  public selectOptionGroups!: QueryList<SelectOptionGroupComponent>;
   @Output() public valueChange = new EventEmitter();
-  public options: SelectOption[];
-  public optionsGroups: SelectOptionGroup[];
-  public selected;
+  public options!: SelectOption[];
+  public optionsGroups!: SelectOptionGroup[];
+  public selected!: string | null;
   public disabled = false;
   public touched = false;
-  private internalValue: SelectOption;
+  private internalValue!: SelectOption;
   optionsLala = [
     {
       id: 'some',
     } as MatOption,
   ];
 
-  public onChange: any = (_) => {
+  public onChange: any = (_: SelectOption | null) => {
     /*Empty*/
   };
 
   // tslint:disable-next-line: no-empty
-  public onTouched: any = (_) => {};
+  public onTouched: any = (_: any) => {};
 
-  public onSelected($event) {
+  public onSelected($event: { value: any }) {
     this.selected = $event.value;
     this.onChange($event.value);
     this.valueChange.emit($event.value);
   }
 
   public ngOnChanges(change: SimpleChanges) {
-    if (change.options) {
-      if (change.options.isFirstChange()) {
+    if (change['options']) {
+      if (change['options'].isFirstChange()) {
         return;
       }
-      if (change.options.currentValue !== change.options.previousValue) {
+      if (change['options'].currentValue !== change['options'].previousValue) {
         this.selected = null; // Resetting the model to show placeholder
         this.onChange(null);
       }
@@ -151,6 +152,7 @@ export class SelectComponent
   }
 
   public registerOnTouched(fn: any): void {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     this.onTouched = (arg: any) => {
       self.touched = true;

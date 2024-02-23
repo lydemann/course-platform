@@ -4,7 +4,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 @Component({
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
-  styleUrls: ['./toggle.component.scss']
+  styleUrls: ['./toggle.component.scss'],
 })
 export class ToggleComponent {
   @Input()
@@ -16,10 +16,11 @@ export class ToggleComponent {
     return this._isIcon;
   }
   @Input() public labelPosition: 'before' | 'after' = 'after';
-  @Input() public labelTextOn: string;
-  @Input() public labelTextOff: string;
+  @Input() public labelTextOn!: string;
+  @Input() public labelTextOff!: string;
   @Input() public disabled = false;
   @Input() public checked = false;
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() public change = new EventEmitter<boolean>();
   private _isIcon = false; // Disable interaction but keep style
 

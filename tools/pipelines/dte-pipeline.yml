@@ -76,7 +76,7 @@ jobs:
         displayName: Run lint
       - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=test --parallel=3 --ci --code-coverage
         displayName: Run test
-      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3
+      - script: export NODE_OPTIONS="--max-old-space-size=8192" && yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3
         displayName: Run build
         # archive and publish artifacts
       - task: ArchiveFiles@2

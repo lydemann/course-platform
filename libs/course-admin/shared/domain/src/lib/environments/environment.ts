@@ -14,4 +14,4 @@ export const environment = {
     'https://europe-west3-aaa-course-portal.cloudfunctions.net/api',
 };
 
-import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+// import 'zone.js/dist/zone-error'; // Included with Angular CLI.

@@ -54,7 +54,7 @@ jobs:
       - script: yarn --frozen-lockfile
         displayName: 'Install dependencies'
 
-      - script: npx nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) -t build --parallel=3
+      - script: export NODE_OPTIONS="--max-old-space-size=8192" && npx nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) -t build --parallel=3
         displayName: 'Build'
 
       # archive and publish artifacts

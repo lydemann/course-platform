@@ -47,8 +47,8 @@ export class CreateUserComponent implements OnInit {
 
   private checkPasswords(group: UntypedFormGroup) {
     // here we have the 'passwords' group
-    const password = group.get('password').value;
-    const confirmPassword = group.get('confirmPassword').value;
+    const password = group.get('password')!.value;
+    const confirmPassword = group.get('confirmPassword')!.value;
 
     return password === confirmPassword
       ? null
@@ -70,7 +70,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   onSubmit() {
-    this.serverError = null;
+    this.serverError = '';
     if (this.form.invalid) {
       return;
     }
@@ -112,6 +112,6 @@ export class CreateUserComponent implements OnInit {
       return `Passwords don't match`;
     }
 
-    return Object.keys(control?.errors)[0];
+    return Object.keys(control.errors!)[0];
   }
 }

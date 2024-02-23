@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AfterViewInit,
   ApplicationRef,
@@ -10,10 +11,10 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  UntypedFormControl,
   FormGroupDirective,
   NgControl,
   NgForm,
+  UntypedFormControl,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -21,7 +22,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 class DateErrorStateMatcher implements ErrorStateMatcher {
-  private hasError: boolean = undefined;
+  private hasError: boolean = false;
 
   constructor(hasError$: Observable<boolean>, destroy$: Observable<void>) {
     hasError$.pipe(takeUntil(destroy$)).subscribe((hasError) => {
@@ -31,7 +32,7 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
 
   public isErrorState(
     control: UntypedFormControl,
-    form: NgForm | FormGroupDirective,
+    form: NgForm | FormGroupDirective
   ): boolean {
     const isSubmitted = form && form.submitted;
     const isInvalidAndTouched = !!(
@@ -53,10 +54,10 @@ export class DatePickerComponent
   implements ControlValueAccessor, OnDestroy, AfterViewInit
 {
   @Input()
-  public date: Date;
+  public date!: Date;
 
-  @Input() public minDate: Date;
-  @Input() public maxDate: Date;
+  @Input() public minDate!: Date;
+  @Input() public maxDate!: Date;
 
   @Input() public errorMessage = 'Invalid input';
   @Input() public placeholder = 'Choose a date';
@@ -65,13 +66,13 @@ export class DatePickerComponent
   // used to display mat error
   public formControl = new UntypedFormControl('');
   private destroy$ = new Subject<void>();
-  private _showErrorSubject = new BehaviorSubject<boolean>(undefined);
+  private _showErrorSubject = new BehaviorSubject<boolean>(false);
   private _showError$: Observable<boolean> =
     this._showErrorSubject.asObservable();
   // tslint:disable-next-line: member-ordering
   public dateErrorStateMatcher = new DateErrorStateMatcher(
     this._showError$,
-    this.destroy$.asObservable(),
+    this.destroy$.asObservable()
   );
 
   private onTouched = Function;
@@ -79,7 +80,7 @@ export class DatePickerComponent
   constructor(
     public ngControl: NgControl,
     private changeDetectionRef: ChangeDetectorRef,
-    private applicationRef: ApplicationRef,
+    private applicationRef: ApplicationRef
   ) {
     ngControl.valueAccessor = this;
   }
@@ -98,9 +99,9 @@ export class DatePickerComponent
 
   public onDateChange(dateInput: MatDatepickerInputEvent<Date>) {
     const date = dateInput.value;
-    this.onChange(date);
+    this.onChange(date!);
     this.onTouched();
-    this.dateChange.next(date);
+    this.dateChange.next(date!);
   }
 
   public writeValue(obj: Date): void {

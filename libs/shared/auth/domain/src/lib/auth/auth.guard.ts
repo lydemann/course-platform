@@ -12,7 +12,7 @@ export class AuthGuard {
   constructor(public userService: UserService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       first(),
       map((currentUser) => {
         if (!currentUser) {

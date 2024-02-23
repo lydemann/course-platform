@@ -1,10 +1,4 @@
-import {
-  Component,
-  ContentChildren,
-  Directive,
-  Input,
-  QueryList,
-} from '@angular/core';
+import { Component, ContentChildren, Input, QueryList } from '@angular/core';
 
 import { SelectOptionComponent } from '../select-option/select-option.component';
 
@@ -15,7 +9,7 @@ import { SelectOptionComponent } from '../select-option/select-option.component'
 })
 export class SelectOptionGroupComponent {
   @ContentChildren(SelectOptionComponent)
-  public selectOptions: QueryList<SelectOptionComponent>;
+  public selectOptions!: QueryList<SelectOptionComponent>;
 
-  @Input() public label: string;
+  @Input() public label!: string;
 }

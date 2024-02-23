@@ -7,16 +7,21 @@ import {
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
 
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(public afAuth: Auth) {}
-  doRegister(value) {
+  doRegister(value: UserCredentials) {
     return new Promise((resolve, reject) => {
       createUserWithEmailAndPassword(
         this.afAuth,
-        value.email,
+        value.email!,
         value.password
       ).then(
         (res) => {
@@ -27,7 +32,7 @@ export class AuthService {
     });
   }
 
-  doLogin(value) {
+  doLogin(value: UserCredentials) {
     return new Promise<any>((resolve, reject) => {
       signInWithEmailAndPassword(this.afAuth, value.email, value.password).then(
         (res) => {

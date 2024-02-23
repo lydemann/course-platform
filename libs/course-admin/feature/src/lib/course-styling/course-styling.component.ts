@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { ToastService } from '@course-platform/shared/ui';
   templateUrl: './course-styling.component.html',
   styleUrls: ['./course-styling.component.scss'],
 })
-export class CourseStylingComponent implements OnInit {
+export class CourseStylingComponent {
   course$: Observable<Course>;
   courseName$: Observable<string>;
   customStylingFormControl$: Observable<UntypedFormControl>;
@@ -23,11 +23,9 @@ export class CourseStylingComponent implements OnInit {
     private courseAdminFacade: CourseAdminFacadeService,
     private courseFacade: CourseFacadeService,
     private toastService: ToastService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.course$ = this.courseAdminFacade.currentCourseId$.pipe(
-      switchMap((courseId) => this.courseFacade.getCourse(courseId))
+      switchMap((courseId) => this.courseFacade.getCourse(courseId!))
     );
     this.courseName$ = this.course$.pipe(map((course) => course.name));
     this.customStylingFormControl$ = this.course$.pipe(

@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "source": "server"
+  },
+  "hosting": [
+    {
+      "site": "course-platform-analog",
+      "public": "public",
+      "cleanUrls": true,
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "function": "server" }]
+    }
+  ]
+}

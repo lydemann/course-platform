@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Course } from '@course-platform/shared/interfaces';
 
@@ -13,16 +13,14 @@ import { Course } from '@course-platform/shared/interfaces';
   templateUrl: './course-modal.component.html',
   styleUrls: ['./course-modal.component.scss'],
 })
-export class CourseModalComponent implements OnInit {
+export class CourseModalComponent {
   form: UntypedFormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public course: Course,
     private formBuilder: UntypedFormBuilder,
     private dialogRef: MatDialogRef<CourseModalComponent>
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.form = this.formBuilder.group({
       id: this.course?.id,
       name: [this.course?.name, Validators.required],

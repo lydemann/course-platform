@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/course-admin/shell/src",
   "prefix": "course-platform",
-  "tags": ["type:shell", "scope:course-admin"],
+  "tags": ["type:shell", "type:feature", "scope:course-admin"],
   "projectType": "library",
   "targets": {
     "test": {
