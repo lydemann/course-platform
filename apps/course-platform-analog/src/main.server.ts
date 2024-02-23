@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @nx/enforce-module-boundaries */
 import '@angular/platform-server/init';
 import 'zone.js/node';
@@ -27,7 +28,7 @@ export default async function render(
 ) {
   if (!admin.apps.length) {
     try {
-      const serviceAccount = await import('../../../serviceAccountKey.json');
+      const serviceAccount = require('../../../serviceAccountKey.json');
       if (serviceAccount) {
         admin.initializeApp({
           credential: admin.credential.cert(serviceAccount as ServiceAccount),
