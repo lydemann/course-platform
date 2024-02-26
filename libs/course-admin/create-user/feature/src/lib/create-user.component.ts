@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { UserFacadeService } from '@course-platform/course-admin/shared/domain';
+import { SharedModule } from '@course-platform/course-admin/shared/ui';
 
 import { ToastService } from '@course-platform/shared/ui';
 
@@ -31,6 +32,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
+  standalone: true,
+  imports: [SharedModule],
 })
 export class CreateUserComponent implements OnInit {
   form!: UntypedFormGroup;

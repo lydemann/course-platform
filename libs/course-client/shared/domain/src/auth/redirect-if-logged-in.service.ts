@@ -20,7 +20,7 @@ export class RedirectIfLoggedInResolver implements Resolve<boolean> {
       return of(true);
     }
 
-    return this.userService.currentUser$.pipe(
+    return this.userService.getCurrentUser().pipe(
       first(),
       map((currentUser) => {
         if (currentUser) {

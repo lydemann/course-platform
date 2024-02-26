@@ -13,6 +13,7 @@ import { AppMaterialModule } from './material.module';
     CommonModule,
     AppMaterialModule,
     TranslateModule.forChild(),
+    SharedUiModule,
     RouterModule,
     SharedUiModule,
     ReactiveFormsModule,
@@ -20,6 +21,7 @@ import { AppMaterialModule } from './material.module';
   exports: [
     CommonModule,
     AppMaterialModule,
+    SharedUiModule,
     TranslateModule,
     RouterModule,
     ReactiveFormsModule,

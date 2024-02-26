@@ -41,14 +41,10 @@ export class UserService {
     }
 
     if (isPlatformBrowser(this.platformId)) {
-      this.afAuth.onAuthStateChanged(async (currentUser) => {
-        if (currentUser) {
-          const token = await currentUser.getIdToken();
-          userServerService.setIdToken(token);
-          this.ngZone.run(() => {
-            this.currentUser.set(currentUser);
-          });
-        }
+      this.getCurrentUser().subscribe(async (currentUser) => {
+        const token = (await currentUser?.getIdToken()) || '';
+        userServerService.setIdToken(token);
+        this.currentUser.set(currentUser);
       });
     }
 
@@ -63,6 +59,17 @@ export class UserService {
       },
       { allowSignalWrites: true }
     );
+  }
+
+  getCurrentUser(): Observable<User | null> {
+    return new Observable((observer) => {
+      this.afAuth.onAuthStateChanged((currentUser) => {
+        // cb needs to run through zone to work in guard
+        this.ngZone.run(() => {
+          observer.next(currentUser);
+        });
+      });
+    });
   }
 
   updateCurrentUser(value: { name: string }) {

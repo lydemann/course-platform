@@ -57,9 +57,9 @@ const routes: Routes = [
           },
           {
             path: 'create-user',
-            loadChildren: () =>
+            loadComponent: () =>
               import('@course-platform/course-admin/create-user/feature').then(
-                (m) => m.CreateUserModule
+                (m) => m.CreateUserComponent
               ),
           },
         ],
