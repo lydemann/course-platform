@@ -19,7 +19,9 @@ import { UserServerService } from './user-server.service';
 })
 export class UserService {
   currentUser = signal<User | null>(null);
-  currentUser$ = toObservable(this.currentUser).pipe(filter((user) => !!user));
+  currentUser$ = toObservable(this.currentUser).pipe(
+    filter((user) => !!user)
+  ) as Observable<User>;
   uid$ = this.currentUser$.pipe(map((user) => user?.uid));
   uid = signal<string>('');
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
