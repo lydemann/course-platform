@@ -19,9 +19,7 @@ import { UserServerService } from './user-server.service';
 })
 export class UserService {
   currentUser = signal<User | null>(null);
-  currentUser$ = toObservable(this.currentUser).pipe(
-    filter((user) => !!user)
-  ) as Observable<User>;
+  currentUser$ = toObservable(this.currentUser).pipe(filter((user) => !!user));
   uid$ = this.currentUser$.pipe(map((user) => user?.uid));
   uid = signal<string>('');
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
@@ -41,14 +39,10 @@ export class UserService {
     }
 
     if (isPlatformBrowser(this.platformId)) {
-      this.afAuth.onAuthStateChanged(async (currentUser) => {
-        if (currentUser) {
-          const token = await currentUser.getIdToken();
-          userServerService.setIdToken(token);
-          this.ngZone.run(() => {
-            this.currentUser.set(currentUser);
-          });
-        }
+      this.getCurrentUser().subscribe(async (currentUser) => {
+        const token = (await currentUser?.getIdToken()) || '';
+        userServerService.setIdToken(token);
+        this.currentUser.set(currentUser);
       });
     }
 
@@ -63,6 +57,17 @@ export class UserService {
       },
       { allowSignalWrites: true }
     );
+  }
+
+  getCurrentUser(): Observable<User | null> {
+    return new Observable((observer) => {
+      this.afAuth.onAuthStateChanged((currentUser) => {
+        // cb needs to run through zone to work in guard
+        this.ngZone.run(() => {
+          observer.next(currentUser);
+        });
+      });
+    });
   }
 
   updateCurrentUser(value: { name: string }) {

@@ -12,13 +12,13 @@ import { CourseResolver } from './course/resolvers/course.resolver';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'courses',
+  },
+  {
+    path: '',
     resolve: [SchoolIdResolver],
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'courses',
-      },
       {
         path: 'login',
         resolve: [RedirectIfLoggedInResolver],
