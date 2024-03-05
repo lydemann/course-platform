@@ -121,7 +121,7 @@ export const courseReducer = createReducer<
           throw new Error(`Action item not found with id: ${resourceId}`);
         }
 
-        actionItemToUpdate.isCompleted = !completed;
+        actionItemToUpdate.isCompleted = completed;
         return draft;
       });
     }
