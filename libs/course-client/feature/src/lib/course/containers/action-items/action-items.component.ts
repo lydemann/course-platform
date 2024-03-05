@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { ActionItem } from '@course-platform/shared/interfaces';
+import { ActionItemComponent } from './action-item/action-item.component';
 
 export interface ActionItemAnswer {
   id: string;
@@ -18,7 +19,7 @@ export const actionItemsRouteId = 'action-items';
   styleUrls: ['./action-items.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, ActionItemComponent],
 })
 export class ActionItemsComponent {
   public actionItems$: Observable<ActionItem[]> =
