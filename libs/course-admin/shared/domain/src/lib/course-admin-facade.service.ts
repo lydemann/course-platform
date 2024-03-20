@@ -2,13 +2,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
-import { filter, first, switchMap } from 'rxjs/operators';
+import { catchError, filter, first, switchMap } from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
 import { CourseResourcesService } from '@course-platform/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { ComponentStore } from '@ngrx/component-store';
-import { SectionsStateService } from './+state/sections-state.service';
 
 interface CourseAdminStore {
   sections: CourseSection[];
@@ -166,8 +165,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     private courseResourcesService: CourseResourcesService,
     private router: Router,
     private apollo: Apollo,
-    private auth: Auth,
-    private SectionsStateService: SectionsStateService
+    private auth: Auth
   ) {
     super({
       sections: [],
@@ -225,16 +223,14 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.createSnapshot();
     this._setLesson(lesson);
 
-    this.courseResourcesService
+    return this.courseResourcesService
       .updateLesson(lesson, courseId, sectionId)
-      .subscribe({
-        next: () => {
-          // TODO: show success message
-        },
-        error: () => {
+      .pipe(
+        catchError((error) => {
           this.restoreLastSnapshot();
-        },
-      });
+          throw error;
+        })
+      );
   }
 
   moveLesson(

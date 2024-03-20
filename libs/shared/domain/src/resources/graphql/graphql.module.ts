@@ -9,17 +9,6 @@ import { HttpLink } from 'apollo-angular/http';
 import { ApolloClientOptions } from '@apollo/client/core';
 import { Endpoints, ENDPOINTS_TOKEN } from '../endpoints';
 
-const defaultOptions: any = {
-  watchQuery: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'ignore',
-  },
-  query: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'all',
-  },
-};
-
 export function createApollo(
   httpLink: HttpLink,
   endpoints: Endpoints
@@ -35,7 +24,19 @@ export function createApollo(
   return {
     link,
     cache: new InMemoryCache(),
-    defaultOptions,
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      },
+      mutate: {
+        errorPolicy: 'all',
+      },
+      watchQuery: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      },
+    },
     connectToDevTools: true,
   };
 }

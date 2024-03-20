@@ -9,6 +9,7 @@ import {
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Guid } from 'guid-typescript';
 
+import { SharedModule } from '@course-platform/course-admin/shared/ui';
 import { LessonResourceType } from '@course-platform/shared/interfaces';
 import { LessonAdminForm } from '../lesson-admin.component';
 
@@ -17,6 +18,8 @@ import { LessonAdminForm } from '../lesson-admin.component';
   templateUrl: './lesson-admin-form.component.html',
   styleUrls: ['./lesson-admin-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [SharedModule],
 })
 export class LessonAdminFormComponent {
   private _formGroup!: LessonAdminForm;

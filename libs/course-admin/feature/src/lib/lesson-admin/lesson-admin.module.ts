@@ -13,7 +13,8 @@ import { LessonAdminRoutingModule } from './lesson-admin.routing';
     LessonAdminRoutingModule,
     ReactiveFormsModule,
     SharedUiModule,
+    LessonAdminFormComponent,
   ],
-  declarations: [LessonAdminComponent, LessonAdminFormComponent],
+  declarations: [LessonAdminComponent],
 })
 export class LessonAdminModule {}
