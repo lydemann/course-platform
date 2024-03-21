@@ -28,7 +28,7 @@ export default async function render(
 ) {
   if (!admin.apps.length) {
     try {
-      const serviceAccount = await import('../../../serviceAccountKey.json');
+      const serviceAccount = require('../../../serviceAccountKey.json');
       if (serviceAccount) {
         admin.initializeApp({
           credential: admin.credential.cert(serviceAccount as ServiceAccount),

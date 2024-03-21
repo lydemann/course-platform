@@ -14,6 +14,7 @@ import { filter, map } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 import { Lesson, LessonResourceType } from '@course-platform/shared/interfaces';
+import { ToastService } from '@course-platform/shared/ui';
 import { Observable } from 'rxjs';
 
 export type ResourceFormGroup = FormGroup<{
@@ -64,7 +65,8 @@ export class LessonAdminComponent {
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastService
   ) {}
 
   goBack() {
@@ -73,13 +75,17 @@ export class LessonAdminComponent {
 
   submit(formGroup: UntypedFormGroup, lesson: Lesson) {
     // TODO: show spinner
-    this.courseAdminFacade.saveLesson(
-      {
-        id: lesson.id,
-        ...formGroup.value,
-      } as Lesson,
-      this.route.snapshot.params['sectionId']
-    );
+    this.courseAdminFacade
+      .saveLesson(
+        {
+          id: lesson.id,
+          ...formGroup.value,
+        } as Lesson,
+        this.route.snapshot.params['sectionId']
+      )
+      .subscribe(() => {
+        this.toastService.showSuccessToast({ message: 'Lesson saved' });
+      });
     this.isAddingResource$.next(false);
   }
 
