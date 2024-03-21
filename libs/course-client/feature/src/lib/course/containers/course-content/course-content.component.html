@@ -31,19 +31,19 @@
       </ng-container>
     </div>
 
-    <div fxLayout="row" fxLayoutGap="20px">
-      <div class="lesson-description" fxFlex="75">
+    <div class="grid md:grid-cols-12 gap-4">
+      <div class="lesson-description md:col-span-9 mb-2">
         <h2 class="label">ABOUT THIS LESSON</h2>
         <p>
           {{ lesson.description }}
         </p>
       </div>
 
-      <div class="resouces" fxFlex="25">
+      <div class="resouces md:col-span-3">
         <h2 class="label">Resources</h2>
 
         <!-- TODO: group by worksheets and cheatsheets and other -->
-        <ul fxLayoutGap="2px" fxLayout="column">
+        <ul fxLayoutGap="2px">
           <li *ngFor="let resource of lesson.resources">
             <a class="resource" target="_blank" href="{{ resource.url }}">
               {{ resource.name }}
