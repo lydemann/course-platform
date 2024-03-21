@@ -48,7 +48,7 @@ export class LessonAdminComponent {
         description: [lesson.description, Validators.required],
         videoUrl: [lesson.videoUrl, Validators.required],
         resources: this.formBuilder.array(
-          lesson.resources?.map((resource) => {
+          (lesson.resources || [])?.map((resource) => {
             return this.formBuilder.group({
               id: [resource.id],
               name: [resource.name],
@@ -73,7 +73,7 @@ export class LessonAdminComponent {
     this.courseAdminFacade.goToCourseAdmin();
   }
 
-  submit(formGroup: UntypedFormGroup, lesson: Lesson) {
+  submit(formGroup: LessonAdminForm, lesson: Lesson) {
     // TODO: show spinner
     this.courseAdminFacade
       .saveLesson(
