@@ -73,7 +73,12 @@ export const sectionQueryResolvers = {
         completedActionItemsPromise,
       ]).then(async ([sections, completedActionItems]) => {
         const lessonsPerSections = sections.map((section) =>
-          section.lessons.map((lesson) => lesson)
+          section.lessons.map((lesson) => ({
+            ...lesson,
+            resources: lesson.resources || [],
+            description: lesson.description || '',
+            videoUrl: lesson.videoUrl || '',
+          }))
         );
 
         return lessonsPerSections.map(async (lessons, idx) => {

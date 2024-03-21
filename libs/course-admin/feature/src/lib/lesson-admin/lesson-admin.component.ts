@@ -73,7 +73,7 @@ export class LessonAdminComponent {
     this.courseAdminFacade.goToCourseAdmin();
   }
 
-  submit(formGroup: UntypedFormGroup, lesson: Lesson) {
+  submit(formGroup: LessonAdminForm, lesson: Lesson) {
     // TODO: show spinner
     this.courseAdminFacade
       .saveLesson(
