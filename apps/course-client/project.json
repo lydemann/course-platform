@@ -77,8 +77,8 @@
         "local": {
           "fileReplacements": [
             {
-              "replace": "libs/course-client/src/environments/environment.ts",
-              "with": "libs/course-client/src/environments/environment.local.ts"
+              "replace": "libs/course-client/shared/domain/src/environments/environment.ts",
+              "with": "libs/course-client/shared/domain/src/environments/environment.local.ts"
             }
           ]
         },
