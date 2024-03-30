@@ -14,7 +14,7 @@ import { filter, map } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 import { Lesson, LessonResourceType } from '@course-platform/shared/interfaces';
-import { ToastService } from '@course-platform/shared/ui';
+import { DialogService, ToastService } from '@course-platform/shared/ui';
 import { Observable } from 'rxjs';
 
 export type ResourceFormGroup = FormGroup<{
@@ -66,7 +66,8 @@ export class LessonAdminComponent {
     private courseAdminFacade: CourseAdminFacadeService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private dialogService: DialogService
   ) {}
 
   goBack() {
@@ -106,6 +107,8 @@ export class LessonAdminComponent {
 
   onDelete(lesson: Lesson) {
     const sectionId = this.route.snapshot.params['sectionId'];
-    this.courseAdminFacade.deleteLessonClicked(sectionId, lesson.id);
+    this.dialogService.openDialog(() => {
+      this.courseAdminFacade.deleteLessonClicked(sectionId, lesson.id);
+    });
   }
 }

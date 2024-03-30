@@ -10,3 +10,4 @@ export * from './lib/toggle';
 export * from './lib/date-picker';
 export * from './lib/input';
 export * from './lib/toast';
+export * from './lib/dialog';

@@ -4,10 +4,10 @@ import dotenvJSON from 'dotenv-json';
 
 import { gqlServer } from './app/server';
 import { environment } from './environments/environment';
-if (environment.production) {
-  dotenvJSON({ path: __dirname + '/assets/env.json' });
-} else {
+if (environment.local) {
   dotenvJSON({ path: __dirname + '/assets/env.local.json' });
+} else {
+  dotenvJSON({ path: __dirname + '/assets/env.json' });
 }
 
 const server = gqlServer();

@@ -84,6 +84,24 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       sections: [...state.sections],
     };
   });
+
+  private _deleteLesson = this.updater(
+    (
+      state,
+      { sectionId, lessonId }: { sectionId: string; lessonId: string }
+    ) => {
+      const sectionIndex = state.sections.findIndex((s) => s.id === sectionId);
+      const section = state.sections[sectionIndex];
+      const lessonIndex = section.lessons!.findIndex((l) => l.id === lessonId);
+      section.lessons!.splice(lessonIndex, 1);
+      return {
+        ...state,
+        isSavingLesson: false,
+        sections: [...state.sections],
+      };
+    }
+  );
+
   private _deleteSection = this.updater(
     (state, { sectionId }: { sectionId: string }) => {
       const sectionIndex = state.sections.findIndex((s) => s.id === sectionId);
@@ -107,18 +125,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   private _createLesson = this.updater(
-    (
-      state,
-      { lessonId, sectionId }: { sectionId: string; lessonId: string }
-    ) => {
-      const lesson = {
-        id: lessonId,
-        name: '',
-        description: '',
-        videoUrl: '',
-        resources: [],
-      } as Lesson;
-
+    (state, { lesson, sectionId }: { sectionId: string; lesson: Lesson }) => {
       const sectionIndex = state.sections.findIndex(
         (section) => section.id === sectionId
       );
@@ -314,16 +321,15 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       });
   }
 
-  createLesson(sectionId: string, section: string) {
+  createLesson(sectionId: string, lessonName: string) {
     this.patchState({
       isSavingLesson: true,
     });
     const courseId = this.get().currentCourseId!;
     this.courseResourcesService
-      .createLesson(sectionId, section, courseId)
-      .subscribe((lessonId) => {
-        this._createLesson({ lessonId, sectionId });
-        // TODO: error handling
+      .createLesson(sectionId, lessonName, courseId)
+      .subscribe((lesson) => {
+        this._createLesson({ lesson, sectionId });
       });
   }
 
@@ -333,7 +339,8 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.courseResourcesService
       .deleteLesson(sectionId, lessonId, courseId)
       .subscribe(() => {
-        this.router.navigate(['course-admin', courseId]);
+        this._deleteLesson({ sectionId, lessonId });
+        this.router.navigate(['admin', 'course-admin', courseId]);
       });
   }
 }
