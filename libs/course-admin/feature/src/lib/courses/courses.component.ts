@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -13,18 +13,14 @@ import { DeleteCourseModalComponent } from './course-modal/delete-course-modal/d
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent implements OnInit {
-  courses$: Observable<Course[]>;
+export class CoursesComponent {
+  courses$: Observable<Course[]> = this.courseFacadeService.getCourses();
 
   constructor(
     private courseFacadeService: CourseFacadeService,
     private dialog: MatDialog,
     private toastService: ToastService
   ) {}
-
-  ngOnInit() {
-    this.courses$ = this.courseFacadeService.getCourses();
-  }
 
   onCreateCourseClick() {
     const dialogRef = this.dialog.open(CourseModalComponent, {

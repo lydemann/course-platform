@@ -1,7 +1,6 @@
 import { AuthenticationError } from 'apollo-server-express';
 
 import { CourseSectionDTO } from '@course-platform/shared/domain';
-import { removeEmptyFields } from '@course-platform/shared/util';
 import { RequestContext } from '../auth-identity';
 import { firestoreDB } from '../firestore';
 import { LessonDTO } from '../models/lesson-dto';
@@ -20,13 +19,14 @@ export const lessonMutationResolvers = {
       throw new AuthenticationError('User is not admin');
     }
 
-    const cleanedPayload = removeEmptyFields({
+    const cleanedPayload = {
       id: new Date().getTime().toString(),
       sectionId,
       name,
-      description,
-      videoUrl,
-    } as LessonDTO);
+      description: description || '',
+      videoUrl: videoUrl || '',
+      resources: [],
+    } as LessonDTO;
 
     const sectionRef = firestoreDB.doc(
       `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`
@@ -57,14 +57,14 @@ export const lessonMutationResolvers = {
     if (!admin) {
       throw new AuthenticationError('User is not admin');
     }
-    const lessonToUpdate = removeEmptyFields({
+    const lessonToUpdate = {
       sectionId,
       id,
       name,
-      description,
-      videoUrl,
-      resources,
-    } as LessonDTO);
+      description: description || '',
+      videoUrl: videoUrl || '',
+      resources: resources || [],
+    } as LessonDTO;
 
     const sectionRef = firestoreDB.doc(
       `schools/${schoolId}/courses/${courseId}/sections/${sectionId}`

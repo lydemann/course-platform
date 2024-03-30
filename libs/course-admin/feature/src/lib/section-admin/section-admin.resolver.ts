@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 
 @Injectable({ providedIn: 'root' })
-export class SectionAdminResolver implements Resolve<any> {
+export class SectionAdminResolver implements Resolve<void> {
   constructor(private courseAdminFacadeService: CourseAdminFacadeService) {}
 
   resolve(route: ActivatedRouteSnapshot) {

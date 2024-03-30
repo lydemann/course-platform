@@ -71,7 +71,13 @@ export class CourseFacadeService {
 
   getCourse(courseId: string): Observable<Course> {
     return this.getCourses().pipe(
-      map((courses) => courses.find((course) => course.id === courseId))
+      map((courses) => {
+        const course = courses.find((c) => c.id === courseId);
+        if (!course) {
+          throw new Error(`Course not found ${courseId}`);
+        }
+        return course;
+      })
     );
   }
 
@@ -108,7 +114,7 @@ export class CourseFacadeService {
       } as Course,
       update(cache, { data }) {
         createInCache<GetCoursesResponseDTO>(
-          data?.createCourse,
+          data!.createCourse,
           getCoursesQuery,
           cache,
           'course'
@@ -127,7 +133,7 @@ export class CourseFacadeService {
       } as Course,
       update(cache, { data }) {
         removeFromCache<GetCoursesResponseDTO>(
-          data.deleteCourse,
+          data!.deleteCourse,
           getCoursesQuery,
           cache,
           'course'

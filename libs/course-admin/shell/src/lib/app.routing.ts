@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RedirectIfAuthenticatedResolver } from '@course-platform/course-admin/shared/domain';
-import { AuthGuard } from '@course-platform/shared/auth-domain';
+import { AuthGuard } from '@course-platform/shared/auth/domain';
 import { SchoolIdResolver } from '@course-platform/shared/domain';
 import { LayoutComponent } from './layout/layout.component';
 
@@ -57,9 +57,9 @@ const routes: Routes = [
           },
           {
             path: 'create-user',
-            loadChildren: () =>
+            loadComponent: () =>
               import('@course-platform/course-admin/create-user/feature').then(
-                (m) => m.CreateUserModule
+                (m) => m.CreateUserComponent
               ),
           },
         ],

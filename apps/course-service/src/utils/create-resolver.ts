@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuthenticationError } from 'apollo-server-express';
 
 import { RequestContext } from '../app/auth-identity';

@@ -14,6 +14,7 @@ import { filter, map } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 import { Lesson, LessonResourceType } from '@course-platform/shared/interfaces';
+import { DialogService, ToastService } from '@course-platform/shared/ui';
 import { Observable } from 'rxjs';
 
 export type ResourceFormGroup = FormGroup<{
@@ -47,7 +48,7 @@ export class LessonAdminComponent {
         description: [lesson.description, Validators.required],
         videoUrl: [lesson.videoUrl, Validators.required],
         resources: this.formBuilder.array(
-          lesson.resources?.map((resource) => {
+          (lesson.resources || [])?.map((resource) => {
             return this.formBuilder.group({
               id: [resource.id],
               name: [resource.name],
@@ -64,22 +65,28 @@ export class LessonAdminComponent {
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastService,
+    private dialogService: DialogService
   ) {}
 
   goBack() {
     this.courseAdminFacade.goToCourseAdmin();
   }
 
-  submit(formGroup: UntypedFormGroup, lesson: Lesson) {
+  submit(formGroup: LessonAdminForm, lesson: Lesson) {
     // TODO: show spinner
-    this.courseAdminFacade.saveLesson(
-      {
-        id: lesson.id,
-        ...formGroup.value,
-      } as Lesson,
-      this.route.snapshot.params['sectionId']
-    );
+    this.courseAdminFacade
+      .saveLesson(
+        {
+          id: lesson.id,
+          ...formGroup.value,
+        } as Lesson,
+        this.route.snapshot.params['sectionId']
+      )
+      .subscribe(() => {
+        this.toastService.showSuccessToast({ message: 'Lesson saved' });
+      });
     this.isAddingResource$.next(false);
   }
 
@@ -100,6 +107,8 @@ export class LessonAdminComponent {
 
   onDelete(lesson: Lesson) {
     const sectionId = this.route.snapshot.params['sectionId'];
-    this.courseAdminFacade.deleteLessonClicked(sectionId, lesson.id);
+    this.dialogService.openDialog(() => {
+      this.courseAdminFacade.deleteLessonClicked(sectionId, lesson.id);
+    });
   }
 }

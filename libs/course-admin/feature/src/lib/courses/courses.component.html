@@ -1,15 +1,16 @@
 <h1 class="center">Courses</h1>
 
-<ng-container *ngIf="courses$ | async as courses">
-  <div fxLayout="row" fxLayoutGap="4px">
+<ng-container *ngIf="courses$ | async as courses; else loading">
+  <div class="mx-4">
     <mat-card
       *ngFor="let course of courses"
-      fxFlex.gt-sm="33"
-      fxFlex.gt-xs="50"
-      class="course-card"
-      ><mat-card-title [routerLink]="['../course-admin', course.id]">{{
-        course.name
-      }}</mat-card-title>
+      class="course-card mx-auto lg:w-1/3 sm:w-1/2"
+    >
+      <mat-card-title
+        class="text-center py-3"
+        [routerLink]="['../course-admin', course.id]"
+        >{{ course.name }}</mat-card-title
+      >
       <img
         mat-card-image
         [routerLink]="['../course-admin', course.id]"
@@ -44,3 +45,7 @@
     >
   </div>
 </ng-container>
+
+<ng-template #loading>
+  <app-spinner class="center-in-parent"></app-spinner>
+</ng-template>

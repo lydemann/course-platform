@@ -1,0 +1,64 @@
+{
+  "name": "course-platform-analog",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/course-platform-analog/src",
+  "targets": {
+    "build": {
+      "executor": "@analogjs/platform:vite",
+      "outputs": [
+        "{options.outputPath}",
+        "{workspaceRoot}/dist/apps/course-platform-analog/.nitro",
+        "{workspaceRoot}/dist/apps/course-platform-analog/firebase.json",
+        "{workspaceRoot}/dist/apps/course-platform-analog/ssr",
+        "{workspaceRoot}/dist/apps/course-platform-analog/analog"
+      ],
+      "options": {
+        "main": "apps/course-platform-analog/src/main.ts",
+        "configFile": "apps/course-platform-analog/vite.config.ts",
+        "outputPath": "dist/apps/course-platform-analog/client",
+        "tsConfig": "apps/course-platform-analog/tsconfig.app.json"
+      },
+      "defaultConfiguration": "production",
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "sourcemap": false,
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@analogjs/platform:vite-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "course-platform-analog:build",
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "course-platform-analog:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "course-platform-analog:build:production"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "course-platform-analog:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.{ts,html}"]
+      }
+    }
+  },
+  "tags": ["type:app", "scope:course-client", "scope:course-admin"]
+}

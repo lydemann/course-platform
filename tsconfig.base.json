@@ -8,8 +8,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom", "esnext.asynciterable"],
     "skipLibCheck": true,
@@ -68,23 +68,40 @@
         "libs/course-admin/some/src/index.ts"
       ],
       "@course-platform/course-client-env": [
-        "libs/course-client-lib/src/environments/environment.ts"
+        "libs/course-client/shared/domain/src/environments/environment.ts"
       ],
-      "@course-platform/course-client-lib": [
-        "libs/course-client-lib/src/index.ts"
+      "@course-platform/course-client/feature": [
+        "libs/course-client/feature/src/index.ts"
       ],
-      "@course-platform/shared/auth-domain": [
+      "@course-platform/course-client/shared/domain": [
+        "libs/course-client/shared/domain/src/index.ts"
+      ],
+      "@course-platform/course-client/shared/ui": [
+        "libs/course-client/shared/ui/src/index.ts"
+      ],
+      "@course-platform/shared/auth/domain": [
         "libs/shared/auth/domain/src/index.ts"
       ],
       "@course-platform/shared/domain": ["libs/shared/domain/src/index.ts"],
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
       ],
+      "@course-platform/shared/ngrx-universal-rehydrate": [
+        "libs/shared/ngrx-universal-rehydrate/src/index.ts"
+      ],
+      "@course-platform/shared/ngrx-universal-rehydrate/server": [
+        "libs/shared/ngrx-universal-rehydrate/server/src/index.ts"
+      ],
+      "@course-platform/shared/ssr/domain": [
+        "libs/shared/ssr/domain/src/index.ts"
+      ],
+      "@course-platform/shared/ssr/ui": ["libs/shared/ssr/ui/src/index.ts"],
       "@course-platform/shared/ui": ["libs/shared/ui/src/index.ts"],
       "@course-platform/shared/util": ["libs/shared/util/index.ts"],
       "@course-platform/shared/util/util-feature-toggle": [
         "libs/shared/util/util-feature-toggle/src/index.ts"
-      ]
+      ],
+      "@test-setup-base": ["test-setup.base.ts"]
     },
     "allowSyntheticDefaultImports": true
   },

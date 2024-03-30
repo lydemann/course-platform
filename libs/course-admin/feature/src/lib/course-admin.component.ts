@@ -1,7 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, TrackByFunction } from '@angular/core';
+import { Component, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
@@ -14,17 +13,14 @@ import { CreateSectionModalComponent } from './components/create-section-modal/c
   templateUrl: './course-admin.component.html',
   styleUrls: ['./course-admin.component.scss'],
 })
-export class CourseAdminComponent implements OnInit {
+export class CourseAdminComponent {
   panelOpenState = false;
   sections$: Observable<CourseSection[]>;
-  currentCourseId$: Observable<string>;
+  currentCourseId$: Observable<string | null>;
   constructor(
     private courseAdminFacadeService: CourseAdminFacadeService,
-    private router: Router,
-    private dialog: MatDialog,
-    private activatedRoute: ActivatedRoute
-  ) {}
-  ngOnInit(): void {
+    private dialog: MatDialog
+  ) {
     this.sections$ = this.courseAdminFacadeService.sections$;
     this.currentCourseId$ = this.courseAdminFacadeService.currentCourseId$;
   }

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,18 +13,17 @@ import { AppMaterialModule } from './material.module';
     CommonModule,
     AppMaterialModule,
     TranslateModule.forChild(),
+    SharedUiModule,
     RouterModule,
     SharedUiModule,
-    FlexLayoutModule,
     ReactiveFormsModule,
   ],
   exports: [
     CommonModule,
     AppMaterialModule,
+    SharedUiModule,
     TranslateModule,
     RouterModule,
-    SharedUiModule,
-    FlexLayoutModule,
     ReactiveFormsModule,
   ],
   providers: [],

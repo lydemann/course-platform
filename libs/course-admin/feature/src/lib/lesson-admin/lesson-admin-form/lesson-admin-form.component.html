@@ -8,7 +8,8 @@
     <mat-label>Description</mat-label>
     <textarea
       matInput
-      class="description"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="5"
       placeholder="Lesson description"
       formControlName="description"
     ></textarea>
@@ -62,12 +63,7 @@
     </div>
   </ng-container>
 
-  <app-button
-    class="mr-s"
-    [disabled]="hasTempResource()"
-    (clicked)="addResource()"
-    >Add resource</app-button
-  >
+  <app-button class="mr-s" (clicked)="addResource()">Add resource</app-button>
   <app-button class="mr-s" color="success" (clicked)="onSave()"
     >Save lesson</app-button
   >

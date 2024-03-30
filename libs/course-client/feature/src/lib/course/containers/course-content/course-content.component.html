@@ -1,0 +1,56 @@
+<ng-container *ngIf="lesson$ | async as lesson">
+  <div class="header mb-l">
+    <h1 class="lesson-title">{{ lesson.name }}</h1>
+
+    <app-button
+      *ngIf="lesson.isCompleted"
+      color="success"
+      (clicked)="onCompletedLessonClick(false, lesson.id)"
+    >
+      Mark Incomplete
+    </app-button>
+    <app-button
+      *ngIf="!lesson.isCompleted"
+      color="primary"
+      (clicked)="onCompletedLessonClick(true, lesson.id)"
+    >
+      Mark Complete
+    </app-button>
+  </div>
+
+  <div class="body">
+    <div class="video-wrapper" style="position: relative; padding-top: 56.25%">
+      <ng-container *ngIf="videoUrl$ | async as videoUrl">
+        <iframe
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
+          [src]="videoUrl"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </ng-container>
+    </div>
+
+    <div class="grid md:grid-cols-12 gap-4">
+      <div class="lesson-description md:col-span-9 mb-2">
+        <h2 class="label">ABOUT THIS LESSON</h2>
+        <p>
+          {{ lesson.description }}
+        </p>
+      </div>
+
+      <div class="resouces md:col-span-3">
+        <h2 class="label">Resources</h2>
+
+        <!-- TODO: group by worksheets and cheatsheets and other -->
+        <ul fxLayoutGap="2px">
+          <li *ngFor="let resource of lesson.resources">
+            <a class="resource" target="_blank" href="{{ resource.url }}">
+              {{ resource.name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-container>

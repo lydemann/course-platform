@@ -2,23 +2,16 @@
   "name": "shared-auth-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/shared/auth-domain/src",
+  "sourceRoot": "libs/shared/auth/domain/src",
   "prefix": "course-platform",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/auth/domain/**/*.ts",
-          "libs/shared/auth/domain/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/auth/domain/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/auth/domain/jest.config.ts"
       }
     }
   },

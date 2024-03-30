@@ -6,7 +6,10 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '@course-platform/shared/auth-domain';
+import {
+  AuthService,
+  UserCredentials,
+} from '@course-platform/shared/auth/domain';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +35,7 @@ export class LoginComponent {
     });
   }
 
-  tryLogin(value: unknown) {
+  tryLogin(value: UserCredentials) {
     this.authService.doLogin(value).then(
       (res) => {
         // TODO: when extracting to shared component, set redirect url as input
