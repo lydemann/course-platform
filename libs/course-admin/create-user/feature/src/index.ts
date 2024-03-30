@@ -1,1 +1,1 @@
-export * from './lib/create-user.module';
+export * from './lib/create-user.component';

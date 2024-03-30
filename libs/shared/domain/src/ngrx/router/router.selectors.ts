@@ -1,9 +1,10 @@
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Params } from '@angular/router';
 import * as fromRouter from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {
-  router: fromRouter.RouterReducerState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  router: fromRouter.RouterReducerState<any>;
 }
 
 export const selectRouter = createFeatureSelector<
@@ -15,10 +16,11 @@ export const {
   selectQueryParams: selectQueryParamsNgRx,
   selectQueryParam,
   selectRouteData,
-  selectUrl
+  selectUrl,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } = fromRouter.getRouterSelectors(selectRouter);
 
-const getRouteParams = (route: ActivatedRouteSnapshot) => {
+const getRouteParams = (route: ActivatedRouteSnapshot): Params => {
   if (route.children.length === 0) {
     return route.params;
   }
@@ -29,11 +31,11 @@ const getRouteParams = (route: ActivatedRouteSnapshot) => {
   );
   return {
     ...route.params,
-    ...combinedChildParams
+    ...combinedChildParams,
   };
 };
 
-export const selectRouteParams = createSelector(selectRouter, routerState => {
+export const selectRouteParams = createSelector(selectRouter, (routerState) => {
   if (!routerState?.state?.root) {
     return {};
   }
@@ -42,11 +44,11 @@ export const selectRouteParams = createSelector(selectRouter, routerState => {
 });
 
 export const selectRouteParam = (routeParam: string) =>
-  createSelector(selectRouteParams, routeParams => {
+  createSelector(selectRouteParams, (routeParams) => {
     return routeParams[routeParam];
   });
 
 export const selectQueryParams = createSelector(
   selectQueryParamsNgRx,
-  params => params || {}
+  (params) => params || {}
 );

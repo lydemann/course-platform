@@ -6,24 +6,14 @@
   "generators": {},
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/util/util-feature-toggle/**/*.ts",
-          "libs/shared/util/util-feature-toggle/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/util/util-feature-toggle/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/util/util-feature-toggle/jest.config.ts"
       }
     }
   },
-  "tags": [
-    "scope:shared",
-    "type:util"
-  ]
+  "tags": ["scope:shared", "type:util"]
 }

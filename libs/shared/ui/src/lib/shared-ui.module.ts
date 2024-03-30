@@ -15,7 +15,6 @@ import {
 import { SpinnerOverlayWrapperModule } from './spinner-overlay-wrapper/spinner-overlay-wrapper.module';
 import { SpinnerModule } from './spinner/spinner.module';
 import { TextareaModule } from './textarea/textarea.module';
-import { ToastModule } from './toast';
 import { ToggleModule } from './toggle/toggle.module';
 
 const IMPORTS = [
@@ -32,7 +31,6 @@ const IMPORTS = [
   SelectOptionComponent,
   SelectOptionGroupComponent,
   ButtonModule,
-  ToastModule,
 ];
 
 @NgModule({

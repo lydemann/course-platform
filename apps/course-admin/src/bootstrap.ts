@@ -6,6 +6,7 @@ import { AppModule } from '@course-platform/course-admin/shell';
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     config: any;
   }
 }
@@ -27,8 +28,7 @@ xhttp.onreadystatechange = function () {
     }
 
     platformBrowserDynamic()
-      .bootstrapModule(AppModule, {
-      })
+      .bootstrapModule(AppModule, {})
       // eslint-disable-next-line no-console
       .catch((err) => console.error(err));
   }

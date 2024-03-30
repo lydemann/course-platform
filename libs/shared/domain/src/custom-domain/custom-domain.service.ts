@@ -48,8 +48,8 @@ export class CustomDomainService {
         },
       })
       .pipe(
-        map(({ data: { setCustomDomain } }) => {
-          return setCustomDomain;
+        map(({ data }) => {
+          return data?.setCustomDomain || '';
         })
       );
   }

@@ -8,6 +8,6 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
   templateUrl: './select-option.component.html',
 })
 export class SelectOptionComponent {
-  @ViewChild('label') public templateRef: TemplateRef<any>;
-  @Input() public value: any;
+  @ViewChild('label') public templateRef!: TemplateRef<unknown>;
+  @Input() public value!: unknown;
 }

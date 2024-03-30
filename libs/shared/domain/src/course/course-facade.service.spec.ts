@@ -41,7 +41,7 @@ describe('CourseFacadeService', () => {
 
   describe('getCourses', () => {
     it('should get courses', () => {
-      const courses = [];
+      const courses = [] as Course[];
       courseResourcesService.getCourses.andReturn(of(courses));
       spectator.service
         .getCourses()

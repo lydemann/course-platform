@@ -2,13 +2,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
-import { filter, first, switchMap } from 'rxjs/operators';
+import { catchError, filter, first, switchMap } from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
 import { CourseResourcesService } from '@course-platform/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { ComponentStore } from '@ngrx/component-store';
-import { SectionsStateService } from './+state/sections-state.service';
 
 interface CourseAdminStore {
   sections: CourseSection[];
@@ -85,6 +84,24 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       sections: [...state.sections],
     };
   });
+
+  private _deleteLesson = this.updater(
+    (
+      state,
+      { sectionId, lessonId }: { sectionId: string; lessonId: string }
+    ) => {
+      const sectionIndex = state.sections.findIndex((s) => s.id === sectionId);
+      const section = state.sections[sectionIndex];
+      const lessonIndex = section.lessons!.findIndex((l) => l.id === lessonId);
+      section.lessons!.splice(lessonIndex, 1);
+      return {
+        ...state,
+        isSavingLesson: false,
+        sections: [...state.sections],
+      };
+    }
+  );
+
   private _deleteSection = this.updater(
     (state, { sectionId }: { sectionId: string }) => {
       const sectionIndex = state.sections.findIndex((s) => s.id === sectionId);
@@ -108,18 +125,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   private _createLesson = this.updater(
-    (
-      state,
-      { lessonId, sectionId }: { sectionId: string; lessonId: string }
-    ) => {
-      const lesson = {
-        id: lessonId,
-        name: '',
-        description: '',
-        videoUrl: '',
-        resources: [],
-      } as Lesson;
-
+    (state, { lesson, sectionId }: { sectionId: string; lesson: Lesson }) => {
       const sectionIndex = state.sections.findIndex(
         (section) => section.id === sectionId
       );
@@ -166,8 +172,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     private courseResourcesService: CourseResourcesService,
     private router: Router,
     private apollo: Apollo,
-    private auth: Auth,
-    private SectionsStateService: SectionsStateService
+    private auth: Auth
   ) {
     super({
       sections: [],
@@ -197,7 +202,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.router.navigate(['../course-admin', courseId]);
   }
 
-  setSchoolId(schoolId: any) {
+  setSchoolId(schoolId: string) {
     this.auth.tenantId = schoolId;
   }
 
@@ -225,16 +230,14 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.createSnapshot();
     this._setLesson(lesson);
 
-    this.courseResourcesService
+    return this.courseResourcesService
       .updateLesson(lesson, courseId, sectionId)
-      .subscribe({
-        next: () => {
-          // TODO: show success message
-        },
-        error: () => {
+      .pipe(
+        catchError((error) => {
           this.restoreLastSnapshot();
-        },
-      });
+          throw error;
+        })
+      );
   }
 
   moveLesson(
@@ -318,16 +321,15 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       });
   }
 
-  createLesson(sectionId: string, section: string) {
+  createLesson(sectionId: string, lessonName: string) {
     this.patchState({
       isSavingLesson: true,
     });
     const courseId = this.get().currentCourseId!;
     this.courseResourcesService
-      .createLesson(sectionId, section, courseId)
-      .subscribe((lessonId) => {
-        this._createLesson({ lessonId, sectionId });
-        // TODO: error handling
+      .createLesson(sectionId, lessonName, courseId)
+      .subscribe((lesson) => {
+        this._createLesson({ lesson, sectionId });
       });
   }
 
@@ -337,7 +339,8 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.courseResourcesService
       .deleteLesson(sectionId, lessonId, courseId)
       .subscribe(() => {
-        this.router.navigate(['course-admin', courseId]);
+        this._deleteLesson({ sectionId, lessonId });
+        this.router.navigate(['admin', 'course-admin', courseId]);
       });
   }
 }

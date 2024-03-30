@@ -38,7 +38,10 @@
           {{ lesson.name }}
         </div>
       </div>
-      <app-button (clicked)="onCreateLessonClicked(section.id)">
+      <app-button
+        class="block mt-2"
+        (clicked)="onCreateLessonClicked(section.id)"
+      >
         Create lesson
       </app-button>
     </mat-expansion-panel>

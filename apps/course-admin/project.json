@@ -12,7 +12,7 @@
   "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
+      "executor": "@nx/angular:browser-esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": [
@@ -22,6 +22,7 @@
           "graphql-tag",
           "zen-observable"
         ],
+        "plugins": ["esbuild-polyfills-node.js"],
         "outputPath": "dist/apps/course-admin",
         "index": "apps/course-admin/src/index.html",
         "main": "apps/course-admin/src/main.ts",
@@ -44,11 +45,9 @@
         "stylePreprocessorOptions": {
           "includePaths": ["libs/shared/ui/styles/src/lib"]
         },
-        "scripts": [],
-        "customWebpackConfig": {
-          "path": "apps/course-admin/webpack.config.js"
-        }
+        "scripts": []
       },
+      "defaultConfiguration": "production",
       "configurations": {
         "production": {
           "fileReplacements": [
@@ -63,10 +62,7 @@
           "namedChunks": false,
           "extractLicenses": true,
           "vendorChunk": false,
-          "buildOptimizer": true,
-          "customWebpackConfig": {
-            "path": "apps/course-admin/webpack.prod.config.js"
-          }
+          "buildOptimizer": true
         },
         "local": {
           "fileReplacements": [
@@ -80,16 +76,16 @@
       }
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "course-admin:build:production"
+          "buildTarget": "course-admin:build:production"
         },
         "development": {
-          "browserTarget": "course-admin:build:development"
+          "buildTarget": "course-admin:build:development"
         },
         "local": {
-          "browserTarget": "course-admin:build:local"
+          "buildTarget": "course-admin:build:local"
         }
       },
       "defaultConfiguration": "development",
@@ -117,23 +113,16 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "course-admin:build"
+        "buildTarget": "course-admin:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/course-admin/**/*.ts",
-          "apps/course-admin/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/course-admin/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/course-admin/jest.config.ts"
       }
     }
   },

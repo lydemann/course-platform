@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
-import { UserService } from '@course-platform/shared/feat-auth';
+import { UserService } from '@course-platform/shared/auth/domain';
 import { Observable } from 'rxjs';
 
 interface NavigationItem {
@@ -16,7 +16,7 @@ interface NavigationItem {
   styleUrls: ['./topbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent {
   languages = ['en'];
   homeUrl: string;
   navigationItems: NavigationItem[];
@@ -25,9 +25,7 @@ export class TopbarComponent implements OnInit {
   constructor(
     private userService: UserService,
     private courseAdminFacade: CourseAdminFacadeService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.loggedIn$ = this.userService.isLoggedIn$;
     this.homeUrl = '/courses';
     this.navigationItems = [

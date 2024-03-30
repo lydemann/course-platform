@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, first, map, switchMap } from 'rxjs/operators';
 
-import { UserService } from '@course-platform/shared/feat-auth';
+import { UserService } from '@course-platform/shared/auth/domain';
 import {
   Course,
   CourseSection,
@@ -71,8 +71,8 @@ export const courseSectionsQuery = gql`
   providedIn: 'root',
 })
 export class CourseResourcesService {
-  private courseId: string;
-  constructor(private apollo: Apollo, private userService: UserService) { }
+  private courseId = '';
+  constructor(private apollo: Apollo, private userService: UserService) {}
 
   GET_COURSES_QUERY = gql`
     query getCourses {
@@ -86,32 +86,45 @@ export class CourseResourcesService {
   `;
   getCourses(): Observable<Course[]> {
     return this.apollo
-      .watchQuery<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
-      .valueChanges.pipe(map(({ data }) => data.course));
+      .query<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
+      .pipe(
+        map((data) => {
+          console.log('getCourses data', data);
+          return data?.data?.course || [];
+        }),
+        catchError((error) => {
+          throw error;
+        })
+      );
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
     this.courseId = courseId;
-    return this.userService.getCurrentUser().pipe(
-      switchMap((user) =>
-        this.apollo
+    return this.userService.uid$.pipe(
+      filter((uid) => !!uid),
+      switchMap((uid) => {
+        return this.apollo
           .query<GetCourseSectionsResponseDTO>({
             query: courseSectionsQuery,
             variables: {
-              uid: user.uid,
+              uid,
               courseId,
             },
           })
           .pipe(
             map(({ data }) => {
+              console.log('data', data);
               const updatedSections = data.courseSections.map((section) => {
                 const completedLessonsMap = data.user.completedLessons.reduce(
-                  (prev, cur) => {
+                  (prev: Record<string, boolean>, cur) => {
                     if (!cur.completed) {
-                      return { ...prev };
+                      return { ...prev } as Record<string, boolean>;
                     }
 
-                    return { ...prev, [cur.lessonId]: true };
+                    return { ...prev, [cur.lessonId]: true } as Record<
+                      string,
+                      boolean
+                    >;
                   },
                   {}
                 );
@@ -125,16 +138,12 @@ export class CourseResourcesService {
               });
               return updatedSections;
             })
-          )
-      )
+          );
+      })
     );
   }
 
-  setCompleteLesson(
-    isCompleted: boolean,
-    lessonId: string,
-    userId: string
-  ): Observable<any> {
+  setCompleteLesson(isCompleted: boolean, lessonId: string, userId: string) {
     const completedLessonMutation = gql`
       mutation {
         setLessonCompleted(
@@ -152,7 +161,7 @@ export class CourseResourcesService {
     sectionId: string,
     lessonName = '',
     courseId: string
-  ): Observable<string> {
+  ): Observable<Lesson> {
     const createLessonMutation = gql`
       mutation {
         createLesson(courseId: "${courseId}", sectionId: "${sectionId}", name: "${lessonName}") {
@@ -163,47 +172,20 @@ export class CourseResourcesService {
       ${courseFragments.lesson}
     `;
 
-    return this.userService.getCurrentUser().pipe(
-      switchMap((user) =>
-        this.apollo
-          .mutate<any>({
-            mutation: createLessonMutation,
-            update: (cache, { data: { createLesson } }) => {
-              const courseSectionsData =
-                cache.readQuery<GetCourseSectionsResponseDTO>({
-                  query: courseSectionsQuery,
-                  variables: { uid: user.uid, courseId: this.courseId },
-                });
-
-              cache.writeQuery({
-                query: courseSectionsQuery,
-                data: {
-                  ...courseSectionsData,
-                  courseSections: [
-                    ...courseSectionsData.courseSections.reduce(
-                      (prev, section) => {
-                        const currentSection =
-                          section.id === sectionId
-                            ? {
-                              ...section,
-                              lessons: [...section.lessons, createLesson],
-                            }
-                            : section;
-                        return [
-                          ...prev,
-                          { ...currentSection } as CourseSection,
-                        ];
-                      },
-                      []
-                    ),
-                  ],
-                },
-                variables: { uid: user.uid, courseId: this.courseId },
-              });
-            },
+    return (
+      this.apollo
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .mutate<{ createLesson: Lesson }>({
+          mutation: createLessonMutation,
+        })
+        .pipe(
+          map(({ data }) => {
+            if (!data) {
+              throw new Error('No lesson data received');
+            }
+            return data.createLesson;
           })
-          .pipe(map(({ data }) => data))
-      )
+        )
     );
   }
 
@@ -234,7 +216,7 @@ export class CourseResourcesService {
       ${courseFragments.lesson}
     `;
 
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       first(),
       switchMap((user) =>
         this.apollo.mutate({
@@ -263,20 +245,11 @@ export class CourseResourcesService {
         deleteLesson(courseId: $courseId, sectionId: $sectionId, id: $lessonId)
       }
     `;
-    return this.userService.getCurrentUser().pipe(
-      switchMap((user) =>
-        this.apollo.mutate({
-          mutation: deleteLessonMutation,
-          variables: { courseId: this.courseId, sectionId, lessonId },
-          refetchQueries: [
-            {
-              query: courseSectionsQuery,
-              variables: { uid: user.uid, courseId: this.courseId },
-            },
-          ],
-        })
-      )
-    );
+    return this.apollo.mutate({
+      errorPolicy: 'all',
+      mutation: deleteLessonMutation,
+      variables: { courseId: this.courseId, sectionId, lessonId },
+    });
   }
 
   setActionItemCompleted(resourceId: string, completed: boolean) {
@@ -290,7 +263,7 @@ export class CourseResourcesService {
       }
     `;
 
-    return this.userService.getCurrentUser().pipe(
+    return this.userService.currentUser$.pipe(
       switchMap((user) =>
         this.apollo.mutate({
           mutation: setActionItemCompletedMutation,
@@ -320,7 +293,7 @@ export class CourseResourcesService {
       variables: {
         sectionName,
         courseId,
-      }
+      },
     });
   }
 
@@ -353,7 +326,7 @@ export class CourseResourcesService {
         sectionName,
         sectionTheme,
         courseId,
-      }
+      },
     });
   }
   deleteSection(sectionId: string, courseId: string) {
@@ -368,7 +341,7 @@ export class CourseResourcesService {
       variables: {
         sectionId,
         courseId,
-      }
+      },
     });
   }
 }

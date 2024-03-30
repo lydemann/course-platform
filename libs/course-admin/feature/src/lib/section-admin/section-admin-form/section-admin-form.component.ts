@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
@@ -14,12 +13,8 @@ import { UntypedFormGroup } from '@angular/forms';
   styleUrls: ['./section-admin-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SectionAdminFormComponent implements OnInit {
-  @Input() formGroup: UntypedFormGroup;
+export class SectionAdminFormComponent {
+  @Input() formGroup!: UntypedFormGroup;
   @Output() saveClicked = new EventEmitter<UntypedFormGroup>();
   @Output() deleteClicked = new EventEmitter<UntypedFormGroup>();
-
-  constructor() {}
-
-  ngOnInit() {}
 }

@@ -13,9 +13,9 @@ export class FeatureToggleService {
   public hasFlags(toCheck: featureFlags | featureFlags[]) {
     const flagsToCheck = Array.isArray(toCheck) ? toCheck : [toCheck];
 
-    return flagsToCheck.some(flagToCheck =>
+    return flagsToCheck.some((flagToCheck) =>
       this.enabledFeatures.some(
-        enabledFeatureFlag => flagToCheck === enabledFeatureFlag
+        (enabledFeatureFlag) => flagToCheck === enabledFeatureFlag
       )
     );
   }
@@ -25,6 +25,7 @@ export class FeatureToggleService {
       .get('/assets/feature-flags.json?userId=' + userId)
       .pipe(
         first(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         tap((features: any) => {
           if (!features) {
             throw new Error('No features!');
@@ -38,11 +39,9 @@ export class FeatureToggleService {
   private getEnabledFlags(features: { [key: string]: boolean }) {
     const enabledFeatures = [];
     for (const key in features) {
-      if (features.hasOwnProperty(key)) {
-        const isEnabled = features[key];
-        if (isEnabled || !!sessionStorage.getItem(key)) {
-          enabledFeatures.push(key);
-        }
+      const isEnabled = features[key];
+      if (isEnabled || !!sessionStorage.getItem(key)) {
+        enabledFeatures.push(key);
       }
     }
     return enabledFeatures;

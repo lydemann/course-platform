@@ -35,6 +35,17 @@
                 ]
               },
               {
+                "sourceTag": "type:shell",
+                "onlyDependOnLibsWithTags": [
+                  "type:shell",
+                  "type:feature",
+                  "type:api",
+                  "type:ui",
+                  "type:domain",
+                  "type:util"
+                ]
+              },
+              {
                 "sourceTag": "type:feature",
                 "onlyDependOnLibsWithTags": [
                   "type:feature",
@@ -75,11 +86,7 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": [
-        "plugin:@nx/typescript",
-        "plugin:@nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
+      "extends": ["plugin:@nx/typescript", "plugin:@nx/angular"],
       "rules": {
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-namespace": "off",
@@ -95,7 +102,8 @@
       "files": ["*.html"],
       "rules": {
         "@angular-eslint/template/banana-in-box": "error",
-        "@angular-eslint/template/no-negated-async": "error"
+        "@angular-eslint/template/no-negated-async": "error",
+        "@angular-eslint/template/eqeqeq": "error"
       },
       "plugins": ["@angular-eslint/eslint-plugin-template"]
     }

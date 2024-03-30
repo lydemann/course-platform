@@ -1,0 +1,15 @@
+@import 'helpers';
+
+.header {
+  display: flex;
+  justify-content: center;
+
+  .title {
+    font-size: font-size('xl');
+    font-weight: bold;
+  }
+}
+
+.body {
+  justify-content: center;
+}

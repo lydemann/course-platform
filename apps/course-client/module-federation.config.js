@@ -1,6 +1,6 @@
 module.exports = {
   name: 'course-client',
-  remotes: ['course-admin'],
+  remotes: [],
   additionalShared: [
     ['@apollo/client/core', { singleton: true, requiredVersion: false }],
     ['@apollo/client/cache', { singleton: true, requiredVersion: false }],

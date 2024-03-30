@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -15,16 +15,14 @@ import { CourseSection } from '@course-platform/shared/interfaces';
   templateUrl: './section-admin.component.html',
   styleUrls: ['./section-admin.component.scss'],
 })
-export class SectionAdminComponent implements OnInit {
+export class SectionAdminComponent {
   section$: Observable<CourseSection>;
   formGroup$: Observable<UntypedFormGroup>;
 
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
     private formBuilder: UntypedFormBuilder
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.section$ = this.courseAdminFacade.currentSection$;
     this.formGroup$ = this.section$.pipe(
       filter((section) => !!section),

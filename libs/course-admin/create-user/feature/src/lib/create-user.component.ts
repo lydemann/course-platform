@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { UserFacadeService } from '@course-platform/course-admin/shared/domain';
+import { SharedModule } from '@course-platform/course-admin/shared/ui';
 
 import { ToastService } from '@course-platform/shared/ui';
 
@@ -31,6 +32,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
+  standalone: true,
+  imports: [SharedModule],
 })
 export class CreateUserComponent implements OnInit {
   form!: UntypedFormGroup;
@@ -47,8 +50,8 @@ export class CreateUserComponent implements OnInit {
 
   private checkPasswords(group: UntypedFormGroup) {
     // here we have the 'passwords' group
-    const password = group.get('password').value;
-    const confirmPassword = group.get('confirmPassword').value;
+    const password = group.get('password')!.value;
+    const confirmPassword = group.get('confirmPassword')!.value;
 
     return password === confirmPassword
       ? null
@@ -70,7 +73,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   onSubmit() {
-    this.serverError = null;
+    this.serverError = '';
     if (this.form.invalid) {
       return;
     }
@@ -112,6 +115,6 @@ export class CreateUserComponent implements OnInit {
       return `Passwords don't match`;
     }
 
-    return Object.keys(control?.errors)[0];
+    return Object.keys(control.errors!)[0];
   }
 }

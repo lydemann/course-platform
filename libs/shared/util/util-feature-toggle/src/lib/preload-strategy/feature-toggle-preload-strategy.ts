@@ -8,10 +8,11 @@ import { FeatureToggleService } from '../services/feature-toggle.service';
 export class FeatureTogglePreloadingStrategy implements PreloadingStrategy {
   constructor(private featureToggleService: FeatureToggleService) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public preload(route: Route, load: () => Observable<any>): Observable<any> {
     return !route.data ||
-      !route.data.flags ||
-      this.featureToggleService.hasFlags(route.data.flags)
+      !route.data['flags'] ||
+      this.featureToggleService.hasFlags(route.data['flags'])
       ? load()
       : of(false);
   }

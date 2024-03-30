@@ -5,8 +5,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CommonModule } from '@angular/common';
 import { environment } from '@course-platform/course-admin/shared/domain';
+import { SharedAuthDomainModule } from '@course-platform/shared/auth/domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
-import { SharedFeatAuthModule } from '@course-platform/shared/feat-auth';
 import { AppRoutingModule } from './app.routing';
 import { LayoutModule } from './layout/layout.module';
 import { TopbarModule } from './layout/topbar/topbar.module';
@@ -35,7 +35,7 @@ export function endpointsFactory() {
         deps: [HttpClient],
       },
     }),
-    SharedFeatAuthModule,
+    SharedAuthDomainModule,
   ],
   exports: [
     CommonModule,
@@ -44,7 +44,7 @@ export function endpointsFactory() {
     LayoutModule,
     TopbarModule,
     TranslateModule,
-    SharedFeatAuthModule,
+    SharedAuthDomainModule,
   ],
   providers: [
     {

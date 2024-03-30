@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@course-platform/course-admin/shared/ui';
+import { SharedUiModule } from '@course-platform/shared/ui';
 import { CreateLessonModalModule } from './components/create-lesson-modal/create-lesson-modal.module';
 import { CreateSectionModalModule } from './components/create-section-modal/create-section-modal.module';
 import { CourseAdminComponent } from './course-admin.component';
@@ -11,8 +12,9 @@ import { CourseAdminRoutingModule } from './course-admin.routing';
     SharedModule,
     CourseAdminRoutingModule,
     CreateLessonModalModule,
-    CreateSectionModalModule
+    CreateSectionModalModule,
+    SharedUiModule,
   ],
-  declarations: [CourseAdminComponent]
+  declarations: [CourseAdminComponent],
 })
 export class CourseAdminModule {}

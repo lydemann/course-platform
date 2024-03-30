@@ -3,21 +3,22 @@ import {
   Input,
   OnInit,
   TemplateRef,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
 import { featureFlags } from '../feature-flags';
 import { FeatureToggleService } from '../services/feature-toggle.service';
 
 @Directive({
-  selector: '[appFeatureToggle]'
+  selector: '[appFeatureToggle]',
 })
 export class FeatureToggleDirective implements OnInit {
-  @Input('appFeatureToggle') public featureFlag: featureFlags | featureFlags[];
+  @Input('appFeatureToggle') public featureFlag: featureFlags | featureFlags[] =
+    [];
 
   constructor(
     private vcr: ViewContainerRef,
-    private tpl: TemplateRef<any>,
+    private tpl: TemplateRef<unknown>,
     private featureToggleService: FeatureToggleService
   ) {}
 
