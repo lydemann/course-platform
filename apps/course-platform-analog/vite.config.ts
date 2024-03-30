@@ -3,6 +3,7 @@
 import analog from '@analogjs/platform';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { cpSync } from 'node:fs';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -24,6 +25,20 @@ export default defineConfig(({ mode }) => {
             httpsOptions: {
               region: 'us-central1',
               maxInstances: 3,
+            },
+          },
+          hooks: {
+            compiled: (nitro) => {
+              cpSync(
+                './apps/course-platform-analog/src/firebase.json',
+                './dist/apps/course-platform-analog/analog/firebase.json',
+                { recursive: true }
+              );
+              cpSync(
+                './apps/course-platform-analog/src/.firebaserc',
+                './dist/apps/course-platform-analog/analog/.firebaserc',
+                { recursive: true }
+              );
             },
           },
         },
