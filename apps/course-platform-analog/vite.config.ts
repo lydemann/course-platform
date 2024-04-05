@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
             },
           },
           hooks: {
-            compiled: (nitro) => {
+            close: () => {
               cpSync(
                 './apps/course-platform-analog/src/firebase.json',
                 './dist/apps/course-platform-analog/analog/firebase.json',
