@@ -100,22 +100,6 @@ xhttp.onreadystatechange = function () {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,
         },
-        {
-          provide: ErrorHandler,
-          useValue: Sentry.createErrorHandler({
-            showDialog: true,
-          }),
-        },
-        {
-          provide: Sentry.TraceService,
-          deps: [Router],
-        },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: () => () => {},
-          deps: [Sentry.TraceService],
-          multi: true,
-        },
         importProvidersFrom([
           TranslateModule.forRoot({
             loader: {
