@@ -54,12 +54,6 @@ xhttp.onreadystatechange = function () {
     bootstrapApplication(AppModule, {
       providers: [
         {
-          provide: ErrorHandler,
-          useValue: Sentry.createErrorHandler({
-            showDialog: true,
-          }),
-        },
-        {
           provide: Sentry.TraceService,
           deps: [Router],
         },
@@ -68,6 +62,12 @@ xhttp.onreadystatechange = function () {
           useFactory: () => () => {},
           deps: [Sentry.TraceService],
           multi: true,
+        },
+        {
+          provide: ErrorHandler,
+          useValue: Sentry.createErrorHandler({
+            showDialog: true,
+          }),
         },
       ],
     }).catch((err) => console.error(err));

@@ -114,6 +114,7 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private courseFacade: CourseFacadeService
   ) {}
+
   ngOnDestroy(): void {
     if (this.styleElement) {
       this.renderer.removeChild(

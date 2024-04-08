@@ -132,5 +132,21 @@ export const appConfig: ApplicationConfig = {
       }),
       NgrxUniversalRehydrateBrowserModule.forRoot({}),
     ]),
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    },
   ],
 };
