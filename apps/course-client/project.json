@@ -43,7 +43,9 @@
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/shared/ui/styles/src/lib"]
-        }
+        },
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/course-client/ngsw-config.json"
       },
       "defaultConfiguration": "production",
       "configurations": {
