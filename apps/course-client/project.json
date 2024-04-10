@@ -34,10 +34,11 @@
         "namedChunks": true,
         "assets": [
           "apps/course-client/src/favicon.ico",
-          "apps/course-client/src/assets",
           "apps/course-client/src/web.config",
           "apps/course-client/src/.firebaserc",
-          "apps/course-client/src/firebase.json"
+          "apps/course-client/src/firebase.json",
+          "apps/course-client/src/assets",
+          "apps/course-client/src/manifest.webmanifest"
         ],
         "styles": ["apps/course-client/src/styles.scss"],
         "scripts": [],
