@@ -203,7 +203,7 @@
     "tslint-eslint-rules": "^5.4.0",
     "tslint-jasmine-rules": "^1.6.0",
     "typescript": "5.2.2",
-    "vite": "~5.0.0",
+    "vite": "~5.0.13",
     "vite-plugin-static-copy": "^1.0.1",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^1.0.4"
