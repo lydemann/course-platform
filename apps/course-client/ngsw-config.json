@@ -31,11 +31,14 @@
     {
       "name": "api",
       "urls": ["**/api**"],
+      "cacheQueryOptions": {
+        "ignoreSearch": true
+      },
       "cacheConfig": {
         "strategy": "performance",
-        "maxSize": 50,
+        "maxSize": 200,
         "maxAge": "4h",
-        "timeout": "5s"
+        "timeout": "2s"
       }
     }
   ]
