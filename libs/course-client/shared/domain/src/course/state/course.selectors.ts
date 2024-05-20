@@ -147,8 +147,14 @@ export namespace CourseSelectors {
   export const selectSelectedLesson = createSelector(
     selectSelectedLessonId,
     selectLessonsEntities,
-    (selectedLessonId, courseLessons) => {
+    selectRouteData,
+    (selectedLessonId, courseLessons, data) => {
+      if (data['lessonType'] !== LessonTypes.Lesson) {
+        return null;
+      }
+
       const lesson = courseLessons[selectedLessonId];
+
       if (!lesson) {
         throw new Error(`Lesson with id ${selectedLessonId} not found`);
       }

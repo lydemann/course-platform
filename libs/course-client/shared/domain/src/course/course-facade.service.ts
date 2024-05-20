@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 
 import {
   CourseResourcesService,
@@ -28,9 +28,9 @@ export class CourseClientFacade {
   actionItems$: Observable<ActionItem[]> = this.store.select(
     CourseSelectors.selectSectionActionItems
   );
-  selectedLesson$: Observable<Lesson> = this.store.select(
-    CourseSelectors.selectSelectedLesson
-  );
+  selectedLesson$: Observable<Lesson> = this.store
+    .select(CourseSelectors.selectSelectedLesson)
+    .pipe(filter((lesson) => !!lesson)) as Observable<Lesson>;
   selectedLessonId$: Observable<string> = this.store.select(
     CourseSelectors.selectSelectedLessonId
   );
