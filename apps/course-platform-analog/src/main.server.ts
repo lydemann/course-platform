@@ -28,7 +28,7 @@ export default async function render(
 ) {
   if (!admin.apps.length) {
     try {
-      const serviceAccount = require('../../../serviceAccountKey.json');
+      const serviceAccount = await import('../../../serviceAccountKey.json');
       if (serviceAccount) {
         admin.initializeApp({
           credential: admin.credential.cert(serviceAccount as ServiceAccount),
@@ -37,6 +37,7 @@ export default async function render(
         admin.initializeApp();
       }
     } catch (error) {
+      console.error('Error while initializing Firebase Admin', error);
       admin.initializeApp();
     }
   }
