@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -21,36 +21,30 @@ export function endpointsFactory() {
   } as Endpoints;
 }
 
-@NgModule({
-  imports: [
-    CommonModule,
-    AppRoutingModule,
-    HttpClientModule,
-    LayoutModule,
-    TopbarModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-    SharedAuthDomainModule,
-  ],
-  exports: [
-    CommonModule,
-    AppRoutingModule,
-    HttpClientModule,
-    LayoutModule,
-    TopbarModule,
-    TranslateModule,
-    SharedAuthDomainModule,
-  ],
-  providers: [
-    {
-      provide: ENDPOINTS_TOKEN,
-      useFactory: endpointsFactory,
-    },
-  ],
-})
+@NgModule({ exports: [
+        CommonModule,
+        AppRoutingModule,
+        HttpClientModule,
+        LayoutModule,
+        TopbarModule,
+        TranslateModule,
+        SharedAuthDomainModule,
+    ], imports: [CommonModule,
+        AppRoutingModule,
+        LayoutModule,
+        TopbarModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: httpLoaderFactory,
+                deps: [HttpClient],
+            },
+        }),
+        SharedAuthDomainModule], providers: [
+        {
+            provide: ENDPOINTS_TOKEN,
+            useFactory: endpointsFactory,
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class RemoteEntryModule {}

@@ -89,22 +89,6 @@ export const appConfig: ApplicationConfig = {
         includePostRequests: true,
       })
     ),
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: true,
-      }),
-    },
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
     provideHttpClient(
       withFetch(),
       withInterceptors([
@@ -145,7 +129,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler({
-        showDialog: true,
+        showDialog: environment.production,
       }),
     },
   ],

@@ -41,7 +41,7 @@ export const enum MergeStrategy {
 
 export interface NgrxUniversalHydrateConfig {
   stores: string[] | undefined; // Defaults to `undefined`
-  disableWarnings: boolean; // Defaults to `false`
+  disableWarnings: boolean; // Defaults to `false`k
   mergeStrategy: MergeStrategy; // Defaults to `MergeStrategy.MERGE_OVER`
 }
 ```

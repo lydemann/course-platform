@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -58,6 +58,9 @@ export const DELETE_COURSE_MUTATION = gql`
   providedIn: 'root',
 })
 export class CourseFacadeService {
+
+  courses = signal<Course[]>([]);
+
   constructor(
     private apollo: Apollo,
     private courseResourcesService: CourseResourcesService
@@ -67,6 +70,12 @@ export class CourseFacadeService {
 
   getCourses(): Observable<Course[]> {
     return this.courseResourcesService.getCourses();
+  }
+
+  fetchCourses(){
+    this.courseResourcesService.getCourses().subscribe((courses) => {
+      this.courses.set(courses);
+    })
   }
 
   getCourse(courseId: string): Observable<Course> {

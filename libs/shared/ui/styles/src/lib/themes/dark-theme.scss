@@ -1,29 +1,33 @@
+// setup material theme
+@use 'sass:map';
 @use '@angular/material' as mat;
-@use 'sass:map' as map;
 @import './theme-common';
 
-$todo-black-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: mat.define-palette(mat.$grey-palette, 700, 300, 900),
-      accent: mat.define-palette(mat.$blue-grey-palette, 400),
-      warn: mat.define-palette(mat.$red-palette, 500),
-    ),
+$todo-black-primary: mat.define-palette(mat.$grey-palette, 700, 300, 900);
+$todo-black-accent: mat.define-palette(mat.$blue-grey-palette, 400);
+$todo-black-warn: mat.define-palette(mat.$red-palette, 500);
+
+$todo-black-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: $todo-black-primary,
+	accent: $todo-black-accent,
+	warn: $todo-black-warn,
   )
-);
+));
 
 @mixin generate-dark-theme {
-  // the new way of theming using css vars
-  @include generate-css-vars-for-theme($todo-black-theme);
+	// the new way of theming using css vars
+	@include generate-css-vars-for-theme($todo-black-theme);
 
-  @include mat.all-component-colors($todo-black-theme);
+	@include mat.core-theme($todo-black-theme);
 
-  // component styling - the old way of theming by including extra styling here
-  $foreground: map.get($todo-black-theme, foreground);
-  $background: map.get($todo-black-theme, background);
+	// component styling - the old way of theming by including extra styling here
+	$foreground: map.get($todo-black-theme, foreground);
+	$background: map.get($todo-black-theme, background);
 
-  .theme-background {
-    color: mat.get-color-from-palette($foreground, text);
-    background-color: mat.get-color-from-palette($background, background);
-  }
+	.theme-background {
+		color: mat.get-color-from-palette($foreground, text);
+		background-color: mat.get-color-from-palette($background, background);
+	}
 }

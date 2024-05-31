@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
-import { catchError, filter, first, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService } from '@course-platform/shared/auth/domain';
 import {
@@ -12,6 +12,7 @@ import {
   Lesson,
 } from '@course-platform/shared/interfaces';
 import { courseFragments } from './course-fragments';
+import { injectTRPCClient } from './trpc/trpc-client';
 
 export const COURSE_SECTIONS_URL = '/api/sections';
 
@@ -94,15 +95,16 @@ export class CourseResourcesService {
         }),
         catchError((error) => {
           throw error;
-        })
-      );
+      })
+    );
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
     this.courseId = courseId;
+
     return this.userService.uid$.pipe(
-      filter((uid) => !!uid),
       switchMap((uid) => {
+        console.log('uid', uid);
         return this.apollo
           .query<GetCourseSectionsResponseDTO>({
             query: courseSectionsQuery,
@@ -112,6 +114,9 @@ export class CourseResourcesService {
             },
           })
           .pipe(
+            tap((data) => {
+              console.log('data', data);
+            }),
             map(({ data }) => {
               console.log('data', data);
               const updatedSections = data.courseSections.map((section) => {
@@ -137,6 +142,10 @@ export class CourseResourcesService {
                 };
               });
               return updatedSections;
+            }),
+            catchError((error) => {
+              console.log('error when calling getCourseSections', error);
+              throw error;
             })
           );
       })

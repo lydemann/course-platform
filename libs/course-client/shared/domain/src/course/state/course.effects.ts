@@ -29,13 +29,18 @@ export class CourseEffects {
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
       switchMap(([_, courseId]) => {
+        console.log('fetchCourseSections$');
         return this.courseResourcesService.getCourseSections(courseId).pipe(
           map((courseSections) =>
             CourseActions.getCourseSectionsSuccess({ courseSections })
           ),
           catchError((error) =>
             // TODO: use error action
-            of(CourseActions.getCourseSectionsFailed({ error }))
+            {
+              /* TODO: use error action*/
+              console.log('error', error);
+              return of(CourseActions.getCourseSectionsFailed({ error }));
+            }
           )
         );
       })

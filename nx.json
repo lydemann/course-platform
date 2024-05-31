@@ -69,5 +69,13 @@
     "production": ["default", "!{projectRoot}/src/test-setup.[jt]s"]
   },
   "nxCloudAccessToken": "ZmU4ZTJkZjctYjU3MC00NjAxLWEwNTktY2ZiM2U1NGNkYTg5fHJlYWQtd3JpdGU=",
-  "parallel": 1
+  "parallel": 1,
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    }
+  ]
 }

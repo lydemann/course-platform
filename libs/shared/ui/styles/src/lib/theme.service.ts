@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 export type colorTheme = 'light-theme' | 'dark-theme';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   public themes = ['light-theme', 'dark-theme'];

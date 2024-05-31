@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { isPlatformServer } from '@angular/common';
-import {
-  HttpHandlerFn,
-  HttpHeaders,
-  HttpInterceptorFn,
-  HttpRequest,
-} from '@angular/common/http';
+import { HttpHandlerFn, HttpHeaders, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
 import { from, lastValueFrom } from 'rxjs';
 import { UserServerService } from './user-server.service';

@@ -17,6 +17,7 @@ export const redirectIfLoggedInServerGuard: CanActivateFn = async () => {
       });
       return false;
     }
+
     return true;
   } else {
     // For client-side, you might have a different logic.

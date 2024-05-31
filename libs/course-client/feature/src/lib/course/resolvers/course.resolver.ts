@@ -38,6 +38,7 @@ export const courseServerResolver: ResolveFn<null> = (
   const platformId = inject(PLATFORM_ID);
 
   if (isPlatformServer(platformId)) {
+
     courseFacadeService.courseInitiated();
   }
 

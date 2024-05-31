@@ -50,17 +50,13 @@ import { Course } from '@course-platform/shared/interfaces';
   standalone: true,
   imports: [SharedModule],
 })
-export class CoursesComponent implements OnInit {
-  courses$!: Observable<Course[]>;
+export class CoursesComponent {
+  courses$ = this.courseClientFacadeService.getCourses();
 
   constructor(
     private courseClientFacadeService: CourseClientFacade,
     private router: Router
   ) {}
-
-  ngOnInit() {
-    this.courses$ = this.courseClientFacadeService.getCourses();
-  }
 
   courseSelected(courseId: string) {
     this.router.navigate(['courses', courseId]);

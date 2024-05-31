@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, filter } from 'rxjs';
 
@@ -20,6 +20,8 @@ import { CourseSelectors } from './state/course.selectors';
   providedIn: 'root',
 })
 export class CourseClientFacade {
+  courses = signal<Course[]>([]);
+
   constructor(
     private store: Store<State>,
     private courseResourcesService: CourseResourcesService
@@ -57,6 +59,13 @@ export class CourseClientFacade {
   getCourses(): Observable<Course[]> {
     return this.courseResourcesService.getCourses();
   }
+
+  fetchCourses() {
+    this.courseResourcesService.getCourses().subscribe((courses) => {
+      this.courses.set(courses);
+    });
+  }
+
   loadSections(courseId: string) {
     this.store.dispatch(CourseActions.loadSections({ courseId }));
   }

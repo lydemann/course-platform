@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "../../libs/shared/domain/src/drizzle/db-schema.ts", "../../libs/shared/domain/src/drizzle/db.ts", "../../libs/shared/domain/src/drizzle/drizzle.config.ts", "../../libs/shared/domain/src/resources/trpc/context.ts", "../../libs/shared/domain/src/resources/trpc/trpc.ts"],
   "compilerOptions": {
     "types": ["node", "vitest/globals"]
   }

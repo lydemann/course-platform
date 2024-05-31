@@ -1,19 +1,18 @@
 @use '@angular/material' as mat;
-@import './helpers/colors';
-@import './themes/light-theme';
-@import './themes/dark-theme';
+@use './themesm3-theme.scss' as m3-theme;
+@import './helpers/colors.scss';
 
-@include mat.core;
+@include mat.core();
 
 body {
-  @include generate-unit-colors;
+	@include generateUnitColors();
 }
 
 body,
 .light-theme {
-  @include generate-light-theme;
+	@include mat.core-theme(m3-theme.$light-theme);
 }
 
 .dark-theme {
-  @include generate-dark-theme;
+	@include mat.all-component-colors(m3-theme.$dark-theme);
 }

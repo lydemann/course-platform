@@ -15,6 +15,11 @@ export default defineConfig(({ mode }) => {
         transformMixedEsModules: true,
       },
     },
+    server: {
+      fs: {
+        allow: ['.'],
+      },
+    },
     plugins: [
       analog({
         nitro: {
@@ -71,9 +76,11 @@ export default defineConfig(({ mode }) => {
         'ngx-cookie-service-ssr/**',
         'firebase/**',
         '@apollo/client/**',
+        'farmhash',
       ],
     },
     optimizeDeps: {
+      exclude: ['farmhash'],
       esbuildOptions: {
         tsconfigRaw: {
           compilerOptions: {

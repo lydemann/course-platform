@@ -3,7 +3,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { GraphQLModule } from './resources/';
+import { GraphQLModule, provideTrpcClient } from './resources/';
 
 const config = {
   apiKey: 'AIzaSyAllXCbFgJ3j7POph8iikTkBNOgmjc1vj4',
@@ -17,18 +17,23 @@ const config = {
 };
 
 @NgModule({
-  imports: [provideFirebaseApp(() => {
-    return initializeApp(config);
-  }),
-  provideFirestore(() => {
-    const firestore = getFirestore();
-    return firestore;
-  }),
-  provideAuth(() => {
-    const auth = getAuth();
-    return auth;
-  }),
-    GraphQLModule],
+  imports: [
+    provideFirebaseApp(() => {
+      return initializeApp(config);
+    }),
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      return firestore;
+    }),
+    provideAuth(() => {
+      const auth = getAuth();
+      return auth;
+    }),
+    GraphQLModule,
+  ],
+  providers: [
+    provideTrpcClient()
+  ]
 })
 export class SharedDataAccessModule {
   constructor(

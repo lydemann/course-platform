@@ -1,33 +1,33 @@
-@use 'sass:map' as map;
-
 // setup material theme
+@use 'sass:map';
 @use '@angular/material' as mat;
 @import './theme-common';
-@import 'palette';
 
-// setup theme colors
-$todo-light-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: mat.define-palette($custom-palette, 800, 300, 900),
-      accent: mat.define-palette(mat.$pink-palette, A200, A100, A400),
-      warn: mat.define-palette(mat.$red-palette),
-    ),
+$todo-primary: mat.define-palette(mat.$indigo-palette, 800, 300, 900);
+$todo-accent: mat.define-palette(mat.$light-blue-palette);
+$todo-warn: mat.define-palette(mat.$pink-palette, 600);
+
+$todo-light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: $todo-primary,
+	accent: $todo-accent,
+	warn: $todo-warn,
   )
-);
+));
 
 @mixin generate-light-theme {
-  // the new way of theming using css vars
-  @include generate-css-vars-for-theme($todo-light-theme);
+	// the new way of theming using css vars
+	@include generate-css-vars-for-theme($todo-light-theme);
 
-  @include mat.all-component-themes($todo-light-theme);
+	@include mat.core-theme($todo-light-theme);
 
-  // component styling - the old way of theming by including extra styling here
-  $foreground: map.get($todo-light-theme, foreground);
-  $background: map.get($todo-light-theme, background);
+	// component styling - the old way of theming by including extra styling here
+	$foreground: map.get($todo-light-theme, foreground);
+	$background: map.get($todo-light-theme, background);
 
-  .theme-background {
-    color: mat.get-color-from-palette($foreground, text);
-    background-color: mat.get-color-from-palette($background, background);
-  }
+	.theme-background {
+		color: mat.get-color-from-palette($foreground, text);
+		background-color: mat.get-color-from-palette($background, background);
+	}
 }

@@ -1,10 +1,4 @@
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpInterceptorFn,
-  HttpRequest,
-} from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { exhaustMap, first, switchMap } from 'rxjs/operators';
@@ -44,11 +38,8 @@ export class AuthInterceptor implements HttpInterceptor {
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const userService = inject(UserService);
   const auth = inject(Auth);
-  if (!userService.currentUser() || !auth.tenantId) {
-    return next(req);
-  }
 
-  return userService.currentUser$.pipe(
+  return userService.getCurrentUser().pipe(
     first(),
     switchMap((user) => from(user?.getIdToken() || '')),
     exhaustMap((token) => {
