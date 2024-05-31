@@ -17,7 +17,8 @@
         "main": "apps/course-platform-analog/src/main.ts",
         "configFile": "apps/course-platform-analog/vite.config.ts",
         "outputPath": "dist/apps/course-platform-analog/client",
-        "tsConfig": "apps/course-platform-analog/tsconfig.app.json"
+        "tsConfig": "apps/course-platform-analog/tsconfig.app.json",
+        "sourcemap": true
       },
       "defaultConfiguration": "production",
       "configurations": {

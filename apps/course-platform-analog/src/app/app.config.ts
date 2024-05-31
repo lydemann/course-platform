@@ -101,6 +101,23 @@ export const appConfig: ApplicationConfig = {
       provide: ENDPOINTS_TOKEN,
       useFactory: endpointsFactory,
     },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: environment.production,
+        logErrors: true,
+      }),
+    },
     importProvidersFrom([
       BrowserModule,
       BrowserAnimationsModule,
@@ -116,21 +133,5 @@ export const appConfig: ApplicationConfig = {
       }),
       NgrxUniversalRehydrateBrowserModule.forRoot({}),
     ]),
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: environment.production,
-      }),
-    },
   ],
 };

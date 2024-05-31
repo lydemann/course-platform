@@ -16,7 +16,7 @@ import { Lesson, LessonTypes } from '@course-platform/shared/interfaces';
   template: `<div class="lessons">
     <ul class="menu-vertical">
       <li
-        class="lesson"
+        class="lesson mr-2"
         data-test="lesson"
         *ngFor="let lesson of lessons"
         [class.selected]="lesson.id === selectedLessonId"

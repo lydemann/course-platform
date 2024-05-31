@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Injectable({
