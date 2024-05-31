@@ -86,6 +86,7 @@ export const appConfig: ApplicationConfig = {
     // makes sure the client is hydrated with the server state to avoid redundant client requests
     provideClientHydration(),
     provideHttpClient(
+      withFetch(),
       withInterceptors([
         cookieInterceptor,
         authServerInterceptor,
