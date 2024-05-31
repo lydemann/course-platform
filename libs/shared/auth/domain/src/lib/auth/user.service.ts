@@ -1,16 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import {
-  Injectable,
-  NgZone,
-  PLATFORM_ID,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { Auth, User, updateProfile } from '@angular/fire/auth';
-import { Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, from } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UserServerService } from './user-server.service';
 
@@ -18,19 +10,18 @@ import { UserServerService } from './user-server.service';
   providedIn: 'root',
 })
 export class UserService {
-  currentUser = signal<User | null>(null);
-  currentUser$ = toObservable(this.currentUser).pipe(
+  currentUser = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUser.pipe(
     filter((user) => !!user)
   ) as Observable<User>;
   uid$ = this.currentUser$.pipe(map((user) => user?.uid));
-  uid = signal<string>('');
   isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
   private platformId = inject(PLATFORM_ID);
 
   constructor(
     public afAuth: Auth,
     public ngZone: NgZone,
-    private userServerService: UserServerService
+    userServerService: UserServerService
   ) {
     if (isPlatformServer(this.platformId)) {
       this.isLoggedIn$ = from(userServerService.isLoggedIn());
@@ -44,21 +35,9 @@ export class UserService {
       this.getCurrentUser().subscribe(async (currentUser) => {
         const token = (await currentUser?.getIdToken()) || '';
         userServerService.setIdToken(token);
-        this.currentUser.set(currentUser);
+        this.currentUser.next(currentUser);
       });
     }
-
-    effect(
-      async () => {
-        if (isPlatformServer(this.platformId)) {
-          const userInfo = await this.userServerService.getUserInfo();
-          this.uid.set(userInfo?.uid || '');
-        } else {
-          return this.uid.set(this.currentUser()?.uid || '');
-        }
-      },
-      { allowSignalWrites: true }
-    );
   }
 
   getCurrentUser(): Observable<User | null> {
@@ -67,6 +46,7 @@ export class UserService {
         // cb needs to run through zone to work in guard
         this.ngZone.run(() => {
           observer.next(currentUser);
+          observer.complete();
         });
       });
     });

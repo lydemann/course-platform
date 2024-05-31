@@ -84,16 +84,17 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideFileRouter(),
     // makes sure the client is hydrated with the server state to avoid redundant client requests
-    provideClientHydration(
-      withHttpTransferCacheOptions({
-        includePostRequests: true,
-      })
+    provideClientHydration(),
+    provideHttpClient(
+      withInterceptors([
+        cookieInterceptor,
+        authServerInterceptor,
+        authInterceptor,
+      ])
     ),
     {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: true,
-      }),
+      provide: ENDPOINTS_TOKEN,
+      useFactory: endpointsFactory,
     },
     {
       provide: Sentry.TraceService,
@@ -105,17 +106,12 @@ export const appConfig: ApplicationConfig = {
       deps: [Sentry.TraceService],
       multi: true,
     },
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([
-        cookieInterceptor,
-        authServerInterceptor,
-        authInterceptor,
-      ])
-    ),
     {
-      provide: ENDPOINTS_TOKEN,
-      useFactory: endpointsFactory,
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: environment.production,
+        logErrors: true,
+      }),
     },
     importProvidersFrom([
       BrowserModule,
@@ -132,21 +128,5 @@ export const appConfig: ApplicationConfig = {
       }),
       NgrxUniversalRehydrateBrowserModule.forRoot({}),
     ]),
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: true,
-      }),
-    },
   ],
 };

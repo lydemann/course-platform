@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class UserServerService {
       const decodedToken = await auth().verifyIdToken(token);
       return decodedToken;
     } catch (error) {
-      // console.error('Error while verifying token', error);
+      console.error('Error while verifying token', error);
       return Promise.resolve(null);
     }
   }
