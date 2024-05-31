@@ -1,28 +1,48 @@
-@use 'sass:map' as map;
+@use 'sass:map';
 @use '@angular/material' as mat;
 @import '.././helpers/colors';
 
 @mixin generate-css-vars-for-theme($theme) {
-  $primary: map.get($theme, primary);
-  $accent: map.get($theme, accent);
-  $warn: map.get($theme, warn);
-  $foreground: map.get($theme, foreground);
-  $background: map.get($theme, background);
-  $all-colors: (
-    --todo-primary: mat.get-color-from-palette($primary),
-    --todo-accent: mat.get-color-from-palette($accent),
-    --todo-warn: mat.get-color-from-palette($warn),
-    --todo-foreground: mat.get-color-from-palette($foreground, text),
-    --todo-background: mat.get-color-from-palette($background, background),
-    --todo-selected: mat.get-color-from-palette($accent, 600),
-    --todo-hover: mat.get-color-from-palette($accent, 700),
-    --todo-black: map.get($unit-colors-vals, 'black'),
-    --todo-white: map.get($unit-colors-vals, 'white'),
-    --todo-success: map.get($unit-colors-vals, 'success'),
-  );
+	$primary: map.get($theme, primary);
+	$accent: map.get($theme, accent);
+	$warn: map.get($theme, warn);
+	$foreground: map.get($theme, foreground);
+	$background: map.get($theme, background);
+	$all-colors: (
+		--todo-primary: mat.get-color-from-palette($primary),
+		--todo-accent: mat.get-color-from-palette($accent),
+		--todo-warn: mat.get-color-from-palette($warn),
+		--todo-foreground: mat.get-color-from-palette($foreground, text),
+		--todo-background: mat.get-color-from-palette($background, background),
+		--todo-selected: mat.get-color-from-palette($accent, 600),
+		--todo-hover: mat.get-color-from-palette($accent, 700),
+		--todo-black: map.get($unit-colors-vals, 'black'),
+		--todo-white: map.get($unit-colors-vals, 'white'),
+		--todo-success: map.get($unit-colors-vals, 'success'),
+	);
 
-  @each $colorVar, $colorVal in $all-colors {
-    #{$colorVar}: $colorVal;
-    #{$colorVar}-contrast: #{get-color-contrast($colorVal)};
-  }
+	@each $colorVar, $colorVal in $all-colors {
+		#{$colorVar}: $colorVal;
+		#{$colorVar}-contrast: #{get-color-contrast($colorVal)};
+	}
 }
+
+$theme-colors: (
+	'primary': --todo-primary,
+	'accent': --todo-accent,
+	'warn': --todo-warn,
+);
+
+// use case aliases, these change based on theme
+$use-case-colors: (
+	'background': --todo-background,
+	'selected': --todo-selected,
+	'hover': --todo-hover,
+);
+
+// unit aliases, these stay the same regardless of theme
+$unit-colors: (
+	'grey': --todo-grey,
+	'black': --todo-black,
+	'white': --todo-white,
+);
