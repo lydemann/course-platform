@@ -83,6 +83,9 @@
         "libs/shared/auth/domain/src/index.ts"
       ],
       "@course-platform/shared/domain": ["libs/shared/domain/src/index.ts"],
+      "@course-platform/shared/domain/trpc-server": [
+        "libs/shared/domain/trpc-server/src/index.ts"
+      ],
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
       ],
@@ -101,10 +104,7 @@
       "@course-platform/shared/util/util-feature-toggle": [
         "libs/shared/util/util-feature-toggle/src/index.ts"
       ],
-      "@test-setup-base": ["test-setup.base.ts"],
-      "@course-platform/shared/domain/trpc-server": [
-        "libs/shared/domain/trpc-server/src/index.ts"
-      ]
+      "@test-setup-base": ["test-setup.base.ts"]
     },
     "allowSyntheticDefaultImports": true
   },
