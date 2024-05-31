@@ -74,6 +74,7 @@ export default defineConfig(({ mode }) => {
       ],
     },
     optimizeDeps: {
+      exclude: ['farmhash'],
       esbuildOptions: {
         tsconfigRaw: {
           compilerOptions: {
@@ -84,6 +85,11 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       'import.meta.vitest': mode !== 'production',
+    },
+    server: {
+      fs: {
+        allow: ['.'],
+      },
     },
   };
 });

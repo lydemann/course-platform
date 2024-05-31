@@ -30,7 +30,7 @@ export class UserServerService {
       const decodedToken = await auth().verifyIdToken(token);
       return decodedToken;
     } catch (error) {
-      console.error('Error while verifying token', error);
+      // console.error('Error while verifying token', error);
       return Promise.resolve(null);
     }
   }
