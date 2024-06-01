@@ -1,19 +1,23 @@
-import { db } from '../drizzle/db';
+import { db } from '../../drizzle/db';
 import { publicProcedure, router } from '../trpc';
-import * as schema from '../drizzle/db-schema';
+import * as schema from '../../drizzle/db-schema';
 import { z } from 'zod';
 import { eq } from 'drizzle-orm';
-
-import { sectionRouter } from './sections-router';
+import { protectedProcedure } from './utils/protected-procedure';
 
 const getAllCourses = async () => {
   return await db.query.courses.findMany();
 };
 
-const createCourse = (name: string, description: string) => {
+const createCourse = (
+  id: string,
+  name: string,
+  description: string,
+  customStyling?: string
+) => {
   return db
     .insert(schema.courses)
-    .values({ name, description })
+    .values({ id, name, description, customStyling })
     .returning({ name: schema.courses.name });
 };
 
@@ -25,19 +29,28 @@ const deleteCourse = (courseId: string) => {
 };
 
 export const courseRouter = router({
-  getAll: publicProcedure.query(async () => await getAllCourses()),
-  create: publicProcedure
+  getAll: protectedProcedure.query(async () => {
+    console.log('Getting all courses');
+    try {
+      return await getAllCourses();
+    } catch (error) {
+      console.error('Error getting all courses', error);
+      throw error;
+    }
+  }),
+  create: protectedProcedure
     .input(
       z.object({
+        id: z.string(),
         name: z.string(),
         description: z.string(),
       })
     )
     .mutation(
-      async ({ input: { description, name } }) =>
-        await createCourse(name, description)
+      async ({ input: { id, description, name } }) =>
+        await createCourse(id, name, description)
     ),
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.string(),

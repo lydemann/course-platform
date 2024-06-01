@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { db } from '../drizzle/db';
-import { publicProcedure, router } from '../trpc';
-import * as schema from '../drizzle/db-schema';
+import { db } from '../../drizzle/db';
+import { publicProcedure, router } from './../trpc';
+import * as schema from '../../drizzle/db-schema';
 
 const getSections = () => {
   return db.query.sections.findMany({

@@ -16,6 +16,7 @@ export const redirectIfLoggedOutServerGuard: CanActivateFn = async () => {
   const userServerService = inject(UserServerService);
   const isLoggedIn = await userServerService.isLoggedIn();
   if (!isLoggedIn) {
+    console.log('Not authenticated, redirecting to login on server.');
     ngZone.run(() => {
       router.navigate(['login']);
     });

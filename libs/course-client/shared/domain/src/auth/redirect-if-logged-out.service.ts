@@ -6,6 +6,7 @@ import { first, map } from 'rxjs/operators';
 
 import { isPlatformServer } from '@angular/common';
 import { UserService } from '@course-platform/shared/auth/domain';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Injectable({ providedIn: 'root' })
 export class RedirectIfLoggedOutResolver implements Resolve<boolean> {
@@ -24,6 +25,7 @@ export class RedirectIfLoggedOutResolver implements Resolve<boolean> {
       first(),
       map((currentUser) => {
         if (!currentUser) {
+          console.log('Not authenticated, redirecting to login on client.');
           this.router.navigate(['login']);
           return false;
         }

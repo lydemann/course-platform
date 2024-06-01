@@ -12,30 +12,11 @@ import {
   Lesson,
 } from '@course-platform/shared/interfaces';
 import { courseFragments } from './course-fragments';
-
-export interface CourseSectionDTO {
-  id: string;
-  name: string;
-  theme: string;
-  lessons: Lesson[];
-}
-
-export interface CompletedLessonData {
-  lessonId: string;
-  completed: boolean;
-  lastUpdated: boolean;
-}
-
-export interface GetCourseSectionsResponseDTO {
-  courseSections: CourseSection[];
-  user: {
-    completedLessons: CompletedLessonData[];
-  };
-}
-
-export interface GetCoursesResponseDTO {
-  course: Course[];
-}
+import { injectTRPCClient } from './trpc/trpc-client';
+import {
+  CourseSectionDTO,
+  GetCourseSectionsResponseDTO,
+} from './course-resources.service';
 
 export const courseSectionsQuery = gql`
   query GetCourseSectionsQuery($uid: String!, $courseId: String!) {
@@ -68,32 +49,25 @@ export const courseSectionsQuery = gql`
 @Injectable({
   providedIn: 'root',
 })
-export class CourseResourcesService {
+export class CourseResourcesTrpcService {
   private courseId = '';
+  private trpcClient = injectTRPCClient();
   constructor(private apollo: Apollo, private userService: UserService) {}
 
-  GET_COURSES_QUERY = gql`
-    query getCourses {
-      course {
-        id
-        name
-        description
-        customStyling
-      }
-    }
-  `;
   getCourses(): Observable<Course[]> {
-    return this.apollo
-      .query<GetCoursesResponseDTO>({ query: this.GET_COURSES_QUERY })
-      .pipe(
-        map((data) => {
-          console.log('getCourses data', data);
-          return data?.data?.course || [];
-        }),
-        catchError((error) => {
-          throw error;
-        })
-      );
+    return this.trpcClient.course.getAll.query().pipe(
+      map((data) => {
+        return data.map(
+          (course) =>
+            ({
+              id: course.id,
+              name: course.name,
+              description: course.description,
+              customStyling: course.customStyling,
+            } as Course)
+        );
+      })
+    );
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {

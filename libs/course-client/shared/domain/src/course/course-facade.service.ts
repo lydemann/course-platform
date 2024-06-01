@@ -1,9 +1,10 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, filter } from 'rxjs';
 
 import {
   CourseResourcesService,
+  CourseResourcesTrpcService,
   State,
   selectRouteParam,
 } from '@course-platform/shared/domain';
@@ -21,6 +22,7 @@ import { CourseSelectors } from './state/course.selectors';
 })
 export class CourseClientFacade {
   courses = signal<Course[]>([]);
+  private courseResourcesTrpcService = inject(CourseResourcesTrpcService);
 
   constructor(
     private store: Store<State>,
@@ -57,7 +59,7 @@ export class CourseClientFacade {
   courseId$ = this.store.select(selectRouteParam('courseId'));
 
   getCourses(): Observable<Course[]> {
-    return this.courseResourcesService.getCourses();
+    return this.courseResourcesTrpcService.getCourses();
   }
 
   fetchCourses() {

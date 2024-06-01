@@ -1,7 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-drizzle.config.ts
-
 # compiled output
 /dist
 /tmp
@@ -39,6 +37,8 @@ firebase-debug.log
 serviceAccountKey.json
 ui-debug.log
 env.local.json
+drizzle.config.ts
+.env
 .angular
 
 # System Files

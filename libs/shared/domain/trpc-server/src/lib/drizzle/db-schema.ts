@@ -1,9 +1,18 @@
 import { randomUUID } from 'crypto';
 import { relations } from 'drizzle-orm';
-import { boolean, json, jsonb, pgTable, serial, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  json,
+  jsonb,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 export const courses = pgTable('courses', {
-  id: uuid('id').primaryKey().defaultRandom(),
+  id: text('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description').notNull(),
   customStyling: jsonb('custom_styling'),
@@ -38,14 +47,13 @@ export const resources = pgTable('resources', {
   url: text('url').notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  lessonId: text('lesson_id')
+  lessonId: uuid('lesson_id')
     .notNull()
     .references(() => lessons.id, {
       onDelete: 'cascade',
       onUpdate: 'cascade',
     }),
 });
-
 
 export const sections = pgTable('sections', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -61,12 +69,12 @@ export const sectionsRelations = relations(lessons, ({ many }) => ({
 }));
 
 export const actionItems = pgTable('action_items', {
-  id: text('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   question: text('question').notNull(),
   isCompleted: boolean('is_completed').default(false),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  sectionId: text('section_id').references(() => sections.id, {
+  sectionId: uuid('section_id').references(() => sections.id, {
     onDelete: 'cascade',
     onUpdate: 'cascade',
   }),

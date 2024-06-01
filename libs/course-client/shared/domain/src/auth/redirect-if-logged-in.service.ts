@@ -24,6 +24,7 @@ export class RedirectIfLoggedInResolver implements Resolve<boolean> {
       first(),
       map((currentUser) => {
         if (currentUser) {
+          console.log('Authenticated, redirecting to courses on client.');
           this.router.navigate(['courses']);
         }
         return true;
