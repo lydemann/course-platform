@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, PLATFORM_ID, inject, signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+
 import { LayoutModule } from '@course-platform/course-client/shared/ui';
-import { SchoolIdService } from '@course-platform/shared/domain';
+import { AuthSBService } from '@course-platform/shared/auth/domain';
+import { SchoolIdService, TrpcHeaders } from '@course-platform/shared/domain';
+import { Session } from '@supabase/auth-js';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Component({
   selector: 'course-platform-root',
@@ -13,7 +18,18 @@ import { SchoolIdService } from '@course-platform/shared/domain';
   `,
 })
 export class AppComponent {
+  authSBService = inject(AuthSBService);
+  protected readonly session = signal<Session | null>(null);
+  router = inject(Router);
   constructor(private schoolIdService: SchoolIdService) {
     this.schoolIdService.setSchoolIdFromCustomDomain();
+    this.authSBService.handleClientAuthStateChanges((event, session) => {
+      console.log('Auth state change:', event, session.access_token);
+      if (session) {
+        TrpcHeaders.set({ Authorization: `Bearer ${session.access_token}` });
+      } else {
+        TrpcHeaders.set({});
+      }
+    });
   }
 }

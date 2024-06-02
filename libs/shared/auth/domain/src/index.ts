@@ -4,4 +4,4 @@ export * from './lib/auth/auth.interceptor';
 export * from './lib/auth/auth.service';
 export * from './lib/auth/user-server.service';
 export * from './lib/auth/user.service';
-export * from './lib/shared-auth-domain.module';
+export * from './lib/auth/auth-sb.service';

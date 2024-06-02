@@ -24,7 +24,6 @@ import {
   environment,
 } from '@course-platform/course-client/shared/domain';
 import {
-  SharedAuthDomainModule,
   authInterceptor,
   authServerInterceptor,
 } from '@course-platform/shared/auth/domain';
@@ -123,7 +122,6 @@ export const appConfig: ApplicationConfig = {
       BrowserAnimationsModule,
       CoreModule,
       CourseClientDomainModule,
-      SharedAuthDomainModule,
       TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,

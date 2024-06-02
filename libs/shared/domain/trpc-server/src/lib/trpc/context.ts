@@ -1,12 +1,49 @@
+import { AuthClient } from '@supabase/auth-js';
 import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 
+// TODO: move to shared place
+const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
+const AUTH_HEADERS = {
+  Authorization: `Bearer ${import.meta.env['VITE_SUPABASE_KEY']!}`,
+  apikey: `${import.meta.env['VITE_SUPABASE_KEY']!}`,
+};
+
+export const authClient = new AuthClient({
+  headers: AUTH_HEADERS,
+  url: AUTH_URL,
+  fetch: fetch,
+});
+
 const verifyAndDecdodeJwtToken = async (token: string) => {
-  // decode and verify token
-  // TODO: verify and decode token
-  return {
-    id: '1',
-    email: '',
-  };
+  console.log('Verifying token:', token);
+  // verify and decode token from supabase
+
+  if (!token) {
+    console.error('No token');
+    return null;
+  }
+
+  try {
+    const {
+      data: { user },
+      error,
+    } = await authClient.getUser(token);
+
+    if (!user) {
+      console.error('No user');
+      return null;
+    }
+
+    if (error) {
+      console.error('Token verification failed:', error);
+      return null;
+    }
+    console.log('Token is valid:', user);
+    return user;
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    return null;
+  }
 };
 
 /**

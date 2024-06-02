@@ -2,7 +2,10 @@ import { NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { UserServerService } from '@course-platform/shared/auth/domain';
+import {
+  AuthSBService,
+  UserServerService,
+} from '@course-platform/shared/auth/domain';
 
 export const redirectIfLoggedOutServerGuard: CanActivateFn = async () => {
   const platformId = inject(PLATFORM_ID);
@@ -13,8 +16,8 @@ export const redirectIfLoggedOutServerGuard: CanActivateFn = async () => {
   const router = inject(Router);
   const ngZone = inject(NgZone);
 
-  const userServerService = inject(UserServerService);
-  const isLoggedIn = await userServerService.isLoggedIn();
+  const userServerService = inject(AuthSBService);
+  const isLoggedIn = await userServerService.authenticateUser();
   if (!isLoggedIn) {
     console.log('Not authenticated, redirecting to login on server.');
     ngZone.run(() => {

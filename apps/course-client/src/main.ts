@@ -6,7 +6,13 @@ import {
   isDevMode,
 } from '@angular/core';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as Sentry from '@sentry/angular-ivy';
@@ -20,7 +26,6 @@ import {
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
-import { SharedAuthDomainModule } from '@course-platform/shared/auth/domain';
 import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 
@@ -29,6 +34,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Router } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { AppComponent } from './app/app.component';
+import { authInterceptor } from '@course-platform/shared/auth/domain';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -102,6 +108,7 @@ xhttp.onreadystatechange = function () {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,
         },
+        provideHttpClient(withInterceptors([authInterceptor])),
         importProvidersFrom([
           TranslateModule.forRoot({
             loader: {
@@ -112,12 +119,10 @@ xhttp.onreadystatechange = function () {
           }),
           BrowserAnimationsModule,
           AppRoutingModule,
-          HttpClientModule,
           CoreModule,
           SharedModule,
           HomeModule,
           CourseClientDomainModule,
-          SharedAuthDomainModule,
         ]),
         {
           provide: Sentry.TraceService,

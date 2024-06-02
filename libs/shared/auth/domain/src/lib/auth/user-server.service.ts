@@ -30,7 +30,7 @@ export class UserServerService {
       const decodedToken = await auth().verifyIdToken(token);
       return decodedToken;
     } catch (error) {
-      console.error('Error while verifying token', error);
+      // console.error('Error while verifying token', error);
       this.cookieService.delete(this.SESSION_COOKIE_KEY);
       return Promise.resolve(null);
     }
