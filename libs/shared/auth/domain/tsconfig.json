@@ -2,7 +2,7 @@
   "extends": "../../../../tsconfig.base.json",
   "include": [
     "**/*.ts",
-    "../../../course-client/shared/domain/src/auth/redirect-if-logged-out-server.guard.ts"
+    "../../../course-client/shared/domain/src/auth/auth.guard.ts"
   ],
   "exclude": ["jest.config.ts"],
   "compilerOptions": {

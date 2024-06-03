@@ -24,7 +24,7 @@ export class AppComponent {
   constructor(private schoolIdService: SchoolIdService) {
     this.schoolIdService.setSchoolIdFromCustomDomain();
     this.authSBService.handleClientAuthStateChanges((event, session) => {
-      console.log('Auth state change:', event, session.access_token);
+      console.log('Auth state change:', event);
       if (session) {
         TrpcHeaders.set({ Authorization: `Bearer ${session.access_token}` });
       } else {

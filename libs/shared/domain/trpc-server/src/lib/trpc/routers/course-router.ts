@@ -21,6 +21,19 @@ const createCourse = (
     .returning({ name: schema.courses.name });
 };
 
+const updateCourse = (
+  id: string,
+  name: string,
+  description: string,
+  customStyling?: string
+) => {
+  return db
+    .update(schema.courses)
+    .set({ name, description, customStyling })
+    .where(eq(schema.courses.id, id))
+    .returning({ name: schema.courses.name });
+};
+
 const deleteCourse = (courseId: string) => {
   return db
     .delete(schema.courses)
@@ -30,7 +43,6 @@ const deleteCourse = (courseId: string) => {
 
 export const courseRouter = router({
   getAll: protectedProcedure.query(async () => {
-    console.log('Getting all courses');
     try {
       return await getAllCourses();
     } catch (error) {

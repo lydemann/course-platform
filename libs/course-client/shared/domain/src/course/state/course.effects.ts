@@ -29,7 +29,6 @@ export class CourseEffects {
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
       switchMap(([_, courseId]) => {
-        console.log('fetchCourseSections$');
         return this.courseResourcesService.getCourseSections(courseId).pipe(
           map((courseSections) =>
             CourseActions.getCourseSectionsSuccess({ courseSections })

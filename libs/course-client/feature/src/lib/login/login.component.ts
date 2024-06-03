@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import {
-  AuthService,
+  AuthSBService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
 
@@ -47,7 +47,7 @@ import {
               type="submit"
               size="l"
               data-test="login-btn"
-              (click)="tryLogin(loginForm.value)"
+              (click)="signIn(loginForm.value)"
               class="submit-btn"
             >
               Log In
@@ -69,7 +69,7 @@ export class LoginComponent {
   errorMessage = '';
 
   constructor(
-    public authService: AuthService,
+    public authService: AuthSBService,
     private router: Router,
     private fb: UntypedFormBuilder
   ) {
@@ -83,15 +83,23 @@ export class LoginComponent {
     });
   }
 
-  tryLogin(userCredentials: UserCredentials) {
-    this.authService.doLogin(userCredentials).then(
-      (res) => {
-        this.router.navigate(['courses']);
-      },
-      (err) => {
-        console.log(err);
-        this.errorMessage = err.message;
-      }
-    );
+  signIn(userCredentials: UserCredentials) {
+    this.authService
+      .signIn(userCredentials.email, userCredentials.password)
+      .then(
+        (res) => {
+          if (res.error) {
+            console.log('Error doing sign in', res.error);
+            this.errorMessage = res.error.message;
+            return;
+          }
+
+          this.router.navigate(['courses']);
+        },
+        (err) => {
+          console.log('Error doing sign in', err);
+          this.errorMessage = err.message;
+        }
+      );
   }
 }

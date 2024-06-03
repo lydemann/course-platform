@@ -1,4 +1,5 @@
 import { RouteMeta } from '@analogjs/router';
+import { CanActivateFn } from '@angular/router';
 import { CourseContentComponent } from '@course-platform/course-client/feature';
 import {
   LessonRouteData,

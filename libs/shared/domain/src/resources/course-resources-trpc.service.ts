@@ -75,7 +75,6 @@ export class CourseResourcesTrpcService {
 
     return this.userService.uid$.pipe(
       switchMap((uid) => {
-        console.log('uid', uid);
         return this.apollo
           .query<GetCourseSectionsResponseDTO>({
             query: courseSectionsQuery,
@@ -85,11 +84,7 @@ export class CourseResourcesTrpcService {
             },
           })
           .pipe(
-            tap((data) => {
-              console.log('data', data);
-            }),
             map(({ data }) => {
-              console.log('data', data);
               const updatedSections = data.courseSections.map((section) => {
                 const completedLessonsMap = data.user.completedLessons.reduce(
                   (prev: Record<string, boolean>, cur) => {

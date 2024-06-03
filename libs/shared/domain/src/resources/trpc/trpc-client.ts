@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
-import { createTrpcClient } from '@analogjs/trpc';
 import superjson from 'superjson';
 import type { AppRouter } from '@course-platform/shared/domain/trpc-server';
+import { createTrpcClient } from '@analogjs/trpc';
 
 export const { provideTrpcClient, tRPCClient, TrpcHeaders } =
   createTrpcClient<AppRouter>({

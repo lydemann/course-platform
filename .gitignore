@@ -46,6 +46,7 @@ drizzle.config.ts
 Thumbs.db
 firebase-service-account.json
 .firebase/**
+**/drizzle.config.ts
 
 .nx/cache
 # Sentry Config File

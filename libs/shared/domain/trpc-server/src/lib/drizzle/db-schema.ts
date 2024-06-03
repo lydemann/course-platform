@@ -1,11 +1,8 @@
-import { randomUUID } from 'crypto';
 import { relations } from 'drizzle-orm';
 import {
   boolean,
-  json,
   jsonb,
   pgTable,
-  serial,
   text,
   timestamp,
   uuid,

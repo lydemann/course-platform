@@ -19,7 +19,7 @@ export const redirectIfLoggedInServerGuard: CanActivateFn = async () => {
     ngZone.run(() => {
       router.navigate(['courses']);
     });
-    return false;
+    return true;
   }
   return true;
 };
