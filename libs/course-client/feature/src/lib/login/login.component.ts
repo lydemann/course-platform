@@ -53,7 +53,7 @@ import {
               Log In
             </app-button>
           </div>
-          <p class="center mt-m">
+          <p class="center mt-4">
             <a routerLink="/forgot-password">Forgot password?</a>
           </p>
         </form>
