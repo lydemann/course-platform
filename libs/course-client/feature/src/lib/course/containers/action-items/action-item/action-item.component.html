@@ -6,12 +6,12 @@
 >
   <div fxFlex="80">
     <h5>
-      {{ answerItem.question }}
+      {{ answerItem().question }}
     </h5>
-    <p>{{ answerItem.answerDescription }}</p>
+    <p>{{ answerItem().answerDescription }}</p>
   </div>
   <div fxFlex="20" fxLayout="row" fxFlexAlign="center" fxLayoutAlign="end">
-    <mat-icon class="icon" [class.is-completed]="answerItem.isCompleted"
+    <mat-icon class="icon" [class.is-completed]="answerItem().isCompleted"
       >check_circle</mat-icon
     >
   </div>

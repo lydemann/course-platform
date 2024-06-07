@@ -4,9 +4,9 @@ import {
   EventEmitter,
   Input,
   Output,
+  input,
 } from '@angular/core';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
-
 import { ActionItem } from '@course-platform/shared/interfaces';
 
 @Component({
@@ -18,10 +18,10 @@ import { ActionItem } from '@course-platform/shared/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionItemComponent {
-  @Input() answerItem?: ActionItem;
+  answerItem = input.required<ActionItem>();
   @Output() completeChanged = new EventEmitter<boolean>();
 
   onActionItemCompleteChange() {
-    this.completeChanged.next(!this.answerItem?.isCompleted);
+    this.completeChanged.next(!this.answerItem().isCompleted);
   }
 }

@@ -2,12 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { AuthClient, GoTrueClient } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
-const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
+const AUTH_URL = `/auth/v1`;
 const AUTH_HEADERS = {
-  Authorization: `Bearer ${import.meta.env['VITE_SUPABASE_KEY']!}`,
-  apikey: `${import.meta.env['VITE_SUPABASE_KEY']!}`,
+  Authorization: `Bearer `,
+  apikey: ``,
 };
-
 export const authClient = new AuthClient({
   headers: AUTH_HEADERS,
   url: AUTH_URL,

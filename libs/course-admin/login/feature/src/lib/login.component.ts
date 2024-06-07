@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SharedModule } from '@course-platform/course-admin/shared/ui';
 
 import {
   AuthService,
@@ -15,16 +16,16 @@ import {
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [SharedModule],
 })
 export class LoginComponent {
   loginForm!: UntypedFormGroup;
   errorMessage = '';
+  private router = inject(Router);
 
-  constructor(
-    public authService: AuthService,
-    private router: Router,
-    private fb: UntypedFormBuilder
-  ) {
+  constructor(public authService: AuthService, private fb: UntypedFormBuilder) {
+    console.log('login component');
     this.createForm();
   }
 

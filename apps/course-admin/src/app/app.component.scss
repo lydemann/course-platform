@@ -47,7 +47,7 @@ h1 {
 h2 {
   text-align: center;
   font-size: 20px;
-  margin: 40px 0 10px 0;
+  margin: 40px 0 10px;
 }
 
 .resources {
@@ -62,15 +62,15 @@ h2 {
 .resource {
   color: #0094ba;
   height: 36px;
-  background-color: rgba(0, 0, 0, 0);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: rgb(0 0 0 / 0%);
+  border: 1px solid rgb(0 0 0 / 12%);
   border-radius: 4px;
   padding: 3px 9px;
   text-decoration: none;
 }
 
 .resource:hover {
-  background-color: rgba(68, 138, 255, 0.04);
+  background-color: rgb(68 138 255 / 4%);
 }
 
 pre {
@@ -83,8 +83,8 @@ pre {
 details {
   border-radius: 4px;
   color: #333;
-  background-color: rgba(0, 0, 0, 0);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: rgb(0 0 0 / 0%);
+  border: 1px solid rgb(0 0 0 / 12%);
   padding: 3px 9px;
   margin-bottom: 9px;
 }
@@ -114,7 +114,7 @@ summary {
   align-items: center;
   font-size: 12px;
   padding: 3px 10px;
-  border: 1px solid rgba(27, 31, 35, 0.2);
+  border: 1px solid rgb(27 31 35 / 20%);
   border-radius: 3px;
   background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
   margin-left: 4px;
@@ -123,9 +123,10 @@ summary {
 
 .github-star-badge:hover {
   background-image: linear-gradient(-180deg, #f0f3f6, #e6ebf1 90%);
-  border-color: rgba(27, 31, 35, 0.35);
+  border-color: rgb(27 31 35 / 35%);
   background-position: -0.5em;
 }
+
 .github-star-badge .material-icons {
   height: 16px;
   width: 16px;

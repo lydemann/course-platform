@@ -3,27 +3,20 @@ import { z } from 'zod';
 import { db } from '../../drizzle/db';
 import { publicProcedure, router } from './../trpc';
 import * as schema from '../../drizzle/db-schema';
+import { protectedProcedure } from './utils/protected-procedure';
+import { CourseSection } from '@course-platform/shared/interfaces';
 
-const getSections = () => {
-  return db.query.sections.findMany({
-    with: {
-      lessons: true,
-      actionItems: true,
-    },
-  });
-};
-
-const createSection = (name: string) => {
+const createSection = (name: string, courseId: string) => {
   return db
     .insert(schema.sections)
-    .values({ name })
+    .values({ name, courseId })
     .returning({ name: schema.sections.name });
 };
 
-const updateSection = (sectionId: string, name: string) => {
+const updateSection = (sectionId: string, name: string, theme: string) => {
   return db
     .update(schema.sections)
-    .set({ name })
+    .set({ name, theme })
     .where(eq(schema.sections.id, sectionId))
     .returning();
 };
@@ -35,69 +28,84 @@ const deleteSection = (sectionId: string) => {
     .returning();
 };
 
-// create lesson
-// const createLesson = (
-//   sectionId: number,
-//   name: string,
-//   videoUrl: string,
-//   description: string,
-//   resources: string
-// ) => {
-//   return db
-//     .insert(schema.lessons)
-//     .values({
-//       name,
-//       videoUrl,
-//       description,
-//       resources,
-//       sectionId,
-//     })
-//     .returning();
-// };
-
-// // update lesson
-// const updateLesson = (
-//   lessonId: number,
-//   name: string,
-//   videoUrl: string,
-//   description: string,
-//   resources: string
-// ) => {
-//   return db
-//     .update(schema.lessons)
-//     .set({ name, videoUrl, description, resources })
-//     .where(eq(schema.lessons.id, lessonId))
-//     .returning();
-// };
-
-// // delete lesson
-// const deleteLesson = (lessonId: number) => {
-//   return db
-//     .delete(schema.lessons)
-//     .where(eq(schema.lessons.id, lessonId))
-//     .returning();
-// };
-
 export const sectionRouter = router({
-  getAll: publicProcedure.query(async () => {
-    return await getSections();
-  }),
-  create: publicProcedure
+  getAll: protectedProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      })
+    )
+    .query(async ({ input: { courseId }, ctx: { user } }) => {
+      const completedLessonsProm = db.query.completedLessons.findMany({
+        where: eq(schema.completedLessons.userId, user.id),
+      });
+
+      const completedActionItemsProm = db.query.completedActionItems.findMany({
+        where: eq(schema.completedLessons.userId, user.id),
+      });
+
+      const sectionsProm = db.query.sections.findMany({
+        where: eq(schema.sections.courseId, courseId),
+        with: {
+          lessons: {
+            with: {
+              resources: true,
+            },
+          },
+          actionItems: true,
+        },
+      });
+
+      const data = await Promise.all([
+        completedLessonsProm,
+        completedActionItemsProm,
+        sectionsProm,
+      ]);
+
+      const sections = data[2].map(
+        (section) =>
+          ({
+            ...section,
+            lessons: section.lessons.map((lesson) => ({
+              ...lesson,
+              isCompleted: data[0].some(
+                (completedLesson) => completedLesson.lessonId === lesson.id
+              ),
+              actionItems: section.actionItems.map((actionItem) => ({
+                ...actionItem,
+                isCompleted: data[1].some(
+                  (completedActionItem) =>
+                    completedActionItem.actionItemId === actionItem.id
+                ),
+              })),
+            })),
+          } as CourseSection)
+      );
+      return sections;
+    }),
+  create: protectedProcedure
     .input(
       z.object({
         name: z.string(),
+        courseId: z.string(),
       })
     )
-    .mutation(async ({ input }) => await createSection(input.name)),
-  update: publicProcedure
+    .mutation(
+      async ({ input }) => await createSection(input.name, input.courseId)
+    ),
+  update: protectedProcedure
     .input(
       z.object({
         id: z.string(),
         name: z.string(),
+        theme: z.string(),
       })
     )
-    .mutation(async ({ input }) => await updateSection(input.id, input.name)),
-  remove: publicProcedure
+    .mutation(
+      async ({ input }) =>
+        await updateSection(input.id, input.name, input.theme)
+    ),
+  remove: protectedProcedure
     .input(
       z.object({
         id: z.string(),

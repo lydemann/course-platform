@@ -1,10 +1,31 @@
-import { APP_INITIALIZER, ErrorHandler, enableProdMode } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ErrorHandler,
+  enableProdMode,
+  importProvidersFrom,
+} from '@angular/core';
 import * as Sentry from '@sentry/angular-ivy';
-import { environment } from '@course-platform/course-admin/shared/domain';
+import {
+  CourseAdminSharedDomainModule,
+  environment,
+} from '@course-platform/course-admin/shared/domain';
 
-import { AppModule } from '@course-platform/course-admin/shell';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+
 import { bootstrapApplication } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
+import { CoreModule } from '@course-platform/course-client/shared/domain';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
+import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { authInterceptor } from '@course-platform/shared/auth/domain';
+import { AppComponent } from './app/app.component';
 
 declare global {
   interface Window {
@@ -38,6 +59,16 @@ if (environment.production) {
   enableProdMode();
 }
 
+export function httpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
+}
+
+export function endpointsFactory() {
+  return {
+    courseServiceUrl: environment.courseServiceUrl,
+  } as Endpoints;
+}
+
 // load app config
 const xhttp = new XMLHttpRequest();
 xhttp.open('GET', 'assets/app-config.json', true);
@@ -50,12 +81,46 @@ xhttp.onreadystatechange = function () {
       enableProdMode();
     }
 
-    bootstrapApplication(AppModule, {
+    bootstrapApplication(AppComponent, {
       providers: [
         {
           provide: Sentry.TraceService,
           deps: [Router],
         },
+        {
+          provide: ENDPOINTS_TOKEN,
+          useFactory: endpointsFactory,
+        },
+        provideHttpClient(withInterceptors([authInterceptor])),
+        importProvidersFrom([
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: httpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: httpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+          CoreModule,
+          CourseAdminSharedDomainModule,
+          BrowserAnimationsModule,
+        ]),
+        provideHttpClient(),
+        provideRouter([
+          {
+            path: '',
+            loadChildren: () =>
+              import('@course-platform/course-admin/shell').then(
+                (m) => m.RemoteEntryModule
+              ),
+          },
+        ]),
         {
           provide: APP_INITIALIZER,
           useFactory: () => () => {},
@@ -66,6 +131,7 @@ xhttp.onreadystatechange = function () {
           provide: ErrorHandler,
           useValue: Sentry.createErrorHandler({
             showDialog: true,
+            logErrors: true,
           }),
         },
       ],

@@ -45,6 +45,7 @@ export class CourseEffects {
       })
     );
   });
+
   sectionSelected$ = createEffect(
     () => {
       return this.actions$.pipe(

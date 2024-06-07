@@ -8,7 +8,7 @@ import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
+export class AuthFBGuard {
   constructor(public userService: UserService, private router: Router) {}
 
   canActivate(): Observable<boolean> {

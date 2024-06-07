@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AuthClient } from '@supabase/auth-js';
 import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 
 // TODO: move to shared place
-const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
+const AUTH_URL = `/auth/v1`;
 const AUTH_HEADERS = {
-  Authorization: `Bearer ${import.meta.env['VITE_SUPABASE_KEY']!}`,
-  apikey: `${import.meta.env['VITE_SUPABASE_KEY']!}`,
+  Authorization: `Bearer `,
+  apikey: ``,
 };
 
 export const authClient = new AuthClient({
@@ -14,7 +15,7 @@ export const authClient = new AuthClient({
   fetch: fetch,
 });
 
-const verifyAndDecdodeJwtToken = async (token: string) => {
+const verifyAndDecodeJwtToken = async (token: string) => {
   console.log('Verifying token:', token);
   // verify and decode token from supabase
 
@@ -56,7 +57,7 @@ export async function createContext({ req, res }: CreateNextContextOptions) {
   // This is just an example of something you might want to do in your ctx fn
   async function getUserFromHeader() {
     if (req.headers.authorization) {
-      const user = await verifyAndDecdodeJwtToken(
+      const user = await verifyAndDecodeJwtToken(
         req.headers.authorization.split(' ')[1]
       );
       return user;

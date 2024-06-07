@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, filter } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 
 import {
   CourseResourcesService,
@@ -24,10 +24,7 @@ export class CourseClientFacade {
   courses = signal<Course[]>([]);
   private courseResourcesTrpcService = inject(CourseResourcesTrpcService);
 
-  constructor(
-    private store: Store<State>,
-    private courseResourcesService: CourseResourcesService
-  ) {}
+  constructor(private store: Store<State>) {}
 
   actionItems$: Observable<ActionItem[]> = this.store.select(
     CourseSelectors.selectSectionActionItems
@@ -63,7 +60,7 @@ export class CourseClientFacade {
   }
 
   fetchCourses() {
-    this.courseResourcesService.getCourses().subscribe((courses) => {
+    this.courseResourcesTrpcService.getCourses().subscribe((courses) => {
       this.courses.set(courses);
     });
   }
@@ -84,6 +81,23 @@ export class CourseClientFacade {
       })
     );
   }
+
+  getCourse(courseId: string): Observable<Course> {
+    return this.getCourses().pipe(
+      map((courses) => {
+        const course = courses.find((c) => c.id === courseId);
+        if (!course) {
+          throw new Error(`Course not found ${courseId}`);
+        }
+        return course;
+      })
+    );
+  }
+
+  getCourseCustomStyling(courseId: string): Observable<string> {
+    return this.getCourse(courseId).pipe(map((course) => course.customStyling));
+  }
+
   onSectionSelected(selectionSectionId: string) {
     this.store.dispatch(
       CourseActions.sectionSelected({ selectedSectionId: selectionSectionId })

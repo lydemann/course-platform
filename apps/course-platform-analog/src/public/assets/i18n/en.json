@@ -5,7 +5,6 @@
     "hi": "Hi {{name}}",
     "community": "Community",
     "how-to-get-help": "How to get help",
-    "qa-calls": "Q&A calls",
-    "slack-workspace": "Slack workspace"
+    "qa-calls": "Q&A calls"
   }
 }

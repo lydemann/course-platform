@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
-import { CourseFacadeService } from '@course-platform/shared/domain';
 import { Course } from '@course-platform/shared/interfaces';
 import { ToastService } from '@course-platform/shared/ui';
 
@@ -17,11 +16,11 @@ export class CourseStylingComponent {
   course$: Observable<Course>;
   courseName$: Observable<string>;
   customStylingFormControl$: Observable<UntypedFormControl>;
-  isEditingCourse$: Observable<boolean>;
+  isEditingCourse = this.courseFacade.isEditingCourse;
 
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
-    private courseFacade: CourseFacadeService,
+    private courseFacade: CourseAdminFacadeService,
     private toastService: ToastService
   ) {
     this.course$ = this.courseAdminFacade.currentCourseId$.pipe(
@@ -31,7 +30,6 @@ export class CourseStylingComponent {
     this.customStylingFormControl$ = this.course$.pipe(
       map((course) => new UntypedFormControl(course.customStyling, []))
     );
-    this.isEditingCourse$ = this.courseFacade.isEditingCourse$;
   }
 
   submit(customStylingFormControl: UntypedFormControl, course: Course) {
