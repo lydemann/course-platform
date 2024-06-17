@@ -15,19 +15,21 @@ export const courseReducer = createReducer<
   Action | CourseActionsUnion
 >(
   courseInitState,
-  on(CourseActions.courseInitiated, (state) => ({
-    ...state,
-    sectionsState: {
-      ...state.sectionsState,
-      isLoading: true,
-    },
-    lessonsState: {
-      ...state.lessonsState,
-      isLoading: true,
-    },
-  })),
+  on(CourseActions.courseInitiated, (state) => {
+    console.log('courseInitiated reducer');
+    return {
+      ...state,
+      sectionsState: {
+        ...state.sectionsState,
+        isLoading: true,
+      },
+      lessonsState: {
+        ...state.lessonsState,
+        isLoading: true,
+      },
+    };
+  }),
   on(CourseActions.getCourseSectionsSuccess, (state, { courseSections }) => {
-    console.log('courseSections', courseSections);
     return {
       ...state,
       sectionsState: {
@@ -53,15 +55,14 @@ export const courseReducer = createReducer<
     };
   }),
   on(CourseActions.getCourseSectionsFailed, (state, { error }) => {
-    console.log('courseSections', error);
-    return ({
+    return {
       ...state,
       sectionsState: {
         ...state.sectionsState,
         error,
         isLoading: false,
       },
-    });
+    };
   }),
   on(
     CourseActions.getSectionLessonsSuccess,

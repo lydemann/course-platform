@@ -111,9 +111,6 @@ export class CourseResourcesService {
             },
           })
           .pipe(
-            tap((data) => {
-              console.log('data', data);
-            }),
             map(({ data }) => {
               console.log('data', data);
               const updatedSections = data.courseSections.map((section) => {

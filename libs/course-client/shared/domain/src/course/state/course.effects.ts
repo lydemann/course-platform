@@ -5,8 +5,11 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
   catchError,
+  exhaustMap,
   filter,
+  first,
   map,
+  mergeMap,
   switchMap,
   tap,
   withLatestFrom,
@@ -15,11 +18,13 @@ import {
 import { UserService } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,
+  CourseResourcesTrpcService,
   State,
   selectRouteParam,
 } from '@course-platform/shared/domain';
 import { CourseActions } from './course.actions';
 import { CourseSelectors } from './course.selectors';
+import { CourseClientFacade } from '../course-facade.service';
 
 @Injectable()
 export class CourseEffects {
@@ -28,11 +33,12 @@ export class CourseEffects {
       ofType(CourseActions.courseInitiated, CourseActions.loadSections),
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
-      switchMap(([_, courseId]) => {
-        return this.courseResourcesService.getCourseSections(courseId).pipe(
-          map((courseSections) =>
-            CourseActions.getCourseSectionsSuccess({ courseSections })
-          ),
+      mergeMap(([_, courseId]) => {
+        console.log('fetchCourseSections$ courseId', courseId);
+        return this.courseClientFacade.getCourseSections(courseId).pipe(
+          map((courseSections) => {
+            return CourseActions.getCourseSectionsSuccess({ courseSections });
+          }),
           catchError((error) =>
             // TODO: use error action
             {
@@ -91,10 +97,9 @@ export class CourseEffects {
   lessonCompleted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseActions.lessonCompleted),
-      withLatestFrom(this.userService.currentUser$),
-      switchMap(([action, user]) => {
-        return this.courseResourcesService
-          .setCompleteLesson(action.isCompleted, action.lessonId, user.uid)
+      switchMap((action) => {
+        return this.courseResourcesTrpcService
+          .setCompleteLesson(action.isCompleted, action.lessonId)
           .pipe(
             map(() => CourseActions.lessonCompletedSuccess()),
             catchError((error: Error) => {
@@ -133,6 +138,8 @@ export class CourseEffects {
   constructor(
     private actions$: Actions,
     private courseResourcesService: CourseResourcesService,
+    private courseResourcesTrpcService: CourseResourcesTrpcService,
+    private courseClientFacade: CourseClientFacade,
     private router: Router,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private store: Store<State>,

@@ -18,10 +18,10 @@ import { ActionItem } from '@course-platform/shared/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionItemComponent {
-  answerItem = input.required<ActionItem>();
+  actionItem = input.required<ActionItem>();
   @Output() completeChanged = new EventEmitter<boolean>();
 
   onActionItemCompleteChange() {
-    this.completeChanged.next(!this.answerItem().isCompleted);
+    this.completeChanged.next(!this.actionItem().isCompleted);
   }
 }

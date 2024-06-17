@@ -65,9 +65,14 @@ export class CourseClientFacade {
     });
   }
 
+  getCourseSections(courseId: string): Observable<CourseSection[]> {
+    return this.courseResourcesTrpcService.getCourseSections(courseId);
+  }
+
   loadSections(courseId: string) {
     this.store.dispatch(CourseActions.loadSections({ courseId }));
   }
+
   onActionItemCompletedChanged(
     resourceId: string,
     completed: boolean,
@@ -96,6 +101,12 @@ export class CourseClientFacade {
 
   getCourseCustomStyling(courseId: string): Observable<string> {
     return this.getCourse(courseId).pipe(map((course) => course.customStyling));
+  }
+
+  lessonComplete(lessonId: string, isCompleted: boolean) {
+    this.courseResourcesTrpcService
+      .setCompleteLesson(isCompleted, lessonId)
+      .subscribe();
   }
 
   onSectionSelected(selectionSectionId: string) {

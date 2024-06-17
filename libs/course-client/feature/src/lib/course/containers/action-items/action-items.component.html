@@ -20,7 +20,7 @@
   >
     <app-action-item
       *ngFor="let actionItem of actionItems$ | async"
-      [answerItem]="actionItem"
+      [actionItem]="actionItem"
       (completeChanged)="
         onCompleteChanged(actionItem.id, $event, selectedSectionId)
       "

@@ -4,7 +4,7 @@ import { authGuard } from '@course-platform/course-client/shared/domain';
 
 export const routeMeta: RouteMeta = {
   title: 'Courses',
-  canActivate: [authGuard],
+  canActivate: [authGuard()],
 };
 
 export default CoursesComponent;

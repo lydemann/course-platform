@@ -1,15 +1,21 @@
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../../drizzle/db';
-import { publicProcedure, router } from './../trpc';
+import { router } from './../trpc';
 import * as schema from '../../drizzle/db-schema';
 import { protectedProcedure } from './utils/protected-procedure';
-import { CourseSection } from '@course-platform/shared/interfaces';
+import {
+  ActionItem,
+  CourseSection,
+  LessonResourceType,
+} from '@course-platform/shared/interfaces';
+import { User } from '@supabase/auth-js';
+import { getDefaultActionItems } from './default-action-items';
 
 const createSection = (name: string, courseId: string) => {
   return db
     .insert(schema.sections)
-    .values({ name, courseId })
+    .values({ name, courseId, theme: '' })
     .returning({ name: schema.sections.name });
 };
 
@@ -28,6 +34,83 @@ const deleteSection = (sectionId: string) => {
     .returning();
 };
 
+async function getSections(user: User, courseId: string) {
+  try {
+    const completedLessonsProm = db.query.completedLessons.findMany({
+      where: eq(schema.completedLessons.userId, user.id),
+    });
+    const completedActionItemsProm = db.query.completedActionItems.findMany({
+      where: eq(schema.completedLessons.userId, user.id),
+    });
+    const sectionsProm = db.query.sections.findMany({
+      where: (sections, { eq }) => eq(sections.courseId, courseId),
+      with: {
+        lessons: {
+          orderBy: (lesson, { asc }) => [asc(lesson.orderId)],
+          with: {
+            resources: true,
+          },
+        },
+      },
+    });
+
+    const [completedLessons, completedActionItems, sections] =
+      await Promise.all([
+        completedLessonsProm,
+        completedActionItemsProm,
+        sectionsProm,
+      ]);
+
+    const userCompletedActionItemsSet = new Set(
+      completedActionItems.map((actionItem) => actionItem.actionItemId)
+    );
+
+    return await sections.map((section) => {
+      const actionItems = section.lessons.reduce(
+        (prev: ActionItem[], lesson) => [
+          ...prev,
+          ...(lesson.resources || [])
+            .filter(
+              (resource) =>
+                resource.type === LessonResourceType.WorkSheet &&
+                !prev.find(
+                  (prevActionItem) => prevActionItem.id === resource.id
+                )
+            )
+            .map(
+              (resource) =>
+                ({
+                  ...resource,
+                  question: `Have you completed the worksheet from lesson "${lesson.name}" called: "${resource.name}"?`,
+                  isCompleted: userCompletedActionItemsSet.has(resource.id),
+                  answerDescription: '',
+                } as ActionItem)
+            ),
+        ],
+        [...getDefaultActionItems(section.id, userCompletedActionItemsSet)]
+      );
+
+      return {
+        ...section,
+        actionItems,
+        lessons: section.lessons.map((lesson) => {
+          const isLessonCompleted = completedLessons.some(
+            (completedLesson) => completedLesson.lessonId === lesson.id
+          );
+
+          return {
+            ...lesson,
+            isCompleted: isLessonCompleted,
+          };
+        }),
+      } as CourseSection;
+    });
+  } catch (error) {
+    console.error('Error getting all sections', error);
+    throw error;
+  }
+}
+
 export const sectionRouter = router({
   getAll: protectedProcedure
     .input(
@@ -36,52 +119,7 @@ export const sectionRouter = router({
       })
     )
     .query(async ({ input: { courseId }, ctx: { user } }) => {
-      const completedLessonsProm = db.query.completedLessons.findMany({
-        where: eq(schema.completedLessons.userId, user.id),
-      });
-
-      const completedActionItemsProm = db.query.completedActionItems.findMany({
-        where: eq(schema.completedLessons.userId, user.id),
-      });
-
-      const sectionsProm = db.query.sections.findMany({
-        where: eq(schema.sections.courseId, courseId),
-        with: {
-          lessons: {
-            with: {
-              resources: true,
-            },
-          },
-          actionItems: true,
-        },
-      });
-
-      const data = await Promise.all([
-        completedLessonsProm,
-        completedActionItemsProm,
-        sectionsProm,
-      ]);
-
-      const sections = data[2].map(
-        (section) =>
-          ({
-            ...section,
-            lessons: section.lessons.map((lesson) => ({
-              ...lesson,
-              isCompleted: data[0].some(
-                (completedLesson) => completedLesson.lessonId === lesson.id
-              ),
-              actionItems: section.actionItems.map((actionItem) => ({
-                ...actionItem,
-                isCompleted: data[1].some(
-                  (completedActionItem) =>
-                    completedActionItem.actionItemId === actionItem.id
-                ),
-              })),
-            })),
-          } as CourseSection)
-      );
-      return sections;
+      return await getSections(user, courseId);
     }),
   create: protectedProcedure
     .input(

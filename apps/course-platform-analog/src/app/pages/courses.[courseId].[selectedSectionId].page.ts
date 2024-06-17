@@ -7,7 +7,7 @@ import { authGuard } from '@course-platform/course-client/shared/domain';
 
 export const routeMeta: RouteMeta = {
   resolve: { courseServerResolver },
-  canActivate: [authGuard],
+  canActivate: [authGuard()],
 };
 
 export default CourseLayoutComponent;

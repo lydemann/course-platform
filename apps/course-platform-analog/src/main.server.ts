@@ -10,7 +10,6 @@ import { renderApplication } from '@angular/platform-server';
 import { REQUEST as SSR_REQUEST } from 'ngx-cookie-service-ssr';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 
-import admin, { ServiceAccount } from 'firebase-admin';
 import { ClientRequest, ServerResponse } from 'http';
 import { AppComponent } from './app/app.component';
 import { config } from './app/app.config.server';
@@ -26,22 +25,6 @@ export default async function render(
   document: string,
   { req, res }: { req: ClientRequest; res: ServerResponse }
 ) {
-  if (!admin.apps.length) {
-    try {
-      const serviceAccount = await import('../../../serviceAccountKey.json');
-      if (serviceAccount) {
-        admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount as ServiceAccount),
-        });
-      } else {
-        admin.initializeApp();
-      }
-    } catch (error) {
-      console.error('Error while initializing Firebase Admin', error);
-      admin.initializeApp();
-    }
-  }
-
   const html = await renderApplication(bootstrap, {
     document,
     url,

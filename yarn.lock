@@ -5205,26 +5205,26 @@
     replace-in-file "6.2.0"
     tslib "^2.6.2"
 
-"@ngrx/component-store@17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-17.0.1.tgz#de84dab7c3595329378ca46b2b82595d6406e87e"
-  integrity sha512-6A7IXzZHAdFadcCILbljNQzrVMwOlx1opdCV/91h3S3ttY7HrPuatyZJyjau8dSf1ANjnAm1kcoof8lZfwhaHg==
+"@ngrx/component-store@17.2.0":
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-17.2.0.tgz#441c02be3dd5dc9ef98c95a1a1c12656e2e47c4f"
+  integrity sha512-ywhyoZpkbVIY1t5zf7xfWLGkY0A/fQdMjPehHloDI6bRLrmbllBhQRazwZ+FAGIi2myx1+mGcmAc6FbtIikedA==
   dependencies:
     "@ngrx/operators" "17.0.0-beta.0"
     tslib "^2.0.0"
 
-"@ngrx/effects@17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-17.0.1.tgz#daee09529cd93c916de7bb331017f15369df45b5"
-  integrity sha512-U7ewZpUoJlLrWyZVyzAMU6Qfxmte7Noi9n/pJb5BR3pWmdHnU+VPs08xnSIQUa0US7K6dJJRTGtcEpEvv/IT4A==
+"@ngrx/effects@17.2.0":
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-17.2.0.tgz#37cec0b696cd7b14600f64e2ed0d9e47f5de10f1"
+  integrity sha512-tXDJNsuBtbvI/7+vYnkDKKpUvLbopw1U5G6LoPnKNrbTPsPcUGmCqF5Su/ZoRN3BhXjt2j+eoeVdpBkxdxMRgg==
   dependencies:
     "@ngrx/operators" "17.0.0-beta.0"
     tslib "^2.0.0"
 
-"@ngrx/entity@17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/entity/-/entity-17.0.1.tgz#75bd13e9c53c6953cd40fa39ebaa7d12b91df113"
-  integrity sha512-7/N/r5GKJgp6sUJKPJmFeCdNU33INViVvg1oootuAEPyzLKEzeu0fuTwVOodm5VVuy89rMi15WGdZel+HDy3zg==
+"@ngrx/entity@17.2.0":
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/entity/-/entity-17.2.0.tgz#5b9a01bd237f247a9901824824352c7e09c1bbeb"
+  integrity sha512-epXgojGXCrVMNrFdv60704iRUU+pYkE1qHBppP/wqKbZZIZHaagsg2jy8/ptDP7U3udvVq0z9suc1s+zpmL2EA==
   dependencies:
     tslib "^2.0.0"
 
@@ -5235,24 +5235,24 @@
   dependencies:
     tslib "^2.3.0"
 
-"@ngrx/router-store@17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-17.0.1.tgz#be6547aac1a8aa92cc0da4cd7e8d1416ad84fb29"
-  integrity sha512-O4kz/yvIaAfG0Hzloj24RqL17E1oddQ7wpxjU6UrTr/oZkX1/lIehaSxSJIVzq02vQWShIq0RFo/t8ac5mzqZQ==
+"@ngrx/router-store@17.2.0":
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-17.2.0.tgz#ecee8aa884870ec3c56c09c661319d63d5c533b7"
+  integrity sha512-Vynfg2xsB57Oedf0Bb6mjC4MIeaF2OtAewsSnppGIM2b8pwL5W89r2+q2SGc2D6Mp3/pZF3HRI6NxhnHWJdYmg==
   dependencies:
     tslib "^2.0.0"
 
-"@ngrx/store-devtools@17.0.1":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-17.0.1.tgz#42824879bcdccba5db83345318a5262a4a2789b7"
-  integrity sha512-1/BrHmd1KnjEvZtUkmMeOAhftzTLCBxpk0KoVSnl7BFr0LGQZrYUTXHI3b6tzJ2igGuj0d9hk/JRMOXmYn/5WA==
+"@ngrx/store-devtools@17.2.0":
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-17.2.0.tgz#cb05dc997d7836a6aa8408ac9e04f3b1419fc3bc"
+  integrity sha512-ig0qr6hMexZGnrlxfHvZmu5CanRjH7hhx60XUbB5BdBvWJIIRaWKPLcsniiDUhljAD87gvzrrilbCTiML38+CA==
   dependencies:
     tslib "^2.0.0"
 
-"@ngrx/store@~17.0.0":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-17.0.1.tgz#e8ebad6ff28e53cd7c945939d84f26be965a406c"
-  integrity sha512-BmVzN+fqyz0ZrVEmJ+jrNwePMKcpNL49vb8sbQ3yDDftxgZz2HqRKFMexqlXpz5ixwK5LqTOblHNQOgi9irsTw==
+"@ngrx/store@17.2.0":
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-17.2.0.tgz#d1a588cd8bae18a190bb71582f07e992406a76fa"
+  integrity sha512-7wKgZ59B/6yQSvvsU0DQXipDqpkAXv7LwcXLD5Ww7nvqN0fQoRPThMh4+Wv55DCJhE0bQc1NEMciLA47uRt7Wg==
   dependencies:
     tslib "^2.0.0"
 

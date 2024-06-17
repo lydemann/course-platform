@@ -16,7 +16,6 @@ export const authClient = new AuthClient({
 });
 
 const verifyAndDecodeJwtToken = async (token: string) => {
-  console.log('Verifying token:', token);
   // verify and decode token from supabase
 
   if (!token) {
@@ -39,7 +38,6 @@ const verifyAndDecodeJwtToken = async (token: string) => {
       console.error('Token verification failed:', error);
       return null;
     }
-    console.log('Token is valid:', user);
     return user;
   } catch (error) {
     console.error('Token verification failed:', error);

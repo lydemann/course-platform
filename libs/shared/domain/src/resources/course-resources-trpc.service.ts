@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { first, map, tap, timeout } from 'rxjs/operators';
 
 import {
   Course,
@@ -33,7 +33,10 @@ export class CourseResourcesTrpcService {
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
-    return this.trpcClient.section.getAll.query({ courseId });
+    return this.trpcClient.section.getAll.query({ courseId }).pipe(
+      timeout(2000),
+      map((data) => data)
+    );
   }
 
   setCompleteLesson(isCompleted: boolean, lessonId: string) {
