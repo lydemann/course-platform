@@ -74,13 +74,13 @@ export class CourseClientFacade {
   }
 
   onActionItemCompletedChanged(
-    resourceId: string,
+    actionItemId: string,
     completed: boolean,
     sectionId: string
   ) {
     this.store.dispatch(
       CourseActions.actionItemCompletedChanged({
-        resourceId,
+        actionItemId,
         completed,
         sectionId,
       })

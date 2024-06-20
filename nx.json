@@ -51,9 +51,6 @@
       "styleext": "scss"
     }
   },
-  "affected": {
-    "defaultBase": "origin/main"
-  },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultProject": "course-client",
   "namedInputs": {
@@ -76,6 +73,24 @@
       "options": {
         "targetName": "lint"
       }
+    },
+    {
+      "plugin": "@nx/nuxt/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "previewTargetName": "preview",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "serveStaticTargetName": "serve-static"
+      }
     }
-  ]
+  ],
+  "defaultBase": "origin/main"
 }

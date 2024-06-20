@@ -20,6 +20,7 @@
   >
     <app-action-item
       *ngFor="let actionItem of actionItems$ | async"
+      class="mb-4 block"
       [actionItem]="actionItem"
       (completeChanged)="
         onCompleteChanged(actionItem.id, $event, selectedSectionId)

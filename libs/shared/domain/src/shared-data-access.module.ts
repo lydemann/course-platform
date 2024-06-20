@@ -31,9 +31,7 @@ const config = {
     }),
     GraphQLModule,
   ],
-  providers: [
-    provideTrpcClient()
-  ]
+  providers: [provideTrpcClient()],
 })
 export class SharedDataAccessModule {
   constructor(

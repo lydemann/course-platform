@@ -49,5 +49,6 @@ firebase-service-account.json
 **/drizzle.config.ts
 
 .nx/cache
+.nx/workspace-data
 # Sentry Config File
 .sentryclirc

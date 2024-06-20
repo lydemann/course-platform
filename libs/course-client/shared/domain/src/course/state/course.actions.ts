@@ -68,7 +68,7 @@ export namespace CourseActions {
 
   export const actionItemCompletedChanged = createAction(
     '[Course] Action Item Completed Changed',
-    props<{ resourceId: string; completed: boolean; sectionId: string }>()
+    props<{ actionItemId: string; completed: boolean; sectionId: string }>()
   );
 
   export const setActionItemCompletedSuccess = createAction(
@@ -79,7 +79,7 @@ export namespace CourseActions {
     '[Course] Set Action Item Completed Failed',
     props<{
       error: HttpErrorResponse;
-      resourceId: string;
+      actionItemId: string;
       completed: boolean;
       sectionId: string;
     }>()

@@ -145,17 +145,20 @@ export const lessonRouter = router({
               userId: user.id,
             })
             .onConflictDoUpdate({
-              target: [completedLessons.lessonId, completedLessons.userId],
+              target: [
+                completedActionItems.actionItemId,
+                completedActionItems.userId,
+              ],
               set: { actionItemId, userId: user.id },
             })
             .returning();
         } else {
           return await db
-            .delete(completedLessons)
+            .delete(completedActionItems)
             .where(
               and(
                 eq(completedActionItems.actionItemId, actionItemId),
-                eq(completedLessons.userId, user.id)
+                eq(completedActionItems.userId, user.id)
               )
             )
             .returning();

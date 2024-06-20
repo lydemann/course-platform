@@ -22,7 +22,7 @@ export interface SectionDropDownValue {
     BrowserOnlyDirective,
   ],
   template: ` @if (selectedSection) {
-    <div class="sidebar">
+    <div class="sidebar ml-4">
       <div class="section-box">
         <small class="week-theme-label">WEEK THEME</small>
         <h5 class="week-theme">{{ selectedSection.theme }}</h5>

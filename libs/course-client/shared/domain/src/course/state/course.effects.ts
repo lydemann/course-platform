@@ -34,7 +34,6 @@ export class CourseEffects {
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
       mergeMap(([_, courseId]) => {
-        console.log('fetchCourseSections$ courseId', courseId);
         return this.courseClientFacade.getCourseSections(courseId).pipe(
           map((courseSections) => {
             return CourseActions.getCourseSectionsSuccess({ courseSections });
@@ -115,16 +114,16 @@ export class CourseEffects {
       ofType(CourseActions.actionItemCompletedChanged),
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
-      switchMap(([{ resourceId, completed, sectionId }]) => {
-        return this.courseResourcesService
-          .setActionItemCompleted(resourceId, completed)
+      switchMap(([{ actionItemId, completed, sectionId }]) => {
+        return this.courseResourcesTrpcService
+          .setActionItemCompleted(actionItemId, completed)
           .pipe(
             map(() => CourseActions.setActionItemCompletedSuccess()),
             catchError((error) =>
               of(
                 CourseActions.setActionItemCompletedFailed({
                   error,
-                  resourceId,
+                  actionItemId,
                   completed,
                   sectionId,
                 })

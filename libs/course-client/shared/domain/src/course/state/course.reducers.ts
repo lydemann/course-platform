@@ -16,7 +16,6 @@ export const courseReducer = createReducer<
 >(
   courseInitState,
   on(CourseActions.courseInitiated, (state) => {
-    console.log('courseInitiated reducer');
     return {
       ...state,
       sectionsState: {
@@ -110,7 +109,7 @@ export const courseReducer = createReducer<
   }),
   on(
     CourseActions.actionItemCompletedChanged,
-    (state, { completed, resourceId, sectionId }) => {
+    (state, { completed, actionItemId, sectionId }) => {
       return produce<CourseState>(state, (draft) => {
         const section = draft.sectionsState.entities[sectionId];
 
@@ -119,11 +118,11 @@ export const courseReducer = createReducer<
         }
 
         const actionItemToUpdate = section.actionItems.find(
-          (actionItem) => actionItem.id === resourceId
+          (actionItem) => actionItem.id === actionItemId
         );
 
         if (!actionItemToUpdate) {
-          throw new Error(`Action item not found with id: ${resourceId}`);
+          throw new Error(`Action item not found with id: ${actionItemId}`);
         }
 
         actionItemToUpdate.isCompleted = completed;
@@ -133,7 +132,7 @@ export const courseReducer = createReducer<
   ),
   on(
     CourseActions.setActionItemCompletedFailed,
-    (state, { completed, resourceId, sectionId }) => {
+    (state, { completed, actionItemId: resourceId, sectionId }) => {
       return produce<CourseState>(state, (draft) => {
         const section = draft.sectionsState.entities[sectionId];
 
