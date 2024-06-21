@@ -52,3 +52,10 @@ firebase-service-account.json
 .nx/workspace-data
 # Sentry Config File
 .sentryclirc
+
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
