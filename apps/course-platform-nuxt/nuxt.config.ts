@@ -25,4 +25,10 @@ export default defineNuxtConfig({
   vite: {
     plugins: [nxViteTsPaths()],
   },
+  nitro: {
+    preset: 'vercel',
+    output: {
+      dir: '../../.vercel/output',
+    },
+  },
 });
