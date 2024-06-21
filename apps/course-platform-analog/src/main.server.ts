@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @nx/enforce-module-boundaries */
 import '@angular/platform-server/init';

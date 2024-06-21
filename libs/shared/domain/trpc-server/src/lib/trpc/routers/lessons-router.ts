@@ -55,12 +55,20 @@ export const lessonRouter = router({
       })
     )
     .mutation(async ({ input: { sectionId, description, videoUrl, name } }) => {
+      // get count of lessons in section
+      const lessonsInSectionCount = (
+        await db.query.lessons.findMany({
+          where: eq(lessons.sectionId, sectionId),
+        })
+      ).length;
+
       const createdLesson = await db
         .insert(lessons)
         .values({
           sectionId,
           description,
           videoUrl: videoUrl,
+          orderId: lessonsInSectionCount,
           name,
         })
         .returning();

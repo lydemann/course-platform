@@ -32,29 +32,7 @@ export default defineConfig(({ mode }) => {
               }),
             ],
           },
-          preset: 'firebase',
-          firebase: {
-            nodeVersion: '20',
-            gen: 2,
-            httpsOptions: {
-              region: 'us-central1',
-              maxInstances: 3,
-            },
-          },
-          hooks: {
-            close: () => {
-              cpSync(
-                './apps/course-platform-analog/src/firebase.json',
-                './dist/apps/course-platform-analog/analog/firebase.json',
-                { recursive: true }
-              );
-              cpSync(
-                './apps/course-platform-analog/src/.firebaserc',
-                './dist/apps/course-platform-analog/analog/.firebaserc',
-                { recursive: true }
-              );
-            },
-          },
+          preset: 'vercel',
         },
       }),
       nxViteTsPaths(),
