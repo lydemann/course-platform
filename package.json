@@ -45,10 +45,10 @@
   "main": "dist/apps/course-service/main.js",
   "private": true,
   "dependencies": {
-    "@analogjs/content": "1.4.0",
-    "@analogjs/router": "1.4.0",
+    "@analogjs/content": "^1.5.0",
+    "@analogjs/router": "^1.5.0",
     "@analogjs/trpc": "0.2.45",
-    "@analogjs/vite-plugin-angular": "1.4.0",
+    "@analogjs/vite-plugin-angular": "^1.5.0",
     "@angular/animations": "18.0.1",
     "@angular/cdk": "18.0.1",
     "@angular/common": "18.0.1",
@@ -116,7 +116,7 @@
     "zone.js": "0.14.3"
   },
   "devDependencies": {
-    "@analogjs/platform": "^1.4.0",
+    "@analogjs/platform": "^1.5.0",
     "@angular-devkit/architect": "^0.1800.2",
     "@angular-devkit/build-angular": "^18.0.0",
     "@angular-devkit/core": "^18.0.2",
