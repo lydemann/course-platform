@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
   return {
     publicDir: 'src/public',
     build: {
-      target: ['es2020'],
+      target: ['es2022'],
       commonjsOptions: {
         transformMixedEsModules: true,
       },

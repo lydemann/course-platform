@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "types": [],
-    "target": "ES2022",
+    "target": "ESNext",
     "useDefineForClassFields": false,
     "experimentalDecorators": true
   },

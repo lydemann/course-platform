@@ -1,18 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { AuthClient, GoTrueClient } from '@supabase/auth-js';
+import { GoTrueClient } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
-
-const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
-const AUTH_HEADERS = {
-  Authorization: `Bearer ${import.meta.env['VITE_SUPABASE_KEY']!}`,
-  apikey: `${import.meta.env['VITE_SUPABASE_KEY']!}`,
-};
-
-export const authClient = new AuthClient({
-  headers: AUTH_HEADERS,
-  url: AUTH_URL,
-  fetch: fetch,
-});
+import { authClient } from './auth-client';
 
 const ACCESS_TOKEN_COOKIE_KEY = 'sb-access-token';
 const REFRESH_TOKEN_COOKIE_KEY = 'sb-refresh-token';
@@ -55,7 +44,6 @@ export class AuthSBService {
             session.provider_refresh_token
           );
         }
-        // this.router.navigate(['courses']);
       }
       if (event === 'SIGNED_OUT') {
         this.ssrCookieService.delete(ACCESS_TOKEN_COOKIE_KEY);
