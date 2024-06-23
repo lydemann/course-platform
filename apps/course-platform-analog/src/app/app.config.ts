@@ -48,10 +48,7 @@ export function endpointsFactory() {
 }
 
 export function httpLoaderFactory(http: HttpClient) {
-  const isProd = process.env['NODE_ENV'] === 'production';
-  const host = isProd
-    ? 'https://course-platform-analog.web.app'
-    : process.env['VITE_ANALOG_PUBLIC_BASE_URL'];
+  const host = import.meta.env['VITE_ANALOG_PUBLIC_BASE_URL'];
   if (host) {
     return new TranslateHttpLoader(http, `${host}/assets/i18n/`, '.json');
   }
