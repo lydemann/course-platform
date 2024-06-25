@@ -4,14 +4,12 @@ import analog from '@analogjs/platform';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { typescriptPaths } from 'rollup-plugin-typescript-paths';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
-import { cpSync } from 'node:fs';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
     root: __dirname,
     cacheDir: `../../node_modules/.vite`,
-    publicDir: 'src/public',
     build: {
       target: ['es2020'],
       outDir: '../../dist/./course-platform-analog/client',
