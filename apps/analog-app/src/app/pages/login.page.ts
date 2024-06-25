@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+/* eslint-disable @nx/enforce-module-boundaries */
+import { RouteMeta } from '@analogjs/router';
+import { LoginComponent } from '@course-platform/course-client/feature';
+import { redirectIfLoggedInServerGuard } from '@course-platform/course-client/shared/domain';
 
-import { AnalogWelcomeComponent } from './analog-welcome.component';
+export const routeMeta: RouteMeta = {
+  title: 'Login',
+  canActivate: [redirectIfLoggedInServerGuard],
+  providers: [],
+};
 
-@Component({
-  selector: 'analog-app-home',
-  standalone: true,
-  imports: [],
-  template: ` <h1>Login page</h1> `,
-})
-export default class LoginComponent {}
+export default LoginComponent;

@@ -11,7 +11,6 @@ export default defineConfig(({ mode }) => {
   return {
     root: __dirname,
     cacheDir: `../../node_modules/.vite`,
-    publicDir: 'src/public',
     build: {
       target: ['es2020'],
       outDir: '../../dist/./analog-app/client',
