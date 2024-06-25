@@ -1,8 +1,10 @@
-import { NgZone, PLATFORM_ID, inject } from '@angular/core';
+import { PLATFORM_ID, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 import { isPlatformBrowser } from '@angular/common';
 import { AuthSBService } from '@course-platform/shared/auth/domain';
+
+const LOGIN_URL = 'login';
 
 export const authGuard =
   (redirectIfAuthenticatedUrl = ''): CanActivateFn =>
@@ -13,21 +15,16 @@ export const authGuard =
 
     if (isPlatformBrowser(platformId)) {
       const session = !!(await userServerService.getSession());
-      navigateToRedirectUrl(router, redirectIfAuthenticatedUrl);
       if (!session) {
-        navigateToLogin();
-        return false;
+        return navigateToLogin();
       }
-
       navigateToRedirectUrl(router, redirectIfAuthenticatedUrl);
       return true;
     }
 
-    const userResponse = await userServerService.authenticateUserSSR();
-
-    if (!userResponse?.data?.user) {
-      navigateToLogin();
-      return false;
+    const serverUserSession = await userServerService.authenticateUserSSR();
+    if (!serverUserSession?.data?.user) {
+      return navigateToLogin();
     }
 
     navigateToRedirectUrl(router, redirectIfAuthenticatedUrl);
@@ -35,7 +32,8 @@ export const authGuard =
 
     function navigateToLogin() {
       console.log('Not authenticated, redirecting to login on server.');
-      router.navigate(['login']);
+      router.navigate([LOGIN_URL]);
+      return false;
     }
 
     function navigateToRedirectUrl(
