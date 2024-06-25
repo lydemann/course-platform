@@ -15,9 +15,6 @@ export default defineConfig(({ mode }) => {
       target: ['es2020'],
       outDir: '../../dist/./analog-app/client',
       reportCompressedSize: true,
-      commonjsOptions: {
-        transformMixedEsModules: true,
-      },
     },
     server: {
       fs: {
@@ -77,7 +74,11 @@ export default defineConfig(({ mode }) => {
     },
     optimizeDeps: {
       esbuildOptions: {
-        tsconfig: 'tsconfig.base.json',
+        tsconfigRaw: {
+          compilerOptions: {
+            experimentalDecorators: true,
+          },
+        },
       },
     },
     define: {
