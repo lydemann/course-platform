@@ -9,9 +9,13 @@ import { cpSync } from 'node:fs';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    root: __dirname,
+    cacheDir: `../../node_modules/.vite`,
     publicDir: 'src/public',
     build: {
       target: ['es2020'],
+      outDir: '../../dist/./course-platform-analog/client',
+      reportCompressedSize: true,
       commonjsOptions: {
         transformMixedEsModules: true,
       },
@@ -31,6 +35,11 @@ export default defineConfig(({ mode }) => {
                 preserveExtensions: true,
               }),
             ],
+          },
+          routeRules: {
+            '/': {
+              prerender: false,
+            },
           },
           preset: 'vercel',
         },
@@ -57,6 +66,8 @@ export default defineConfig(({ mode }) => {
     },
     ssr: {
       noExternal: [
+        '@analogjs/trpc',
+        '@trpc/server',
         'rxfire/**',
         '@ngx-translate/**',
         'ngx-cookie-service/**',
@@ -67,11 +78,7 @@ export default defineConfig(({ mode }) => {
     },
     optimizeDeps: {
       esbuildOptions: {
-        tsconfigRaw: {
-          compilerOptions: {
-            experimentalDecorators: true,
-          },
-        },
+        tsconfig: 'tsconfig.base.json',
       },
     },
     define: {
