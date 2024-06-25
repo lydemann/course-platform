@@ -6,6 +6,6 @@ import { AnalogWelcomeComponent } from './analog-welcome.component';
   selector: 'analog-app-home',
   standalone: true,
   imports: [],
-  template: ` <h1>Welcome to login</h1> `,
+  template: ` <h1>Login page</h1> `,
 })
 export default class LoginComponent {}
