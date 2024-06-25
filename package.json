@@ -116,7 +116,7 @@
     "zone.js": "0.14.3"
   },
   "devDependencies": {
-    "@analogjs/platform": "^1.3.0",
+    "@analogjs/platform": "1.5.0",
     "@angular-devkit/architect": "^0.1800.2",
     "@angular-devkit/build-angular": "^18.0.0",
     "@angular-devkit/core": "^18.0.2",
