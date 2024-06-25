@@ -63,11 +63,9 @@ export default defineConfig(({ mode }) => {
         'ngx-cookie-service-ssr/**',
         'firebase/**',
         '@apollo/client/**',
-        'farmhash',
       ],
     },
     optimizeDeps: {
-      exclude: ['farmhash'],
       esbuildOptions: {
         tsconfigRaw: {
           compilerOptions: {
