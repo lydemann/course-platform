@@ -48,7 +48,8 @@ export function endpointsFactory() {
 }
 
 export function httpLoaderFactory(http: HttpClient) {
-  const host = import.meta.env['VITE_ANALOG_PUBLIC_BASE_URL'];
+  const host =
+    import.meta.env['VITE_ANALOG_PUBLIC_BASE_URL'] || 'http://localhost:4200';
   if (host) {
     return new TranslateHttpLoader(http, `${host}/assets/i18n/`, '.json');
   }
