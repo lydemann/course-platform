@@ -24,6 +24,7 @@ import {
   Lesson,
 } from '@course-platform/shared/interfaces';
 import { ComponentStore } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 import { Observable } from 'rxjs';
 
 interface CourseAdminStore {

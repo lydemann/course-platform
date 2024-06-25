@@ -2,19 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import {
-  catchError,
-  exhaustMap,
-  filter,
-  first,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-
 import { UserService } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,
@@ -25,6 +12,16 @@ import {
 import { CourseActions } from './course.actions';
 import { CourseSelectors } from './course.selectors';
 import { CourseClientFacade } from '../course-facade.service';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 
 @Injectable()
 export class CourseEffects {

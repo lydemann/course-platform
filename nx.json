@@ -33,14 +33,6 @@
       "cache": true
     }
   },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@vercel/remote-nx",
-      "options": {
-        "cacheableOperations": ["build", "test", "lint", "e2e"]
-      }
-    }
-  },
   "generators": {
     "@nx/angular:application": {
       "style": "scss",

@@ -1,10 +1,4 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import {
-  createServiceFactory,
-  SpectatorService,
-  SpyObject,
-} from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -18,6 +12,12 @@ import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';
 import { CourseEffects } from './course.effects';
 import { CourseSelectors } from './course.selectors';
+import {
+  SpectatorService,
+  SpyObject,
+  createServiceFactory,
+} from '@ngneat/spectator';
+import { Router } from '@angular/router';
 
 describe('CourseEffects', () => {
   let spectator: SpectatorService<CourseEffects>;
