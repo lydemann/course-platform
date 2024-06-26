@@ -4,16 +4,16 @@ import analog from '@analogjs/platform';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { typescriptPaths } from 'rollup-plugin-typescript-paths';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { cpSync } from 'node:fs';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-    root: __dirname,
-    cacheDir: `../../node_modules/.vite`,
     build: {
       target: ['es2020'],
-      outDir: '../../dist/./course-platform-analog/client',
-      reportCompressedSize: true,
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
     },
     server: {
       fs: {
@@ -30,11 +30,6 @@ export default defineConfig(({ mode }) => {
                 preserveExtensions: true,
               }),
             ],
-          },
-          routeRules: {
-            '/': {
-              prerender: false,
-            },
           },
           preset: 'vercel',
         },
@@ -61,8 +56,6 @@ export default defineConfig(({ mode }) => {
     },
     ssr: {
       noExternal: [
-        '@analogjs/trpc',
-        '@trpc/server',
         'rxfire/**',
         '@ngx-translate/**',
         'ngx-cookie-service/**',
