@@ -50,6 +50,6 @@
       "outputs": ["{projectRoot}/coverage"]
     }
   },
-  "tags": [],
+  "tags": ["scope:course-client", "type:app"],
   "sourceRoot": "apps/analog-app/src"
 }
