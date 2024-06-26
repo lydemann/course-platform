@@ -31,6 +31,11 @@ export default defineConfig(({ mode }) => {
               }),
             ],
           },
+          routeRules: {
+            '/': {
+              prerender: false,
+            },
+          },
           preset: 'vercel',
         },
       }),
@@ -56,6 +61,8 @@ export default defineConfig(({ mode }) => {
     },
     ssr: {
       noExternal: [
+        '@analogjs/trpc',
+        '@trpc/server',
         'rxfire/**',
         '@ngx-translate/**',
         'ngx-cookie-service/**',
