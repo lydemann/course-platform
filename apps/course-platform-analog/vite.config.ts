@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
     cacheDir: `../../node_modules/.vite`,
     build: {
       target: ['es2020'],
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
       outDir: '../../dist/./course-platform-analog/client',
       reportCompressedSize: true,
     },
