@@ -9,11 +9,12 @@ import { cpSync } from 'node:fs';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    root: __dirname,
+    cacheDir: `../../node_modules/.vite`,
     build: {
       target: ['es2020'],
-      commonjsOptions: {
-        transformMixedEsModules: true,
-      },
+      outDir: '../../dist/./course-platform-analog/client',
+      reportCompressedSize: true,
     },
     server: {
       fs: {

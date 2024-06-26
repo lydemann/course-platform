@@ -15,12 +15,8 @@
     }
   ],
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "experimentalDecorators": true,
+    "target": "es2020",
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
