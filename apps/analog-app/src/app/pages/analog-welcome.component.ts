@@ -225,7 +225,7 @@ import { Component } from '@angular/core';
           >
           <h1 class="intro-heading">
             <span class="intro-analog">Analog.</span> The fullstack Angular
-            meta-framework
+            meta-framework!
           </h1>
           <p class="intro-description">
             Analog is for building applications and websites with Angular.
