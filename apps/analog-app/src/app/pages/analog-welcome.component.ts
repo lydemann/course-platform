@@ -1,8 +1,13 @@
+import { injectLoad } from '@analogjs/router';
 import { Component } from '@angular/core';
+import { load } from './(home).server';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'analog-app-analog-welcome',
   standalone: true,
+  imports: [CommonModule],
   styles: [
     `
       :host {
@@ -252,6 +257,7 @@ import { Component } from '@angular/core';
           <button (click)="increment()" class="lightBtn">
             Count: <span class="count">{{ count }}</span>
           </button>
+          <div>{{ data() | json }}</div>
         </div>
       </section>
     </main>
@@ -259,6 +265,7 @@ import { Component } from '@angular/core';
 })
 export class AnalogWelcomeComponent {
   count = 0;
+  data = toSignal(injectLoad<typeof load>(), { requireSync: true });
   increment() {
     this.count++;
   }

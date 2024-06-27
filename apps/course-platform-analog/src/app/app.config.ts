@@ -5,13 +5,21 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
   withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  withComponentInputBinding,
+  withNavigationErrorHandler,
+} from '@angular/router';
 import {
   CoreModule,
   CourseClientDomainModule,
@@ -52,7 +60,10 @@ export function httpLoaderFactory(http: HttpClient) {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideFileRouter(),
+    provideFileRouter(
+      withComponentInputBinding(),
+      withNavigationErrorHandler(console.error)
+    ),
     // makes sure the client is hydrated with the server state to avoid redundant client requests
     provideClientHydration(
       withHttpTransferCacheOptions({
@@ -60,6 +71,7 @@ export const appConfig: ApplicationConfig = {
         includeRequestsWithAuthHeaders: true,
       })
     ),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(
       withFetch(),
       withInterceptors([

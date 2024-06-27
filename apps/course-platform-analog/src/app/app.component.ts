@@ -22,7 +22,6 @@ export class AppComponent {
   protected readonly session = signal<Session | null>(null);
   router = inject(Router);
   constructor(private schoolIdService: SchoolIdService) {
-    this.schoolIdService.setSchoolIdFromCustomDomain();
     this.authSBService.handleClientAuthStateChanges((event, session) => {
       console.log('Auth state change:', event);
       if (session) {
