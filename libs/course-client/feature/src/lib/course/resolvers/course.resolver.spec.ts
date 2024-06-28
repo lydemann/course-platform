@@ -7,13 +7,14 @@ import {
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { CourseResolver } from './course.resolver';
+import { CourseResourcesTrpcService } from '@course-platform/shared/domain';
 
 describe('CourseResolver', () => {
   let spectator: SpectatorService<CourseResolver>;
   let courseFacadeService: SpyObject<CourseClientFacade>;
   const createService = createServiceFactory({
     service: CourseResolver,
-    mocks: [CourseClientFacade],
+    mocks: [CourseClientFacade, CourseResourcesTrpcService],
   });
 
   beforeEach(() => {

@@ -4,10 +4,14 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
+/// <reference types="vite/client" />
 
 import { User } from '@angular/fire/auth';
 import { UserService } from '@course-platform/shared/auth/domain';
-import { CourseResourcesService } from '@course-platform/shared/domain';
+import {
+  CourseResourcesService,
+  CourseResourcesTrpcService,
+} from '@course-platform/shared/domain';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';
 import { CourseEffects } from './course.effects';
@@ -16,17 +20,22 @@ import {
   SpectatorService,
   SpyObject,
   createServiceFactory,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 import { Router } from '@angular/router';
 
 describe('CourseEffects', () => {
   let spectator: SpectatorService<CourseEffects>;
   let actions$: Actions;
-  let courseResourcesService: SpyObject<CourseResourcesService>;
+  let courseResourcesService: SpyObject<CourseResourcesTrpcService>;
   let userService: SpyObject<UserService>;
   const createService = createServiceFactory({
     service: CourseEffects,
-    mocks: [CourseResourcesService, Router, UserService],
+    mocks: [
+      CourseResourcesService,
+      CourseResourcesTrpcService,
+      Router,
+      UserService,
+    ],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({
@@ -37,7 +46,7 @@ describe('CourseEffects', () => {
 
   beforeEach(() => {
     spectator = createService();
-    courseResourcesService = spectator.inject(CourseResourcesService);
+    courseResourcesService = spectator.inject(CourseResourcesTrpcService);
     userService = spectator.inject(UserService);
   });
 

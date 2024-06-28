@@ -8,6 +8,16 @@ module.exports = {
       {
         tsconfig: 'tsconfig.base.json',
         useESM: true,
+        astTransformers: {
+          before: [
+            {
+              path: 'node_modules/ts-jest-mock-import-meta', // or, alternatively, 'ts-jest-mock-import-meta' directly, without node_modules.
+              options: {
+                metaObjectReplacement: { env: {}, url: 'https://www.url.com' },
+              },
+            },
+          ],
+        },
       },
     ],
   },

@@ -1,4 +1,5 @@
 import { AuthClient } from '@supabase/auth-js';
+/// <reference types="vite/client" />
 
 const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
 const AUTH_HEADERS = {

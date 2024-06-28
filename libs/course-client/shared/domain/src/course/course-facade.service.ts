@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { Observable, filter, map } from 'rxjs';
 
 import {
-  CourseResourcesService,
   CourseResourcesTrpcService,
   State,
   selectRouteParam,

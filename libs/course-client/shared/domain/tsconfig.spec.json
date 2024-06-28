@@ -2,9 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "module": "ESNext",
+    "module": "CommonJS",
     "target": "ESNext",
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true
   },
   "files": ["src/test-setup.ts"],
   "include": [
