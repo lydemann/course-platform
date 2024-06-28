@@ -46,16 +46,6 @@ export default defineConfig(({ mode }) => {
       nxViteTsPaths(),
       splitVendorChunkPlugin(),
     ],
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: ['src/test-setup.ts'],
-      include: ['**/*.spec.ts'],
-      reporters: ['default'],
-      cache: {
-        dir: `../../node_modules/.vitest`,
-      },
-    },
     css: {
       preprocessorOptions: {
         scss: {
