@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import {
   APP_INITIALIZER,
   ErrorHandler,
