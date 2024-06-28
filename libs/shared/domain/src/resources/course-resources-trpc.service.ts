@@ -8,7 +8,7 @@ import {
   CourseSection,
   Lesson,
 } from '@course-platform/shared/interfaces';
-import { injectTRPCClient } from './trpc/trpc-client';
+import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
 
 @Injectable({
   providedIn: 'root',

@@ -6,6 +6,7 @@ import {
   timestamp,
   unique,
   integer,
+  uuid,
 } from 'drizzle-orm/pg-core';
 
 import { Guid } from 'guid-typescript';
@@ -49,17 +50,22 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
   resources: many(resources),
 }));
 
-export const users = pgTable('users', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => Guid.create().toString()),
-  email: text('email').notNull(),
-  name: text('name').notNull(),
-  // array of completed lessons
-  // array of completed action items
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-});
+export const profiles = pgTable(
+  'profiles',
+  {
+    id: uuid('id').primaryKey().notNull(),
+    updated_at: timestamp('updated_at', { withTimezone: true, mode: 'string' }),
+    username: text('username'),
+    full_name: text('full_name'),
+    avatar_url: text('avatar_url'),
+    website: text('website'),
+  },
+  (table) => {
+    return {
+      profiles_username_key: unique('profiles_username_key').on(table.username),
+    };
+  }
+);
 
 export const completedLessons = pgTable(
   'completed_lessons',

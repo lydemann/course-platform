@@ -8,6 +8,7 @@ export const routeMeta: RouteMeta = {
   resolve: {
     data: async (route) => {
       // call server load resolver for this route from another resolver
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const data = (await getLoadResolver(route)) as any;
 
       return { ...data };

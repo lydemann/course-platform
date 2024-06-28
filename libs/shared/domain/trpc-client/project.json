@@ -1,0 +1,16 @@
+{
+  "name": "trpc-client",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/domain/trpc-client/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:domain"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shared/domain/trpc-client/jest.config.ts"
+      }
+    }
+  }
+}

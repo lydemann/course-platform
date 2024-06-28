@@ -4,7 +4,8 @@ import { Router, RouterOutlet } from '@angular/router';
 
 import { LayoutModule } from '@course-platform/course-client/shared/ui';
 import { AuthSBService } from '@course-platform/shared/auth/domain';
-import { SchoolIdService, TrpcHeaders } from '@course-platform/shared/domain';
+import { SchoolIdService } from '@course-platform/shared/domain';
+import { TrpcHeaders } from '@course-platform/shared/domain/trpc-client';
 import { Session } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 

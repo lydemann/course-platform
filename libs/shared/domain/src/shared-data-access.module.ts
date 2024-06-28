@@ -1,6 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-
-import { GraphQLModule, provideTrpcClient } from './resources/';
+import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
+import { GraphQLModule } from './resources/';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';

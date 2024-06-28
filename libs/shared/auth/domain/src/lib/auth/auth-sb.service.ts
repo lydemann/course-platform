@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { GoTrueClient } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { authClient } from './auth-client';
+import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
 
 const ACCESS_TOKEN_COOKIE_KEY = 'sb-access-token';
 const REFRESH_TOKEN_COOKIE_KEY = 'sb-refresh-token';
@@ -12,6 +13,7 @@ const PROVIDER_REFRESH_TOKEN_COOKIE_KEY = 'sb-provider-refresh-token';
 export class AuthSBService {
   authClient: GoTrueClient;
   ssrCookieService = inject(SsrCookieService);
+  trpcClient = injectTRPCClient();
   constructor() {
     this.authClient = authClient;
   }
@@ -54,8 +56,8 @@ export class AuthSBService {
     });
   }
 
-  async signUp(email: string, password: string) {
-    return this.authClient.signUp({ email, password });
+  signUp(email: string, password: string) {
+    return this.trpcClient.user.createUser.mutate({ email, password });
   }
 
   async signIn(email: string, password: string) {
