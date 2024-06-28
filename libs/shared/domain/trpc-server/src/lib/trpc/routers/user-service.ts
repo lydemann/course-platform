@@ -16,7 +16,7 @@ export const getACUsers = (): Promise<{
   const options = {
     method: 'GET',
     headers: {
-      'Api-Token': import.meta.env.AC_API_TOKEN,
+      'Api-Token': import.meta.env['AC_API_TOKEN'],
       'Content-Type': 'application/json',
     },
   };
@@ -25,7 +25,7 @@ export const getACUsers = (): Promise<{
 
   return fetch(
     `${
-      import.meta.env.AC_ORIGIN
+      import.meta.env['AC_ORIGIN']
     }/api/3/contacts?listid=${studenListId}&limit=0`,
     options
   ).then(async (response) => await response.json());
