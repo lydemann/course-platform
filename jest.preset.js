@@ -21,7 +21,16 @@ module.exports = {
       },
     ],
   },
-
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.spec.json',
+      stringifyContentPathRegex: '\\.html$',
+      isolatedModules: true,
+      astTransformers: {
+        before: ['ts-jest-mock-import-meta'],
+      },
+    },
+  },
   resolver: '@nx/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageReporters: ['html'],
