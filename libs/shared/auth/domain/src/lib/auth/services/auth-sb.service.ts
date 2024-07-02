@@ -1,8 +1,22 @@
 import { Injectable, inject } from '@angular/core';
 import { GoTrueClient } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
-import { authClient } from './auth-client';
 import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
+import { AuthClient, UserAttributes } from '@supabase/supabase-js';
+import { AuthService, UpdateUserInput } from './auth.service';
+import { Observable, firstValueFrom } from 'rxjs';
+
+const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
+const AUTH_HEADERS = {
+  Authorization: `Bearer ${import.meta.env['VITE_SUPABASE_KEY']!}`,
+  apikey: `${import.meta.env['VITE_SUPABASE_KEY']!}`,
+};
+
+export const authClient = new AuthClient({
+  headers: AUTH_HEADERS,
+  url: AUTH_URL,
+  fetch: fetch,
+});
 
 const ACCESS_TOKEN_COOKIE_KEY = 'sb-access-token';
 const REFRESH_TOKEN_COOKIE_KEY = 'sb-refresh-token';
@@ -10,16 +24,35 @@ const PROVIDER_TOKEN_COOKIE_KEY = 'sb-provider-token';
 const PROVIDER_REFRESH_TOKEN_COOKIE_KEY = 'sb-provider-refresh-token';
 
 @Injectable({ providedIn: 'root' })
-export class AuthSBService {
+export class AuthSBService extends AuthService {
+  override updateCurrentUser(value: { name: string }): Promise<unknown> {
+    const updatedUser = { name: value.name } as UserAttributes;
+    return this.authClient.updateUser(updatedUser);
+  }
   authClient: GoTrueClient;
   ssrCookieService = inject(SsrCookieService);
   trpcClient = injectTRPCClient();
   constructor() {
+    super();
     this.authClient = authClient;
   }
 
+  override isLoggedIn(): Observable<boolean> {
+    return new Observable((observer) => {
+      this.authClient.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          observer.next(true);
+        } else {
+          observer.next(false);
+        }
+      });
+    });
+  }
+
   // called from app.component.ts
-  handleClientAuthStateChanges(cb: (event: string, session: any) => void) {
+  override handleClientAuthStateChanges(
+    cb: (event: string, session: any) => void
+  ) {
     this.authClient.onAuthStateChange((event, session) => {
       if (!session) return;
 
@@ -57,7 +90,9 @@ export class AuthSBService {
   }
 
   signUp(email: string, password: string) {
-    return this.trpcClient.user.createUser.mutate({ email, password });
+    return firstValueFrom(
+      this.trpcClient.user.createUser.mutate({ email, password })
+    );
   }
 
   async signIn(email: string, password: string) {
@@ -74,6 +109,11 @@ export class AuthSBService {
    **/
   async getUser() {
     return await this.authClient.getUser();
+  }
+
+  updateUser(userInfo: UpdateUserInput): Promise<unknown> {
+    throw new Error('Method not implemented.');
+    // update supabase user
   }
 
   /**

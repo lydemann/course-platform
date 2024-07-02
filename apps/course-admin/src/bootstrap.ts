@@ -21,10 +21,21 @@ import {
   provideHttpClient,
   withInterceptors,
 } from '@angular/common/http';
-import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
+import {
+  CourseResourcesFbService,
+  CourseResourcesService,
+  ENDPOINTS_TOKEN,
+  Endpoints,
+  FirebaseModule,
+  GraphQLModule,
+} from '@course-platform/shared/domain';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { authInterceptor } from '@course-platform/shared/auth/domain';
+import {
+  AuthFBService,
+  AuthService,
+  authInterceptor,
+} from '@course-platform/shared/auth/domain';
 import { AppComponent } from './app/app.component';
 
 declare global {
@@ -84,10 +95,6 @@ xhttp.onreadystatechange = function () {
     bootstrapApplication(AppComponent, {
       providers: [
         {
-          provide: Sentry.TraceService,
-          deps: [Router],
-        },
-        {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,
         },
@@ -110,7 +117,18 @@ xhttp.onreadystatechange = function () {
           CoreModule,
           CourseAdminSharedDomainModule,
           BrowserAnimationsModule,
+          FirebaseModule,
+          GraphQLModule,
         ]),
+        // TODO: move to firebase module
+        {
+          provide: CourseResourcesService,
+          useClass: CourseResourcesFbService,
+        },
+        {
+          provide: AuthService,
+          useClass: AuthFBService,
+        },
         provideHttpClient(),
         provideRouter([
           {
@@ -121,19 +139,23 @@ xhttp.onreadystatechange = function () {
               ),
           },
         ]),
-        {
-          provide: APP_INITIALIZER,
-          useFactory: () => () => {},
-          deps: [Sentry.TraceService],
-          multi: true,
-        },
-        {
-          provide: ErrorHandler,
-          useValue: Sentry.createErrorHandler({
-            showDialog: true,
-            logErrors: true,
-          }),
-        },
+        // {
+        //   provide: Sentry.TraceService,
+        //   deps: [Router],
+        // },
+        // {
+        //   provide: APP_INITIALIZER,
+        //   useFactory: () => () => {},
+        //   deps: [Sentry.TraceService],
+        //   multi: true,
+        // },
+        // {
+        //   provide: ErrorHandler,
+        //   useValue: Sentry.createErrorHandler({
+        //     showDialog: true,
+        //     logErrors: true,
+        //   }),
+        // },
       ],
     }).catch((err) => console.error(err));
   }

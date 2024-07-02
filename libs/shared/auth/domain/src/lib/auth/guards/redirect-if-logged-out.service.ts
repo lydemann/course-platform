@@ -1,18 +1,18 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 import { isPlatformServer } from '@angular/common';
-import { UserService } from '@course-platform/shared/auth/domain';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class RedirectIfLoggedInResolver implements Resolve<boolean> {
+export class RedirectIfLoggedOutResolver implements Resolve<boolean> {
   private platformId = inject(PLATFORM_ID);
   constructor(
     public afAuth: Auth,
-    public userService: UserService,
+    public userService: AuthService,
     private router: Router
   ) {}
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
@@ -20,12 +20,13 @@ export class RedirectIfLoggedInResolver implements Resolve<boolean> {
       return of(true);
     }
 
-    return this.userService.getCurrentUser().pipe(
+    return from(this.userService.getUser()).pipe(
       first(),
-      map((currentUser) => {
-        if (currentUser) {
-          console.log('Authenticated, redirecting to courses on client.');
-          this.router.navigate(['courses']);
+      map((user) => {
+        if (!user) {
+          console.log('Not authenticated, redirecting to login on client.');
+          this.router.navigate(['login']);
+          return false;
         }
         return true;
       })

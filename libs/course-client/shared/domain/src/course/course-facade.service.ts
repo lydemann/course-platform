@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, filter, map } from 'rxjs';
 
 import {
-  CourseResourcesTrpcService,
+  CourseResourcesService,
   State,
   selectRouteParam,
 } from '@course-platform/shared/domain';
@@ -21,7 +21,7 @@ import { CourseSelectors } from './state/course.selectors';
 })
 export class CourseClientFacade {
   courses = signal<Course[]>([]);
-  private courseResourcesTrpcService = inject(CourseResourcesTrpcService);
+  private courseResourcesService = inject(CourseResourcesService);
 
   constructor(private store: Store<State>) {}
 
@@ -55,17 +55,17 @@ export class CourseClientFacade {
   courseId$ = this.store.select(selectRouteParam('courseId'));
 
   getCourses(): Observable<Course[]> {
-    return this.courseResourcesTrpcService.getCourses();
+    return this.courseResourcesService.getCourses();
   }
 
   fetchCourses() {
-    this.courseResourcesTrpcService.getCourses().subscribe((courses) => {
+    this.courseResourcesService.getCourses().subscribe((courses) => {
       this.courses.set(courses);
     });
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
-    return this.courseResourcesTrpcService.getCourseSections(courseId);
+    return this.courseResourcesService.getCourseSections(courseId);
   }
 
   loadSections(courseId: string) {
@@ -103,7 +103,7 @@ export class CourseClientFacade {
   }
 
   lessonComplete(lessonId: string, isCompleted: boolean) {
-    this.courseResourcesTrpcService
+    this.courseResourcesService
       .setCompleteLesson(isCompleted, lessonId)
       .subscribe();
   }

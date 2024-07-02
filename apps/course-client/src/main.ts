@@ -27,7 +27,14 @@ import {
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
-import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
+import {
+  CourseResourcesFbService,
+  CourseResourcesService,
+  ENDPOINTS_TOKEN,
+  Endpoints,
+  FirebaseModule,
+  GraphQLModule,
+} from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -35,7 +42,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Router } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { AppComponent } from './app/app.component';
-import { authInterceptor } from '@course-platform/shared/auth/domain';
+import {
+  AuthFBService,
+  AuthService,
+  authInterceptor,
+} from '@course-platform/shared/auth/domain';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -124,23 +135,34 @@ xhttp.onreadystatechange = function () {
           SharedModule,
           HomeModule,
           CourseClientDomainModule,
+          FirebaseModule,
+          GraphQLModule,
         ]),
+        // TODO: move to firebase module
         {
-          provide: Sentry.TraceService,
-          deps: [Router],
+          provide: CourseResourcesService,
+          useClass: CourseResourcesFbService,
         },
         {
-          provide: APP_INITIALIZER,
-          useFactory: () => () => {},
-          deps: [Sentry.TraceService],
-          multi: true,
+          provide: AuthService,
+          useClass: AuthFBService,
         },
-        {
-          provide: ErrorHandler,
-          useValue: Sentry.createErrorHandler({
-            showDialog: environment.production,
-          }),
-        },
+        // {
+        //   provide: Sentry.TraceService,
+        //   deps: [Router],
+        // },
+        // {
+        //   provide: APP_INITIALIZER,
+        //   useFactory: () => () => {},
+        //   deps: [Sentry.TraceService],
+        //   multi: true,
+        // },
+        // {
+        //   provide: ErrorHandler,
+        //   useValue: Sentry.createErrorHandler({
+        //     showDialog: environment.production,
+        //   }),
+        // },
         provideServiceWorker('ngsw-worker.js', {
           enabled: !isDevMode(),
           registrationStrategy: 'registerWhenStable:30000',

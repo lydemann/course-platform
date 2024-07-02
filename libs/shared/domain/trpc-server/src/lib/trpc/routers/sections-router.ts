@@ -16,7 +16,12 @@ const createSection = (name: string, courseId: string) => {
   return db
     .insert(schema.sections)
     .values({ name, courseId, theme: '' })
-    .returning({ name: schema.sections.name });
+    .returning({
+      id: schema.sections.id,
+      name: schema.sections.name,
+      theme: schema.sections.theme,
+      courseId: schema.sections.courseId,
+    });
 };
 
 const updateSection = (sectionId: string, name: string, theme: string) => {
@@ -24,7 +29,12 @@ const updateSection = (sectionId: string, name: string, theme: string) => {
     .update(schema.sections)
     .set({ name, theme })
     .where(eq(schema.sections.id, sectionId))
-    .returning();
+    .returning({
+      id: schema.sections.id,
+      name: schema.sections.name,
+      theme: schema.sections.theme,
+      courseId: schema.sections.courseId,
+    });
 };
 
 const deleteSection = (sectionId: string) => {
@@ -128,9 +138,10 @@ export const sectionRouter = router({
         courseId: z.string(),
       })
     )
-    .mutation(
-      async ({ input }) => await createSection(input.name, input.courseId)
-    ),
+    .mutation(async ({ input }) => {
+      const [model] = await createSection(input.name, input.courseId);
+      return model;
+    }),
   update: protectedProcedure
     .input(
       z.object({
@@ -139,10 +150,10 @@ export const sectionRouter = router({
         theme: z.string(),
       })
     )
-    .mutation(
-      async ({ input }) =>
-        await updateSection(input.id, input.name, input.theme)
-    ),
+    .mutation(async ({ input }) => {
+      const [model] = await updateSection(input.id, input.name, input.theme);
+      return model;
+    }),
   remove: protectedProcedure
     .input(
       z.object({

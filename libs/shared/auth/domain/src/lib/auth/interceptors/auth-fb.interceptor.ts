@@ -10,12 +10,13 @@ import { Observable, from } from 'rxjs';
 import { exhaustMap, first, switchMap, take } from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
-import { UserService } from './user.service';
 import { isPlatformServer } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { AuthFBService } from '../services/auth-fb.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private userService: UserService, private auth: Auth) {}
+export class AuthFBInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthFBService, private auth: Auth) {}
 
   intercept(
     req: HttpRequest<unknown>,
@@ -25,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    return this.userService.currentUser$.pipe(
+    return from(this.authService.getFBUser()).pipe(
       first(),
       switchMap((user) => from(user?.getIdToken() || '')),
       exhaustMap((token) => {
@@ -51,14 +52,14 @@ export const authInterceptor: HttpInterceptorFn = (
     return next(req);
   }
 
-  const userService = inject(UserService);
+  const userService = inject(AuthFBService);
   const auth = inject(Auth);
 
   if (!auth.tenantId) {
     return next(req);
   }
 
-  return userService.getCurrentUser().pipe(
+  return from(userService.getFBUser()).pipe(
     switchMap((user) => from(user?.getIdToken() || '')),
     exhaustMap((token) => {
       const tenantId = auth.tenantId;

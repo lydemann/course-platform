@@ -7,17 +7,17 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
-import { from, lastValueFrom } from 'rxjs';
-import { UserServerService } from './user-server.service';
+import { firstValueFrom, from, lastValueFrom } from 'rxjs';
+import { AuthFBService } from '../services/auth-fb.service';
 
-export const authServerInterceptor: HttpInterceptorFn = (
+export const authFBServerInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   platformId = inject(PLATFORM_ID),
-  userServerService = inject(UserServerService)
+  authFBService = inject(AuthFBService)
 ) => {
   return from(
-    handleAuthServerInterceptor(req, next, platformId, userServerService)!
+    handleAuthServerInterceptor(req, next, platformId, authFBService)!
   )!;
 };
 
@@ -25,15 +25,16 @@ async function handleAuthServerInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   location: Object,
-  userServerService: UserServerService
+  userServerService: AuthFBService
 ) {
   if (isPlatformServer(location)) {
     let headers = new HttpHeaders();
 
-    const token = userServerService.getIdToken();
-    headers = headers.set('Authorization', token);
+    const user = await firstValueFrom(userServerService.getFBUser());
+    const token = await user?.getIdToken();
+    headers = headers.set('Authorization', token || '');
 
-    const userInfo = await userServerService.getUserInfo();
+    const userInfo = await userServerService.authenticateUserFBSSR();
     const tenantId = userInfo?.firebase?.tenant;
     if (tenantId) {
       headers = headers.set('Schoolid', tenantId);

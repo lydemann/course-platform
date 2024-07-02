@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { UserService } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,
-  CourseResourcesTrpcService,
   State,
   selectRouteParam,
 } from '@course-platform/shared/domain';
@@ -94,7 +92,7 @@ export class CourseEffects {
     return this.actions$.pipe(
       ofType(CourseActions.lessonCompleted),
       switchMap((action) => {
-        return this.courseResourcesTrpcService
+        return this.courseResourcesService
           .setCompleteLesson(action.isCompleted, action.lessonId)
           .pipe(
             map(() => CourseActions.lessonCompletedSuccess()),
@@ -112,7 +110,7 @@ export class CourseEffects {
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
       switchMap(([{ actionItemId, completed, sectionId }]) => {
-        return this.courseResourcesTrpcService
+        return this.courseResourcesService
           .setActionItemCompleted(actionItemId, completed)
           .pipe(
             map(() => CourseActions.setActionItemCompletedSuccess()),
@@ -134,11 +132,9 @@ export class CourseEffects {
   constructor(
     private actions$: Actions,
     private courseResourcesService: CourseResourcesService,
-    private courseResourcesTrpcService: CourseResourcesTrpcService,
     private courseClientFacade: CourseClientFacade,
     private router: Router,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private store: Store<State>,
-    private userService: UserService
+    private store: Store<State>
   ) {}
 }

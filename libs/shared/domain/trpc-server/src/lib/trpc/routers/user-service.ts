@@ -1,4 +1,3 @@
-import { authClient } from '../context';
 import { supbaseAdmin } from '../supabase-admin';
 
 export interface CreateUserResponseDTO {

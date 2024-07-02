@@ -116,12 +116,8 @@ export class CreateUserComponent {
 
     this.authService
       .signUp(createUSerFormValues.email, createUSerFormValues.password)
-      .subscribe({
-        next: (res) => {
-          if (res.error) {
-            this.statusMessage = res.error.message;
-            return;
-          }
+      .then(
+        (res) => {
           console.log('User created', res);
           this.statusMessage = 'User created. Going to /login to sign in...';
           const REDIRECT_TO_LOGIN_DELAY = 3000;
@@ -129,10 +125,10 @@ export class CreateUserComponent {
             this.router.navigate(['/login']);
           }, REDIRECT_TO_LOGIN_DELAY);
         },
-        error: (err) => {
-          console.log('Error inviting user', err);
+        (err) => {
+          console.log('Error creating user', err);
           this.statusMessage = err.message;
-        },
-      });
+        }
+      );
   }
 }

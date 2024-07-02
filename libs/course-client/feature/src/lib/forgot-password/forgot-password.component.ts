@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
-import { AuthService } from '@course-platform/shared/auth/domain';
+import { AuthFBService } from '@course-platform/shared/auth/domain';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,7 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
   emailFormControl!: UntypedFormControl;
   isResetMailSent!: boolean;
   errorMessage!: string;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthFBService) {}
 
   ngOnInit(): void {
     this.emailFormControl = new UntypedFormControl(null, [

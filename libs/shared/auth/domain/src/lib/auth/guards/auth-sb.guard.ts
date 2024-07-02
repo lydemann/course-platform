@@ -2,11 +2,11 @@ import { PLATFORM_ID, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
 import { isPlatformBrowser } from '@angular/common';
-import { AuthSBService } from '@course-platform/shared/auth/domain';
+import { AuthSBService } from '../services/auth-sb.service';
 
 const LOGIN_URL = 'login';
 
-export const authGuard =
+export const authSBGuard =
   (redirectIfAuthenticatedUrl = ''): CanActivateFn =>
   async () => {
     const platformId = inject(PLATFORM_ID);

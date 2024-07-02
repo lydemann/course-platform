@@ -14,6 +14,7 @@ import {
 import { Auth } from '@angular/fire/auth';
 import {
   CourseResourcesService,
+  GET_COURSES_QUERY,
   GetCoursesResponseDTO,
   createInCache,
   removeFromCache,
@@ -275,8 +276,6 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   createCourseSubmitted(course: Course) {
-    const getCoursesQuery = this.courseResourcesService.GET_COURSES_QUERY;
-
     return this.apollo.mutate<{ createCourse: Course }>({
       mutation: CREATE_COURSE_MUTATION,
       variables: {
@@ -286,7 +285,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       update(cache, { data }) {
         createInCache<GetCoursesResponseDTO>(
           data!.createCourse,
-          getCoursesQuery,
+          GET_COURSES_QUERY,
           cache,
           'course'
         );
@@ -342,8 +341,6 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   deleteCourseSubmitted(courseId: string) {
-    const getCoursesQuery = this.courseResourcesService.GET_COURSES_QUERY;
-
     return this.apollo.mutate<{ deleteCourse: Course }>({
       mutation: DELETE_COURSE_MUTATION,
       variables: {
@@ -352,7 +349,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       update(cache, { data }) {
         removeFromCache<GetCoursesResponseDTO>(
           data!.deleteCourse,
-          getCoursesQuery,
+          GET_COURSES_QUERY,
           cache,
           'course'
         );
@@ -414,21 +411,19 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.setIsCreatingSection(true);
 
     const courseId = this.get((state) => state.currentCourseId)!;
-    this.courseResourcesService
-      .createSection(sectionName, courseId)
-      .subscribe((section) => {
-        if (section.errors) {
-          this.setIsCreatingSection(false);
-          throw new Error(section.errors[0].message);
-        }
-
-        const createdSection = section.data!;
+    this.courseResourcesService.createSection(sectionName, courseId).subscribe({
+      next: (createdSection) => {
         this._createSection({
           id: createdSection.id,
           name: createdSection?.name,
-          lessons: createdSection?.lessons,
+          lessons: [] as Lesson[],
         } as CourseSection);
-      });
+      },
+      error: (error) => {
+        this.setIsCreatingSection(false);
+        throw error;
+      },
+    });
   }
 
   updateSectionSubmitted(section: CourseSection) {

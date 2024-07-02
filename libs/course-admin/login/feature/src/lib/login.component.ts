@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-admin/shared/ui';
 
 import {
-  AuthService,
+  AuthFBService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
 
@@ -24,7 +24,10 @@ export class LoginComponent {
   errorMessage = '';
   private router = inject(Router);
 
-  constructor(public authService: AuthService, private fb: UntypedFormBuilder) {
+  constructor(
+    public authService: AuthFBService,
+    private fb: UntypedFormBuilder
+  ) {
     console.log('login component');
     this.createForm();
   }
@@ -37,7 +40,7 @@ export class LoginComponent {
   }
 
   tryLogin(value: UserCredentials) {
-    this.authService.doLogin(value).then(
+    this.authService.signIn(value.email, value.password).then(
       (res) => {
         // TODO: when extracting to shared component, set redirect url as input
         this.router.navigate(['courses']);

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
-import { UserService } from '@course-platform/shared/auth/domain';
-import { Observable } from 'rxjs';
+import { AuthService } from '@course-platform/shared/auth/domain';
+import { Observable, from } from 'rxjs';
 
 interface NavigationItem {
   link: string;
@@ -22,11 +21,8 @@ export class TopbarComponent {
   navigationItems: NavigationItem[];
   loggedIn$: Observable<boolean>;
 
-  constructor(
-    private userService: UserService,
-    private courseAdminFacade: CourseAdminFacadeService
-  ) {
-    this.loggedIn$ = this.userService.isLoggedIn$;
+  constructor(private authService: AuthService) {
+    this.loggedIn$ = this.authService.isLoggedIn();
     this.homeUrl = '/courses';
     this.navigationItems = [
       {

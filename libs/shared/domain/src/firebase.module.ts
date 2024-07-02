@@ -1,9 +1,7 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
-import { GraphQLModule } from './resources/';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { NgModule } from '@angular/core';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 const config = {
   apiKey: 'AIzaSyAllXCbFgJ3j7POph8iikTkBNOgmjc1vj4',
@@ -17,9 +15,10 @@ const config = {
 };
 
 @NgModule({
-  imports: [GraphQLModule],
+  imports: [],
+  exports: [],
+  declarations: [],
   providers: [
-    provideTrpcClient(),
     provideFirebaseApp(() => {
       return initializeApp(config);
     }),
@@ -33,16 +32,4 @@ const config = {
     }),
   ],
 })
-export class SharedDataAccessModule {
-  constructor(
-    @Optional()
-    @SkipSelf()
-    parentModule: SharedDataAccessModule
-  ) {
-    if (parentModule) {
-      throw new Error(
-        'SharedDataAccessModule is already loaded. Import only in CoreModule'
-      );
-    }
-  }
-}
+export class FirebaseModule {}

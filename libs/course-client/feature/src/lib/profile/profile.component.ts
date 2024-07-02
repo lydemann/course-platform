@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '@angular/fire/auth';
-import { ProfileService } from '@course-platform/course-client/shared/domain';
-import { AuthService } from '@course-platform/shared/auth/domain';
+import {
+  AuthFBService,
+  AuthService,
+} from '@course-platform/shared/auth/domain';
+import { ProfileFBService } from '@course-platform/course-client/shared/domain';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +16,7 @@ import { AuthService } from '@course-platform/shared/auth/domain';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent {
-  user$: Observable<User> = this.profileService.getUserProfile();
+  user$: Observable<User> = from(this.profileService.getUserProfile());
   profileForm$: Observable<FormGroup> = this.user$.pipe(
     map((user) =>
       this.formBuilder.group({
@@ -30,7 +33,7 @@ export class ProfileComponent {
   });
   errorMessage = '';
   constructor(
-    private profileService: ProfileService,
+    private profileService: ProfileFBService,
     private formBuilder: FormBuilder,
     private authService: AuthService
   ) {}
@@ -60,6 +63,6 @@ export class ProfileComponent {
   }
 
   onLogout() {
-    this.authService.doLogout();
+    this.authService.signOut();
   }
 }

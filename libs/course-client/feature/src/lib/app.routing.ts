@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SchoolIdResolver } from '@course-platform/shared/domain';
 
+import { courseRoutes } from './course/course.routing';
+import { CourseResolver } from './course/resolvers/course.resolver';
 import {
   RedirectIfLoggedInResolver,
   RedirectIfLoggedOutResolver,
-} from '@course-platform/course-client/shared/domain';
-import { courseRoutes } from './course/course.routing';
-import { CourseResolver } from './course/resolvers/course.resolver';
+} from '@course-platform/shared/auth/domain';
 
 const routes: Routes = [
   {

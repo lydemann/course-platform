@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { first, map, tap, timeout } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, timeout } from 'rxjs/operators';
 
 import {
   Course,
@@ -9,11 +9,15 @@ import {
   Lesson,
 } from '@course-platform/shared/interfaces';
 import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
+import {
+  CourseResourcesService,
+  CourseSectionDTO,
+} from './course-resources.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CourseResourcesTrpcService {
+export class CourseResourcesTrpcService implements CourseResourcesService {
   private trpcClient = injectTRPCClient();
 
   getCourses(): Observable<Course[]> {
@@ -85,14 +89,21 @@ export class CourseResourcesTrpcService {
     });
   }
 
-  createSection(sectionName: string, courseId: string) {
+  createSection(
+    sectionName: string,
+    courseId: string
+  ): Observable<CourseSectionDTO> {
     return this.trpcClient.section.create.mutate({
       courseId,
       name: sectionName,
     });
   }
 
-  updateSection(sectionId: string, sectionName: string, sectionTheme: string) {
+  updateSection(
+    sectionId: string,
+    sectionName: string,
+    sectionTheme: string
+  ): Observable<CourseSectionDTO> {
     return this.trpcClient.section.update.mutate({
       id: sectionId,
       name: sectionName,
