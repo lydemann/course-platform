@@ -10,6 +10,7 @@ export interface User {
 
 // abstract
 export abstract class AuthService {
+  abstract sendPasswordResetEmail(value: any): Promise<unknown>;
   abstract handleClientAuthStateChanges<TSession = unknown>(
     cb: (event: string, session: TSession) => void
   ): void;

@@ -29,7 +29,7 @@ export class CourseEffects {
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
       mergeMap(([_, courseId]) => {
-        return this.courseClientFacade.getCourseSections(courseId).pipe(
+        return this.courseResourcesService.getCourseSections(courseId).pipe(
           map((courseSections) => {
             return CourseActions.getCourseSectionsSuccess({ courseSections });
           }),
@@ -132,7 +132,6 @@ export class CourseEffects {
   constructor(
     private actions$: Actions,
     private courseResourcesService: CourseResourcesService,
-    private courseClientFacade: CourseClientFacade,
     private router: Router,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private store: Store<State>

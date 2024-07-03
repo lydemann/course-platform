@@ -7,7 +7,6 @@ import { of, throwError } from 'rxjs';
 /// <reference types="vite/client" />
 
 import { User } from '@angular/fire/auth';
-import { UserService } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,
   CourseResourcesTrpcService,
@@ -20,23 +19,23 @@ import {
   SpectatorService,
   SpyObject,
   createServiceFactory,
+  createSpyObject,
+  mockProvider,
 } from '@ngneat/spectator/jest';
 import { Router } from '@angular/router';
 
 describe('CourseEffects', () => {
   let spectator: SpectatorService<CourseEffects>;
   let actions$: Actions;
-  let courseResourcesService: SpyObject<CourseResourcesTrpcService>;
-  let userService: SpyObject<UserService>;
+  let courseResourcesService: SpyObject<CourseResourcesService>;
   const createService = createServiceFactory({
     service: CourseEffects,
-    mocks: [
-      CourseResourcesService,
-      CourseResourcesTrpcService,
-      Router,
-      UserService,
-    ],
+    mocks: [CourseResourcesTrpcService, Router],
     providers: [
+      {
+        provide: CourseResourcesService,
+        useValue: createSpyObject(CourseResourcesTrpcService),
+      },
       provideMockActions(() => actions$),
       provideMockStore({
         selectors: [{ selector: CourseSelectors.selectCourseId, value: '123' }],
@@ -46,15 +45,13 @@ describe('CourseEffects', () => {
 
   beforeEach(() => {
     spectator = createService();
-    courseResourcesService = spectator.inject(CourseResourcesTrpcService);
-    userService = spectator.inject(UserService);
+    courseResourcesService = spectator.inject(CourseResourcesService);
   });
 
   describe('fetchCourseSections', () => {
     it('should fetch sections', () => {
       const courseSections = [{ id: '1' }] as CourseSection[];
 
-      userService.currentUser$ = of<User>({} as User);
       courseResourcesService.getCourseSections.andReturn(
         cold('a|', { a: courseSections })
       );

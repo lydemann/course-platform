@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   byTestId,
   createComponentFactory,
+  mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
 import { MockComponents } from 'ng-mocks';
@@ -16,7 +17,12 @@ describe('ForgotPasswordComponent', () => {
   const createComponent = createComponentFactory({
     component: ForgotPasswordComponent,
     imports: [ReactiveFormsModule],
-    mocks: [AuthService],
+    providers: [
+      {
+        provide: AuthService,
+        useValue: mockProvider(AuthService),
+      },
+    ],
     declarations: [MockComponents(ButtonComponent)],
   });
 

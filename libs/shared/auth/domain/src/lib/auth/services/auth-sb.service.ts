@@ -145,4 +145,8 @@ export class AuthSBService extends AuthService {
     await this.setSession();
     return await this.getUser();
   }
+
+  sendPasswordResetEmail(email: string) {
+    return this.authClient.resetPasswordForEmail(email);
+  }
 }
