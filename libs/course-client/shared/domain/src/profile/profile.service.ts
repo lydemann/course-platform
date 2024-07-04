@@ -9,9 +9,9 @@ export interface Profile {
 export abstract class ProfileService {
   abstract getUserProfile(): Observable<Profile>;
   abstract updateName(fullName: string): void;
-  abstract updateEmail(newEmail: string, password: string): Promise<void>;
+  abstract updateEmail(newEmail: string, password: string): Promise<unknown>;
   abstract updatePassword(
     newPassword: string,
     oldPassword: string
-  ): Promise<void>;
+  ): Promise<unknown>;
 }

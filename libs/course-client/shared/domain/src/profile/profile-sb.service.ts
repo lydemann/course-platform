@@ -26,22 +26,17 @@ export class ProfileSBService implements ProfileService {
     return this.trpcClient.user.updateProfile.mutate({ fullName });
   }
 
-  async updateEmail(newEmail: string, password: string): Promise<void> {
-    // const credential: AuthCredential = EmailAuthProvider.credential(
-    //   this.currentUser.email!,
-    //   password
-    // );
-    // try {
-    //   await reauthenticateWithCredential(this.currentUser, credential);
-    //   await updateEmail(this.currentUser, newEmail);
-    //   // return this.userProfile.update({ email: newEmail });
-    // } catch (error) {
-    //   console.error(error);
-    // }
+  async updateEmail(newEmail: string, password: string): Promise<unknown> {
+    return await this.authService.authClient.updateUser({
+      email: newEmail,
+      password,
+    });
   }
 
   async updatePassword(
     newPassword: string,
     oldPassword: string
-  ): Promise<void> {}
+  ): Promise<unknown> {
+    return await this.authService.updatePassowrd(newPassword);
+  }
 }
