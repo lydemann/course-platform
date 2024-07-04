@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./checkbox.component.scss'],
 })
 export class CheckboxComponent {
-  @Input() public label: string = '';
+  @Input() public label = '';
   @Input() public disabled = false;
   @Input() public checked = false;
   @Input() public labelPosition = 'after'; // Supports 'before' and 'after'

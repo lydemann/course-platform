@@ -4,9 +4,9 @@ import { SpinnerComponent } from './spinner.component';
 
 @Component({
   selector: 'app-spinner',
-  template: ''
+  template: '',
 })
-// tslint:disable-next-line:component-class-suffix
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class SpinnerComponentMock implements SpinnerComponent {
   @Input() public message = '';
 }

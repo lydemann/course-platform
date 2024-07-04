@@ -105,6 +105,7 @@
     },
     {
       "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
       "rules": {
         "@angular-eslint/template/banana-in-box": "error",
         "@angular-eslint/template/no-negated-async": "error",
