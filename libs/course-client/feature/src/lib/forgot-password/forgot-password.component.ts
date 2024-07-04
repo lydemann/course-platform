@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -13,7 +14,7 @@ import { AuthService } from '@course-platform/shared/auth/domain';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
   standalone: true,
-  imports: [SharedModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ForgotPasswordComponent implements OnInit {
   emailFormControl!: UntypedFormControl;
