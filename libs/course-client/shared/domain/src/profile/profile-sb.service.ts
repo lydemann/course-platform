@@ -27,10 +27,16 @@ export class ProfileSBService implements ProfileService {
   }
 
   async updateEmail(newEmail: string, password: string): Promise<unknown> {
-    return await this.authService.authClient.updateUser({
-      email: newEmail,
-      password,
-    });
+    return await this.authService.authClient
+      .updateUser({
+        email: newEmail,
+        password,
+      })
+      .then((res) => {
+        if (res.error) {
+          throw res.error;
+        }
+      });
   }
 
   async updatePassword(
