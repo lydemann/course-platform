@@ -41,7 +41,7 @@ export class ForgotPasswordComponent implements OnInit {
       await this.authService
         .sendPasswordResetEmail(this.emailFormControl.value)
         .then((response: any) => {
-          if (response.error) {
+          if (response?.error) {
             this.errorMessage = response.error.message;
             return;
           }

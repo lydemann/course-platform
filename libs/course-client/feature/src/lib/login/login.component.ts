@@ -91,7 +91,7 @@ export class LoginComponent {
       .then(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (res: any) => {
-          if (res.error) {
+          if (res?.error) {
             this.errorMessage = res.error.message;
             return;
           }

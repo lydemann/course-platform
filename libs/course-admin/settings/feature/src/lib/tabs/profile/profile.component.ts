@@ -6,7 +6,10 @@ import { map } from 'rxjs/operators';
 import { User } from '@angular/fire/auth';
 import { SharedModule } from '@course-platform/course-admin/shared/ui';
 import { AuthFBService } from '@course-platform/shared/auth/domain';
-import { ProfileFBService } from '@course-platform/course-client/shared/domain';
+import {
+  Profile,
+  ProfileFBService,
+} from '@course-platform/course-client/shared/domain';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +19,7 @@ import { ProfileFBService } from '@course-platform/course-client/shared/domain';
   imports: [SharedModule],
 })
 export class ProfileComponent implements OnInit {
-  user$!: Observable<User>;
+  user$!: Observable<Profile>;
   profileForm$!: Observable<FormGroup>;
   changePwForm!: FormGroup;
   errorMessage!: string;
@@ -27,14 +30,14 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user$ = from(this.profileService.getUserProfile());
+    this.user$ = this.profileService.getUserProfile();
 
     this.profileForm$ = this.user$.pipe(
       map((user) =>
         this.formBuilder.group({
-          fullName: [user.displayName, Validators.required],
+          fullName: [user.fullName, Validators.required],
           email: [user.email],
-          uid: [user.uid],
+          uid: [user.id],
         })
       )
     );
