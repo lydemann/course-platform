@@ -108,7 +108,9 @@ export class AuthSBService extends AuthService {
   }
 
   async signOut() {
-    return this.authClient.signOut();
+    await this.authClient.signOut();
+    localStorage.clear();
+    location.href = '/';
   }
 
   /**

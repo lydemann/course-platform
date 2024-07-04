@@ -14,16 +14,26 @@ export const authSBGuard =
     const router = inject(Router);
 
     if (isPlatformBrowser(platformId)) {
-      const session = !!(await authService.getSession());
-      if (!session) {
+      try {
+        const session = !!(await authService.getSession());
+        if (!session) {
+          return navigateToLogin();
+        }
+      } catch (error) {
+        console.error('Error authenticating user on client:', error);
         return navigateToLogin();
       }
       navigateToRedirectUrl(router, redirectIfAuthenticatedUrl);
       return true;
     }
 
-    const serverUser = await authService.authenticateUserSSR();
-    if (!serverUser) {
+    try {
+      const serverUser = await authService.authenticateUserSSR();
+      if (!serverUser) {
+        return navigateToLogin();
+      }
+    } catch (error) {
+      console.error('Error authenticating user on server:', error);
       return navigateToLogin();
     }
 

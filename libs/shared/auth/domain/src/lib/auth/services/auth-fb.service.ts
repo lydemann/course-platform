@@ -28,8 +28,8 @@ export class AuthFBService extends AuthService {
   currentUser$ = this.currentUser.pipe(
     filter((user) => !!user)
   ) as Observable<User>;
-  override uid$ = this.currentUser$.pipe(map((user) => user?.uid));
-  override isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
+  uid$ = this.currentUser$.pipe(map((user) => user?.uid));
+  isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
 
   private readonly SESSION_COOKIE_KEY = '__session';
 
