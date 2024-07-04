@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { CourseFacadeService } from '@course-platform/shared/domain';
 import { Course } from '@course-platform/shared/interfaces';
 import { ToastService } from '@course-platform/shared/ui';
 import { CourseModalComponent } from './course-modal/course-modal/course-modal.component';
 import { DeleteCourseModalComponent } from './course-modal/delete-course-modal/delete-course-modal.component';
+import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 
 @Component({
   selector: 'app-courses',
@@ -14,10 +14,10 @@ import { DeleteCourseModalComponent } from './course-modal/delete-course-modal/d
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent {
-  courses$: Observable<Course[]> = this.courseFacadeService.getCourses();
+  courses$: Observable<Course[]> = this.courseAdminFacadeService.getCourses();
 
   constructor(
-    private courseFacadeService: CourseFacadeService,
+    private courseAdminFacadeService: CourseAdminFacadeService,
     private dialog: MatDialog,
     private toastService: ToastService
   ) {}
@@ -29,7 +29,7 @@ export class CoursesComponent {
 
     dialogRef.afterClosed().subscribe((createdCourse: Course) => {
       if (createdCourse) {
-        this.courseFacadeService
+        this.courseAdminFacadeService
           .createCourseSubmitted(createdCourse)
           .subscribe(() => {
             this.toastService.showSuccessToast({ message: 'Course created' });
@@ -46,7 +46,7 @@ export class CoursesComponent {
 
     dialogRef.afterClosed().subscribe((editedCourse: Course) => {
       if (editedCourse) {
-        this.courseFacadeService
+        this.courseAdminFacadeService
           .editCourseSubmitted(editedCourse)
           .subscribe(() => {
             this.toastService.showSuccessToast({ message: 'Course saved' });
@@ -63,7 +63,7 @@ export class CoursesComponent {
 
     dialogRef.afterClosed().subscribe((courseToDelete: Course) => {
       if (courseToDelete) {
-        this.courseFacadeService
+        this.courseAdminFacadeService
           .deleteCourseSubmitted(courseToDelete.id)
           .subscribe(() => {
             this.toastService.showSuccessToast({ message: 'Course deleted' });

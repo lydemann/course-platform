@@ -22,7 +22,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 class DateErrorStateMatcher implements ErrorStateMatcher {
-  private hasError: boolean = false;
+  private hasError = false;
 
   constructor(hasError$: Observable<boolean>, destroy$: Observable<void>) {
     hasError$.pipe(takeUntil(destroy$)).subscribe((hasError) => {

@@ -11,9 +11,8 @@ import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 import { CommonModule } from '@angular/common';
-import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
-import { CourseFacadeService } from '@course-platform/shared/domain';
+import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
 import { ActionItemsComponent } from './containers/action-items/action-items.component';
@@ -101,7 +100,7 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
   courseCustomStyle$: Observable<string> =
     this.courseClientFacade.courseId$.pipe(
       switchMap((courseId) =>
-        this.courseFacade.getCourseCustomStyling(courseId)
+        this.courseClientFacade.getCourseCustomStyling(courseId)
       )
     );
   styleElement: unknown;
@@ -111,8 +110,7 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
     private courseClientFacade: CourseClientFacade,
     private sanitizer: DomSanitizer,
     private elementRef: ElementRef,
-    private renderer: Renderer2,
-    private courseFacade: CourseFacadeService
+    private renderer: Renderer2
   ) {}
 
   ngOnDestroy(): void {

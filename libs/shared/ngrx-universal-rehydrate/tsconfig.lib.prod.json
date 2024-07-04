@@ -6,7 +6,7 @@
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
-    "compilationMode": "partial"
+    "compilationMode": "full"
   },
   "exclude": ["jest.config.ts"]
 }

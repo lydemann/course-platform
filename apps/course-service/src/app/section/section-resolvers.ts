@@ -103,6 +103,7 @@ export const sectionQueryResolvers = {
                       ...resource,
                       question: `Have you completed the worksheet from lesson "${lesson.name}" called: "${resource.name}"?`,
                       isCompleted: userCompletedActionItemsSet.has(resource.id),
+                      answerDescription: '',
                     } as ActionItem)
                 ),
             ],

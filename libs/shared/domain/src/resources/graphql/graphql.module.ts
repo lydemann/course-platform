@@ -9,7 +9,6 @@ import { onError } from 'apollo-link-error';
 
 import { ApolloClientOptions } from '@apollo/client/core';
 import { Endpoints, ENDPOINTS_TOKEN } from '../endpoints';
-import { skip } from 'rxjs';
 
 export function createApollo(
   httpLink: HttpLink,

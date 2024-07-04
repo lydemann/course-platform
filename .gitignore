@@ -30,7 +30,6 @@
 /coverage
 /libpeerconnection.log
 npm-debug.log
-yarn-error.log
 testem.log
 /typings
 *.nx-tmp
@@ -38,6 +37,8 @@ firebase-debug.log
 serviceAccountKey.json
 ui-debug.log
 env.local.json
+drizzle.config.ts
+.env
 .angular
 
 # System Files
@@ -45,5 +46,17 @@ env.local.json
 Thumbs.db
 firebase-service-account.json
 .firebase/**
+**/drizzle.config.ts
 
 .nx/cache
+.nx/workspace-data
+# Sentry Config File
+.sentryclirc
+
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+.vercel

@@ -1,33 +1,41 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import {
-  createServiceFactory,
-  SpectatorService,
-  SpyObject,
-} from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
+/// <reference types="vite/client" />
 
 import { User } from '@angular/fire/auth';
-import { UserService } from '@course-platform/shared/auth/domain';
-import { CourseResourcesService } from '@course-platform/shared/domain';
+import {
+  CourseResourcesService,
+  CourseResourcesTrpcService,
+} from '@course-platform/shared/domain';
 import { CourseSection } from '@course-platform/shared/interfaces';
 import { CourseActions } from './course.actions';
 import { CourseEffects } from './course.effects';
 import { CourseSelectors } from './course.selectors';
+import {
+  SpectatorService,
+  SpyObject,
+  createServiceFactory,
+  createSpyObject,
+  mockProvider,
+} from '@ngneat/spectator/jest';
+import { Router } from '@angular/router';
 
 describe('CourseEffects', () => {
   let spectator: SpectatorService<CourseEffects>;
   let actions$: Actions;
   let courseResourcesService: SpyObject<CourseResourcesService>;
-  let userService: SpyObject<UserService>;
   const createService = createServiceFactory({
     service: CourseEffects,
-    mocks: [CourseResourcesService, Router, UserService],
+    mocks: [CourseResourcesTrpcService, Router],
     providers: [
+      {
+        provide: CourseResourcesService,
+        useValue: createSpyObject(CourseResourcesTrpcService),
+      },
       provideMockActions(() => actions$),
       provideMockStore({
         selectors: [{ selector: CourseSelectors.selectCourseId, value: '123' }],
@@ -38,14 +46,12 @@ describe('CourseEffects', () => {
   beforeEach(() => {
     spectator = createService();
     courseResourcesService = spectator.inject(CourseResourcesService);
-    userService = spectator.inject(UserService);
   });
 
   describe('fetchCourseSections', () => {
     it('should fetch sections', () => {
       const courseSections = [{ id: '1' }] as CourseSection[];
 
-      userService.currentUser$ = of<User>({} as User);
       courseResourcesService.getCourseSections.andReturn(
         cold('a|', { a: courseSections })
       );

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RedirectIfAuthenticatedResolver } from '@course-platform/course-admin/shared/domain';
-import { AuthGuard } from '@course-platform/shared/auth/domain';
+import {
+  AuthFBGuard,
+  RedirectIfLoggedInResolver,
+} from '@course-platform/shared/auth/domain';
 import { SchoolIdResolver } from '@course-platform/shared/domain';
 import { LayoutComponent } from './layout/layout.component';
 
@@ -18,10 +20,10 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        resolve: [RedirectIfAuthenticatedResolver],
-        loadChildren: () =>
+        resolve: [RedirectIfLoggedInResolver],
+        loadComponent: () =>
           import('@course-platform/course-admin/login/feature').then(
-            (m) => m.LoginModule
+            (m) => m.LoginComponent
           ),
       },
       {
@@ -30,7 +32,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            canActivate: [AuthGuard],
+            canActivate: [AuthFBGuard],
             children: [
               {
                 path: 'courses',

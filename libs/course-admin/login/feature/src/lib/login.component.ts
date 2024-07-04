@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SharedModule } from '@course-platform/course-admin/shared/ui';
 
 import {
-  AuthService,
+  AuthFBService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
 
@@ -15,16 +16,19 @@ import {
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [SharedModule],
 })
 export class LoginComponent {
   loginForm!: UntypedFormGroup;
   errorMessage = '';
+  private router = inject(Router);
 
   constructor(
-    public authService: AuthService,
-    private router: Router,
+    public authService: AuthFBService,
     private fb: UntypedFormBuilder
   ) {
+    console.log('login component');
     this.createForm();
   }
 
@@ -36,7 +40,7 @@ export class LoginComponent {
   }
 
   tryLogin(value: UserCredentials) {
-    this.authService.doLogin(value).then(
+    this.authService.signIn(value.email, value.password).then(
       (res) => {
         // TODO: when extracting to shared component, set redirect url as input
         this.router.navigate(['courses']);

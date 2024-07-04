@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SchoolIdResolver } from '@course-platform/shared/domain';
 
+import { courseRoutes } from './course/course.routing';
+import { CourseResolver } from './course/resolvers/course.resolver';
 import {
   RedirectIfLoggedInResolver,
   RedirectIfLoggedOutResolver,
-} from '@course-platform/course-client/shared/domain';
-import { courseRoutes } from './course/course.routing';
-import { CourseResolver } from './course/resolvers/course.resolver';
+} from '@course-platform/shared/auth/domain';
 
 const routes: Routes = [
   {
@@ -27,9 +27,9 @@ const routes: Routes = [
       },
       {
         path: 'forgot-password',
-        loadChildren: () =>
-          import('./forgot-password/forgot-password.module').then(
-            (m) => m.ForgotPasswordModule
+        loadComponent: () =>
+          import('./forgot-password/forgot-password.component').then(
+            (m) => m.ForgotPasswordComponent
           ),
       },
       {
@@ -60,8 +60,10 @@ const routes: Routes = [
           },
           {
             path: 'profile',
-            loadChildren: () =>
-              import('./profile/profile.module').then((m) => m.ProfileModule),
+            loadComponent: () =>
+              import('./profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
           },
           {
             path: 'help',

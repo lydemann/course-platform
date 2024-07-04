@@ -14,7 +14,7 @@
     "skipTemplateCodegen": true,
     "strictMetadataEmit": false,
     "enableIvy": true,
-    "compilationMode": "partial",
+    "compilationMode": "full",
     "enableResourceInlining": true
   },
   "exclude": [

@@ -2,60 +2,50 @@
 
 import analog from '@analogjs/platform';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { typescriptPaths } from 'rollup-plugin-typescript-paths';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import { cpSync } from 'node:fs';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-    publicDir: 'src/public',
+    root: __dirname,
+    cacheDir: `../../node_modules/.vite`,
     build: {
       target: ['es2020'],
       commonjsOptions: {
         transformMixedEsModules: true,
       },
+      outDir: '../../dist/./course-platform-analog/client',
+      reportCompressedSize: true,
+    },
+    server: {
+      fs: {
+        allow: ['.'],
+      },
     },
     plugins: [
       analog({
         nitro: {
-          preset: 'firebase',
-          firebase: {
-            nodeVersion: '20',
-            gen: 2,
-            httpsOptions: {
-              region: 'us-central1',
-              maxInstances: 3,
+          rollupConfig: {
+            plugins: [
+              typescriptPaths({
+                tsConfigPath: 'tsconfig.base.json',
+                preserveExtensions: true,
+              }),
+            ],
+          },
+          routeRules: {
+            '/': {
+              prerender: false,
             },
           },
-          hooks: {
-            close: () => {
-              cpSync(
-                './apps/course-platform-analog/src/firebase.json',
-                './dist/apps/course-platform-analog/analog/firebase.json',
-                { recursive: true }
-              );
-              cpSync(
-                './apps/course-platform-analog/src/.firebaserc',
-                './dist/apps/course-platform-analog/analog/.firebaserc',
-                { recursive: true }
-              );
-            },
-          },
+          preset: 'vercel',
         },
       }),
       nxViteTsPaths(),
       splitVendorChunkPlugin(),
     ],
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: ['src/test-setup.ts'],
-      include: ['**/*.spec.ts'],
-      reporters: ['default'],
-      cache: {
-        dir: `../../node_modules/.vitest`,
-      },
-    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -65,6 +55,8 @@ export default defineConfig(({ mode }) => {
     },
     ssr: {
       noExternal: [
+        '@analogjs/trpc',
+        '@trpc/server',
         'rxfire/**',
         '@ngx-translate/**',
         'ngx-cookie-service/**',
@@ -74,7 +66,6 @@ export default defineConfig(({ mode }) => {
       ],
     },
     optimizeDeps: {
-      exclude: ['farmhash'],
       esbuildOptions: {
         tsconfigRaw: {
           compilerOptions: {
@@ -85,11 +76,6 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       'import.meta.vitest': mode !== 'production',
-    },
-    server: {
-      fs: {
-        allow: ['.'],
-      },
     },
   };
 });

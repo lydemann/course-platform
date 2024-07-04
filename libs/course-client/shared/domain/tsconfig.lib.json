@@ -13,5 +13,11 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts", "src/auth/redirect-if-logged-out-server.guard.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/auth/auth.guard.ts",
+    "../../../shared/auth/domain/src/lib/auth/redirect-if-logged-in-server.guard.ts",
+    "../../../shared/auth/domain/src/lib/auth/redirect-if-logged-in.service.ts",
+    "../../../shared/auth/domain/src/lib/auth/redirect-if-logged-out.service.ts"
+  ]
 }

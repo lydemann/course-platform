@@ -15,17 +15,19 @@ export const courseReducer = createReducer<
   Action | CourseActionsUnion
 >(
   courseInitState,
-  on(CourseActions.courseInitiated, (state) => ({
-    ...state,
-    sectionsState: {
-      ...state.sectionsState,
-      isLoading: true,
-    },
-    lessonsState: {
-      ...state.lessonsState,
-      isLoading: true,
-    },
-  })),
+  on(CourseActions.courseInitiated, (state) => {
+    return {
+      ...state,
+      sectionsState: {
+        ...state.sectionsState,
+        isLoading: true,
+      },
+      lessonsState: {
+        ...state.lessonsState,
+        isLoading: true,
+      },
+    };
+  }),
   on(CourseActions.getCourseSectionsSuccess, (state, { courseSections }) => {
     return {
       ...state,
@@ -51,14 +53,16 @@ export const courseReducer = createReducer<
       },
     };
   }),
-  on(CourseActions.getCourseSectionsFailed, (state, { error }) => ({
-    ...state,
-    sectionsState: {
-      ...state.sectionsState,
-      error,
-      isLoading: false,
-    },
-  })),
+  on(CourseActions.getCourseSectionsFailed, (state, { error }) => {
+    return {
+      ...state,
+      sectionsState: {
+        ...state.sectionsState,
+        error,
+        isLoading: false,
+      },
+    };
+  }),
   on(
     CourseActions.getSectionLessonsSuccess,
     CourseActions.sectionChangedSectionLessonsSuccess,
@@ -105,7 +109,7 @@ export const courseReducer = createReducer<
   }),
   on(
     CourseActions.actionItemCompletedChanged,
-    (state, { completed, resourceId, sectionId }) => {
+    (state, { completed, actionItemId, sectionId }) => {
       return produce<CourseState>(state, (draft) => {
         const section = draft.sectionsState.entities[sectionId];
 
@@ -114,11 +118,11 @@ export const courseReducer = createReducer<
         }
 
         const actionItemToUpdate = section.actionItems.find(
-          (actionItem) => actionItem.id === resourceId
+          (actionItem) => actionItem.id === actionItemId
         );
 
         if (!actionItemToUpdate) {
-          throw new Error(`Action item not found with id: ${resourceId}`);
+          throw new Error(`Action item not found with id: ${actionItemId}`);
         }
 
         actionItemToUpdate.isCompleted = completed;
@@ -128,7 +132,7 @@ export const courseReducer = createReducer<
   ),
   on(
     CourseActions.setActionItemCompletedFailed,
-    (state, { completed, resourceId, sectionId }) => {
+    (state, { completed, actionItemId: resourceId, sectionId }) => {
       return produce<CourseState>(state, (draft) => {
         const section = draft.sectionsState.entities[sectionId];
 

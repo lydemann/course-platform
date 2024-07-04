@@ -2,17 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-
-import { UserService } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,
   State,
@@ -20,6 +9,17 @@ import {
 } from '@course-platform/shared/domain';
 import { CourseActions } from './course.actions';
 import { CourseSelectors } from './course.selectors';
+import { CourseClientFacade } from '../course-facade.service';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 
 @Injectable()
 export class CourseEffects {
@@ -28,19 +28,24 @@ export class CourseEffects {
       ofType(CourseActions.courseInitiated, CourseActions.loadSections),
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
-      switchMap(([_, courseId]) => {
+      mergeMap(([_, courseId]) => {
         return this.courseResourcesService.getCourseSections(courseId).pipe(
-          map((courseSections) =>
-            CourseActions.getCourseSectionsSuccess({ courseSections })
-          ),
+          map((courseSections) => {
+            return CourseActions.getCourseSectionsSuccess({ courseSections });
+          }),
           catchError((error) =>
             // TODO: use error action
-            of(CourseActions.getCourseSectionsFailed({ error }))
+            {
+              /* TODO: use error action*/
+              console.log('error', error);
+              return of(CourseActions.getCourseSectionsFailed({ error }));
+            }
           )
         );
       })
     );
   });
+
   sectionSelected$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -86,10 +91,9 @@ export class CourseEffects {
   lessonCompleted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseActions.lessonCompleted),
-      withLatestFrom(this.userService.currentUser$),
-      switchMap(([action, user]) => {
+      switchMap((action) => {
         return this.courseResourcesService
-          .setCompleteLesson(action.isCompleted, action.lessonId, user.uid)
+          .setCompleteLesson(action.isCompleted, action.lessonId)
           .pipe(
             map(() => CourseActions.lessonCompletedSuccess()),
             catchError((error: Error) => {
@@ -105,16 +109,16 @@ export class CourseEffects {
       ofType(CourseActions.actionItemCompletedChanged),
       withLatestFrom(this.store.select(CourseSelectors.selectCourseId)),
       filter(([_, courseId]) => !!courseId),
-      switchMap(([{ resourceId, completed, sectionId }]) => {
+      switchMap(([{ actionItemId, completed, sectionId }]) => {
         return this.courseResourcesService
-          .setActionItemCompleted(resourceId, completed)
+          .setActionItemCompleted(actionItemId, completed)
           .pipe(
             map(() => CourseActions.setActionItemCompletedSuccess()),
             catchError((error) =>
               of(
                 CourseActions.setActionItemCompletedFailed({
                   error,
-                  resourceId,
+                  actionItemId,
                   completed,
                   sectionId,
                 })
@@ -130,7 +134,6 @@ export class CourseEffects {
     private courseResourcesService: CourseResourcesService,
     private router: Router,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private store: Store<State>,
-    private userService: UserService
+    private store: Store<State>
   ) {}
 }

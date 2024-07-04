@@ -11,7 +11,7 @@ export interface Lesson {
 export enum LessonResourceType {
   WorkSheet = 'WORKSHEET',
   CheatSheet = 'CHEATSHEET',
-  Other = 'OTHER'
+  Other = 'OTHER',
 }
 
 export interface LessonResource {
@@ -23,7 +23,7 @@ export interface LessonResource {
 
 export interface ActionItem {
   id: string;
+  answerDescription: string;
   question: string;
-  answerDescription?: string;
   isCompleted?: boolean;
 }

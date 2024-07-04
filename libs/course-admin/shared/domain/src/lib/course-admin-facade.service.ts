@@ -1,13 +1,32 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
-import { catchError, filter, first, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  finalize,
+  first,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
-import { CourseResourcesService } from '@course-platform/shared/domain';
-import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import {
+  CourseResourcesService,
+  GET_COURSES_QUERY,
+  GetCoursesResponseDTO,
+  createInCache,
+  removeFromCache,
+} from '@course-platform/shared/domain';
+import {
+  Course,
+  CourseSection,
+  Lesson,
+} from '@course-platform/shared/interfaces';
 import { ComponentStore } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
+import { Observable } from 'rxjs';
 
 interface CourseAdminStore {
   sections: CourseSection[];
@@ -19,6 +38,47 @@ interface CourseAdminStore {
   isCreatingSection: boolean;
   currentCourseId: string | null;
 }
+
+export const EDIT_COURSE_MUTATION = gql`
+  mutation editCourseMutation(
+    $id: ID!
+    $name: String!
+    $description: String!
+    $customStyling: String
+  ) {
+    updateCourse(
+      id: $id
+      name: $name
+      description: $description
+      customStyling: $customStyling
+    ) {
+      id
+      name
+      description
+      customStyling
+    }
+  }
+`;
+
+export const CREATE_COURSE_MUTATION = gql`
+  mutation createCourseMutation($name: String!, $description: String!) {
+    createCourse(name: $name, description: $description) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+export const DELETE_COURSE_MUTATION = gql`
+  mutation deleteCourseMutation($id: ID!) {
+    deleteCourse(id: $id) {
+      id
+      name
+      description
+    }
+  }
+`;
 
 @Injectable({
   providedIn: 'root',
@@ -139,6 +199,22 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     }
   );
 
+  getCourses(): Observable<Course[]> {
+    return this.courseResourcesService.getCourses();
+  }
+
+  getCourse(courseId: string): Observable<Course> {
+    return this.getCourses().pipe(
+      map((courses) => {
+        const course = courses.find((c) => c.id === courseId);
+        if (!course) {
+          throw new Error(`Course not found ${courseId}`);
+        }
+        return course;
+      })
+    );
+  }
+
   setSections = this.updater((state, sections: CourseSection[]) => ({
     ...state,
     sections,
@@ -167,6 +243,8 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     ...state,
     isCreatingSection,
   }));
+
+  isEditingCourse = signal(false);
 
   constructor(
     private courseResourcesService: CourseResourcesService,
@@ -197,6 +275,24 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       });
   }
 
+  createCourseSubmitted(course: Course) {
+    return this.apollo.mutate<{ createCourse: Course }>({
+      mutation: CREATE_COURSE_MUTATION,
+      variables: {
+        name: course.name,
+        description: course.description,
+      } as Course,
+      update(cache, { data }) {
+        createInCache<GetCoursesResponseDTO>(
+          data!.createCourse,
+          GET_COURSES_QUERY,
+          cache,
+          'course'
+        );
+      },
+    });
+  }
+
   goToCourseAdmin() {
     const courseId = this.get((state) => state.currentCourseId);
     this.router.navigate(['../course-admin', courseId]);
@@ -222,6 +318,42 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     // TODO: just get this from router params and delete method
     this.patchState({
       currentSectionId: sectionId,
+    });
+  }
+
+  editCourseSubmitted(editedCourse: Course) {
+    this.isEditingCourse.set(true);
+    return this.apollo
+      .mutate<Course>({
+        mutation: EDIT_COURSE_MUTATION,
+        variables: {
+          id: editedCourse.id,
+          name: editedCourse.name,
+          description: editedCourse.description,
+          customStyling: editedCourse.customStyling,
+        } as Course,
+      })
+      .pipe(
+        finalize(() => {
+          this.isEditingCourse.set(false);
+        })
+      );
+  }
+
+  deleteCourseSubmitted(courseId: string) {
+    return this.apollo.mutate<{ deleteCourse: Course }>({
+      mutation: DELETE_COURSE_MUTATION,
+      variables: {
+        id: courseId,
+      } as Course,
+      update(cache, { data }) {
+        removeFromCache<GetCoursesResponseDTO>(
+          data!.deleteCourse,
+          GET_COURSES_QUERY,
+          cache,
+          'course'
+        );
+      },
     });
   }
 
@@ -279,21 +411,19 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.setIsCreatingSection(true);
 
     const courseId = this.get((state) => state.currentCourseId)!;
-    this.courseResourcesService
-      .createSection(sectionName, courseId)
-      .subscribe((section) => {
-        if (section.errors) {
-          this.setIsCreatingSection(false);
-          throw new Error(section.errors[0].message);
-        }
-
-        const createdSection = section.data!;
+    this.courseResourcesService.createSection(sectionName, courseId).subscribe({
+      next: (createdSection) => {
         this._createSection({
           id: createdSection.id,
           name: createdSection?.name,
-          lessons: createdSection?.lessons,
+          lessons: [] as Lesson[],
         } as CourseSection);
-      });
+      },
+      error: (error) => {
+        this.setIsCreatingSection(false);
+        throw error;
+      },
+    });
   }
 
   updateSectionSubmitted(section: CourseSection) {

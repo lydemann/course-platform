@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '@angular/fire/auth';
 import { SharedModule } from '@course-platform/course-admin/shared/ui';
-import { ProfileService } from '@course-platform/course-client/shared/domain';
-import { AuthService } from '@course-platform/shared/auth/domain';
+import { AuthFBService } from '@course-platform/shared/auth/domain';
+import {
+  Profile,
+  ProfileFBService,
+} from '@course-platform/course-client/shared/domain';
 
 @Component({
   selector: 'app-profile',
@@ -16,14 +19,14 @@ import { AuthService } from '@course-platform/shared/auth/domain';
   imports: [SharedModule],
 })
 export class ProfileComponent implements OnInit {
-  user$!: Observable<User>;
+  user$!: Observable<Profile>;
   profileForm$!: Observable<FormGroup>;
   changePwForm!: FormGroup;
   errorMessage!: string;
   constructor(
-    private profileService: ProfileService,
+    private profileService: ProfileFBService,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthFBService
   ) {}
 
   ngOnInit() {
@@ -32,9 +35,9 @@ export class ProfileComponent implements OnInit {
     this.profileForm$ = this.user$.pipe(
       map((user) =>
         this.formBuilder.group({
-          fullName: [user.displayName, Validators.required],
+          fullName: [user.fullName, Validators.required],
           email: [user.email],
-          uid: [user.uid],
+          uid: [user.id],
         })
       )
     );
@@ -71,6 +74,6 @@ export class ProfileComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.doLogout();
+    this.authService.signOut();
   }
 }

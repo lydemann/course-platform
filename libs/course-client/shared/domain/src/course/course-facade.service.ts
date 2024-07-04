@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, filter } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 
 import {
   CourseResourcesService,
@@ -20,10 +20,10 @@ import { CourseSelectors } from './state/course.selectors';
   providedIn: 'root',
 })
 export class CourseClientFacade {
-  constructor(
-    private store: Store<State>,
-    private courseResourcesService: CourseResourcesService
-  ) {}
+  courses = signal<Course[]>([]);
+  private courseResourcesService = inject(CourseResourcesService);
+
+  constructor(private store: Store<State>) {}
 
   actionItems$: Observable<ActionItem[]> = this.store.select(
     CourseSelectors.selectSectionActionItems
@@ -57,22 +57,57 @@ export class CourseClientFacade {
   getCourses(): Observable<Course[]> {
     return this.courseResourcesService.getCourses();
   }
+
+  fetchCourses() {
+    this.courseResourcesService.getCourses().subscribe((courses) => {
+      this.courses.set(courses);
+    });
+  }
+
+  getCourseSections(courseId: string): Observable<CourseSection[]> {
+    return this.courseResourcesService.getCourseSections(courseId);
+  }
+
   loadSections(courseId: string) {
     this.store.dispatch(CourseActions.loadSections({ courseId }));
   }
+
   onActionItemCompletedChanged(
-    resourceId: string,
+    actionItemId: string,
     completed: boolean,
     sectionId: string
   ) {
     this.store.dispatch(
       CourseActions.actionItemCompletedChanged({
-        resourceId,
+        actionItemId,
         completed,
         sectionId,
       })
     );
   }
+
+  getCourse(courseId: string): Observable<Course> {
+    return this.getCourses().pipe(
+      map((courses) => {
+        const course = courses.find((c) => c.id === courseId);
+        if (!course) {
+          throw new Error(`Course not found ${courseId}`);
+        }
+        return course;
+      })
+    );
+  }
+
+  getCourseCustomStyling(courseId: string): Observable<string> {
+    return this.getCourse(courseId).pipe(map((course) => course.customStyling));
+  }
+
+  lessonComplete(lessonId: string, isCompleted: boolean) {
+    this.courseResourcesService
+      .setCompleteLesson(isCompleted, lessonId)
+      .subscribe();
+  }
+
   onSectionSelected(selectionSectionId: string) {
     this.store.dispatch(
       CourseActions.sectionSelected({ selectedSectionId: selectionSectionId })

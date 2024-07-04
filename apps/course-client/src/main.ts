@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import {
   APP_INITIALIZER,
   ErrorHandler,
@@ -6,7 +7,13 @@ import {
   isDevMode,
 } from '@angular/core';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as Sentry from '@sentry/angular-ivy';
@@ -17,11 +24,19 @@ import {
 import {
   CoreModule,
   CourseClientDomainModule,
+  ProfileFBService,
+  ProfileService,
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
-import { SharedAuthDomainModule } from '@course-platform/shared/auth/domain';
-import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
+import {
+  CourseResourcesFbService,
+  CourseResourcesService,
+  ENDPOINTS_TOKEN,
+  Endpoints,
+  FirebaseModule,
+  GraphQLModule,
+} from '@course-platform/shared/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -29,6 +44,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Router } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { AppComponent } from './app/app.component';
+import {
+  AuthFBService,
+  AuthService,
+  authFBInterceptor,
+} from '@course-platform/shared/auth/domain';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -102,6 +122,11 @@ xhttp.onreadystatechange = function () {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,
         },
+        provideHttpClient(withInterceptors([authFBInterceptor])),
+        {
+          provide: ProfileService,
+          useClass: ProfileFBService,
+        },
         importProvidersFrom([
           TranslateModule.forRoot({
             loader: {
@@ -112,29 +137,38 @@ xhttp.onreadystatechange = function () {
           }),
           BrowserAnimationsModule,
           AppRoutingModule,
-          HttpClientModule,
           CoreModule,
           SharedModule,
           HomeModule,
           CourseClientDomainModule,
-          SharedAuthDomainModule,
+          FirebaseModule,
+          GraphQLModule,
         ]),
+        // TODO: move to firebase module
         {
-          provide: Sentry.TraceService,
-          deps: [Router],
+          provide: CourseResourcesService,
+          useClass: CourseResourcesFbService,
         },
         {
-          provide: APP_INITIALIZER,
-          useFactory: () => () => {},
-          deps: [Sentry.TraceService],
-          multi: true,
+          provide: AuthService,
+          useClass: AuthFBService,
         },
-        {
-          provide: ErrorHandler,
-          useValue: Sentry.createErrorHandler({
-            showDialog: environment.production,
-          }),
-        },
+        // {
+        //   provide: Sentry.TraceService,
+        //   deps: [Router],
+        // },
+        // {
+        //   provide: APP_INITIALIZER,
+        //   useFactory: () => () => {},
+        //   deps: [Sentry.TraceService],
+        //   multi: true,
+        // },
+        // {
+        //   provide: ErrorHandler,
+        //   useValue: Sentry.createErrorHandler({
+        //     showDialog: environment.production,
+        //   }),
+        // },
         provideServiceWorker('ngsw-worker.js', {
           enabled: !isDevMode(),
           registrationStrategy: 'registerWhenStable:30000',

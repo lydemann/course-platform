@@ -8,8 +8,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2022",
-    "module": "es2022",
+    "target": "es2015",
+    "module": "esnext",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom", "esnext.asynciterable"],
     "skipLibCheck": true,
@@ -83,6 +83,12 @@
         "libs/shared/auth/domain/src/index.ts"
       ],
       "@course-platform/shared/domain": ["libs/shared/domain/src/index.ts"],
+      "@course-platform/shared/domain/trpc-client": [
+        "libs/shared/domain/trpc-client/src/index.ts"
+      ],
+      "@course-platform/shared/domain/trpc-server": [
+        "libs/shared/domain/trpc-server/src/index.ts"
+      ],
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"
       ],
@@ -101,6 +107,7 @@
       "@course-platform/shared/util/util-feature-toggle": [
         "libs/shared/util/util-feature-toggle/src/index.ts"
       ],
+      "@course-platform/vite-env": ["./vite-env.d.ts"],
       "@test-setup-base": ["test-setup.base.ts"]
     },
     "allowSyntheticDefaultImports": true

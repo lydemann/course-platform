@@ -13,7 +13,7 @@
 </ng-container>
 
 <ng-container
-  *ngIf="isEditingCourse$ | async"
+  *ngIf="isEditingCourse()"
   [ngTemplateOutlet]="loading"
 ></ng-container>
 

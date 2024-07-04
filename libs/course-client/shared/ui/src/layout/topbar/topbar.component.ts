@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
-import { UserService } from '@course-platform/shared/auth/domain';
+import { AuthService } from '@course-platform/shared/auth/domain';
 
 interface NavigationItem {
   link: string;
@@ -17,19 +17,17 @@ interface NavigationItem {
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent {
   languages = ['en'];
   homeUrl$!: Observable<string>;
   navigationItems!: NavigationItem[];
   loggedIn$!: Observable<boolean>;
 
   constructor(
-    private userService: UserService,
+    private authService: AuthService,
     private courseClientFacade: CourseClientFacade
-  ) {}
-
-  ngOnInit() {
-    this.loggedIn$ = this.userService.isLoggedIn$;
+  ) {
+    this.loggedIn$ = this.authService.isLoggedIn();
     this.homeUrl$ = this.courseClientFacade.courseId$.pipe(
       map((courseId) => `courses/${courseId ? courseId : ''}`)
     );
