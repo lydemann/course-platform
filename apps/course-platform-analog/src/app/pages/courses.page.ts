@@ -1,10 +1,10 @@
 import { RouteMeta, getLoadResolver } from '@analogjs/router';
 import { CoursesComponent } from '@course-platform/course-client/feature';
-import { authGuard } from '@course-platform/course-client/shared/domain';
+import { authSBGuard } from '@course-platform/shared/auth/domain';
 
 export const routeMeta: RouteMeta = {
   title: 'Courses',
-  canActivate: [authGuard()],
+  canActivate: [authSBGuard()],
   resolve: {
     data: async (route) => {
       // call server load resolver for this route from another resolver

@@ -1,28 +1,36 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { User } from '@angular/fire/auth';
+import { AuthService } from '@course-platform/shared/auth/domain';
 import {
-  AuthFBService,
-  AuthService,
-} from '@course-platform/shared/auth/domain';
-import { ProfileFBService } from '@course-platform/course-client/shared/domain';
+  Profile,
+  ProfileService,
+} from '@course-platform/course-client/shared/domain';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, SharedModule],
 })
 export class ProfileComponent {
-  user$: Observable<User> = from(this.profileService.getUserProfile());
+  user$: Observable<Profile> = from(this.profileService.getUserProfile());
   profileForm$: Observable<FormGroup> = this.user$.pipe(
     map((user) =>
       this.formBuilder.group({
-        fullName: [user.displayName, Validators.required],
+        fullName: [user.fullName, Validators.required],
         email: [user.email],
-        uid: [user.uid],
+        uid: [user.id],
       })
     )
   );
@@ -33,7 +41,7 @@ export class ProfileComponent {
   });
   errorMessage = '';
   constructor(
-    private profileService: ProfileFBService,
+    private profileService: ProfileService,
     private formBuilder: FormBuilder,
     private authService: AuthService
   ) {}

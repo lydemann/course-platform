@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
-
 import {
-  AuthFBService,
-  AuthService,
-} from '@course-platform/shared/auth/domain';
+  ReactiveFormsModule,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
+import { SharedModule } from '@course-platform/course-client/shared/ui';
+
+import { AuthService } from '@course-platform/shared/auth/domain';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
+  standalone: true,
+  imports: [SharedModule, ReactiveFormsModule],
 })
 export class ForgotPasswordComponent implements OnInit {
   emailFormControl!: UntypedFormControl;

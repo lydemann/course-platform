@@ -2,9 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { GoTrueClient } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
-import { AuthClient, UserAttributes } from '@supabase/supabase-js';
-import { AuthService, UpdateUserInput } from './auth.service';
-import { Observable, firstValueFrom } from 'rxjs';
+import { AuthClient, User, UserAttributes } from '@supabase/supabase-js';
+import { AbstractUser, AuthService, UpdateUserInput } from './auth.service';
+import { BehaviorSubject, Observable, filter, firstValueFrom, map } from 'rxjs';
 
 const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
 const AUTH_HEADERS = {
@@ -25,6 +25,20 @@ const PROVIDER_REFRESH_TOKEN_COOKIE_KEY = 'sb-provider-refresh-token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthSBService extends AuthService {
+  randomServiceId = Math.random();
+  currentUser = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUser.pipe(
+    filter((user) => !!user)
+  ) as Observable<User>;
+  override uid() {
+    return this.currentUser$.pipe(map((user) => user?.id));
+  }
+  isLoggedIn$ = this.currentUser.pipe(
+    map((user) => {
+      return !!user;
+    })
+  );
+
   override updateCurrentUser(value: { name: string }): Promise<unknown> {
     const updatedUser = { name: value.name } as UserAttributes;
     return this.authClient.updateUser(updatedUser);
@@ -38,15 +52,7 @@ export class AuthSBService extends AuthService {
   }
 
   override isLoggedIn(): Observable<boolean> {
-    return new Observable((observer) => {
-      this.authClient.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-          observer.next(true);
-        } else {
-          observer.next(false);
-        }
-      });
-    });
+    return this.isLoggedIn$;
   }
 
   // called from app.component.ts
@@ -59,6 +65,7 @@ export class AuthSBService extends AuthService {
       // Use cookies to share session state between server and client
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         cb(event, session);
+        this.currentUser.next(session.user);
         this.ssrCookieService.set(
           ACCESS_TOKEN_COOKIE_KEY,
           session?.access_token
@@ -81,6 +88,7 @@ export class AuthSBService extends AuthService {
         }
       }
       if (event === 'SIGNED_OUT') {
+        this.currentUser.next(null);
         this.ssrCookieService.delete(ACCESS_TOKEN_COOKIE_KEY);
         this.ssrCookieService.delete(REFRESH_TOKEN_COOKIE_KEY);
         this.ssrCookieService.delete(PROVIDER_TOKEN_COOKIE_KEY);
@@ -108,7 +116,21 @@ export class AuthSBService extends AuthService {
    * Should be used when checking for user authorization on the server.
    **/
   async getUser() {
-    return await this.authClient.getUser();
+    const userResponse = await this.authClient.getUser();
+    if (userResponse.error) {
+      throw userResponse.error;
+    }
+
+    if (!userResponse.data?.user) {
+      return null;
+    }
+
+    this.currentUser.next(userResponse.data?.user);
+
+    return {
+      id: userResponse.data?.user.id,
+      email: userResponse.data?.user.email,
+    } as AbstractUser;
   }
 
   updateUser(userInfo: UpdateUserInput): Promise<unknown> {

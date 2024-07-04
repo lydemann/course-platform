@@ -24,6 +24,8 @@ import {
 import {
   CoreModule,
   CourseClientDomainModule,
+  ProfileFBService,
+  ProfileService,
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
@@ -45,7 +47,7 @@ import { AppComponent } from './app/app.component';
 import {
   AuthFBService,
   AuthService,
-  authInterceptor,
+  authFBInterceptor,
 } from '@course-platform/shared/auth/domain';
 
 export function preloadFeagureFlags(
@@ -120,7 +122,11 @@ xhttp.onreadystatechange = function () {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,
         },
-        provideHttpClient(withInterceptors([authInterceptor])),
+        provideHttpClient(withInterceptors([authFBInterceptor])),
+        {
+          provide: ProfileService,
+          useClass: ProfileFBService,
+        },
         importProvidersFrom([
           TranslateModule.forRoot({
             loader: {

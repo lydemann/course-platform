@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import {
   reauthenticateWithCredential,
@@ -13,6 +14,7 @@ import {
   AuthFBService,
   AuthService,
 } from '@course-platform/shared/auth/domain';
+import { Profile } from './profile.service';
 
 // interface for service
 
@@ -23,19 +25,33 @@ export class ProfileFBService {
   private currentUser!: User;
   constructor(private userService: AuthFBService) {
     this.userService.getFBUser().subscribe((user) => {
-      this.currentUser = user;
+      this.currentUser = user!;
     });
   }
 
-  getUserProfile(): Observable<User> {
-    return this.userService.getFBUser();
-    // this.userProfile = this.firestore.doc(`userProfile/${user.uid}`);
-    // return this.userProfile.valueChanges();
+  getUserProfile(): Observable<Profile> {
+    return this.userService.getFBUser().pipe(
+      map((user) => {
+        if (!user) {
+          return {
+            fullName: '',
+            email: '',
+            id: '',
+          };
+        }
+
+        return {
+          fullName: user.displayName!,
+          email: user.email!,
+          id: user.uid,
+        };
+      })
+    );
   }
 
   updateName(fullName: string) {
     return this.userService.getFBUser().subscribe((user) => {
-      updateProfile(user, { displayName: fullName });
+      updateProfile(user!, { displayName: fullName });
     });
   }
 

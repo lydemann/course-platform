@@ -3,7 +3,10 @@ import { Component, PLATFORM_ID, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { LayoutModule } from '@course-platform/course-client/shared/ui';
-import { AuthSBService } from '@course-platform/shared/auth/domain';
+import {
+  AuthSBService,
+  AuthService,
+} from '@course-platform/shared/auth/domain';
 import { SchoolIdService } from '@course-platform/shared/domain';
 import { TrpcHeaders } from '@course-platform/shared/domain/trpc-client';
 import { Session } from '@supabase/auth-js';
@@ -19,10 +22,10 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
   `,
 })
 export class AppComponent {
-  authSBService = inject(AuthSBService);
+  authSBService = inject(AuthService);
   protected readonly session = signal<Session | null>(null);
   router = inject(Router);
-  constructor(private schoolIdService: SchoolIdService) {
+  constructor() {
     this.authSBService.handleClientAuthStateChanges((event, session) => {
       console.log('Auth state change:', event);
       if (session) {

@@ -23,13 +23,22 @@ import {
 import {
   CoreModule,
   CourseClientDomainModule,
+  ProfileSBService,
+  ProfileService,
   environment,
 } from '@course-platform/course-client/shared/domain';
 import {
-  authInterceptor,
-  authServerInterceptor,
+  AuthSBService,
+  AuthService,
+  authFBInterceptor,
 } from '@course-platform/shared/auth/domain';
-import { ENDPOINTS_TOKEN, Endpoints } from '@course-platform/shared/domain';
+import {
+  CourseResourcesService,
+  CourseResourcesTrpcService,
+  ENDPOINTS_TOKEN,
+  Endpoints,
+} from '@course-platform/shared/domain';
+import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
 import { NgrxUniversalRehydrateBrowserModule } from '@course-platform/shared/ngrx-universal-rehydrate';
 import { cookieInterceptor } from '@course-platform/shared/ssr/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
@@ -72,18 +81,24 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([
-        cookieInterceptor,
-        authServerInterceptor,
-        authInterceptor,
-      ])
-    ),
+    provideHttpClient(withFetch(), withInterceptors([cookieInterceptor])),
     {
       provide: ENDPOINTS_TOKEN,
       useFactory: endpointsFactory,
     },
+    {
+      provide: CourseResourcesService,
+      useClass: CourseResourcesTrpcService,
+    },
+    {
+      provide: AuthService,
+      useClass: AuthSBService,
+    },
+    {
+      provide: ProfileService,
+      useClass: ProfileSBService,
+    },
+    provideTrpcClient(),
     importProvidersFrom([
       BrowserModule,
       BrowserAnimationsModule,

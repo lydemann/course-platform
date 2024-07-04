@@ -1,8 +1,17 @@
-import { User } from '@course-platform/shared/auth/domain';
 import { Observable } from 'rxjs';
 
-export interface ProfileService {
-  getUserProfile: Observable<User>;
-  updateName(fullName: string): void;
-  updateEmail(newEmail: string, password: string): Promise<void>;
+export interface Profile {
+  fullName: string;
+  email: string;
+  id: string;
+}
+
+export abstract class ProfileService {
+  abstract getUserProfile(): Observable<Profile>;
+  abstract updateName(fullName: string): void;
+  abstract updateEmail(newEmail: string, password: string): Promise<void>;
+  abstract updatePassword(
+    newPassword: string,
+    oldPassword: string
+  ): Promise<void>;
 }

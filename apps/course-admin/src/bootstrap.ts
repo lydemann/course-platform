@@ -14,7 +14,11 @@ import {
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { Router, provideRouter } from '@angular/router';
-import { CoreModule } from '@course-platform/course-client/shared/domain';
+import {
+  CoreModule,
+  ProfileFBService,
+  ProfileService,
+} from '@course-platform/course-client/shared/domain';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   HttpClient,
@@ -34,7 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   AuthFBService,
   AuthService,
-  authInterceptor,
+  authFBInterceptor,
 } from '@course-platform/shared/auth/domain';
 import { AppComponent } from './app/app.component';
 
@@ -98,7 +102,11 @@ xhttp.onreadystatechange = function () {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,
         },
-        provideHttpClient(withInterceptors([authInterceptor])),
+        {
+          provide: ProfileService,
+          useClass: ProfileFBService,
+        },
+        provideHttpClient(withInterceptors([authFBInterceptor])),
         importProvidersFrom([
           TranslateModule.forRoot({
             loader: {

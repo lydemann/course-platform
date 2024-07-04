@@ -7,5 +7,7 @@ export * from './course/resolvers/course.resolver';
 export * from './courses/courses.component';
 export * from './home';
 export * from './login/login.component';
+export * from './profile/profile.component';
+export * from './forgot-password/forgot-password.component';
 export * from './create-user/create-user.component';
 export * from './redirect-to-course.resolver';

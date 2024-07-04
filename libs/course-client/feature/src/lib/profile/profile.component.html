@@ -19,11 +19,21 @@
       <div fxLayout="row" fxLayoutGap="16px" class="mb-m">
         <mat-form-field class="pr-l" fxFlex="50">
           <mat-label>Email address</mat-label>
-          <input matInput disabled [readonly]="true" formControlName="email" />
+          <input
+            matInput
+            [disabled]="true"
+            [readonly]="true"
+            formControlName="email"
+          />
         </mat-form-field>
         <mat-form-field class="pl-l" fxFlex="50">
           <mat-label>User id</mat-label>
-          <input matInput disabled [readonly]="true" formControlName="uid" />
+          <input
+            matInput
+            [disabled]="true"
+            [readonly]="true"
+            formControlName="uid"
+          />
         </mat-form-field>
       </div>
 

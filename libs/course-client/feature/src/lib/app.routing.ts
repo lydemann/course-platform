@@ -27,9 +27,9 @@ const routes: Routes = [
       },
       {
         path: 'forgot-password',
-        loadChildren: () =>
-          import('./forgot-password/forgot-password.module').then(
-            (m) => m.ForgotPasswordModule
+        loadComponent: () =>
+          import('./forgot-password/forgot-password.component').then(
+            (m) => m.ForgotPasswordComponent
           ),
       },
       {
@@ -60,8 +60,10 @@ const routes: Routes = [
           },
           {
             path: 'profile',
-            loadChildren: () =>
-              import('./profile/profile.module').then((m) => m.ProfileModule),
+            loadComponent: () =>
+              import('./profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
           },
           {
             path: 'help',

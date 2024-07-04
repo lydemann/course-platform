@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import {
@@ -8,9 +9,8 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from '@angular/fire/auth';
-import { AuthService, UpdateUserInput } from './auth.service';
+import { AbstractUser, AuthService, UpdateUserInput } from './auth.service';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
-import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable, filter, firstValueFrom, map } from 'rxjs';
 
 export interface UserCredentials {
@@ -28,8 +28,8 @@ export class AuthFBService extends AuthService {
   currentUser$ = this.currentUser.pipe(
     filter((user) => !!user)
   ) as Observable<User>;
-  uid$ = this.currentUser$.pipe(map((user) => user?.uid));
-  isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
+  override uid$ = this.currentUser$.pipe(map((user) => user?.uid));
+  override isLoggedIn$ = this.currentUser$.pipe(map((user) => !!user));
 
   private readonly SESSION_COOKIE_KEY = '__session';
 
@@ -87,8 +87,15 @@ export class AuthFBService extends AuthService {
     });
   }
 
-  override getUser(): Promise<unknown> {
-    return firstValueFrom(this.getFBUser());
+  override async getUser() {
+    const fbUser = await firstValueFrom(this.getFBUser());
+
+    if (!fbUser) return null;
+
+    return {
+      id: fbUser.uid,
+      email: fbUser.email,
+    } as AbstractUser;
   }
 
   getFBUser(): Observable<User | null> {
@@ -96,7 +103,7 @@ export class AuthFBService extends AuthService {
       this.afAuth.onAuthStateChanged((currentUser) => {
         // cb needs to run through zone to work in guard
         this.ngZone.run(() => {
-          observer.next(currentUser);
+          observer.next(currentUser!);
           this.currentUser.next(currentUser);
           observer.complete();
         });

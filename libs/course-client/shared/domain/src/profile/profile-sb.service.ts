@@ -1,66 +1,47 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
 import {
-  reauthenticateWithCredential,
-  updateEmail,
-  updatePassword,
-  updateProfile,
-} from '@angular/fire/auth';
-import { AuthCredential, EmailAuthProvider, User } from '@firebase/auth';
-import { AuthSBService } from '@course-platform/shared/auth/domain';
+  AbstractUser,
+  AuthSBService,
+} from '@course-platform/shared/auth/domain';
+import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
+import { Profile, ProfileService } from './profile.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileService implements ProfileService {
-  private currentUser!: User;
-  constructor(private userService: AuthSBService) {
-    this.userService.getSBUser((user) => {
-      this.currentUser = user;
+export class ProfileSBService implements ProfileService {
+  private currentUser!: AbstractUser;
+  private trpcClient = injectTRPCClient();
+  constructor(private authService: AuthSBService) {
+    this.authService.getUser().then((user) => {
+      this.currentUser = user!;
     });
   }
 
-  getUserProfile(): Observable<User> {
-    return this.userService.currentUser$;
-    // this.userProfile = this.firestore.doc(`userProfile/${user.uid}`);
-    // return this.userProfile.valueChanges();
+  getUserProfile() {
+    return this.trpcClient.user.getProfile.query();
   }
 
   updateName(fullName: string) {
-    return this.userService.currentUser$
-      .pipe(
-        tap((user) => {
-          updateProfile(user, { displayName: fullName });
-        })
-      )
-      .subscribe();
+    return this.trpcClient.user.updateProfile.mutate({ fullName });
   }
 
   async updateEmail(newEmail: string, password: string): Promise<void> {
-    const credential: AuthCredential = EmailAuthProvider.credential(
-      this.currentUser.email!,
-      password
-    );
-    try {
-      await reauthenticateWithCredential(this.currentUser, credential);
-      await updateEmail(this.currentUser, newEmail);
-      // return this.userProfile.update({ email: newEmail });
-    } catch (error) {
-      console.error(error);
-    }
+    // const credential: AuthCredential = EmailAuthProvider.credential(
+    //   this.currentUser.email!,
+    //   password
+    // );
+    // try {
+    //   await reauthenticateWithCredential(this.currentUser, credential);
+    //   await updateEmail(this.currentUser, newEmail);
+    //   // return this.userProfile.update({ email: newEmail });
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   async updatePassword(
     newPassword: string,
     oldPassword: string
-  ): Promise<void> {
-    const credential: AuthCredential = EmailAuthProvider.credential(
-      this.currentUser.email!,
-      oldPassword
-    );
-    await reauthenticateWithCredential(this.currentUser, credential);
-    return updatePassword(this.currentUser, newPassword);
-  }
+  ): Promise<void> {}
 }

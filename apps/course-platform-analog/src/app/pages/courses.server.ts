@@ -1,7 +1,4 @@
 import { PageServerLoad } from '@analogjs/router';
-import { inject } from '@angular/core';
-import { CourseResourcesTrpcService } from '@course-platform/shared/domain';
-import { firstValueFrom } from 'rxjs';
 
 export const load = async ({
   params, // params/queryParams from the request

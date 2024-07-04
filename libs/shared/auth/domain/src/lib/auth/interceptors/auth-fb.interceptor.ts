@@ -7,11 +7,10 @@ import {
 } from '@angular/common/http';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Observable, from } from 'rxjs';
-import { exhaustMap, first, switchMap, take } from 'rxjs/operators';
+import { exhaustMap, first, switchMap } from 'rxjs/operators';
 
 import { Auth } from '@angular/fire/auth';
 import { isPlatformServer } from '@angular/common';
-import { AuthService } from '../services/auth.service';
 import { AuthFBService } from '../services/auth-fb.service';
 
 @Injectable({ providedIn: 'root' })
@@ -43,7 +42,7 @@ export class AuthFBInterceptor implements HttpInterceptor {
   }
 }
 
-export const authInterceptor: HttpInterceptorFn = (
+export const authFBInterceptor: HttpInterceptorFn = (
   req,
   next,
   platformId = inject(PLATFORM_ID)

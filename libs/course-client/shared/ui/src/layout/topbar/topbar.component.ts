@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
-import {
-  AuthFBService,
-  AuthService,
-} from '@course-platform/shared/auth/domain';
+import { AuthService } from '@course-platform/shared/auth/domain';
 
 interface NavigationItem {
   link: string;

@@ -261,12 +261,12 @@ export class CourseResourcesFbService implements CourseResourcesService {
         this.apollo.mutate({
           mutation: setActionItemCompletedMutation,
           variables: {
-            uid: user.uid,
+            uid: user?.uid,
           },
           refetchQueries: [
             {
               query: courseSectionsQuery,
-              variables: { uid: user.uid, courseId: this.courseId },
+              variables: { uid: user?.uid, courseId: this.courseId },
             },
           ],
         })

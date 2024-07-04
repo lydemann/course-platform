@@ -10,11 +10,11 @@ export const authSBGuard =
   (redirectIfAuthenticatedUrl = ''): CanActivateFn =>
   async () => {
     const platformId = inject(PLATFORM_ID);
-    const userServerService = inject(AuthSBService);
+    const authService = inject(AuthSBService);
     const router = inject(Router);
 
     if (isPlatformBrowser(platformId)) {
-      const session = !!(await userServerService.getSession());
+      const session = !!(await authService.getSession());
       if (!session) {
         return navigateToLogin();
       }
@@ -22,8 +22,8 @@ export const authSBGuard =
       return true;
     }
 
-    const serverUserSession = await userServerService.authenticateUserSSR();
-    if (!serverUserSession?.data?.user) {
+    const serverUser = await authService.authenticateUserSSR();
+    if (!serverUser) {
       return navigateToLogin();
     }
 
