@@ -161,6 +161,10 @@ export class AuthSBService extends AuthService {
     });
   }
 
+  override updatePassowrd(password: string): Promise<unknown> {
+    return this.authClient.updateUser({ password });
+  }
+
   /**
    * Sets the session based on cookies and authenticates the user using request to the auth server.
    * @returns true if the user is authenticated, false otherwise.
@@ -171,6 +175,8 @@ export class AuthSBService extends AuthService {
   }
 
   sendPasswordResetEmail(email: string) {
-    return this.authClient.resetPasswordForEmail(email);
+    return this.authClient.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
   }
 }

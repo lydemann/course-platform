@@ -23,18 +23,10 @@ import {
           <h1 class="brand">Angular Architect Accelerator</h1>
         </div>
         <div class="form-wrapper">
+          <h3>Reset Password</h3>
           <form [formGroup]="loginForm">
             <div class="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                formControlName="email"
-                data-test="email"
-                class="form-control"
-              />
-            </div>
-            <div class="form-group">
-              <label>Password</label>
+              <label>New Password</label>
               <input
                 type="password"
                 data-test="password"
@@ -48,25 +40,22 @@ import {
                 type="submit"
                 size="l"
                 data-test="login-btn"
-                (click)="signIn(loginForm.value)"
+                (click)="resetPassword(loginForm.value)"
                 class="submit-btn"
               >
-                Log In
+                Reset password
               </app-button>
             </div>
-            <p class="center mt-4">
-              <a routerLink="/forgot-password">Forgot password?</a>
-            </p>
           </form>
         </div>
       </div>
     </div>
   `,
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./reset-password.component.scss'],
   standalone: true,
   imports: [CommonModule, SharedModule, ReactiveFormsModule],
 })
-export class LoginComponent {
+export class ResetPasswordComponent {
   loginForm!: UntypedFormGroup;
   errorMessage = '';
 
@@ -85,22 +74,15 @@ export class LoginComponent {
     });
   }
 
-  signIn(userCredentials: UserCredentials) {
-    this.authService
-      .signIn(userCredentials.email, userCredentials.password)
-      .then(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (res: any) => {
-          if (res.error) {
-            this.errorMessage = res.error.message;
-            return;
-          }
-          this.router.navigate(['courses']);
-        },
-        (err) => {
-          console.log('Error doing sign in', err);
-          this.errorMessage = err.message;
-        }
-      );
+  resetPassword(userCredentials: UserCredentials) {
+    this.authService.updatePassowrd(userCredentials.password).then(
+      (res) => {
+        this.router.navigate(['login']);
+      },
+      (err) => {
+        console.log('Error doing sign in', err);
+        this.errorMessage = err.message;
+      }
+    );
   }
 }

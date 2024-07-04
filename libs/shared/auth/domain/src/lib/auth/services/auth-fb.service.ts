@@ -22,6 +22,12 @@ export interface UserCredentials {
   providedIn: 'root',
 })
 export class AuthFBService extends AuthService {
+  override updatePassowrd(password: string): Promise<unknown> {
+    throw new Error('Method not implemented.');
+  }
+  override uid(): Observable<string | null> {
+    return this.uid$;
+  }
   private ngZone = inject(NgZone);
   private cookieService = inject(SsrCookieService);
   currentUser = new BehaviorSubject<User | null>(null);
