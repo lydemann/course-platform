@@ -60,11 +60,7 @@ export function endpointsFactory() {
 export function httpLoaderFactory(http: HttpClient) {
   const host =
     import.meta.env['VITE_ANALOG_PUBLIC_BASE_URL'] || 'http://localhost:4200';
-  return new TranslateHttpLoader(
-    http,
-    `http://localhost:4200/assets/i18n/`,
-    '.json'
-  );
+  return new TranslateHttpLoader(http, `${host}/assets/i18n/`, '.json');
 }
 
 export const appConfig: ApplicationConfig = {
