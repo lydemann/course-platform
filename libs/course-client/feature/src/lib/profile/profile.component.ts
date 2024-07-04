@@ -24,7 +24,7 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
   imports: [CommonModule, ReactiveFormsModule, SharedModule],
 })
 export class ProfileComponent {
-  user$: Observable<Profile> = from(this.profileService.getUserProfile());
+  user$: Observable<Profile> = this.profileService.getUserProfile();
   profileForm$: Observable<FormGroup> = this.user$.pipe(
     map((user) =>
       this.formBuilder.group({
