@@ -7,7 +7,7 @@
   "generators": {},
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/webpack:webpack",
       "options": {
         "webpackConfig": "webpack.node.config.js",
         "outputPath": "dist/apps/course-service",

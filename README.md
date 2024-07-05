@@ -25,13 +25,13 @@ Below are some plugins which you can add to your workspace:
 - [Angular](https://angular.io)
   - `ng add @nx/angular`
 - [React](https://reactjs.org)
-  - `ng add @nrwl/react`
+  - `ng add @nx/react`
 - Web (no framework frontends)
-  - `ng add @nrwl/web`
+  - `ng add @nx/web`
 - [Nest](https://nestjs.com)
   - `ng add @nx/nest`
 - [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
+  - `ng add @nx/express`
 - [Node](https://nodejs.org)
   - `ng add @nx/node`
 
