@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { region } from 'firebase-functions';
 
 import dotenvJSON from 'dotenv-json';

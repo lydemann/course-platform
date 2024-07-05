@@ -1,9 +1,4 @@
-import {
-  APP_INITIALIZER,
-  ErrorHandler,
-  enableProdMode,
-  importProvidersFrom,
-} from '@angular/core';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
 import * as Sentry from '@sentry/angular-ivy';
 import {
   CourseAdminSharedDomainModule,
@@ -13,7 +8,7 @@ import {
 // eslint-disable-next-line @nx/enforce-module-boundaries
 
 import { bootstrapApplication } from '@angular/platform-browser';
-import { Router, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import {
   CoreModule,
   ProfileFBService,

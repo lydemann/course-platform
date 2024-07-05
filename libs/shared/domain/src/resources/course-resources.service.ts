@@ -11,6 +11,7 @@ export interface CourseSectionDTO {
   id: string;
   name: string;
   theme: string;
+  lessons?: Lesson[];
 }
 
 export interface CompletedLessonData {

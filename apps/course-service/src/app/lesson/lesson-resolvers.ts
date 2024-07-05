@@ -35,7 +35,7 @@ export const lessonMutationResolvers = {
       .get()
       .then((snapshot) => snapshot.data())
       .then((section: CourseSectionDTO) => {
-        const newLessons = [...section.lessons, cleanedPayload];
+        const newLessons = [...(section.lessons || []), cleanedPayload];
         sectionRef.update({ lessons: newLessons });
       });
 
