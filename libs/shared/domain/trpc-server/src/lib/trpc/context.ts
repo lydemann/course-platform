@@ -2,11 +2,12 @@
 import { AuthClient } from '@supabase/auth-js';
 import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 
-// TODO: move to shared place
-const AUTH_URL = `${import.meta.env['VITE_SUPABASE_URL']!}/auth/v1`;
+const ENV = import.meta?.env || {};
+
+const AUTH_URL = `${ENV['VITE_SUPABASE_URL']}/auth/v1`;
 const AUTH_HEADERS = {
-  Authorization: `Bearer ${import.meta.env['VITE_SUPABASE_KEY']!}`,
-  apikey: `${import.meta.env['VITE_SUPABASE_KEY']!}`,
+  Authorization: `Bearer ${ENV['VITE_SUPABASE_KEY']}`,
+  apikey: `${ENV['VITE_SUPABASE_KEY']}`,
 };
 
 export const authClient = new AuthClient({
