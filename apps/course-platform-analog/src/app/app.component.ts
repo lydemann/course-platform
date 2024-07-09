@@ -7,10 +7,8 @@ import {
   AuthSBService,
   AuthService,
 } from '@course-platform/shared/auth/domain';
-import { SchoolIdService } from '@course-platform/shared/domain';
 import { TrpcHeaders } from '@course-platform/shared/domain/trpc-client';
 import { Session } from '@supabase/auth-js';
-import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Component({
   selector: 'course-platform-root',
