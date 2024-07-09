@@ -70,22 +70,30 @@ export class AuthSBService extends AuthService {
         this.currentUser.next(session.user);
         this.ssrCookieService.set(
           ACCESS_TOKEN_COOKIE_KEY,
-          session?.access_token
+          session?.access_token,
+          undefined,
+          '/'
         );
         this.ssrCookieService.set(
           REFRESH_TOKEN_COOKIE_KEY,
-          session?.refresh_token
+          session?.refresh_token,
+          undefined,
+          '/'
         );
         if (session.provider_token) {
           this.ssrCookieService.set(
             PROVIDER_TOKEN_COOKIE_KEY,
-            session.provider_token
+            session.provider_token,
+            undefined,
+            '/'
           );
         }
         if (session.provider_refresh_token) {
           this.ssrCookieService.set(
             PROVIDER_REFRESH_TOKEN_COOKIE_KEY,
-            session.provider_refresh_token
+            session.provider_refresh_token,
+            undefined,
+            '/'
           );
         }
       }
