@@ -54,6 +54,7 @@ async function getSections(user: User, courseId: string) {
     });
     const sectionsProm = db.query.sections.findMany({
       where: (sections, { eq }) => eq(sections.courseId, courseId),
+      orderBy: (section, { asc }) => [asc(section.name)],
       with: {
         lessons: {
           orderBy: (lesson, { asc }) => [asc(lesson.orderId)],
