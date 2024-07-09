@@ -30,7 +30,6 @@ import {
 import {
   AuthSBService,
   AuthService,
-  authFBInterceptor,
 } from '@course-platform/shared/auth/domain';
 import {
   CourseResourcesService,

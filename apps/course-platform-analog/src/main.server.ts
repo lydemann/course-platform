@@ -35,8 +35,5 @@ export default async function render(
     ],
   });
 
-  res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=1200');
-  res.setHeader('expires', '600');
-
   return html;
 }
