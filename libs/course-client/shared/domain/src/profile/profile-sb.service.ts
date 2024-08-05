@@ -43,6 +43,6 @@ export class ProfileSBService implements ProfileService {
     newPassword: string,
     oldPassword: string
   ): Promise<unknown> {
-    return await this.authService.updatePassowrd(newPassword);
+    return await this.authService.updatePassword(newPassword);
   }
 }

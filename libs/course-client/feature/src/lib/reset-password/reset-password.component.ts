@@ -24,7 +24,7 @@ import {
         </div>
         <div class="form-wrapper">
           <h3>Reset Password</h3>
-          <form [formGroup]="loginForm">
+          <form [formGroup]="resetPwdForm">
             <div class="form-group">
               <label>New Password</label>
               <input
@@ -40,7 +40,7 @@ import {
                 type="submit"
                 size="l"
                 data-test="login-btn"
-                (click)="resetPassword(loginForm.value)"
+                (click)="resetPassword(resetPwdForm?.value)"
                 class="submit-btn"
               >
                 Reset password
@@ -53,10 +53,11 @@ import {
   `,
   styleUrls: ['./reset-password.component.scss'],
   standalone: true,
+  host: { ngSkipHydration: 'true' },
   imports: [CommonModule, SharedModule, ReactiveFormsModule],
 })
 export class ResetPasswordComponent {
-  loginForm!: UntypedFormGroup;
+  resetPwdForm!: UntypedFormGroup;
   errorMessage = '';
 
   constructor(
@@ -68,14 +69,13 @@ export class ResetPasswordComponent {
   }
 
   createForm() {
-    this.loginForm = this.fb.group({
-      email: ['', Validators.required],
+    this.resetPwdForm = this.fb.group({
       password: ['', Validators.required],
     });
   }
 
   resetPassword(userCredentials: UserCredentials) {
-    this.authService.updatePassowrd(userCredentials.password).then(
+    this.authService.updatePassword(userCredentials.password).then(
       (res) => {
         this.router.navigate(['login']);
       },
