@@ -22,7 +22,7 @@ export interface UserCredentials {
   providedIn: 'root',
 })
 export class AuthFBService extends AuthService {
-  override updatePassowrd(password: string): Promise<unknown> {
+  override updatePassword(password: string): Promise<unknown> {
     throw new Error('Method not implemented.');
   }
   override uid(): Observable<string | null> {

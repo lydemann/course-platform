@@ -11,7 +11,7 @@ export interface AbstractUser {
 
 // abstract
 export abstract class AuthService {
-  abstract updatePassowrd(password: string): Promise<unknown>;
+  abstract updatePassword(password: string): Promise<unknown>;
   abstract uid(): Observable<string | null>;
 
   abstract sendPasswordResetEmail(value: any): Promise<unknown>;

@@ -171,7 +171,7 @@ export class AuthSBService extends AuthService {
     });
   }
 
-  override updatePassowrd(password: string): Promise<unknown> {
+  override updatePassword(password: string): Promise<unknown> {
     return this.authClient.updateUser({ password }).then((res) => {
       if (res.error) {
         throw res.error;
