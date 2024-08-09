@@ -65,8 +65,8 @@ export class AuthSBService extends AuthService {
       if (!session) return;
 
       // Use cookies to share session state between server and client
+      cb(event, session);
       if (session?.access_token) {
-        cb(event, session);
         this.currentUser.next(session.user);
         this.ssrCookieService.set(
           ACCESS_TOKEN_COOKIE_KEY,
