@@ -120,6 +120,7 @@ export class AuthSBService extends AuthService {
   async signOut() {
     await this.authClient.signOut();
     localStorage.clear();
+    this.ssrCookieService.deleteAll();
     location.href = '/';
   }
 
