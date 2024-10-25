@@ -13,6 +13,7 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
       <div class="mx-4">
         <mat-card
           *ngFor="let course of courses()"
+          data-test="course"
           class="course-card mx-auto lg:w-1/3 sm:w-1/2"
           (click)="courseSelected(course.id)"
           ><mat-card-title class="text-center py-3">{{

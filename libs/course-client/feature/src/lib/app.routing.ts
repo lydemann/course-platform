@@ -16,6 +16,13 @@ const routes: Routes = [
     redirectTo: 'courses',
   },
   {
+    path: 'logout',
+    loadComponent: () =>
+      import('@course-platform/shared/auth/feature').then(
+        (m) => m.LogoutComponent
+      ),
+  },
+  {
     path: '',
     resolve: [SchoolIdResolver],
     children: [

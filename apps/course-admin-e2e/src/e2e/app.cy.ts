@@ -1,19 +1,11 @@
-import { CourseAdminPage } from '../support/page-objects/course-admin.po';
-
-// TODO: because Cannot use 'import.meta' outside a module, can't be fixed for now
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // returning false here prevents Cypress from
-  // failing the test
-  return false;
-});
+import { CoursesPage } from '../support/page-objects/courses.po';
+import { LoginPage } from '../support/page-objects/login.po';
 
 describe('course-admin', () => {
-  beforeEach(() => {
-    CourseAdminPage.goToPage();
-  });
+  it('should show courses', () => {
+    LoginPage.goToLogout();
+    LoginPage.login();
 
-  it('should show lesson', () => {
-    // TODO:
-    // LoginPage.login();
+    CoursesPage.seeCourse();
   });
 });
