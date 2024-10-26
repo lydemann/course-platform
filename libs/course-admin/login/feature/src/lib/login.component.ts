@@ -14,8 +14,50 @@ import {
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  template: `
+    <div class="container">
+      <div class="login-box">
+        <div class="header">
+          <h1 class="brand">Angular Architect Accelerator</h1>
+        </div>
+        <div class="form-wrapper">
+          <form [formGroup]="loginForm">
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                formControlName="email"
+                data-test="email"
+                class="form-control"
+              />
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                data-test="password"
+                class="form-control"
+                formControlName="password"
+              />
+              <label class="error">{{ errorMessage }}</label>
+            </div>
+            <div class="button-wrapper">
+              <app-button
+                type="submit"
+                size="l"
+                data-test="login-btn"
+                (click)="tryLogin(loginForm.value)"
+                class="submit-btn"
+              >
+                Log In
+              </app-button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  `,
   standalone: true,
   imports: [SharedModule],
 })

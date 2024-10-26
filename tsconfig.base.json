@@ -82,6 +82,9 @@
       "@course-platform/shared/auth/domain": [
         "libs/shared/auth/domain/src/index.ts"
       ],
+      "@course-platform/shared/auth/feature": [
+        "libs/shared/auth/feature/src/index.ts"
+      ],
       "@course-platform/shared/domain": ["libs/shared/domain/src/index.ts"],
       "@course-platform/shared/domain/trpc-client": [
         "libs/shared/domain/trpc-client/src/index.ts"
