@@ -13,7 +13,7 @@ test.describe('course-client', () => {
 
   test('should show lesson', async ({ page }) => {
     await loginPage.login();
-    await coursesPage.goto();
-    await coursesPage.verifyLessonVisible();
+    await coursesPage.goToPage();
+    await coursesPage.seeCourse();
   });
 });

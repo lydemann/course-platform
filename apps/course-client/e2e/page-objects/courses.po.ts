@@ -3,12 +3,12 @@ import { Page, expect } from '@playwright/test';
 export class CoursesPage {
   constructor(private page: Page) {}
 
-  async goto() {
+  async goToPage() {
     await this.page.goto('/courses');
   }
 
-  async verifyLessonVisible() {
-    const lessonContent = await this.page.waitForSelector('.lesson-content');
-    expect(lessonContent).toBeTruthy();
+  async seeCourse() {
+    const courseElement = await this.page.waitForSelector('[data-test=course]');
+    expect(courseElement).toBeTruthy();
   }
 }
