@@ -11,6 +11,7 @@ const cypressJsonConfig = {
   chromeWebSecurity: false,
   specPattern: 'src/e2e/**/*.cy.{js,jsx,ts,tsx}',
   supportFile: 'src/support/e2e.ts',
+  defaultCommandTimeout: 10000,
 };
 export default defineConfig({
   e2e: {

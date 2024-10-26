@@ -1,15 +1,17 @@
 export namespace LoginPage {
-  export const login = () => {
-    cy.intercept(
-      'https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo**',
-      'fixture:auth/get-account-info'
-    );
+  export const goToLogout = () => {
+    cy.visit('/logout');
+  };
 
-    cy.visit('/login');
+  export const isLoggedIn = () => {
+    return cy.url().then((url) => {
+      return url.includes('/login');
+    });
+  };
 
+  export const login = (redirectTo = '/courses') => {
     cy.get('[data-test=email]').type('dada@dada.dk');
     cy.get('[data-test=password]').type('dadada');
-
     cy.get('[data-test=login-btn]').click();
   };
 }

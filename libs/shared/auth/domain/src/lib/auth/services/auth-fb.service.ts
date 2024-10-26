@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import {
   Auth,
   User,
@@ -81,15 +81,13 @@ export class AuthFBService extends AuthService {
   }
 
   override signOut(): Promise<unknown> {
-    return new Promise((resolve, reject) => {
-      if (this.afAuth.currentUser) {
-        this.afAuth.signOut();
-        localStorage.clear();
-        location.href = '/';
-        resolve(true);
-      } else {
-        reject();
-      }
+    return this.afAuth.signOut().then(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+      this.cookieService.deleteAll();
+      this.currentUser.next(null);
+      location.href = '/';
+      return true;
     });
   }
 
