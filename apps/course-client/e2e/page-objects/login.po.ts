@@ -20,9 +20,9 @@ export class LoginPage {
 
     await this.page.goto('/login');
 
-    await this.page.fill('[data-test=email]', 'dada@dada.dk');
-    await this.page.fill('[data-test=password]', 'dadada');
+    await this.page.getByTestId('email').fill('dada@dada.dk');
+    await this.page.getByTestId('password').fill('dadada');
 
-    await this.page.click('[data-test=login-btn]');
+    await this.page.getByTestId('login-btn').click();
   }
 }
