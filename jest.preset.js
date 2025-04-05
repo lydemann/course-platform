@@ -7,11 +7,13 @@ module.exports = {
       'ts-jest',
       {
         tsconfig: 'tsconfig.base.json',
+        stringifyContentPathRegex: '\\.html$',
+        isolatedModules: true,
         useESM: true,
         astTransformers: {
           before: [
             {
-              path: 'node_modules/ts-jest-mock-import-meta', // or, alternatively, 'ts-jest-mock-import-meta' directly, without node_modules.
+              path: 'node_modules/ts-jest-mock-import-meta',
               options: {
                 metaObjectReplacement: { env: {}, url: 'https://www.url.com' },
               },
@@ -20,16 +22,6 @@ module.exports = {
         },
       },
     ],
-  },
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.html$',
-      isolatedModules: true,
-      astTransformers: {
-        before: ['ts-jest-mock-import-meta'],
-      },
-    },
   },
   resolver: '@nx/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
