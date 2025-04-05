@@ -75,21 +75,23 @@ export class ResetPasswordComponent implements OnInit {
     // Extract token from URL and set session
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       const token = params['token'];
-      const type = params['type'];
 
-      if (token && type) {
-        // Cast the authService to AuthSBService to access the authClient
-        const authSbService = this.authService as AuthSBService;
-        authSbService.authClient
-          .setSession({
-            access_token: token,
-            refresh_token: '',
-          })
-          .catch((error: Error) => {
-            console.error('Error setting session:', error);
-            this.errorMessage = 'Invalid or expired password reset link';
-          });
+      if (!token) {
+        this.errorMessage = 'No token provided';
+        return;
       }
+
+      // Cast the authService to AuthSBService to access the authClient
+      const authSbService = this.authService as AuthSBService;
+      authSbService.authClient
+        .setSession({
+          access_token: token,
+          refresh_token: '',
+        })
+        .catch((error: Error) => {
+          console.error('Error setting session:', error);
+          this.errorMessage = 'Invalid or expired password reset link';
+        });
     });
   }
 
