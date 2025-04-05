@@ -1,18 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import {
+  AuthSBService,
   AuthService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -56,16 +58,41 @@ import {
   host: { ngSkipHydration: 'true' },
   imports: [CommonModule, SharedModule, ReactiveFormsModule],
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
   resetPwdForm!: UntypedFormGroup;
   errorMessage = '';
 
   constructor(
     public authService: AuthService,
     private router: Router,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
+    private route: ActivatedRoute
   ) {
     this.createForm();
+  }
+
+  ngOnInit() {
+    // Extract token from URL and set session
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      const token = params['token'];
+
+      if (!token) {
+        this.errorMessage = 'No token provided';
+        return;
+      }
+
+      // Cast the authService to AuthSBService to access the authClient
+      const authSbService = this.authService as AuthSBService;
+      authSbService.authClient
+        .setSession({
+          access_token: token,
+          refresh_token: '',
+        })
+        .catch((error: Error) => {
+          console.error('Error setting session:', error);
+          this.errorMessage = 'Invalid or expired password reset link';
+        });
+    });
   }
 
   createForm() {
@@ -80,7 +107,7 @@ export class ResetPasswordComponent {
         this.router.navigate(['login']);
       },
       (err) => {
-        console.log('Error doing sign in', err);
+        console.log('Error doing password reset', err);
         this.errorMessage = err.message;
       }
     );

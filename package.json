@@ -40,7 +40,8 @@
     "prepare": "husky install",
     "generate": "cd ./apps/course-platform-analog && drizzle-kit generate",
     "migrate": "cd ./apps/course-platform-analog && drizzle-kit migrate",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org ludemann-consulting-aps --project javascript-angular ./dist && sentry-cli sourcemaps upload --org ludemann-consulting-aps --project javascript-angular ./dist"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org ludemann-consulting-aps --project javascript-angular ./dist && sentry-cli sourcemaps upload --org ludemann-consulting-aps --project javascript-angular ./dist",
+    "test:e2e": "playwright test"
   },
   "main": "dist/apps/course-service/main.js",
   "private": true,
