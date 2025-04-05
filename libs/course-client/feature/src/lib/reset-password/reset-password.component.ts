@@ -14,6 +14,7 @@ import {
   AuthService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -72,7 +73,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit() {
     // Extract token from URL and set session
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
       const token = params['token'];
       const type = params['type'];
 
