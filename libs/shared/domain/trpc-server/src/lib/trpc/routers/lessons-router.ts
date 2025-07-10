@@ -175,7 +175,7 @@ export const lessonRouter = router({
         }
       }
     ),
-  moveLesson: protectedProcedure
+  moveLesson: adminProcedure
     .input(
       z.object({
         sectionId: z.string(),
