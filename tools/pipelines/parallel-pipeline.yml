@@ -13,7 +13,7 @@ variables:
     NX_BRANCH: $(Build.SourceBranchName)
     BASE_SHA: $(git rev-parse HEAD~1)
   HEAD_SHA: $(git rev-parse HEAD)
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+  PNPM_CACHE_FOLDER: $(Pipeline.Workspace)/.pnpm-store
 
 jobs:
   - job: Build
@@ -23,6 +23,10 @@ jobs:
       # Set Azure Devops CLI default settings
       - bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)
         displayName: 'Set default Azure DevOps organization and project'
+
+      # Ensure pnpm is installed
+      - script: npm install -g pnpm
+        displayName: 'Install pnpm'
 
       # Get last successfull commit from Azure Devops CLI
       - bash: |
@@ -44,14 +48,14 @@ jobs:
 
       - task: Cache@2
         inputs:
-          key: '"yarn" | "$(Agent.OS)" | yarn.lock'
+          key: '"pnpm" | "$(Agent.OS)" | pnpm-lock.yaml'
           restoreKeys: |
-            "yarn" | "$(Agent.OS)"
-            "yarn"
-          path: $(YARN_CACHE_FOLDER)
-        displayName: Cache Yarn packages
+            "pnpm" | "$(Agent.OS)"
+            "pnpm"
+          path: $(PNPM_CACHE_FOLDER)
+        displayName: Cache PNPM packages
 
-      - script: yarn --frozen-lockfile
+      - script: pnpm install --frozen-lockfile
         displayName: 'Install dependencies'
 
       - script: export NODE_OPTIONS="--max-old-space-size=8192" && npx nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) -t build --parallel=3
@@ -96,6 +100,10 @@ jobs:
       - bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)
         displayName: 'Set default Azure DevOps organization and project'
 
+      # Ensure pnpm is installed
+      - script: npm install -g pnpm
+        displayName: 'Install pnpm'
+
       # Get last successfull commit from Azure Devops CLI
       - bash: |
           LAST_SHA=$(az pipelines build list --branch $(Build.SourceBranchName) --definition-ids $(System.DefinitionId) --result succeeded --top 1 --query "[0].triggerInfo.\"ci.sourceSha\"")
@@ -116,14 +124,14 @@ jobs:
 
       - task: Cache@2
         inputs:
-          key: '"yarn" | "$(Agent.OS)" | yarn.lock'
+          key: '"pnpm" | "$(Agent.OS)" | pnpm-lock.yaml'
           restoreKeys: |
-            "yarn" | "$(Agent.OS)"
-            "yarn"
-          path: $(YARN_CACHE_FOLDER)
-        displayName: Cache Yarn packages
+            "pnpm" | "$(Agent.OS)"
+            "pnpm"
+          path: $(PNPM_CACHE_FOLDER)
+        displayName: Cache PNPM packages
 
-      - script: yarn --frozen-lockfile
+      - script: pnpm install --frozen-lockfile
         displayName: 'Install dependencies'
 
       - script: npx nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) -t test --parallel=3
@@ -137,6 +145,10 @@ jobs:
       - bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)
         displayName: 'Set default Azure DevOps organization and project'
 
+      # Ensure pnpm is installed
+      - script: npm install -g pnpm
+        displayName: 'Install pnpm'
+
       # Get last successfull commit from Azure Devops CLI
       - bash: |
           LAST_SHA=$(az pipelines build list --branch $(Build.SourceBranchName) --definition-ids $(System.DefinitionId) --result succeeded --top 1 --query "[0].triggerInfo.\"ci.sourceSha\"")
@@ -157,14 +169,14 @@ jobs:
 
       - task: Cache@2
         inputs:
-          key: '"yarn" | "$(Agent.OS)" | yarn.lock'
+          key: '"pnpm" | "$(Agent.OS)" | pnpm-lock.yaml'
           restoreKeys: |
-            "yarn" | "$(Agent.OS)"
-            "yarn"
-          path: $(YARN_CACHE_FOLDER)
-        displayName: Cache Yarn packages
+            "pnpm" | "$(Agent.OS)"
+            "pnpm"
+          path: $(PNPM_CACHE_FOLDER)
+        displayName: Cache PNPM packages
 
-      - script: yarn --frozen-lockfile
+      - script: pnpm install --frozen-lockfile
         displayName: 'Install dependencies'
 
       - script: npx nx format:check --base=$(BASE_SHA)
