@@ -3,10 +3,9 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 /// <reference types="vite/client" />
 
-import { User } from '@angular/fire/auth';
 import {
   CourseResourcesService,
   CourseResourcesTrpcService,
@@ -20,7 +19,6 @@ import {
   SpyObject,
   createServiceFactory,
   createSpyObject,
-  mockProvider,
 } from '@ngneat/spectator/jest';
 import { Router } from '@angular/router';
 
