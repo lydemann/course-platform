@@ -53,7 +53,7 @@ jobs:
       - script: pnpm install --frozen-lockfile
       - script: pnpm nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
         displayName: Start CI run
-      - script: npx nx-cloud record -- nx format:check --base=$(BASE_SHA) --head=$(HEAD_SHA)
+      - script: npx nx-cloud record -- npx nx format:check --base=$(BASE_SHA) --head=$(HEAD_SHA)
         displayName: Check format
       - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=lint --parallel=3
         displayName: Run lint
