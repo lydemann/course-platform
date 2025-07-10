@@ -24,6 +24,10 @@ jobs:
       - bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)
         displayName: 'Set default Azure DevOps organization and project'
 
+      # Ensure pnpm is installed
+      - script: npm install -g pnpm
+        displayName: 'Install pnpm'
+
       # Get last successfull commit from Azure Devops CLI
       - bash: |
           LAST_SHA=$(az pipelines build list --branch $(Build.SourceBranchName) --definition-ids $(System.DefinitionId) --result succeeded --top 1 --query "[0].triggerInfo.\"ci.sourceSha\"")

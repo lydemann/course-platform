@@ -47,6 +47,9 @@ jobs:
           path: $(PNPM_CACHE_FOLDER)
         displayName: Cache PNPM packages
 
+      - script: npm install -g pnpm
+        displayName: 'Install pnpm'
+
       - script: pnpm install --frozen-lockfile
       - script: pnpm nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
         displayName: Start CI run
