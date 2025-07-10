@@ -1,9 +1,10 @@
 import { db } from '../../drizzle/db';
-import { publicProcedure, router } from '../trpc';
-import * as schema from '../../drizzle/db-schema';
+import { router } from '../trpc';
+import * as schema from '../../drizzle/out/schema';
 import { z } from 'zod';
 import { eq } from 'drizzle-orm';
 import { protectedProcedure } from './utils/protected-procedure';
+import { adminProcedure } from './utils/admin-procedure';
 
 const getAllCourses = async () => {
   return await db.query.courses.findMany();
@@ -50,7 +51,7 @@ export const courseRouter = router({
       throw error;
     }
   }),
-  create: protectedProcedure
+  create: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -62,7 +63,7 @@ export const courseRouter = router({
       async ({ input: { id, description, name } }) =>
         await createCourse(id, name, description)
     ),
-  delete: protectedProcedure
+  delete: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -70,5 +71,17 @@ export const courseRouter = router({
     )
     .mutation(async ({ input: { id } }) => {
       return await deleteCourse(id);
+    }),
+  update: adminProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        description: z.string(),
+        customStyling: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input: { id, name, description, customStyling } }) => {
+      return await updateCourse(id, name, description, customStyling);
     }),
 });

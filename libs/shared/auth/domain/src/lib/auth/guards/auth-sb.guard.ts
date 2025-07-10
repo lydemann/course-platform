@@ -7,7 +7,7 @@ import { AuthSBService } from '../services/auth-sb.service';
 const LOGIN_URL = 'login';
 
 export const authSBGuard =
-  (redirectIfAuthenticatedUrl = ''): CanActivateFn =>
+  (redirectIfAuthenticatedUrl = '', requiredRole?: string): CanActivateFn =>
   async () => {
     const platformId = inject(PLATFORM_ID);
     const authService = inject(AuthSBService);
@@ -16,8 +16,18 @@ export const authSBGuard =
     if (isPlatformBrowser(platformId)) {
       try {
         const session = !!(await authService.getSession());
-        if (!session) {
+        if (!session && !requiredRole) {
           return navigateToLogin();
+        }
+        if (requiredRole) {
+          const userClaims = await authService.authClient.getClaims();
+          if (
+            userClaims &&
+            userClaims.data?.claims['user_metadata']?.['user_role'] !==
+              requiredRole
+          ) {
+            return navigateToLogin();
+          }
         }
       } catch (error) {
         console.error('Error authenticating user on client:', error);
@@ -31,6 +41,16 @@ export const authSBGuard =
       const serverUser = await authService.authenticateUserSSR();
       if (!serverUser) {
         return navigateToLogin();
+      }
+      if (requiredRole) {
+        const userClaims = await authService.authClient.getClaims();
+        if (
+          userClaims &&
+          userClaims.data?.claims['user_metadata']?.['user_role'] !==
+            requiredRole
+        ) {
+          return navigateToLogin();
+        }
       }
     } catch (error) {
       console.error('Error authenticating user on server:', error);

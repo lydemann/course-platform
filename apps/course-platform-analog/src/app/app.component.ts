@@ -1,12 +1,8 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, PLATFORM_ID, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { LayoutModule } from '@course-platform/course-client/shared/ui';
-import {
-  AuthSBService,
-  AuthService,
-} from '@course-platform/shared/auth/domain';
+import { AuthService } from '@course-platform/shared/auth/domain';
 import { TrpcHeaders } from '@course-platform/shared/domain/trpc-client';
 import { Session } from '@supabase/auth-js';
 

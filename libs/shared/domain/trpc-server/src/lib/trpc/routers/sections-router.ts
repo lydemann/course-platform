@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../../drizzle/db';
 import { router } from './../trpc';
-import * as schema from '../../drizzle/db-schema';
+import * as schema from '../../drizzle/out/schema';
 import { protectedProcedure } from './utils/protected-procedure';
 import {
   ActionItem,
@@ -11,6 +11,7 @@ import {
 } from '@course-platform/shared/interfaces';
 import { User } from '@supabase/auth-js';
 import { getDefaultActionItems } from './default-action-items';
+import { adminProcedure } from './utils/admin-procedure';
 
 const createSection = (name: string, courseId: string) => {
   return db
@@ -132,18 +133,18 @@ export const sectionRouter = router({
     .query(async ({ input: { courseId }, ctx: { user } }) => {
       return await getSections(user, courseId);
     }),
-  create: protectedProcedure
+  create: adminProcedure
     .input(
       z.object({
         name: z.string(),
         courseId: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const [model] = await createSection(input.name, input.courseId);
       return model;
     }),
-  update: protectedProcedure
+  update: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -151,15 +152,17 @@ export const sectionRouter = router({
         theme: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const [model] = await updateSection(input.id, input.name, input.theme);
       return model;
     }),
-  remove: protectedProcedure
+  remove: adminProcedure
     .input(
       z.object({
         id: z.string(),
       })
     )
-    .mutation(async ({ input }) => await deleteSection(input.id)),
+    .mutation(async ({ input, ctx }) => {
+      return await deleteSection(input.id);
+    }),
 });

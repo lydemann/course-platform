@@ -5,7 +5,7 @@ import {} from '@supabase/supabase-js';
 import { protectedProcedure } from './utils/protected-procedure';
 import { db } from '../../drizzle/db';
 import { eq } from 'drizzle-orm';
-import { profiles } from '../../drizzle/db-schema';
+import { profiles } from '../../drizzle/out/schema';
 
 export const userRouter = router({
   getProfile: protectedProcedure.query(async ({ ctx }) => {

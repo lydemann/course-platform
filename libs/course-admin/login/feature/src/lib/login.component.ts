@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-admin/shared/ui';
 
 import {
-  AuthFBService,
+  AuthService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
 
@@ -66,10 +66,7 @@ export class LoginComponent {
   errorMessage = '';
   private router = inject(Router);
 
-  constructor(
-    public authService: AuthFBService,
-    private fb: UntypedFormBuilder
-  ) {
+  constructor(public authService: AuthService, private fb: UntypedFormBuilder) {
     console.log('login component');
     this.createForm();
   }

@@ -1,7 +1,7 @@
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "prevId": "",
-  "version": "6",
+  "id": "1a0c1ecc-519b-41ea-8e97-f06acaa3b47d",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.completed_action_items": {
@@ -33,14 +33,65 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "completed_action_items_action_item_id_user_id_unique": {
-          "columns": ["action_item_id", "user_id"],
+          "name": "completed_action_items_action_item_id_user_id_unique",
           "nullsNotDistinct": false,
-          "name": "completed_action_items_action_item_id_user_id_unique"
+          "columns": ["action_item_id", "user_id"]
         }
-      }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "public.sections": {
-      "name": "sections",
+    "public.completed_lessons": {
+      "name": "completed_lessons",
+      "schema": "",
+      "columns": {
+        "lesson_id": {
+          "name": "lesson_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "completed_lessons_lesson_id_lessons_id_fk": {
+          "name": "completed_lessons_lesson_id_lessons_id_fk",
+          "tableFrom": "completed_lessons",
+          "tableTo": "lessons",
+          "columnsFrom": ["lesson_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "completed_lessons_lesson_id_user_id_unique": {
+          "name": "completed_lessons_lesson_id_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": ["lesson_id", "user_id"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.courses": {
+      "name": "courses",
       "schema": "",
       "columns": {
         "id": {
@@ -55,48 +106,40 @@
           "primaryKey": false,
           "notNull": true
         },
-        "theme": {
-          "name": "theme",
+        "description": {
+          "name": "description",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "course_id": {
-          "name": "course_id",
-          "type": "text",
+        "custom_styling": {
+          "name": "custom_styling",
+          "type": "jsonb",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "sections_course_id_courses_id_fk": {
-          "name": "sections_course_id_courses_id_fk",
-          "tableFrom": "sections",
-          "tableTo": "courses",
-          "schemaTo": "public",
-          "columnsFrom": ["course_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
     "public.lessons": {
       "name": "lessons",
@@ -140,15 +183,15 @@
           "notNull": true,
           "default": "now()"
         },
-        "section_id": {
-          "name": "section_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "order_id": {
           "name": "order_id",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "section_id": {
+          "name": "section_id",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         }
@@ -159,7 +202,6 @@
           "name": "lessons_section_id_sections_id_fk",
           "tableFrom": "lessons",
           "tableTo": "sections",
-          "schemaTo": "public",
           "columnsFrom": ["section_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
@@ -167,53 +209,65 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "public.completed_lessons": {
-      "name": "completed_lessons",
+    "public.profiles": {
+      "name": "profiles",
       "schema": "",
       "columns": {
-        "lesson_id": {
-          "name": "lesson_id",
-          "type": "text",
-          "primaryKey": false,
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "username": {
+          "name": "username",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+          "notNull": false
+        },
+        "avatar_url": {
+          "name": "avatar_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "website": {
+          "name": "website",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "completed_lessons_lesson_id_lessons_id_fk": {
-          "name": "completed_lessons_lesson_id_lessons_id_fk",
-          "tableFrom": "completed_lessons",
-          "tableTo": "lessons",
-          "schemaTo": "public",
-          "columnsFrom": ["lesson_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "completed_lessons_lesson_id_user_id_unique": {
-          "columns": ["lesson_id", "user_id"],
+        "profiles_username_key": {
+          "name": "profiles_username_key",
           "nullsNotDistinct": false,
-          "name": "completed_lessons_lesson_id_user_id_unique"
+          "columns": ["username"]
         }
-      }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
     "public.resources": {
       "name": "resources",
@@ -224,7 +278,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'bedced87-7ebf-d263-0307-93f94802639c'"
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -277,7 +331,6 @@
           "name": "resources_lesson_id_lessons_id_fk",
           "tableFrom": "resources",
           "tableTo": "lessons",
-          "schemaTo": "public",
           "columnsFrom": ["lesson_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
@@ -285,73 +338,13 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "public.profiles": {
-      "name": "profiles",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "username": {
-          "name": "username",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "full_name": {
-          "name": "full_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "avatar_url": {
-          "name": "avatar_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "website": {
-          "name": "website",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "profiles_id_fkey": {
-          "name": "profiles_id_fkey",
-          "tableFrom": "profiles",
-          "tableTo": "users",
-          "schemaTo": "auth",
-          "columnsFrom": ["id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "profiles_username_key": {
-          "columns": ["username"],
-          "nullsNotDistinct": false,
-          "name": "profiles_username_key"
-        }
-      }
-    },
-    "public.courses": {
-      "name": "courses",
+    "public.sections": {
+      "name": "sections",
       "schema": "",
       "columns": {
         "id": {
@@ -366,112 +359,92 @@
           "primaryKey": false,
           "notNull": true
         },
-        "description": {
-          "name": "description",
+        "theme": {
+          "name": "theme",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "custom_styling": {
-          "name": "custom_styling",
-          "type": "jsonb",
+        "course_id": {
+          "name": "course_id",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sections_course_id_courses_id_fk": {
+          "name": "sections_course_id_courses_id_fk",
+          "tableFrom": "sections",
+          "tableTo": "courses",
+          "columnsFrom": ["course_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user_roles": {
+      "name": "user_roles",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "user_roles_user_id_role_unique": {
+          "name": "user_roles_user_id_role_unique",
+          "nullsNotDistinct": false,
+          "columns": ["user_id", "role"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
-  "enums": {
-    "auth.aal_level": {
-      "name": "aal_level",
-      "values": ["aal1", "aal2", "aal3"],
-      "schema": "auth"
-    },
-    "auth.code_challenge_method": {
-      "name": "code_challenge_method",
-      "values": ["s256", "plain"],
-      "schema": "auth"
-    },
-    "auth.factor_status": {
-      "name": "factor_status",
-      "values": ["unverified", "verified"],
-      "schema": "auth"
-    },
-    "auth.factor_type": {
-      "name": "factor_type",
-      "values": ["totp", "webauthn"],
-      "schema": "auth"
-    },
-    "auth.one_time_token_type": {
-      "name": "one_time_token_type",
-      "values": [
-        "confirmation_token",
-        "reauthentication_token",
-        "recovery_token",
-        "email_change_token_new",
-        "email_change_token_current",
-        "phone_change_token"
-      ],
-      "schema": "auth"
-    },
-    "pgsodium.key_status": {
-      "name": "key_status",
-      "values": ["default", "valid", "invalid", "expired"],
-      "schema": "pgsodium"
-    },
-    "pgsodium.key_type": {
-      "name": "key_type",
-      "values": [
-        "aead-ietf",
-        "aead-det",
-        "hmacsha512",
-        "hmacsha256",
-        "auth",
-        "shorthash",
-        "generichash",
-        "kdf",
-        "secretbox",
-        "secretstream",
-        "stream_xchacha20"
-      ],
-      "schema": "pgsodium"
-    },
-    "realtime.action": {
-      "name": "action",
-      "values": ["INSERT", "UPDATE", "DELETE", "TRUNCATE", "ERROR"],
-      "schema": "realtime"
-    },
-    "realtime.equality_op": {
-      "name": "equality_op",
-      "values": ["eq", "neq", "lt", "lte", "gt", "gte", "in"],
-      "schema": "realtime"
-    }
-  },
+  "enums": {},
   "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "internal": {
     "tables": {}
   }
 }
