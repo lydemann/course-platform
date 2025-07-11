@@ -16,7 +16,21 @@ export default defineConfig(({ mode }) => {
         transformMixedEsModules: true,
       },
       outDir: '../../dist/./course-platform-analog/client',
-      reportCompressedSize: true,
+      reportCompressedSize: false, // Disable for Vercel to reduce memory usage
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: [
+              '@angular/core',
+              '@angular/common',
+              '@angular/platform-browser',
+            ],
+            rxjs: ['rxjs'],
+            firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          },
+        },
+      },
     },
     server: {
       fs: {
@@ -73,6 +87,8 @@ export default defineConfig(({ mode }) => {
           },
         },
       },
+      // Exclude heavy dependencies from optimization
+      exclude: ['cypress', '@playwright/test'],
     },
     define: {
       'import.meta.vitest': mode !== 'production',

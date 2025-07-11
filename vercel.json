@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "nx build course-platform-analog --prod",
-  "installCommand": "yum install -y hostname && pnpm install --frozen-lockfile"
+  "buildCommand": "pnpm run vercel-build",
+  "installCommand": "yum install -y hostname && pnpm install --frozen-lockfile",
+  "outputDirectory": "dist/apps/course-platform-analog/client"
 }
