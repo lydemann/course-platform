@@ -34,6 +34,11 @@ export default defineConfig(({ mode }) => {
               }),
             ],
           },
+          routeRules: {
+            '/': {
+              prerender: false,
+            },
+          },
           preset: 'vercel',
         },
       }),
