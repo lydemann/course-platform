@@ -15,6 +15,7 @@ variables:
     BASE_SHA: $(git rev-parse HEAD~1)
   HEAD_SHA: $(git rev-parse HEAD)
   PNPM_CACHE_FOLDER: $(Pipeline.Workspace)/.pnpm-store
+  PNPM_HOME: $(Pipeline.Workspace)/.pnpm
 
 jobs:
   - job: main
@@ -38,6 +39,12 @@ jobs:
           AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
 
       - script: git branch --track main origin/main
+
+      - script: |
+          mkdir -p $(PNPM_CACHE_FOLDER)
+          mkdir -p $(PNPM_HOME)
+        displayName: 'Create pnpm directories'
+
       - task: Cache@2
         inputs:
           key: '"pnpm" | "$(Agent.OS)" | pnpm-lock.yaml'
