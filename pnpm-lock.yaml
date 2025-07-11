@@ -296,7 +296,7 @@ importers:
         version: 17.3.17(@angular/compiler-cli@18.0.1(@angular/compiler@18.0.1(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3)))(typescript@5.4.5))(typescript@5.4.5)(webpack@5.99.9(@swc/core@1.5.7(@swc/helpers@0.5.11))(esbuild@0.25.5))
       '@nuxt/devtools':
         specifier: 1.0.0
-        version: 1.0.0(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(rollup@4.44.0)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))
+        version: 1.0.0(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(rollup@4.22.4)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))
       '@nuxt/eslint-config':
         specifier: ~0.3.6
         version: 0.3.13(eslint@8.57.1)(typescript@5.4.5)
@@ -485,7 +485,7 @@ importers:
         version: 17.1.2(@angular/compiler-cli@18.0.1(@angular/compiler@18.0.1(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3)))(typescript@5.4.5))(tailwindcss@3.4.17(ts-node@10.9.1(@swc/core@1.5.7(@swc/helpers@0.5.11))(@types/node@18.16.9)(typescript@5.4.5)))(tslib@2.8.1)(typescript@5.4.5)
       nuxt:
         specifier: ^3.10.0
-        version: 3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0)
+        version: 3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0)
       nx:
         specifier: 19.4.0
         version: 19.4.0(@swc-node/register@1.9.2(@swc/core@1.5.7(@swc/helpers@0.5.11))(@swc/types@0.1.7)(typescript@5.4.5))(@swc/core@1.5.7(@swc/helpers@0.5.11))
@@ -510,6 +510,9 @@ importers:
       prettier:
         specifier: 2.8.1
         version: 2.8.1
+      rollup:
+        specifier: 4.22.4
+        version: 4.22.4
       rollup-plugin-typescript-paths:
         specifier: ^1.5.0
         version: 1.5.0(typescript@5.4.5)
@@ -20606,12 +20609,12 @@ snapshots:
 
   '@nuxt/devalue@2.0.2': {}
 
-  '@nuxt/devtools-kit@1.0.0(magicast@0.3.5)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))':
+  '@nuxt/devtools-kit@1.0.0(magicast@0.3.5)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))':
     dependencies:
       '@nuxt/kit': 3.17.5(magicast@0.3.5)
       '@nuxt/schema': 3.17.5
       execa: 7.2.0
-      nuxt: 3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0)
+      nuxt: 3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0)
       vite: 5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2)
     transitivePeerDependencies:
       - magicast
@@ -20649,10 +20652,10 @@ snapshots:
       prompts: 2.4.2
       semver: 7.7.2
 
-  '@nuxt/devtools@1.0.0(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(rollup@4.44.0)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))':
+  '@nuxt/devtools@1.0.0(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(rollup@4.22.4)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))':
     dependencies:
       '@antfu/utils': 0.7.10
-      '@nuxt/devtools-kit': 1.0.0(magicast@0.3.5)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))
+      '@nuxt/devtools-kit': 1.0.0(magicast@0.3.5)(nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0))(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))
       '@nuxt/devtools-wizard': 1.0.0
       '@nuxt/kit': 3.17.5(magicast@0.3.5)
       birpc: 0.2.19
@@ -20672,7 +20675,7 @@ snapshots:
       local-pkg: 0.5.1
       magicast: 0.3.5
       nitropack: 2.11.12(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)
-      nuxt: 3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0)
+      nuxt: 3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0)
       nypm: 0.3.12
       ofetch: 1.4.1
       ohash: 1.1.6
@@ -20685,9 +20688,9 @@ snapshots:
       semver: 7.7.2
       simple-git: 3.28.0
       sirv: 2.0.4
-      unimport: 3.14.6(rollup@4.44.0)
+      unimport: 3.14.6(rollup@4.22.4)
       vite: 5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2)
-      vite-plugin-inspect: 0.7.42(@nuxt/kit@3.17.5(magicast@0.3.5))(rollup@4.44.0)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))
+      vite-plugin-inspect: 0.7.42(@nuxt/kit@3.17.5(magicast@0.3.5))(rollup@4.22.4)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))
       vite-plugin-vue-inspector: 4.0.2(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))
       which: 3.0.1
       ws: 8.18.2
@@ -20851,10 +20854,10 @@ snapshots:
 
   '@nuxt/ui-templates@1.3.4': {}
 
-  '@nuxt/vite-builder@3.17.5(@types/node@18.16.9)(eslint@8.57.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vue-tsc@1.8.27(typescript@5.4.5))(vue@3.5.17(typescript@5.4.5))(yaml@2.8.0)':
+  '@nuxt/vite-builder@3.17.5(@types/node@18.16.9)(eslint@8.57.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vue-tsc@1.8.27(typescript@5.4.5))(vue@3.5.17(typescript@5.4.5))(yaml@2.8.0)':
     dependencies:
       '@nuxt/kit': 3.17.5(magicast@0.3.5)
-      '@rollup/plugin-replace': 6.0.2(rollup@4.44.0)
+      '@rollup/plugin-replace': 6.0.2(rollup@4.22.4)
       '@vitejs/plugin-vue': 5.2.4(vite@6.3.5(@types/node@18.16.9)(jiti@2.4.2)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2)(yaml@2.8.0))(vue@3.5.17(typescript@5.4.5))
       '@vitejs/plugin-vue-jsx': 4.2.0(vite@6.3.5(@types/node@18.16.9)(jiti@2.4.2)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2)(yaml@2.8.0))(vue@3.5.17(typescript@5.4.5))
       autoprefixer: 10.4.21(postcss@8.5.6)
@@ -20877,7 +20880,7 @@ snapshots:
       perfect-debounce: 1.0.0
       pkg-types: 2.1.0
       postcss: 8.5.6
-      rollup-plugin-visualizer: 6.0.3(rollup@4.44.0)
+      rollup-plugin-visualizer: 6.0.3(rollup@4.22.4)
       std-env: 3.9.0
       ufo: 1.6.1
       unenv: 2.0.0-rc.17
@@ -21660,21 +21663,27 @@ snapshots:
     optionalDependencies:
       rollup: 4.44.0
 
+  '@rollup/plugin-json@6.1.0(rollup@4.22.4)':
+    dependencies:
+      '@rollup/pluginutils': 5.2.0(rollup@4.22.4)
+    optionalDependencies:
+      rollup: 4.22.4
+
   '@rollup/plugin-json@6.1.0(rollup@4.44.0)':
     dependencies:
       '@rollup/pluginutils': 5.2.0(rollup@4.44.0)
     optionalDependencies:
       rollup: 4.44.0
 
-  '@rollup/plugin-node-resolve@15.3.1(rollup@4.44.0)':
+  '@rollup/plugin-node-resolve@15.3.1(rollup@4.22.4)':
     dependencies:
-      '@rollup/pluginutils': 5.2.0(rollup@4.44.0)
+      '@rollup/pluginutils': 5.2.0(rollup@4.22.4)
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-module: 1.0.0
       resolve: 1.22.10
     optionalDependencies:
-      rollup: 4.44.0
+      rollup: 4.22.4
 
   '@rollup/plugin-node-resolve@16.0.1(rollup@4.44.0)':
     dependencies:
@@ -21685,6 +21694,13 @@ snapshots:
       resolve: 1.22.10
     optionalDependencies:
       rollup: 4.44.0
+
+  '@rollup/plugin-replace@6.0.2(rollup@4.22.4)':
+    dependencies:
+      '@rollup/pluginutils': 5.2.0(rollup@4.22.4)
+      magic-string: 0.30.17
+    optionalDependencies:
+      rollup: 4.22.4
 
   '@rollup/plugin-replace@6.0.2(rollup@4.44.0)':
     dependencies:
@@ -21700,6 +21716,14 @@ snapshots:
       terser: 5.43.1
     optionalDependencies:
       rollup: 4.44.0
+
+  '@rollup/pluginutils@5.2.0(rollup@4.22.4)':
+    dependencies:
+      '@types/estree': 1.0.8
+      estree-walker: 2.0.2
+      picomatch: 4.0.2
+    optionalDependencies:
+      rollup: 4.22.4
 
   '@rollup/pluginutils@5.2.0(rollup@4.44.0)':
     dependencies:
@@ -29745,8 +29769,8 @@ snapshots:
   ng-packagr@17.1.2(@angular/compiler-cli@18.0.1(@angular/compiler@18.0.1(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3)))(typescript@5.4.5))(tailwindcss@3.4.17(ts-node@10.9.1(@swc/core@1.5.7(@swc/helpers@0.5.11))(@types/node@18.16.9)(typescript@5.4.5)))(tslib@2.8.1)(typescript@5.4.5):
     dependencies:
       '@angular/compiler-cli': 18.0.1(@angular/compiler@18.0.1(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3)))(typescript@5.4.5)
-      '@rollup/plugin-json': 6.1.0(rollup@4.44.0)
-      '@rollup/plugin-node-resolve': 15.3.1(rollup@4.44.0)
+      '@rollup/plugin-json': 6.1.0(rollup@4.22.4)
+      '@rollup/plugin-node-resolve': 15.3.1(rollup@4.22.4)
       '@rollup/wasm-node': 4.44.0
       ajv: 8.17.1
       ansi-colors: 4.1.3
@@ -29771,7 +29795,7 @@ snapshots:
       typescript: 5.4.5
     optionalDependencies:
       esbuild: 0.19.12
-      rollup: 4.44.0
+      rollup: 4.22.4
       tailwindcss: 3.4.17(ts-node@10.9.1(@swc/core@1.5.7(@swc/helpers@0.5.11))(@types/node@18.16.9)(typescript@5.4.5))
 
   ngx-cookie-service-ssr@17.1.0(@angular/common@18.0.1(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3))(@angular/ssr@17.3.17(@angular/common@18.0.1(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3))(rxjs@7.8.1))(@angular/core@18.0.1(rxjs@7.8.1)(zone.js@0.14.3))):
@@ -30110,7 +30134,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0):
+  nuxt@3.17.5(@electric-sql/pglite@0.2.17)(@parcel/watcher@2.5.1)(@types/node@18.16.9)(db0@0.3.2(@electric-sql/pglite@0.2.17)(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7)))(drizzle-orm@0.44.2(@electric-sql/pglite@0.2.17)(@opentelemetry/api@1.9.0)(pg@8.16.1)(postgres@3.4.7))(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.6.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2))(vue-tsc@1.8.27(typescript@5.4.5))(yaml@2.8.0):
     dependencies:
       '@nuxt/cli': 3.25.1(magicast@0.3.5)
       '@nuxt/devalue': 2.0.2
@@ -30118,7 +30142,7 @@ snapshots:
       '@nuxt/kit': 3.17.5(magicast@0.3.5)
       '@nuxt/schema': 3.17.5
       '@nuxt/telemetry': 2.6.6(magicast@0.3.5)
-      '@nuxt/vite-builder': 3.17.5(@types/node@18.16.9)(eslint@8.57.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.44.0)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vue-tsc@1.8.27(typescript@5.4.5))(vue@3.5.17(typescript@5.4.5))(yaml@2.8.0)
+      '@nuxt/vite-builder': 3.17.5(@types/node@18.16.9)(eslint@8.57.1)(less@4.1.3)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.22.4)(sass@1.62.1)(stylelint@14.16.1)(stylus@0.59.0)(terser@5.29.2)(typescript@5.4.5)(vue-tsc@1.8.27(typescript@5.4.5))(vue@3.5.17(typescript@5.4.5))(yaml@2.8.0)
       '@unhead/vue': 2.0.10(vue@3.5.17(typescript@5.4.5))
       '@vue/shared': 3.5.17
       c12: 3.0.4(magicast@0.3.5)
@@ -32052,14 +32076,14 @@ snapshots:
     optionalDependencies:
       rollup: 4.44.0
 
-  rollup-plugin-visualizer@6.0.3(rollup@4.44.0):
+  rollup-plugin-visualizer@6.0.3(rollup@4.22.4):
     dependencies:
       open: 8.4.2
       picomatch: 4.0.2
       source-map: 0.7.4
       yargs: 17.7.2
     optionalDependencies:
-      rollup: 4.44.0
+      rollup: 4.22.4
 
   rollup@4.22.4:
     dependencies:
@@ -33640,9 +33664,9 @@ snapshots:
 
   unicorn-magic@0.3.0: {}
 
-  unimport@3.14.6(rollup@4.44.0):
+  unimport@3.14.6(rollup@4.22.4):
     dependencies:
-      '@rollup/pluginutils': 5.2.0(rollup@4.44.0)
+      '@rollup/pluginutils': 5.2.0(rollup@4.22.4)
       acorn: 8.15.0
       escape-string-regexp: 5.0.0
       estree-walker: 3.0.3
@@ -33992,10 +34016,10 @@ snapshots:
       typescript: 5.4.5
       vue-tsc: 1.8.27(typescript@5.4.5)
 
-  vite-plugin-inspect@0.7.42(@nuxt/kit@3.17.5(magicast@0.3.5))(rollup@4.44.0)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2)):
+  vite-plugin-inspect@0.7.42(@nuxt/kit@3.17.5(magicast@0.3.5))(rollup@4.22.4)(vite@5.0.13(@types/node@18.16.9)(less@4.1.3)(sass@1.62.1)(stylus@0.59.0)(terser@5.29.2)):
     dependencies:
       '@antfu/utils': 0.7.10
-      '@rollup/pluginutils': 5.2.0(rollup@4.44.0)
+      '@rollup/pluginutils': 5.2.0(rollup@4.22.4)
       debug: 4.4.1(supports-color@8.1.1)
       error-stack-parser-es: 0.1.5
       fs-extra: 11.3.0
@@ -34074,7 +34098,7 @@ snapshots:
     dependencies:
       esbuild: 0.19.12
       postcss: 8.5.6
-      rollup: 4.44.0
+      rollup: 4.22.4
     optionalDependencies:
       '@types/node': 18.16.9
       fsevents: 2.3.3
@@ -34087,7 +34111,7 @@ snapshots:
     dependencies:
       esbuild: 0.20.2
       postcss: 8.5.6
-      rollup: 4.44.0
+      rollup: 4.22.4
     optionalDependencies:
       '@types/node': 18.16.9
       fsevents: 2.3.3
