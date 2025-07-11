@@ -1,0 +1,3 @@
+{
+  "installCommand": "yum install -y hostname && pnpm install --frozen-lockfile"
+}
