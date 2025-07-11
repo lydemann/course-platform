@@ -18,7 +18,12 @@
         "configFile": "apps/course-platform-analog/vite.config.ts",
         "outputPath": "dist/apps/course-platform-analog/client",
         "tsConfig": "apps/course-platform-analog/tsconfig.app.json",
-        "sourcemap": true
+        "sourcemap": false
+      },
+      "executorOptions": {
+        "env": {
+          "NODE_OPTIONS": "--max-old-space-size=4096"
+        }
       },
       "defaultConfiguration": "production",
       "configurations": {
