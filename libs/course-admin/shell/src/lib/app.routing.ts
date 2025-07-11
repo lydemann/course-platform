@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import {
-  AuthFBGuard,
+  authSBGuard,
   RedirectIfLoggedInResolver,
 } from '@course-platform/shared/auth/domain';
-import { SchoolIdResolver } from '@course-platform/shared/domain';
 import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
@@ -23,7 +22,6 @@ const routes: Routes = [
   },
   {
     path: '',
-    resolve: [SchoolIdResolver],
     children: [
       {
         path: 'login',
@@ -39,7 +37,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            canActivate: [AuthFBGuard],
+            canActivate: [authSBGuard],
             children: [
               {
                 path: 'courses',

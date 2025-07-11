@@ -14,7 +14,8 @@ variables:
     NX_BRANCH: $(Build.SourceBranchName)
     BASE_SHA: $(git rev-parse HEAD~1)
   HEAD_SHA: $(git rev-parse HEAD)
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+  PNPM_CACHE_FOLDER: $(Pipeline.Workspace)/.pnpm-store
+  PNPM_HOME: $(Pipeline.Workspace)/.pnpm
 
 jobs:
   - job: main
@@ -38,25 +39,34 @@ jobs:
           AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
 
       - script: git branch --track main origin/main
+
+      - script: |
+          mkdir -p $(PNPM_CACHE_FOLDER)
+          mkdir -p $(PNPM_HOME)
+        displayName: 'Create pnpm directories'
+
       - task: Cache@2
         inputs:
-          key: '"yarn" | "$(Agent.OS)" | yarn.lock'
+          key: '"pnpm" | "$(Agent.OS)" | pnpm-lock.yaml'
           restoreKeys: |
-            "yarn" | "$(Agent.OS)"
-            "yarn"
-          path: $(YARN_CACHE_FOLDER)
-        displayName: Cache Yarn packages
+            "pnpm" | "$(Agent.OS)"
+            "pnpm"
+          path: $(PNPM_CACHE_FOLDER)
+        displayName: Cache PNPM packages
 
-      - script: yarn --frozen-lockfile
-      - script: yarn nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
+      - script: npm install -g pnpm
+        displayName: 'Install pnpm'
+
+      - script: pnpm install --frozen-lockfile
+      - script: pnpm nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
         displayName: Start CI run
-      - script: yarn nx-cloud record -- yarn nx format:check --base=$(BASE_SHA) --head=$(HEAD_SHA)
+      - script: npx nx format:check --base=$(BASE_SHA) --head=$(HEAD_SHA)
         displayName: Check format
-      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=lint --parallel=3
+      - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=lint --parallel=3
         displayName: Run lint
-      - script: yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=test --parallel=3 --ci --code-coverage
+      - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=test --parallel=3 --ci --code-coverage
         displayName: Run test
-      - script: export NODE_OPTIONS="--max-old-space-size=8192" && yarn nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3
+      - script: export NODE_OPTIONS="--max-old-space-size=8192" && pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3
         displayName: Run build
         # archive and publish artifacts
       - task: ArchiveFiles@2
@@ -88,6 +98,6 @@ jobs:
           done
         displayName: 'Tag build'
 
-      - script: yarn nx-cloud stop-all-agents
+      - script: pnpm nx-cloud stop-all-agents
         condition: always()
         displayName: Stop all Nx-Cloud agents

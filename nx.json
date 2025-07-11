@@ -58,7 +58,7 @@
   },
   "neverConnectToCloud": true,
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "defaultProject": "course-client",
+  "defaultProject": "course-platform-analog",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [

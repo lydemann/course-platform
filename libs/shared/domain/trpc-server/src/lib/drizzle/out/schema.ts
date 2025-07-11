@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
   jsonb,
   pgTable,
@@ -80,7 +80,9 @@ export const completedLessons = pgTable(
 );
 
 export const resources = pgTable('resources', {
-  id: text('id').primaryKey().default(Guid.create().toString()),
+  id: text('id')
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
   name: text('name').notNull(),
   url: text('url').notNull(),
   description: text('description'),
@@ -128,4 +130,15 @@ export const completedActionItems = pgTable(
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (t) => ({ unq: unique().on(t.actionItemId, t.userId) })
+);
+
+export const userRoles = pgTable(
+  'user_roles',
+  {
+    userId: uuid('user_id').primaryKey().notNull(),
+    role: text('role').notNull(),
+  },
+  (table) => [
+    unique('user_roles_user_id_role_unique').on(table.userId, table.role),
+  ]
 );

@@ -17,7 +17,7 @@ const config: PlaywrightTestConfig = {
     testIdAttribute: 'data-test',
   },
   webServer: {
-    command: 'yarn nx serve course-client',
+    command: 'npx nx serve course-client',
     url: 'http://localhost:4200',
     reuseExistingServer: !process.env.CI,
     cwd: workspaceRoot,

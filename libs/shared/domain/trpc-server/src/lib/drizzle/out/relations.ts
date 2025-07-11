@@ -3,15 +3,15 @@ import {
   courses,
   sections,
   lessons,
-  completed_lessons,
+  completedLessons,
   resources,
-  usersInAuth,
+  userRoles,
   profiles,
 } from './schema';
 
 export const sectionsRelations = relations(sections, ({ one, many }) => ({
   course: one(courses, {
-    fields: [sections.course_id],
+    fields: [sections.courseId],
     references: [courses.id],
   }),
   lessons: many(lessons),
@@ -23,18 +23,18 @@ export const coursesRelations = relations(courses, ({ many }) => ({
 
 export const lessonsRelations = relations(lessons, ({ one, many }) => ({
   section: one(sections, {
-    fields: [lessons.section_id],
+    fields: [lessons.sectionId],
     references: [sections.id],
   }),
-  completed_lessons: many(completed_lessons),
+  completed_lessons: many(completedLessons),
   resources: many(resources),
 }));
 
 export const completed_lessonsRelations = relations(
-  completed_lessons,
+  completedLessons,
   ({ one }) => ({
     lesson: one(lessons, {
-      fields: [completed_lessons.lesson_id],
+      fields: [completedLessons.lessonId],
       references: [lessons.id],
     }),
   })
@@ -42,18 +42,18 @@ export const completed_lessonsRelations = relations(
 
 export const resourcesRelations = relations(resources, ({ one }) => ({
   lesson: one(lessons, {
-    fields: [resources.lesson_id],
+    fields: [resources.lessonId],
     references: [lessons.id],
   }),
 }));
 
 export const profilesRelations = relations(profiles, ({ one }) => ({
-  usersInAuth: one(usersInAuth, {
+  usersInAuth: one(userRoles, {
     fields: [profiles.id],
-    references: [usersInAuth.id],
+    references: [userRoles.userId],
   }),
 }));
 
-export const usersInAuthRelations = relations(usersInAuth, ({ many }) => ({
+export const usersInAuthRelations = relations(userRoles, ({ many }) => ({
   profiles: many(profiles),
 }));

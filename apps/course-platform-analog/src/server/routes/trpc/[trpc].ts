@@ -1,5 +1,5 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { createTrpcNitroHandler } from '@analogjs/trpc';
+import { createTrpcNitroHandler } from '@analogjs/trpc/server';
 import {
   appRouter,
   createContext,

@@ -1,31 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Apollo, gql } from 'apollo-angular';
-import {
-  catchError,
-  filter,
-  finalize,
-  first,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { catchError, filter, finalize, map, switchMap } from 'rxjs/operators';
 
-import { Auth } from '@angular/fire/auth';
-import {
-  CourseResourcesService,
-  GET_COURSES_QUERY,
-  GetCoursesResponseDTO,
-  createInCache,
-  removeFromCache,
-} from '@course-platform/shared/domain';
+import { CourseResourcesService } from '@course-platform/shared/domain';
+import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
 import {
   Course,
   CourseSection,
   Lesson,
 } from '@course-platform/shared/interfaces';
 import { ComponentStore } from '@ngrx/component-store';
-import { tapResponse } from '@ngrx/operators';
 import { Observable } from 'rxjs';
 
 interface CourseAdminStore {
@@ -38,47 +23,6 @@ interface CourseAdminStore {
   isCreatingSection: boolean;
   currentCourseId: string | null;
 }
-
-export const EDIT_COURSE_MUTATION = gql`
-  mutation editCourseMutation(
-    $id: ID!
-    $name: String!
-    $description: String!
-    $customStyling: String
-  ) {
-    updateCourse(
-      id: $id
-      name: $name
-      description: $description
-      customStyling: $customStyling
-    ) {
-      id
-      name
-      description
-      customStyling
-    }
-  }
-`;
-
-export const CREATE_COURSE_MUTATION = gql`
-  mutation createCourseMutation($name: String!, $description: String!) {
-    createCourse(name: $name, description: $description) {
-      id
-      name
-      description
-    }
-  }
-`;
-
-export const DELETE_COURSE_MUTATION = gql`
-  mutation deleteCourseMutation($id: ID!) {
-    deleteCourse(id: $id) {
-      id
-      name
-      description
-    }
-  }
-`;
 
 @Injectable({
   providedIn: 'root',
@@ -173,6 +117,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
       };
     }
   );
+  tenantId = '';
 
   private restoreLastSnapshot() {
     if (this.snapshot) {
@@ -245,12 +190,11 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }));
 
   isEditingCourse = signal(false);
+  private trpcClient = injectTRPCClient();
 
   constructor(
     private courseResourcesService: CourseResourcesService,
-    private router: Router,
-    private apollo: Apollo,
-    private auth: Auth
+    private router: Router
   ) {
     super({
       sections: [],
@@ -265,7 +209,6 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     this.currentCourseId$
       .pipe(
         filter((courseId) => !!courseId),
-        first(),
         switchMap((courseId) =>
           this.courseResourcesService.getCourseSections(courseId!)
         )
@@ -276,20 +219,10 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   createCourseSubmitted(course: Course) {
-    return this.apollo.mutate<{ createCourse: Course }>({
-      mutation: CREATE_COURSE_MUTATION,
-      variables: {
-        name: course.name,
-        description: course.description,
-      } as Course,
-      update(cache, { data }) {
-        createInCache<GetCoursesResponseDTO>(
-          data!.createCourse,
-          GET_COURSES_QUERY,
-          cache,
-          'course'
-        );
-      },
+    return this.trpcClient.course.create.mutate({
+      id: course.id,
+      name: course.name,
+      description: course.description,
     });
   }
 
@@ -299,7 +232,7 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   setSchoolId(schoolId: string) {
-    this.auth.tenantId = schoolId;
+    this.tenantId = schoolId;
   }
 
   courseAdminInit(courseId: string) {
@@ -323,15 +256,12 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
 
   editCourseSubmitted(editedCourse: Course) {
     this.isEditingCourse.set(true);
-    return this.apollo
-      .mutate<Course>({
-        mutation: EDIT_COURSE_MUTATION,
-        variables: {
-          id: editedCourse.id,
-          name: editedCourse.name,
-          description: editedCourse.description,
-          customStyling: editedCourse.customStyling,
-        } as Course,
+    return this.trpcClient.course.update
+      .mutate({
+        id: editedCourse.id,
+        name: editedCourse.name,
+        description: editedCourse.description,
+        customStyling: editedCourse.customStyling,
       })
       .pipe(
         finalize(() => {
@@ -341,19 +271,8 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
   }
 
   deleteCourseSubmitted(courseId: string) {
-    return this.apollo.mutate<{ deleteCourse: Course }>({
-      mutation: DELETE_COURSE_MUTATION,
-      variables: {
-        id: courseId,
-      } as Course,
-      update(cache, { data }) {
-        removeFromCache<GetCoursesResponseDTO>(
-          data!.deleteCourse,
-          GET_COURSES_QUERY,
-          cache,
-          'course'
-        );
-      },
+    return this.trpcClient.course.delete.mutate({
+      id: courseId,
     });
   }
 
@@ -378,31 +297,12 @@ export class CourseAdminFacadeService extends ComponentStore<CourseAdminStore> {
     currentIndex: number,
     courseId: string
   ) {
-    const MOVE_LESSON_MUTATION = gql`
-      mutation moveLesson(
-        $sectionId: ID!
-        $previousIndex: Int!
-        $currentIndex: Int!
-        $courseId: ID!
-      ) {
-        moveLesson(
-          sectionId: $sectionId
-          previousIndex: $previousIndex
-          currentIndex: $currentIndex
-          courseId: $courseId
-        )
-      }
-    `;
-
-    this.apollo
+    this.trpcClient.lesson.moveLesson
       .mutate({
-        mutation: MOVE_LESSON_MUTATION,
-        variables: {
-          sectionId,
-          previousIndex,
-          currentIndex,
-          courseId,
-        },
+        sectionId,
+        previousIndex,
+        currentIndex,
+        courseId,
       })
       .subscribe();
   }

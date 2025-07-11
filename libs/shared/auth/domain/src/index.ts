@@ -9,3 +9,4 @@ export * from './lib/auth/guards/redirect-if-logged-in-server.guard';
 export * from './lib/auth/guards/redirect-if-logged-in.guard';
 export * from './lib/auth/guards/redirect-if-logged-in-sb.guard';
 export * from './lib/auth/guards/redirect-if-logged-out.service';
+export * from './lib/auth/guards/user-role.guard';

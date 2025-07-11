@@ -1,4 +1,4 @@
-import { provideFileRouter } from '@analogjs/router';
+import { provideFileRouter, withExtraRoutes } from '@analogjs/router';
 import {
   HttpClient,
   provideHttpClient,
@@ -17,6 +17,7 @@ import {
 } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  Routes,
   withComponentInputBinding,
   withNavigationErrorHandler,
 } from '@angular/router';
@@ -62,9 +63,20 @@ export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `${host}/assets/i18n/`, '.json');
 }
 
+const customRoutes: Routes = [
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('@course-platform/course-admin/shell').then(
+        (m) => m.RemoteEntryModule
+      ),
+  },
+];
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideFileRouter(
+      withExtraRoutes(customRoutes),
       withComponentInputBinding(),
       withNavigationErrorHandler(console.error)
     ),

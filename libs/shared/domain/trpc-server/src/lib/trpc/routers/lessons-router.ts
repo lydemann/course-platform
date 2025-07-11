@@ -6,9 +6,10 @@ import {
   completedActionItems,
   completedLessons,
   lessons,
-} from '../../drizzle/db-schema';
-import { and, desc, eq } from 'drizzle-orm';
+} from '../../drizzle/out/schema';
+import { and, eq } from 'drizzle-orm';
 import { Lesson } from '@course-platform/shared/interfaces';
+import { adminProcedure } from './utils/admin-procedure';
 
 export const lessonRouter = router({
   setCompleted: protectedProcedure
@@ -44,7 +45,7 @@ export const lessonRouter = router({
       }
     }),
   // create lesson
-  createLessson: protectedProcedure
+  createLessson: adminProcedure
     .input(
       z.object({
         name: z.string(),
@@ -84,7 +85,7 @@ export const lessonRouter = router({
       } as Lesson;
     }),
   // update lesson
-  updateLesson: protectedProcedure
+  updateLesson: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -114,6 +115,7 @@ export const lessonRouter = router({
           videoUrl,
           resources,
         },
+        ctx: { user },
       }) => {
         await db
           .update(lessons)
@@ -127,7 +129,7 @@ export const lessonRouter = router({
       }
     ),
   // delete lesson
-  deleteLesson: protectedProcedure
+  deleteLesson: adminProcedure
     .input(
       z.object({
         lessonId: z.string(),
@@ -171,6 +173,30 @@ export const lessonRouter = router({
             )
             .returning();
         }
+      }
+    ),
+  moveLesson: adminProcedure
+    .input(
+      z.object({
+        sectionId: z.string(),
+        previousIndex: z.number(),
+        currentIndex: z.number(),
+        courseId: z.string(),
+      })
+    )
+    .mutation(
+      async ({
+        input: { sectionId, previousIndex, currentIndex, courseId },
+      }) => {
+        // TODO: Implement lesson reordering logic
+        // This would typically involve updating the orderId field of lessons
+        console.log('Moving lesson', {
+          sectionId,
+          previousIndex,
+          currentIndex,
+          courseId,
+        });
+        return { success: true };
       }
     ),
 });

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { User } from '@angular/fire/auth';
 import { SharedModule } from '@course-platform/course-admin/shared/ui';
-import { AuthFBService } from '@course-platform/shared/auth/domain';
+import { AuthService } from '@course-platform/shared/auth/domain';
 import {
   Profile,
   ProfileFBService,
@@ -26,7 +25,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private profileService: ProfileFBService,
     private formBuilder: FormBuilder,
-    private authService: AuthFBService
+    private authService: AuthService
   ) {}
 
   ngOnInit() {

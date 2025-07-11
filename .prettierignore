@@ -7,3 +7,5 @@
 
 /.nx/cache
 /.nx/workspace-data
+/.pnpm-store
+pnpm-lock.yaml
