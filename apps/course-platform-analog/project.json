@@ -20,11 +20,6 @@
         "tsConfig": "apps/course-platform-analog/tsconfig.app.json",
         "sourcemap": true
       },
-      "executorOptions": {
-        "env": {
-          "NODE_OPTIONS": "--max-old-space-size=8192"
-        }
-      },
       "defaultConfiguration": "production",
       "configurations": {
         "development": {
