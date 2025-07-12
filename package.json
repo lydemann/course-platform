@@ -42,8 +42,7 @@
     "drizzle-pull": "cd ./libs/shared/domain/trpc-server/src/lib/drizzle && drizzle-kit pull",
     "drizzle-migrate": "cd ./libs/shared/domain/trpc-server/src/lib/drizzle && drizzle-kit migrate",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org ludemann-consulting-aps --project javascript-angular ./dist && sentry-cli sourcemaps upload --org ludemann-consulting-aps --project javascript-angular ./dist",
-    "test:e2e": "playwright test",
-    "vercel-build": "NODE_OPTIONS='--max-old-space-size=8192' nx build course-platform-analog --prod --skip-nx-cache"
+    "test:e2e": "playwright test"
   },
   "main": "dist/apps/course-service/main.js",
   "private": true,
