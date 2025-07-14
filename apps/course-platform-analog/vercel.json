@@ -1,0 +1,13 @@
+{
+  "buildCommand": "NODE_OPTIONS='--max-old-space-size=8192' npx nx build course-platform-analog --configuration=production",
+  "outputDirectory": "dist/apps/course-platform-analog/client",
+  "framework": "vite",
+  "functions": {
+    "dist/apps/course-platform-analog/analog/server/index.mjs": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NODE_OPTIONS": "--max-old-space-size=8192"
+  }
+}

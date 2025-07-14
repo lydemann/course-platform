@@ -18,6 +18,13 @@ export default defineConfig(({ mode }) => {
       outDir: '../../dist/./course-platform-analog/client',
       reportCompressedSize: false, // Disable for Vercel to reduce memory usage
       chunkSizeWarningLimit: 1000,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
     },
     server: {
       fs: {
@@ -57,12 +64,7 @@ export default defineConfig(({ mode }) => {
       noExternal: [
         '@analogjs/trpc',
         '@trpc/server',
-        'rxfire/**',
-        '@ngx-translate/**',
-        'ngx-cookie-service/**',
         'ngx-cookie-service-ssr/**',
-        'firebase/**',
-        '@apollo/client/**',
         'uuid',
       ],
     },
@@ -76,6 +78,12 @@ export default defineConfig(({ mode }) => {
       },
       // Exclude heavy dependencies from optimization
       exclude: ['cypress', '@playwright/test'],
+      include: [
+        '@angular/core',
+        '@angular/common',
+        '@angular/router',
+        '@angular/platform-browser',
+      ],
     },
     define: {
       'import.meta.vitest': mode !== 'production',
