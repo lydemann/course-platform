@@ -1,4 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "yum install -y hostname && pnpm install --frozen-lockfile"
+  "installCommand": "yum install -y hostname && pnpm install --frozen-lockfile",
+  "buildCommand": "NODE_OPTIONS='--max-old-space-size=16384' npx nx build course-platform-analog --configuration=production --no-cache"
 }

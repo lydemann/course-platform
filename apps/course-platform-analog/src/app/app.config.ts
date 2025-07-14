@@ -1,4 +1,4 @@
-import { provideFileRouter, withExtraRoutes } from '@analogjs/router';
+import { provideFileRouter } from '@analogjs/router';
 import {
   HttpClient,
   provideHttpClient,
