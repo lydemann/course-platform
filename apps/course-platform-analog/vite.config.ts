@@ -18,19 +18,6 @@ export default defineConfig(({ mode }) => {
       outDir: '../../dist/./course-platform-analog/client',
       reportCompressedSize: false, // Disable for Vercel to reduce memory usage
       chunkSizeWarningLimit: 1000,
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: [
-              '@angular/core',
-              '@angular/common',
-              '@angular/platform-browser',
-            ],
-            rxjs: ['rxjs'],
-            firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
-          },
-        },
-      },
     },
     server: {
       fs: {
