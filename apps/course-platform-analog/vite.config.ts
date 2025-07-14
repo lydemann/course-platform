@@ -39,6 +39,9 @@ export default defineConfig(({ mode }) => {
             '/': {
               prerender: false,
             },
+            '/admin': {
+              prerender: false,
+            },
           },
           preset: 'vercel',
         },
