@@ -60,3 +60,5 @@ firebase-service-account.json
 .nitro
 .cache
 .vercel
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
