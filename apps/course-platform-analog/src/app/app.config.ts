@@ -48,7 +48,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
 ) {
-  return () => featureToggleService.getFeatureFlags().toPromise();
+  return () => featureToggleService.getFeatureFlags();
 }
 
 export function endpointsFactory() {
