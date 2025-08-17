@@ -1,0 +1,54 @@
+# Vercel ignore file - exclude unnecessary files from build
+
+# Cypress and testing files (165MB+ saved)
+.cache/
+**/.cache/
+/vercel/.cache/
+node_modules/.cache/
+cypress/
+**/*cypress*
+**/e2e/
+**/*-e2e/
+**/*.spec.ts
+**/*.test.ts
+**/*.cy.ts
+
+# Test configuration
+cypress.config.ts
+**/cypress.config.ts
+jest.config.ts
+**/jest.config.ts
+playwright.config.ts
+
+# Development and build artifacts
+.env.local
+.env.development
+.env.test
+**/*.map
+coverage/
+**/coverage/
+dist/
+**/dist/
+.nx/cache/
+
+# Documentation and demos
+docs/
+**/*.md
+!README.md
+apps/analogjs-demo/
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Node modules cache and logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*

@@ -1,0 +1,26 @@
+{
+  "name": "analogjs-demo-analogjs-demo-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/analogjs-demo/analogjs-demo-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["analogjs-demo-analogjs-demo"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/analogjs-demo/analogjs-demo-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "analogjs-demo-analogjs-demo:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "analogjs-demo-analogjs-demo:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "analogjs-demo-analogjs-demo:serve-static"
+        }
+      }
+    }
+  }
+}

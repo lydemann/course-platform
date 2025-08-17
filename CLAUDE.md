@@ -71,8 +71,8 @@ nx build course-platform-analog
 nx build course-admin
 nx build course-client
 
-# Build Analog app with memory optimization (recommended)
-npm run build:analog
+# or for Vercel builds:
+npm run build:course-platform-analog
 # or manually:
 NODE_OPTIONS="--max-old-space-size=16384" nx build course-platform-analog
 ```

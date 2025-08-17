@@ -16,7 +16,78 @@ export default defineConfig(({ mode }) => {
         transformMixedEsModules: true,
       },
       outDir: '../../dist/./course-platform-analog/client',
-      reportCompressedSize: true,
+      reportCompressedSize: false, // Disable to save memory
+      chunkSizeWarningLimit: 1000,
+      sourcemap: false, // Disable source maps to save memory
+      minify: 'esbuild', // Use faster esbuild instead of terser
+      terserOptions: undefined, // Don't use terser
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            // Angular core chunks
+            if (
+              id.includes('@angular/core') ||
+              id.includes('@angular/common') ||
+              id.includes('@angular/platform-browser')
+            ) {
+              return 'angular-core';
+            }
+            if (id.includes('@angular/router')) {
+              return 'angular-router';
+            }
+            if (
+              id.includes('@angular/forms') ||
+              id.includes('@angular/reactive-forms')
+            ) {
+              return 'angular-forms';
+            }
+            if (
+              id.includes('@angular/material') ||
+              id.includes('@angular/cdk')
+            ) {
+              return 'angular-material';
+            }
+
+            // Third-party libraries
+            if (id.includes('rxjs')) {
+              return 'rxjs';
+            }
+            if (id.includes('@apollo/client') || id.includes('apollo')) {
+              return 'apollo';
+            }
+            if (id.includes('@trpc') || id.includes('trpc')) {
+              return 'trpc';
+            }
+            if (id.includes('firebase')) {
+              return 'firebase';
+            }
+
+            // UI libraries
+            if (id.includes('primeng')) {
+              return 'primeng';
+            }
+
+            // Course platform chunks
+            if (id.includes('@course-platform/course-client/feature')) {
+              return 'course-client-features';
+            }
+            if (id.includes('@course-platform/course-admin')) {
+              return 'course-admin';
+            }
+            if (id.includes('@course-platform/shared/ui')) {
+              return 'shared-ui';
+            }
+
+            // Large vendor libraries
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+
+            // Default chunk for everything else
+            return undefined;
+          },
+        },
+      },
     },
     server: {
       fs: {
@@ -69,6 +140,16 @@ export default defineConfig(({ mode }) => {
       ],
     },
     optimizeDeps: {
+      include: [
+        '@angular/core',
+        '@angular/common',
+        '@angular/platform-browser',
+        'rxjs',
+      ],
+      exclude: [
+        '@course-platform/course-client/feature',
+        '@course-platform/course-admin',
+      ],
       esbuildOptions: {
         tsconfigRaw: {
           compilerOptions: {
