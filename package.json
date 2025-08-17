@@ -17,7 +17,6 @@
     "deploy:course-client": "npm run firebase-deploy -- --only hosting:course-client",
     "deploy:course-admin": "npm run firebase-deploy -- --only hosting:course-admin",
     "build:course-platform-analog": "NODE_OPTIONS=\"--max-old-space-size=16384\" nx build course-platform-analog",
-    "deploy:course-platform-analog": "npm run build:course-platform-analog && cd dist/apps/course-platform-analog/analog && firebase deploy --only functions:server,hosting",
     "serve:course-service": "concurrently --kill-others \"npm run build -- course-service --source-map --watch\" \"firebase serve --only functions\"",
     "debug:course-service": "concurrently --kill-others \"npm run build -- course-service --source-map --watch\" \"firebase emulators:start --only functions --inspect-functions \"",
     "affected:apps": "nx affected:apps",
