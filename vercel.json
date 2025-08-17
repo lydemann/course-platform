@@ -2,7 +2,7 @@
   "buildCommand": "npm run build:course-platform-analog",
   "outputDirectory": "dist/apps/course-platform-analog/analog",
   "installCommand": "pnpm install --frozen-lockfile",
-  "framework": "nx",
+  "framework": "angular",
   "functions": {
     "apps/course-platform-analog/src/server/**": {
       "memory": 3008,
