@@ -44,6 +44,7 @@ import { cookieInterceptor } from '@course-platform/shared/ssr/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { APP_BASE_HREF } from '@angular/common';
 
 export function preloadFeagureFlags(
   featureToggleService: FeatureToggleService
@@ -80,6 +81,12 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withNavigationErrorHandler(console.error)
     ),
+    [
+      {
+        provide: APP_BASE_HREF,
+        useValue: import.meta.env.VITE_ANALOG_PUBLIC_BASE_URL || '/',
+      },
+    ],
     // makes sure the client is hydrated with the server state to avoid redundant client requests
     provideClientHydration(
       withHttpTransferCacheOptions({
