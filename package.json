@@ -16,8 +16,7 @@
     "deploy:course-service": "npm run firebase-deploy -- --only functions --only functions:api",
     "deploy:course-client": "npm run firebase-deploy -- --only hosting:course-client",
     "deploy:course-admin": "npm run firebase-deploy -- --only hosting:course-admin",
-    "build:analog": "nx build course-platform-analog && cp apps/course-platform-analog/src/firebase.json dist/apps/course-platform-analog/analog && cp apps/course-platform-analog/src/.firebaserc dist/apps/course-platform-analog/analog",
-    "deploy:analog": "npm run build:analog && cd dist/apps/course-platform-analog/analog && firebase deploy --only functions:server,hosting",
+    "build:course-platform-analog": "NODE_OPTIONS=\"--max-old-space-size=16384\" nx build course-platform-analog",
     "serve:course-service": "concurrently --kill-others \"npm run build -- course-service --source-map --watch\" \"firebase serve --only functions\"",
     "debug:course-service": "concurrently --kill-others \"npm run build -- course-service --source-map --watch\" \"firebase emulators:start --only functions --inspect-functions \"",
     "affected:apps": "nx affected:apps",
@@ -123,6 +122,7 @@
   "devDependencies": {
     "@analogjs/platform": "1.19.1",
     "@analogjs/vite-plugin-angular": "1.19.1",
+    "@analogjs/vitest-angular": "1.19.1",
     "@angular-devkit/architect": "^0.1800.2",
     "@angular-devkit/build-angular": "18.0.7",
     "@angular-devkit/core": "18.0.7",

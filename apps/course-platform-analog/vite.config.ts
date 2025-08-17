@@ -25,16 +25,24 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       analog({
+        prerender: {
+          routes: [],
+        },
         nitro: {
+          routeRules: {
+            // All admin URLs are only rendered on the client
+            '/admin/**': { ssr: false },
+          },
+          preset: 'vercel',
           rollupConfig: {
             plugins: [
               typescriptPaths({
                 tsConfigPath: 'tsconfig.base.json',
                 preserveExtensions: true,
-              }),
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              }) as any,
             ],
           },
-          preset: 'vercel',
         },
       }),
       nxViteTsPaths(),
