@@ -3,12 +3,6 @@
   "outputDirectory": "dist/apps/course-platform-analog/analog",
   "installCommand": "pnpm install --frozen-lockfile",
   "framework": "angular",
-  "functions": {
-    "apps/course-platform-analog/src/server/**": {
-      "memory": 3008,
-      "maxDuration": 30
-    }
-  },
   "env": {
     "NODE_OPTIONS": "--max-old-space-size=8192"
   }
