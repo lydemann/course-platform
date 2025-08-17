@@ -35,7 +35,6 @@ dist/
 docs/
 **/*.md
 !README.md
-apps/analogjs-demo/
 
 # IDE and OS files
 .vscode/

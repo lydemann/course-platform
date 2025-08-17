@@ -1,7 +1,7 @@
 {
   "buildCommand": "npm run build:course-platform-analog",
   "outputDirectory": "dist/apps/course-platform-analog/analog",
-  "installCommand": "pnpm install --frozen-lockfile",
+  "installCommand": "yum install -y hostname && pnpm install --frozen-lockfile",
   "framework": "angular",
   "env": {
     "NODE_OPTIONS": "--max-old-space-size=8192"
