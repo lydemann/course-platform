@@ -1,4 +1,0 @@
-{
-  "buildCommand": "npm run build:course-platform-analog",
-  "installCommand": "yum install -y hostname && pnpm install --frozen-lockfile"
-}
