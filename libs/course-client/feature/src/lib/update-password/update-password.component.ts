@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import {
-  ACCESS_TOKEN_COOKIE_KEY,
   AuthSBService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
@@ -73,6 +72,11 @@ export class UpdatePasswordComponent implements OnInit {
   }
 
   async ngOnInit() {
+    // Check if we're in a browser environment before accessing window
+    if (typeof window === 'undefined') {
+      return; // Exit early if running on server
+    }
+
     // Extract token from URL and set session
     // Extract access_token from URL hash
     const urlHash = window.location.hash;
