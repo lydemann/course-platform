@@ -1,5 +1,5 @@
 import { RouteMeta } from '@analogjs/router';
-import { ResetPasswordComponent } from '@course-platform/course-client/feature';
+import { UpdatePasswordComponent } from '@course-platform/course-client/feature';
 
 export const routeMeta: RouteMeta = {
   title: 'Reset Password',
@@ -7,4 +7,4 @@ export const routeMeta: RouteMeta = {
   providers: [],
 };
 
-export default ResetPasswordComponent;
+export default UpdatePasswordComponent;
