@@ -111,6 +111,9 @@ export class UpdatePasswordComponent implements OnInit {
 
     const user = await this.authService.getUser();
     console.log('user', user);
+
+    // remove the hash from the url
+    window.location.hash = '';
   }
 
   createForm() {
