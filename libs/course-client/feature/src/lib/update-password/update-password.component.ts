@@ -64,8 +64,6 @@ export class UpdatePasswordComponent implements OnInit {
 
   private cookieService = inject(SsrCookieService);
 
-  private cookieService = inject(SsrCookieService);
-
   constructor(
     public authService: AuthSBService,
     private router: Router,
