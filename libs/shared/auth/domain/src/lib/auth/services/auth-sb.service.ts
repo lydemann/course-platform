@@ -192,7 +192,7 @@ export class AuthSBService extends AuthService {
   sendPasswordResetEmail(email: string) {
     console.log('sendPasswordResetEmail', email);
     return this.authClient.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${window.location.origin}/update-password`,
     });
   }
 }

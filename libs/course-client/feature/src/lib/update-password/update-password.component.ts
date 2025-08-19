@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -10,15 +10,13 @@ import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import {
-  ACCESS_TOKEN_COOKIE_KEY,
   AuthSBService,
-  AuthService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
+import { EmailOtpType } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Component({
-  selector: 'app-login',
   template: `
     <div class="container">
       <div class="login-box">
@@ -36,7 +34,7 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
                 class="form-control"
                 formControlName="password"
               />
-              <label class="error">{{ errorMessage }}</label>
+              <label class="error">{{ errorMessage() }}</label>
             </div>
             <div class="button-wrapper">
               <app-button
@@ -54,47 +52,61 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
       </div>
     </div>
   `,
-  styleUrls: ['./reset-password.component.scss'],
+  styleUrls: ['./update-password.component.scss'],
   standalone: true,
   host: { ngSkipHydration: 'true' },
   imports: [CommonModule, SharedModule, ReactiveFormsModule],
 })
-export class ResetPasswordComponent implements OnInit {
+export class UpdatePasswordComponent implements OnInit {
   resetPwdForm!: UntypedFormGroup;
-  errorMessage = '';
+  errorMessage = signal('');
 
   private cookieService = inject(SsrCookieService);
 
   constructor(
-    public authService: AuthService,
+    public authService: AuthSBService,
     private router: Router,
     private fb: UntypedFormBuilder
   ) {
     this.createForm();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     // Extract token from URL and set session
-    const token = this.cookieService.get(ACCESS_TOKEN_COOKIE_KEY);
+    // Extract access_token from URL hash
+    const urlHash = window.location.hash;
+    const hashParams = new URLSearchParams(urlHash.substring(1));
+    const type = hashParams.get('type');
+    const token_hash = hashParams.get('token_hash');
+
+    const errorMessage = hashParams.get('error_description');
+    if (errorMessage) {
+      this.errorMessage.set(errorMessage);
+      return;
+    }
+
+    const token = hashParams.get('access_token');
 
     console.log('token', token);
 
     if (!token) {
-      this.errorMessage = 'No token provided';
+      this.errorMessage.set('No token provided');
       return;
     }
 
     // Cast the authService to AuthSBService to access the authClient
-    const authSbService = this.authService as AuthSBService;
-    authSbService.authClient
-      .setSession({
-        access_token: token,
-        refresh_token: '',
-      })
-      .catch((error: Error) => {
-        console.error('Error setting session:', error);
-        this.errorMessage = 'Invalid or expired password reset link';
-      });
+    const { error } = await this.authService.authClient.verifyOtp({
+      type: type as EmailOtpType,
+      token_hash: token_hash as string,
+    });
+
+    if (error) {
+      this.errorMessage.set(error.message);
+      return;
+    }
+
+    const user = await this.authService.getUser();
+    console.log('user', user);
   }
 
   createForm() {

@@ -38,7 +38,7 @@ export default defineConfig(({ mode }) => {
             // All admin URLs are only rendered on the client
             '/admin/**': { ssr: false },
             // Reset password page needs client-side rendering for token handling
-            '/reset-password': { ssr: false },
+            '/update-password': { ssr: false },
           },
           preset: 'vercel',
           rollupConfig: {
