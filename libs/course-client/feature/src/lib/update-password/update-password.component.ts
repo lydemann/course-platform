@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import {
+  ACCESS_TOKEN_COOKIE_KEY,
   AuthSBService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
@@ -60,6 +61,8 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
 export class UpdatePasswordComponent implements OnInit {
   resetPwdForm!: UntypedFormGroup;
   errorMessage = signal('');
+
+  private cookieService = inject(SsrCookieService);
 
   private cookieService = inject(SsrCookieService);
 
