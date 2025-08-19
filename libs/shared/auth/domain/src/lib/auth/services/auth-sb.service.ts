@@ -20,10 +20,10 @@ export const authClient = new AuthClient({
   fetch: fetch,
 });
 
-const ACCESS_TOKEN_COOKIE_KEY = 'sb-access-token';
-const REFRESH_TOKEN_COOKIE_KEY = 'sb-refresh-token';
-const PROVIDER_TOKEN_COOKIE_KEY = 'sb-provider-token';
-const PROVIDER_REFRESH_TOKEN_COOKIE_KEY = 'sb-provider-refresh-token';
+export const ACCESS_TOKEN_COOKIE_KEY = 'sb-access-token';
+export const REFRESH_TOKEN_COOKIE_KEY = 'sb-refresh-token';
+export const PROVIDER_TOKEN_COOKIE_KEY = 'sb-provider-token';
+export const PROVIDER_REFRESH_TOKEN_COOKIE_KEY = 'sb-provider-refresh-token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthSBService extends AuthService {
@@ -190,6 +190,7 @@ export class AuthSBService extends AuthService {
   }
 
   sendPasswordResetEmail(email: string) {
+    console.log('sendPasswordResetEmail', email);
     return this.authClient.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });

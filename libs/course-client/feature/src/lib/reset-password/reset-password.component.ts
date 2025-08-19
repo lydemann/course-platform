@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import {
+  ACCESS_TOKEN_COOKIE_KEY,
   AuthSBService,
   AuthService,
   UserCredentials,
 } from '@course-platform/shared/auth/domain';
-import { take } from 'rxjs/operators';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +43,7 @@ import { take } from 'rxjs/operators';
                 type="submit"
                 size="l"
                 data-test="login-btn"
-                (click)="resetPassword(resetPwdForm?.value)"
+                (click)="resetPassword(resetPwdForm.value)"
                 class="submit-btn"
               >
                 Reset password
@@ -62,37 +63,38 @@ export class ResetPasswordComponent implements OnInit {
   resetPwdForm!: UntypedFormGroup;
   errorMessage = '';
 
+  private cookieService = inject(SsrCookieService);
+
   constructor(
     public authService: AuthService,
     private router: Router,
-    private fb: UntypedFormBuilder,
-    private route: ActivatedRoute
+    private fb: UntypedFormBuilder
   ) {
     this.createForm();
   }
 
   ngOnInit() {
     // Extract token from URL and set session
-    this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      const token = params['token'];
+    const token = this.cookieService.get(ACCESS_TOKEN_COOKIE_KEY);
 
-      if (!token) {
-        this.errorMessage = 'No token provided';
-        return;
-      }
+    console.log('token', token);
 
-      // Cast the authService to AuthSBService to access the authClient
-      const authSbService = this.authService as AuthSBService;
-      authSbService.authClient
-        .setSession({
-          access_token: token,
-          refresh_token: '',
-        })
-        .catch((error: Error) => {
-          console.error('Error setting session:', error);
-          this.errorMessage = 'Invalid or expired password reset link';
-        });
-    });
+    if (!token) {
+      this.errorMessage = 'No token provided';
+      return;
+    }
+
+    // Cast the authService to AuthSBService to access the authClient
+    const authSbService = this.authService as AuthSBService;
+    authSbService.authClient
+      .setSession({
+        access_token: token,
+        refresh_token: '',
+      })
+      .catch((error: Error) => {
+        console.error('Error setting session:', error);
+        this.errorMessage = 'Invalid or expired password reset link';
+      });
   }
 
   createForm() {
