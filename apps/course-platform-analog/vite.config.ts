@@ -73,6 +73,9 @@ export default defineConfig(({ mode }) => {
         'firebase/**',
         '@apollo/client/**',
         'uuid',
+        'tslib',
+        'ngx-cookie-service/**',
+        'ngx-cookie-service-ssr/**',
       ],
     },
     optimizeDeps: {
