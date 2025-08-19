@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -19,8 +19,8 @@ import { SharedUiModule } from '@course-platform/shared/ui';
 })
 export class ForgotPasswordComponent implements OnInit {
   emailFormControl!: UntypedFormControl;
-  isResetMailSent!: boolean;
-  errorMessage!: string;
+  isResetMailSent = signal(false);
+  errorMessage = signal('');
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -37,19 +37,22 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     }
 
+    this.errorMessage.set('');
+
     try {
       await this.authService
         .sendPasswordResetEmail(this.emailFormControl.value)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((response: any) => {
           if (response?.error) {
-            this.errorMessage = response.error.message;
+            this.errorMessage.set(response.error.message);
             return;
           }
         });
     } catch (error) {
-      this.errorMessage = (error as Error).message;
+      this.errorMessage.set((error as Error).message);
     }
 
-    this.isResetMailSent = true;
+    this.isResetMailSent.set(true);
   }
 }
