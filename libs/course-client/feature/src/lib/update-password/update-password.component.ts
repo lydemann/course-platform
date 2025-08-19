@@ -87,11 +87,9 @@ export class UpdatePasswordComponent implements OnInit {
       return;
     }
 
-    const token = hashParams.get('access_token');
+    console.log('token_hash', token_hash);
 
-    console.log('token', token);
-
-    if (!token) {
+    if (!token_hash) {
       this.errorMessage.set('No token provided');
       return;
     }
