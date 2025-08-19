@@ -38,7 +38,7 @@ export default defineConfig(({ mode }) => {
             // All admin URLs are only rendered on the client
             '/admin/**': { ssr: false },
             // Reset password page needs client-side rendering for token handling
-            '/reset-password': { ssr: false },
+            '/update-password': { ssr: false },
           },
           preset: 'vercel',
           rollupConfig: {
@@ -73,14 +73,6 @@ export default defineConfig(({ mode }) => {
         'firebase/**',
         '@apollo/client/**',
         'uuid',
-        'tslib',
-        '@angular/**',
-        'rxjs/**',
-        '@ngrx/**',
-        '@supabase/**',
-        'ngx-cookie-service/**',
-        'ngx-cookie-service-ssr/**',
-        '@course-platform/**',
       ],
     },
     optimizeDeps: {
