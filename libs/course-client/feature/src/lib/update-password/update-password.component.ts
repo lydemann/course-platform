@@ -77,7 +77,7 @@ export class UpdatePasswordComponent implements OnInit {
     // Extract access_token from URL hash
     const urlHash = window.location.hash;
     const hashParams = new URLSearchParams(urlHash.substring(1));
-    console.log('hashParams', hashParams);
+    console.log('urlHash', urlHash);
     const type = hashParams.get('type');
     const token_hash = hashParams.get('token_hash');
 
