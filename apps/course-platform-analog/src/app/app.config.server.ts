@@ -1,12 +1,10 @@
+import { provideServerRendering } from '@angular/ssr';
 import {
   ApplicationConfig,
   importProvidersFrom,
   mergeApplicationConfig,
 } from '@angular/core';
-import {
-  provideServerRendering,
-  ɵSERVER_CONTEXT as SERVER_CONTEXT,
-} from '@angular/platform-server';
+import { ɵSERVER_CONTEXT as SERVER_CONTEXT } from '@angular/platform-server';
 import { NgrxUniversalRehydrateServerModule } from '@course-platform/shared/ngrx-universal-rehydrate/server';
 import { appConfig } from './app.config';
 

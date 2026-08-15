@@ -6,14 +6,14 @@ module.exports = {
     '^.+\\.(ts|js|html)$': [
       'ts-jest',
       {
-        tsconfig: 'tsconfig.base.json',
+        tsconfig: require.resolve('./tsconfig.base.json'),
         stringifyContentPathRegex: '\\.html$',
         isolatedModules: true,
         useESM: true,
         astTransformers: {
           before: [
             {
-              path: 'node_modules/ts-jest-mock-import-meta',
+              path: require.resolve('ts-jest-mock-import-meta'),
               options: {
                 metaObjectReplacement: { env: {}, url: 'https://www.url.com' },
               },
@@ -24,6 +24,9 @@ module.exports = {
     ],
   },
   resolver: '@nx/jest/plugins/resolver',
+  moduleNameMapper: {
+    '^crypto-hash$': require.resolve('./tools/testing/crypto-hash.mock.js'),
+  },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageReporters: ['html'],
   transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],

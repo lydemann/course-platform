@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
@@ -63,8 +62,8 @@ import { AuthSBService } from '@course-platform/shared/auth/domain';
     </div>
   </div> `,
   styleUrls: ['./create-user.component.scss'],
-  standalone: true,
-  imports: [CommonModule, SharedModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [SharedModule, ReactiveFormsModule],
 })
 export class CreateUserComponent {
   createUserForm = this.fb.nonNullable.group({
@@ -77,7 +76,7 @@ export class CreateUserComponent {
   constructor(
     public authService: AuthSBService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   createUser(createUSerFormValues: typeof this.createUserForm.value) {
@@ -128,7 +127,7 @@ export class CreateUserComponent {
         (err) => {
           console.log('Error creating user', err);
           this.statusMessage = err.message;
-        }
+        },
       );
   }
 }

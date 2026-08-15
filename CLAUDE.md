@@ -9,7 +9,6 @@ This is an Nx monorepo containing a course platform with multiple applications a
 - **course-platform-analog**: Main application built with Analog (Angular meta-framework with Vite)
 - **course-admin**: Admin interface for managing courses
 - **course-client**: Client interface for course consumption
-- **course-service**: Backend GraphQL service with tRPC
 
 ## Technology Stack
 
@@ -31,7 +30,6 @@ The monorepo follows Nx conventions with domain-driven design:
 - `apps/course-platform-analog/` - Main Analog application (default project)
 - `apps/course-admin/` - Angular admin app (port 4201)
 - `apps/course-client/` - Angular client app (port 4200)
-- `apps/course-service/` - Backend tRPC service
 
 ### Library Structure
 

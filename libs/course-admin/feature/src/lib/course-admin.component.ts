@@ -1,5 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, TrackByFunction } from '@angular/core';
+import {
+  Component,
+  TrackByFunction,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -12,6 +16,8 @@ import { CreateSectionModalComponent } from './components/create-section-modal/c
   selector: 'app-course-admin',
   templateUrl: './course-admin.component.html',
   styleUrls: ['./course-admin.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CourseAdminComponent {
   panelOpenState = false;
@@ -19,7 +25,7 @@ export class CourseAdminComponent {
   currentCourseId$: Observable<string | null>;
   constructor(
     private courseAdminFacadeService: CourseAdminFacadeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.sections$ = this.courseAdminFacadeService.sections$;
     this.currentCourseId$ = this.courseAdminFacadeService.currentCourseId$;
@@ -32,7 +38,7 @@ export class CourseAdminComponent {
 
   trackBy: TrackByFunction<CourseSection> = (
     _: number,
-    item: CourseSection
+    item: CourseSection,
   ) => {
     return item.id;
   };
@@ -52,14 +58,14 @@ export class CourseAdminComponent {
   drop(
     event: CdkDragDrop<string[]>,
     section: CourseSection,
-    currentCourseId: string
+    currentCourseId: string,
   ) {
     moveItemInArray(section.lessons, event.previousIndex, event.currentIndex);
     this.courseAdminFacadeService.moveLesson(
       section.id,
       event.previousIndex,
       event.currentIndex,
-      currentCourseId
+      currentCourseId,
     );
   }
 

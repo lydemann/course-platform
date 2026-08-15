@@ -6,10 +6,9 @@ import type { RehydrationRootConfig } from './utils';
 import { mergeStates } from './utils';
 
 export function browserRehydrateReducer(
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  platformId: Object,
+  platformId: object,
   _transferStateService: TransferState,
-  config: RehydrationRootConfig
+  config: RehydrationRootConfig,
 ): MetaReducer<unknown> {
   const isBrowser = isPlatformBrowser(platformId);
 
@@ -20,7 +19,7 @@ export function browserRehydrateReducer(
      */
     const statesTransferred = _transferStateService.get(
       REHYDRATE_TRANSFER_STATE,
-      undefined
+      undefined,
     );
 
     /**

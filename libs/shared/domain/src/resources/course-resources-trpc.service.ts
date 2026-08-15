@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, timeout } from 'rxjs/operators';
@@ -30,16 +29,16 @@ export class CourseResourcesTrpcService implements CourseResourcesService {
               name: course.name,
               description: course.description,
               customStyling: course.customStyling,
-            } as Course)
+            }) as Course,
         );
-      })
+      }),
     );
   }
 
   getCourseSections(courseId: string): Observable<CourseSection[]> {
     return this.trpcClient.section.getAll.query({ courseId }).pipe(
       timeout(2000),
-      map((data) => data)
+      map((data) => data),
     );
   }
 
@@ -53,7 +52,7 @@ export class CourseResourcesTrpcService implements CourseResourcesService {
   createLesson(
     sectionId: string,
     lessonName = '',
-    courseId: string
+    courseId: string,
   ): Observable<Lesson> {
     return this.trpcClient.lesson.createLessson.mutate({
       courseId,
@@ -91,7 +90,7 @@ export class CourseResourcesTrpcService implements CourseResourcesService {
 
   createSection(
     sectionName: string,
-    courseId: string
+    courseId: string,
   ): Observable<CourseSectionDTO> {
     return this.trpcClient.section.create.mutate({
       courseId,
@@ -102,7 +101,7 @@ export class CourseResourcesTrpcService implements CourseResourcesService {
   updateSection(
     sectionId: string,
     sectionName: string,
-    sectionTheme: string
+    sectionTheme: string,
   ): Observable<CourseSectionDTO> {
     return this.trpcClient.section.update.mutate({
       id: sectionId,

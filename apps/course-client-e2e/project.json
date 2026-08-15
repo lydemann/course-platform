@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/course-client-e2e/src",
   "projectType": "application",
+  "tags": ["scope:course-client"],
+  "implicitDependencies": ["course-client"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -16,11 +18,6 @@
           "devServerTarget": "course-client:serve:production"
         }
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["scope:course-client"],
-  "implicitDependencies": ["course-client"]
+  }
 }

@@ -1,10 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  TemplateRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
   selector: 'app-select-option',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './select-option.component.html',
 })
 export class SelectOptionComponent {

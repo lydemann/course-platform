@@ -10,40 +10,41 @@
   </div>
 </div>
 
-<div *ngIf="currentCourseId$ | async as currentCourseId">
-  <mat-accordion [multi]="true">
-    <mat-expansion-panel
-      *ngFor="let section of sections$ | async; trackBy: trackBy"
-      data-test="section"
-      [expanded]="true"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title [routerLink]="['section-admin', section.id]">
-          {{ section.name }}
-        </mat-panel-title>
-        <mat-panel-description [routerLink]="['section-admin', section.id]">
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div
-        cdkDropList
-        (cdkDropListDropped)="drop($event, section, currentCourseId)"
-        class="section-lessons"
-      >
-        <div
-          cdkDrag
-          class="lesson"
-          *ngFor="let lesson of section.lessons"
-          [routerLink]="[getLessonUrl(section.id, lesson.id)]"
-        >
-          {{ lesson.name }}
-        </div>
-      </div>
-      <app-button
-        class="block mt-2"
-        (clicked)="onCreateLessonClicked(section.id)"
-      >
-        Create lesson
-      </app-button>
-    </mat-expansion-panel>
-  </mat-accordion>
-</div>
+@if (currentCourseId$ | async; as currentCourseId) {
+  <div>
+    <mat-accordion [multi]="true">
+      @for (section of sections$ | async; track trackBy($index, section)) {
+        <mat-expansion-panel data-test="section" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title [routerLink]="['section-admin', section.id]">
+              {{ section.name }}
+            </mat-panel-title>
+            <mat-panel-description [routerLink]="['section-admin', section.id]">
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div
+            cdkDropList
+            (cdkDropListDropped)="drop($event, section, currentCourseId)"
+            class="section-lessons"
+          >
+            @for (lesson of section.lessons; track lesson) {
+              <div
+                cdkDrag
+                class="lesson"
+                [routerLink]="[getLessonUrl(section.id, lesson.id)]"
+              >
+                {{ lesson.name }}
+              </div>
+            }
+          </div>
+          <app-button
+            class="block mt-2"
+            (clicked)="onCreateLessonClicked(section.id)"
+          >
+            Create lesson
+          </app-button>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </div>
+}

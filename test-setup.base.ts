@@ -59,4 +59,6 @@ if (typeof global.Headers === 'undefined') {
 
 global.fetch = jest.fn().mockImplementation(() => ({}));
 
-import 'jest-preset-angular/setup-jest';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+
+setupZoneTestEnv();

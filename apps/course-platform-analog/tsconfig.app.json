@@ -4,7 +4,8 @@
     "outDir": "../../dist/out-tsc",
     "types": ["vite/client"],
     "target": "ES2022",
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "moduleResolution": "bundler"
   },
   "files": ["src/main.ts", "src/main.server.ts"],
   "include": [
@@ -12,5 +13,13 @@
     "src/app/pages/**/*.page.ts",
     "src/vite-env.d.ts"
   ],
-  "exclude": ["**/*.test.ts", "**/*.spec.ts"]
+  "exclude": ["**/*.test.ts", "**/*.spec.ts"],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

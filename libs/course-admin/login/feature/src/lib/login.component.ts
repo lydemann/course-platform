@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -58,7 +58,7 @@ import {
       </div>
     </div>
   `,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule],
 })
 export class LoginComponent {
@@ -66,7 +66,10 @@ export class LoginComponent {
   errorMessage = '';
   private router = inject(Router);
 
-  constructor(public authService: AuthService, private fb: UntypedFormBuilder) {
+  constructor(
+    public authService: AuthService,
+    private fb: UntypedFormBuilder,
+  ) {
     console.log('login component');
     this.createForm();
   }
@@ -87,7 +90,7 @@ export class LoginComponent {
       (err) => {
         console.log(err);
         this.errorMessage = err.message;
-      }
+      },
     );
   }
 }

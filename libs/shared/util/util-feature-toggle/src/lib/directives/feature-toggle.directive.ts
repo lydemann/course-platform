@@ -11,6 +11,7 @@ import { FeatureToggleService } from '../services/feature-toggle.service';
 
 @Directive({
   selector: '[appFeatureToggle]',
+  standalone: false,
 })
 export class FeatureToggleDirective implements OnInit {
   @Input('appFeatureToggle') public featureFlag: featureFlags | featureFlags[] =
@@ -19,7 +20,7 @@ export class FeatureToggleDirective implements OnInit {
   constructor(
     private vcr: ViewContainerRef,
     private tpl: TemplateRef<unknown>,
-    private featureToggleService: FeatureToggleService
+    private featureToggleService: FeatureToggleService,
   ) {}
 
   public ngOnInit() {

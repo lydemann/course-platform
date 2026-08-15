@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 import { SharedUiModule } from '@course-platform/shared/ui';
 import { AppMaterialModule } from './material.module';
@@ -12,7 +12,8 @@ import { AppMaterialModule } from './material.module';
   imports: [
     CommonModule,
     AppMaterialModule,
-    TranslateModule.forChild(),
+    TranslateDirective,
+    TranslatePipe,
     SharedUiModule,
     RouterModule,
     SharedUiModule,
@@ -22,7 +23,8 @@ import { AppMaterialModule } from './material.module';
     CommonModule,
     AppMaterialModule,
     SharedUiModule,
-    TranslateModule,
+    TranslateDirective,
+    TranslatePipe,
     RouterModule,
     ReactiveFormsModule,
   ],

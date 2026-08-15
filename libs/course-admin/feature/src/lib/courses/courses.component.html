@@ -1,52 +1,50 @@
 <h1 class="center">Courses</h1>
 
-<ng-container *ngIf="courses$ | async as courses; else loading">
+@if (courses$ | async; as courses) {
   <div class="mx-4">
-    <mat-card
-      *ngFor="let course of courses"
-      data-test="course"
-      class="course-card mx-auto lg:w-1/3 sm:w-1/2"
-    >
-      <mat-card-title
-        class="text-center py-3"
-        [routerLink]="['../course-admin', course.id]"
-        >{{ course.name }}</mat-card-title
+    @for (course of courses; track course) {
+      <mat-card
+        data-test="course"
+        class="course-card mx-auto lg:w-1/3 sm:w-1/2"
       >
-      <img
-        mat-card-image
-        [routerLink]="['../course-admin', course.id]"
-        src="/assets/img/login.jpg"
-        alt="course picture"
-      />
-      <mat-card-content class="content">
-        <p>
-          {{ course.description }}
-        </p>
-        <div class="action-buttons">
-          <app-button
-            class="center mt-m"
-            [color]="'accent'"
-            (click)="onEditCourseClick(course)"
-            >Edit course</app-button
-          >
-          <app-button
-            class="center mt-m ml-m"
-            [color]="'warn'"
-            (click)="onDeleteCourseClick(course)"
-            >Delete course</app-button
-          >
-        </div>
-      </mat-card-content>
-    </mat-card>
+        <mat-card-title
+          class="text-center py-3"
+          [routerLink]="['../course-admin', course.id]"
+          >{{ course.name }}</mat-card-title
+        >
+        <img
+          mat-card-image
+          [routerLink]="['../course-admin', course.id]"
+          src="/assets/img/login.jpg"
+          alt="course picture"
+        />
+        <mat-card-content class="content">
+          <p>
+            {{ course.description }}
+          </p>
+          <div class="action-buttons">
+            <app-button
+              class="center mt-m"
+              [color]="'accent'"
+              (click)="onEditCourseClick(course)"
+              >Edit course</app-button
+            >
+            <app-button
+              class="center mt-m ml-m"
+              [color]="'warn'"
+              (click)="onDeleteCourseClick(course)"
+              >Delete course</app-button
+            >
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
   </div>
-
   <div class="mt-l">
     <app-button [color]="'success'" (click)="onCreateCourseClick()"
       >Create course</app-button
     >
   </div>
-</ng-container>
-
-<ng-template #loading>
+} @else {
   <app-spinner class="center-in-parent"></app-spinner>
-</ng-template>
+}

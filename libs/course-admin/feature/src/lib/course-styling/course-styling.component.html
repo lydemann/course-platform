@@ -1,21 +1,20 @@
 <h1 class="mb-m">Edit course styling</h1>
 
-<ng-container *ngIf="course$ | async as course; else loading">
+@if (course$ | async; as course) {
   <p>Add custom styles to the course: {{ courseName$ | async }}</p>
+  @if (customStylingFormControl$ | async; as customStylingFormControl) {
+    <form (submit)="submit(customStylingFormControl, course)">
+      <app-textarea [formControl]="customStylingFormControl"> </app-textarea>
+      <app-button [type]="'submit'">Save</app-button>
+    </form>
+  }
+} @else {
+  <app-spinner></app-spinner>
+}
 
-  <form
-    (submit)="submit(customStylingFormControl, course)"
-    *ngIf="customStylingFormControl$ | async as customStylingFormControl"
-  >
-    <app-textarea [formControl]="customStylingFormControl"> </app-textarea>
-    <app-button [type]="'submit'">Save</app-button>
-  </form>
-</ng-container>
-
-<ng-container
-  *ngIf="isEditingCourse()"
-  [ngTemplateOutlet]="loading"
-></ng-container>
+@if (isEditingCourse()) {
+  <ng-container [ngTemplateOutlet]="loading"></ng-container>
+}
 
 <ng-template #loading>
   <app-spinner></app-spinner>

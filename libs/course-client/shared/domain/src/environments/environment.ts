@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  courseServiceUrl:
-    'https://europe-west3-aaa-course-portal.cloudfunctions.net/api',
+  courseServiceUrl: '/api/trpc',
   // get courseServiceUrl() {
   //   return window.config.courseServiceUrl;
   // }

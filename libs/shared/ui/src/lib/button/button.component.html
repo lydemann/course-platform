@@ -1,60 +1,65 @@
-<ng-container [ngSwitch]="buttonVariant">
-  <button
-    *ngSwitchCase="'raised'"
-    class="{{ color }} size-{{ size }}"
-    mat-raised-button
-    [color]="color"
-    (click)="clicked.next($event)"
-    [disabled]="disabled"
-    [type]="type"
-  >
-    <ng-container [ngTemplateOutlet]="content"></ng-container>
-  </button>
-  <button
-    *ngSwitchCase="'mini-fab'"
-    class="{{ color }} size-{{ size }}"
-    mat-mini-fab
-    [color]="color"
-    (click)="clicked.next($event)"
-    [disabled]="disabled"
-    [type]="type"
-  >
-    <ng-container [ngTemplateOutlet]="content"></ng-container>
-  </button>
-  <button
-    *ngSwitchCase="'fab'"
-    class="{{ color }} size-{{ size }}"
-    mat-fab
-    [color]="color"
-    (click)="clicked.next($event)"
-    [disabled]="disabled"
-    [type]="type"
-  >
-    <ng-container [ngTemplateOutlet]="content"></ng-container>
-  </button>
-  <button
-    *ngSwitchCase="'button'"
-    class="{{ color }} size-{{ size }}"
-    mat-button
-    [color]="color"
-    (click)="clicked.next($event)"
-    [disabled]="disabled"
-    [type]="type"
-  >
-    <ng-container [ngTemplateOutlet]="content"></ng-container>
-  </button>
-  <button
-    *ngSwitchCase="'icon'"
-    class="{{ color }} size-{{ size }}"
-    mat-icon-button
-    [color]="color"
-    (click)="clicked.next($event)"
-    [disabled]="disabled"
-    [type]="type"
-  >
-    <ng-container [ngTemplateOutlet]="content"></ng-container>
-  </button>
-</ng-container>
+@switch (buttonVariant) {
+  @case ('raised') {
+    <button
+      class="{{ color }} size-{{ size }}"
+      mat-raised-button
+      [color]="color"
+      (click)="clicked.next($event)"
+      [disabled]="disabled"
+      [type]="type"
+    >
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  }
+  @case ('mini-fab') {
+    <button
+      class="{{ color }} size-{{ size }}"
+      mat-mini-fab
+      [color]="color"
+      (click)="clicked.next($event)"
+      [disabled]="disabled"
+      [type]="type"
+    >
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  }
+  @case ('fab') {
+    <button
+      class="{{ color }} size-{{ size }}"
+      mat-fab
+      [color]="color"
+      (click)="clicked.next($event)"
+      [disabled]="disabled"
+      [type]="type"
+    >
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  }
+  @case ('button') {
+    <button
+      class="{{ color }} size-{{ size }}"
+      mat-button
+      [color]="color"
+      (click)="clicked.next($event)"
+      [disabled]="disabled"
+      [type]="type"
+    >
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  }
+  @case ('icon') {
+    <button
+      class="{{ color }} size-{{ size }}"
+      mat-icon-button
+      [color]="color"
+      (click)="clicked.next($event)"
+      [disabled]="disabled"
+      [type]="type"
+    >
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  }
+}
 
 <ng-template #content>
   <ng-content></ng-content>

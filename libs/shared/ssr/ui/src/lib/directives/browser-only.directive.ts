@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
-  Inject,
+  inject,
   OnInit,
   PLATFORM_ID,
   TemplateRef,
@@ -13,13 +13,10 @@ import {
   standalone: true,
 })
 export class BrowserOnlyDirective implements OnInit {
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef,
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private readonly viewContainer = inject(ViewContainerRef);
+  private readonly platformId = inject(PLATFORM_ID);
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {

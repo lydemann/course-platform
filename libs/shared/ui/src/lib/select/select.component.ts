@@ -11,6 +11,7 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -29,7 +30,6 @@ import { SelectOption } from './select-option/select-option.interface';
 
 @Component({
   selector: 'app-select',
-  standalone: true,
   imports: [
     CommonModule,
     MatSelectModule,
@@ -47,23 +47,33 @@ import { SelectOption } from './select-option/select-option.interface';
         (selectionChange)="onSelected($event)"
         [(ngModel)]="selected"
       >
-        <mat-option *ngFor="let option of options" [value]="option.value">
-          <ng-template [ngTemplateOutlet]="option?.templateRef!"></ng-template>
-        </mat-option>
-        <mat-optgroup *ngFor="let group of optionsGroups" [label]="group.label">
-          <mat-option
-            *ngFor="let option of group.options"
-            [value]="option.value"
-          >
+        @for (option of options; track option) {
+          <mat-option [value]="option.value">
             <ng-template
-              [ngTemplateOutlet]="option?.templateRef!"
+              [ngTemplateOutlet]="
+                $safeNavigationMigration(option?.templateRef)!
+              "
             ></ng-template>
           </mat-option>
-        </mat-optgroup>
+        }
+        @for (group of optionsGroups; track group) {
+          <mat-optgroup [label]="group.label">
+            @for (option of group.options; track option) {
+              <mat-option [value]="option.value">
+                <ng-template
+                  [ngTemplateOutlet]="
+                    $safeNavigationMigration(option?.templateRef)!
+                  "
+                ></ng-template>
+              </mat-option>
+            }
+          </mat-optgroup>
+        }
       </mat-select>
     </mat-form-field>
   `,
   styleUrls: ['./select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -129,12 +139,12 @@ export class SelectComponent
 
     this.selectOptionGroups.changes.subscribe(
       (optionGroups: QueryList<SelectOptionGroupComponent>) =>
-        (this.optionsGroups = this.getOptionGroups(optionGroups))
+        (this.optionsGroups = this.getOptionGroups(optionGroups)),
     );
 
     this.selectOptions.changes.subscribe(
       (options: QueryList<SelectOption>) =>
-        (this.options = options.length ? this.getOptions(options) : [])
+        (this.options = options.length ? this.getOptions(options) : []),
     );
   }
 

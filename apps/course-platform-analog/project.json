@@ -3,16 +3,22 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/course-platform-analog/src",
+  "tags": ["type:app", "scope:course-client", "scope:course-admin"],
   "targets": {
     "build": {
       "executor": "@analogjs/platform:vite",
       "outputs": [
         "{options.outputPath}",
         "{workspaceRoot}/dist/apps/course-platform-analog/.nitro",
-        "{workspaceRoot}/dist/apps/course-platform-analog/firebase.json",
         "{workspaceRoot}/dist/apps/course-platform-analog/ssr",
         "{workspaceRoot}/dist/apps/course-platform-analog/analog"
       ],
+      "executorOptions": {
+        "env": {
+          "NODE_OPTIONS": "--max-old-space-size=8192"
+        }
+      },
+      "defaultConfiguration": "production",
       "options": {
         "main": "apps/course-platform-analog/src/main.ts",
         "configFile": "apps/course-platform-analog/vite.config.ts",
@@ -20,12 +26,6 @@
         "tsConfig": "apps/course-platform-analog/tsconfig.app.json",
         "sourcemap": true
       },
-      "executorOptions": {
-        "env": {
-          "NODE_OPTIONS": "--max-old-space-size=8192"
-        }
-      },
-      "defaultConfiguration": "production",
       "configurations": {
         "development": {
           "mode": "development"
@@ -60,11 +60,9 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/**/*.{ts,html}"]
+        "args": ["**/*.{ts,html}"]
       }
     }
-  },
-  "tags": ["type:app", "scope:course-client", "scope:course-admin"]
+  }
 }

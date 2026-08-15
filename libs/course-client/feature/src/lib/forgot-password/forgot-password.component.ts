@@ -1,5 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -14,8 +18,8 @@ import { SharedUiModule } from '@course-platform/shared/ui';
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
-  standalone: true,
-  imports: [SharedUiModule, CommonModule, RouterModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [SharedUiModule, RouterModule, ReactiveFormsModule],
 })
 export class ForgotPasswordComponent implements OnInit {
   emailFormControl!: UntypedFormControl;

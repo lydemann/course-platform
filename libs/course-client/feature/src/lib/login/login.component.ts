@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -63,8 +62,8 @@ import {
     </div>
   `,
   styleUrls: ['./login.component.scss'],
-  standalone: true,
-  imports: [CommonModule, SharedModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [SharedModule, ReactiveFormsModule],
 })
 export class LoginComponent {
   loginForm!: UntypedFormGroup;
@@ -73,7 +72,7 @@ export class LoginComponent {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) {
     this.createForm();
   }
@@ -100,7 +99,7 @@ export class LoginComponent {
         (err) => {
           console.log('Error doing sign in', err);
           this.errorMessage = err.message;
-        }
+        },
       );
   }
 }

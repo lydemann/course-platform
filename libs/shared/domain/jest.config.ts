@@ -1,15 +1,18 @@
-/* eslint-disable */
-export default {
+ 
+module.exports = {
   displayName: 'shared-data-access',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: {  },
+  globals: {},
   coverageDirectory: '../../../coverage/libs/shared-data-access',
   transform: {
-    '^.+\\.(ts|mjs|js|html)$': ['jest-preset-angular', {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.(html|svg)$',
-    }],
+    '^.+\\.(ts|mjs|js|html)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+      },
+    ],
   },
   transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   snapshotSerializers: [

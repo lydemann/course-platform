@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
+  AbstractControl,
   FormGroupDirective,
   NgForm,
   UntypedFormBuilder,
@@ -17,7 +18,7 @@ const NOT_SAME_ERROR_CODE = 'NOT_SAME';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: UntypedFormControl | null,
-    form: FormGroupDirective | NgForm | null
+    form: FormGroupDirective | NgForm | null,
   ): boolean {
     const invalidCtrl = !!(control?.invalid && control?.parent?.dirty);
     const invalidParent = !!(
@@ -32,7 +33,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule],
 })
 export class CreateUserComponent implements OnInit {
@@ -45,7 +46,7 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private userFacadeService: UserFacadeService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   private checkPasswords(group: UntypedFormGroup) {
@@ -64,7 +65,7 @@ export class CreateUserComponent implements OnInit {
         password: ['', [Validators.required]],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.checkPasswords }
+      { validators: this.checkPasswords },
     );
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -94,11 +95,11 @@ export class CreateUserComponent implements OnInit {
         (error: Error) => {
           this.isLoading = false;
           this.serverError = error.message;
-        }
+        },
       );
   }
 
-  getErrorMessage(control: UntypedFormControl) {
+  getErrorMessage(control: AbstractControl) {
     if (control.hasError('required')) {
       return 'You must enter a value';
     }

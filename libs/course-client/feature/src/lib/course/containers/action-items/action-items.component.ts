@@ -18,7 +18,6 @@ export const actionItemsRouteId = 'action-items';
   templateUrl: './action-items.component.html',
   styleUrls: ['./action-items.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SharedModule, ActionItemComponent],
 })
 export class ActionItemsComponent {
@@ -32,12 +31,12 @@ export class ActionItemsComponent {
   public onCompleteChanged(
     resourceId: string,
     completed: boolean,
-    sectionId: string
+    sectionId: string,
   ) {
     this.courseFacadeService.onActionItemCompletedChanged(
       resourceId,
       completed,
-      sectionId
+      sectionId,
     );
   }
 }

@@ -6,33 +6,43 @@
       {{ 'topbar.title' | translate }}
     </a>
 
-    <ul class="menu-items" *ngIf="loggedIn$ | async">
-      <li *ngFor="let item of navigationItems" class="menu-item-wrapper">
-        <a
-          class="nav-button"
-          routerLinkActive="active"
-          [routerLink]="item.link"
-          *ngIf="!item.externalLink"
-        >
-          <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
-          {{ item.label | translate }}
-        </a>
-        <a
-          class="nav-button"
-          routerLinkActive="active"
-          [href]="item.link"
-          *ngIf="item.externalLink"
-        >
-          <mat-icon *ngIf="item.icon" class="icon">{{ item.icon }}</mat-icon>
-          {{ item.label | translate }}
-        </a>
-      </li>
-      <!-- TODO: implement -->
-      <!-- <li class="search-button menu-item-wrapper">
+    @if (loggedIn$ | async) {
+      <ul class="menu-items">
+        @for (item of navigationItems; track item) {
+          <li class="menu-item-wrapper">
+            @if (!item.externalLink) {
+              <a
+                class="nav-button"
+                routerLinkActive="active"
+                [routerLink]="item.link"
+              >
+                @if (item.icon) {
+                  <mat-icon class="icon">{{ item.icon }}</mat-icon>
+                }
+                {{ item.label | translate }}
+              </a>
+            }
+            @if (item.externalLink) {
+              <a
+                class="nav-button"
+                routerLinkActive="active"
+                [href]="item.link"
+              >
+                @if (item.icon) {
+                  <mat-icon class="icon">{{ item.icon }}</mat-icon>
+                }
+                {{ item.label | translate }}
+              </a>
+            }
+          </li>
+        }
+        <!-- TODO: implement -->
+        <!-- <li class="search-button menu-item-wrapper">
         <a class="nav-button" routerLinkActive="active">
           <mat-icon class="icon">search</mat-icon>
         </a>
       </li> -->
-    </ul>
+      </ul>
+    }
   </mat-toolbar>
 </div>

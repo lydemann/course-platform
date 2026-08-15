@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 import { SharedUiModule } from '@course-platform/shared/ui';
 import { FeatureToggleModule } from '@course-platform/shared/util/util-feature-toggle';
@@ -18,7 +18,8 @@ const imports = [];
     RouterModule,
     FeatureToggleModule,
     AppMaterialModule,
-    TranslateModule.forChild(),
+    TranslateDirective,
+    TranslatePipe,
   ],
   exports: [
     CommonModule,
@@ -26,7 +27,8 @@ const imports = [];
     SharedUiModule,
     FeatureToggleModule,
     AppMaterialModule,
-    TranslateModule,
+    TranslateDirective,
+    TranslatePipe,
   ],
   providers: [],
 })

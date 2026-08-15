@@ -5,6 +5,7 @@ import {
   OnInit,
   Renderer2,
   SecurityContext,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
@@ -27,10 +28,9 @@ import { QuestionsComponent } from './containers/questions/questions.component';
       fxLayout.lt-sm="column"
       xLayoutAlign="space-between"
     >
-      <ng-container *ngIf="isLoading(); else notLoading">
+      @if (isLoading()) {
         <app-spinner class="spinner"></app-spinner>
-      </ng-container>
-      <ng-template #notLoading>
+      } @else {
         <app-course-sidebar
           fxFlex.gt-xs="25"
           class="sidebar"
@@ -42,42 +42,41 @@ import { QuestionsComponent } from './containers/questions/questions.component';
           (lessonSelected)="onLessonSelected($event)"
           (sectionChanged)="onSectionSelected($event)"
         ></app-course-sidebar>
-
         <div class="content" fxFlex.gt-xs="75">
           <router-outlet></router-outlet>
         </div>
-      </ng-template>
+      }
     </div>
   `,
   styles: `
-  :host {
-  display: block;
-  width: 100%;
+    :host {
+      display: block;
+      width: 100%;
 
-  .wrapper {
-    display: flex;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 50px;
+      .wrapper {
+        display: flex;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 50px;
 
-    .content {
-      background: #fefefe;
-      padding: 40px;
+        .content {
+          background: #fefefe;
+          padding: 40px;
+        }
+      }
+
+      .spinner {
+        height: 100px;
+        width: 100px;
+        position: fixed;
+        left: 50%;
+        margin-left: -50px;
+        top: 50%;
+        margin-top: -50px;
+      }
     }
-  }
-
-  .spinner {
-    height: 100px;
-    width: 100px;
-    position: fixed;
-    left: 50%;
-    margin-left: -50px;
-    top: 50%;
-    margin-top: -50px;
-  }
-}
   `,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SharedModule,
@@ -100,8 +99,8 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
   courseCustomStyle$: Observable<string> =
     this.courseClientFacade.courseId$.pipe(
       switchMap((courseId) =>
-        this.courseClientFacade.getCourseCustomStyling(courseId)
-      )
+        this.courseClientFacade.getCourseCustomStyling(courseId),
+      ),
     );
   styleElement: unknown;
   destroy$ = new Subject<void>();
@@ -110,14 +109,14 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
     private courseClientFacade: CourseClientFacade,
     private sanitizer: DomSanitizer,
     private elementRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {}
 
   ngOnDestroy(): void {
     if (this.styleElement) {
       this.renderer.removeChild(
         this.elementRef.nativeElement,
-        this.styleElement
+        this.styleElement,
       );
     }
     this.destroy$.next();
@@ -128,7 +127,7 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
     this.courseCustomStyle$
       .pipe(
         takeUntil(this.destroy$),
-        filter((style) => !!style)
+        filter((style) => !!style),
       )
       .subscribe((style) => {
         const sanitizedStyle =
@@ -141,7 +140,7 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
     this.styleElement = this.renderer.createElement('style');
     this.renderer.appendChild(
       this.styleElement,
-      document.createTextNode(style)
+      document.createTextNode(style),
     );
     this.renderer.appendChild(this.elementRef.nativeElement, this.styleElement);
   }

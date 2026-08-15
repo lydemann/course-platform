@@ -1,5 +1,5 @@
-/* eslint-disable */
-export default {
+ 
+module.exports = {
   displayName: 'shared-domain-trpc-server',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -11,6 +11,8 @@ import { ToastService } from '@course-platform/shared/ui';
   selector: 'app-course-styling',
   templateUrl: './course-styling.component.html',
   styleUrls: ['./course-styling.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CourseStylingComponent {
   course$: Observable<Course>;
@@ -21,14 +23,14 @@ export class CourseStylingComponent {
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
     private courseFacade: CourseAdminFacadeService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
     this.course$ = this.courseAdminFacade.currentCourseId$.pipe(
-      switchMap((courseId) => this.courseFacade.getCourse(courseId!))
+      switchMap((courseId) => this.courseFacade.getCourse(courseId!)),
     );
     this.courseName$ = this.course$.pipe(map((course) => course.name));
     this.customStylingFormControl$ = this.course$.pipe(
-      map((course) => new UntypedFormControl(course.customStyling, []))
+      map((course) => new UntypedFormControl(course.customStyling, [])),
     );
   }
 

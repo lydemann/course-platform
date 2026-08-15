@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AuthClient } from '@supabase/auth-js';
 import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
 
@@ -57,7 +56,7 @@ export async function createContext({ req, res }: CreateNextContextOptions) {
   async function getUserFromHeader() {
     if (req.headers.authorization) {
       const user = await verifyAndDecodeJwtToken(
-        req.headers.authorization.split(' ')[1]
+        req.headers.authorization.split(' ')[1],
       );
       return user;
     }

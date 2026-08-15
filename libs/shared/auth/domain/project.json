@@ -4,21 +4,23 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/auth/domain/src",
   "prefix": "course-platform",
-  "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "options": {
-        "jestConfig": "libs/shared/auth/domain/jest.config.ts"
-      }
-    }
-  },
+  "tags": ["scope:shared", "type:domain"],
   "generators": {
     "@nx/angular:component": {
       "style": "scss"
     }
   },
-  "tags": ["scope:shared", "type:domain"]
+  "targets": {
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
+      }
+    }
+  }
 }

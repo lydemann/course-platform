@@ -2,23 +2,20 @@
   "name": "course-client",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "sourceRoot": "apps/course-client/src",
+  "prefix": "app",
+  "tags": ["scope:course-client", "type:app"],
+  "implicitDependencies": ["shared-ui-styles"],
   "generators": {
     "@nx/angular:component": {
       "style": "scss"
     }
   },
-  "sourceRoot": "apps/course-client/src",
-  "implicitDependencies": ["shared-ui-styles"],
-  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@nx/angular:browser-esbuild",
+      "defaultConfiguration": "production",
       "options": {
-        "allowedCommonJsDependencies": [
-          "firebase",
-          "firebase/app",
-          "firebase/auth"
-        ],
         "plugins": ["esbuild-polyfills-node.js"],
         "outputPath": "dist/apps/course-client",
         "index": "apps/course-client/src/index.html",
@@ -35,8 +32,6 @@
         "assets": [
           "apps/course-client/src/favicon.ico",
           "apps/course-client/src/web.config",
-          "apps/course-client/src/.firebaserc",
-          "apps/course-client/src/firebase.json",
           "apps/course-client/src/assets",
           "apps/course-client/src/manifest.webmanifest"
         ],
@@ -48,7 +43,6 @@
         "serviceWorker": true,
         "ngswConfigPath": "apps/course-client/ngsw-config.json"
       },
-      "defaultConfiguration": "production",
       "configurations": {
         "production": {
           "fileReplacements": [
@@ -90,6 +84,12 @@
     },
     "serve": {
       "executor": "@nx/angular:dev-server",
+      "defaultConfiguration": "development",
+      "continuous": true,
+      "options": {
+        "port": 4200,
+        "publicHost": "http://localhost:4200"
+      },
       "configurations": {
         "production": {
           "buildTarget": "course-client:build:production"
@@ -100,11 +100,6 @@
         "local": {
           "buildTarget": "course-client:build:local"
         }
-      },
-      "defaultConfiguration": "development",
-      "options": {
-        "port": 4200,
-        "publicHost": "http://localhost:4200"
       }
     },
     "extract-i18n": {
@@ -113,19 +108,16 @@
         "buildTarget": "course-client:build"
       }
     },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "test": {
-      "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/course-client/jest.config.ts"
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
       }
-    },
-    "deploy": {
-      "executor": "@angular/fire:deploy",
-      "options": {}
     }
-  },
-  "tags": ["scope:course-client", "type:app"]
+  }
 }

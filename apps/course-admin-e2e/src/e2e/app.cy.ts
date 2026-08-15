@@ -1,11 +1,10 @@
-import { CoursesPage } from '../support/page-objects/courses.po';
-import { LoginPage } from '../support/page-objects/login.po';
-
 describe('course-admin', () => {
-  it('should show courses', () => {
-    LoginPage.goToLogout();
-    LoginPage.login();
+  it('redirects anonymous users to login', () => {
+    cy.visit('/courses');
 
-    CoursesPage.seeCourse();
+    cy.url().should('include', '/login');
+    cy.get('[data-test=email]').should('be.visible');
+    cy.get('[data-test=password]').should('be.visible');
+    cy.get('[data-test=login-btn]').should('be.visible');
   });
 });

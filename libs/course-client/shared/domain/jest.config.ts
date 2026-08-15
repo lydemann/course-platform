@@ -1,5 +1,5 @@
-/* eslint-disable */
-export default {
+ 
+module.exports = {
   displayName: 'domain',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
@@ -35,7 +35,9 @@ export default {
       },
     },
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
+  transformIgnorePatterns: [
+    'node_modules/(?!.*(\\.mjs$|superjson|copy-anything|is-what|crypto-hash))',
+  ],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',

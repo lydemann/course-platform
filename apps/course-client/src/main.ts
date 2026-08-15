@@ -1,22 +1,16 @@
 /// <reference types="vite/client" />
 import {
-  APP_INITIALIZER,
-  ErrorHandler,
   enableProdMode,
   importProvidersFrom,
+  inject,
   isDevMode,
+  provideAppInitializer,
 } from '@angular/core';
 
-import {
-  HttpClient,
-  HttpClientModule,
-  provideHttpClient,
-  withFetch,
-  withInterceptors,
-} from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import * as Sentry from '@sentry/angular-ivy';
+import * as Sentry from '@sentry/angular';
 import {
   AppRoutingModule,
   HomeModule,
@@ -24,33 +18,31 @@ import {
 import {
   CoreModule,
   CourseClientDomainModule,
-  ProfileFBService,
+  ProfileSBService,
   ProfileService,
   environment,
 } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import {
-  CourseResourcesFbService,
+  CourseResourcesTrpcService,
   CourseResourcesService,
   ENDPOINTS_TOKEN,
   Endpoints,
-  FirebaseModule,
-  GraphQLModule,
 } from '@course-platform/shared/domain';
+import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideServiceWorker } from '@angular/service-worker';
 import { AppComponent } from './app/app.component';
 import {
-  AuthFBService,
+  AuthSBService,
   AuthService,
-  authFBInterceptor,
 } from '@course-platform/shared/auth/domain';
 
 export function preloadFeagureFlags(
-  featureToggleService: FeatureToggleService
+  featureToggleService: FeatureToggleService,
 ) {
   return () => featureToggleService.getFeatureFlags().toPromise();
 }
@@ -59,10 +51,6 @@ export function endpointsFactory() {
   return {
     courseServiceUrl: environment.courseServiceUrl,
   } as Endpoints;
-}
-
-export function httpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
 }
 
 declare global {
@@ -111,46 +99,43 @@ xhttp.onreadystatechange = function () {
 
     bootstrapApplication(AppComponent, {
       providers: [
-        {
-          provide: APP_INITIALIZER,
-          multi: true,
-          useFactory: preloadFeagureFlags,
-          deps: [FeatureToggleService],
-        },
+        provideAppInitializer(() => {
+          const initializerFn = preloadFeagureFlags(
+            inject(FeatureToggleService),
+          );
+          return initializerFn();
+        }),
         {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,
         },
-        provideHttpClient(withInterceptors([authFBInterceptor])),
+        provideHttpClient(withXhr()),
+        provideTrpcClient(),
+        provideTranslateService({
+          loader: provideTranslateHttpLoader({
+            prefix: '/assets/i18n/',
+            suffix: '.json',
+          }),
+        }),
         {
           provide: ProfileService,
-          useClass: ProfileFBService,
+          useClass: ProfileSBService,
         },
         importProvidersFrom([
-          TranslateModule.forRoot({
-            loader: {
-              provide: TranslateLoader,
-              useFactory: httpLoaderFactory,
-              deps: [HttpClient],
-            },
-          }),
           BrowserAnimationsModule,
           AppRoutingModule,
           CoreModule,
           SharedModule,
           HomeModule,
           CourseClientDomainModule,
-          FirebaseModule,
-          GraphQLModule,
         ]),
-        // TODO: move to firebase module
         {
           provide: CourseResourcesService,
-          useClass: CourseResourcesFbService,
+          useClass: CourseResourcesTrpcService,
         },
         {
           provide: AuthService,
-          useClass: AuthFBService,
+          useClass: AuthSBService,
         },
         // {
         //   provide: Sentry.TraceService,

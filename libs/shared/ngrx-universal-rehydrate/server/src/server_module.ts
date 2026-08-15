@@ -1,8 +1,7 @@
 import {
-  Inject,
+  inject,
   ModuleWithProviders,
   NgModule,
-  Optional,
   TransferState,
 } from '@angular/core';
 
@@ -21,7 +20,7 @@ import { REHYDRATE_TRANSFER_STATE } from '../../src/lib/tokens';
 export function serializeRehydrateStateFactory(
   store: Store,
   transferState: TransferState,
-  existing: () => void
+  existing: () => void,
 ) {
   return async () => {
     const state = await store
@@ -39,13 +38,13 @@ export function serializeRehydrateStateFactory(
 
 @NgModule({})
 export class NgrxUniversalRehydrateServerModule {
-  constructor(
-    @Optional()
-    @Inject(BEFORE_APP_SERIALIZED)
-    callbacks: (() => void | Promise<void>)[],
-    _store: Store,
-    _transferState: TransferState
-  ) {
+  private readonly callbacks = (inject(BEFORE_APP_SERIALIZED, {
+    optional: true,
+  }) ?? []) as (() => void | Promise<void>)[];
+  private readonly store = inject(Store);
+  private readonly transferState = inject(TransferState);
+
+  constructor() {
     /*
      * Register the callback that will store the saved slices into TransferState prior to render
      *
@@ -57,16 +56,16 @@ export class NgrxUniversalRehydrateServerModule {
      * is added to the TransferState before it is serialized
      */
     const serializeStateCallback =
-      callbacks[0] ||
+      this.callbacks[0] ||
       // So, so hacky. But currently there is no other way to find the right callback since the functions
       // prototype does not have the name property. Open to ideas here.
-      callbacks.find((c) => c.toString().includes(`appId + '-state'`));
+      this.callbacks.find((c) => c.toString().includes(`appId + '-state'`));
 
     if (serializeStateCallback) {
-      callbacks[0] = serializeRehydrateStateFactory(
-        _store,
-        _transferState,
-        serializeStateCallback
+      this.callbacks[0] = serializeRehydrateStateFactory(
+        this.store,
+        this.transferState,
+        serializeStateCallback,
       );
     }
   }

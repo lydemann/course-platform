@@ -1,39 +1,33 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
-import * as Sentry from '@sentry/angular-ivy';
+import * as Sentry from '@sentry/angular';
 import {
   CourseAdminSharedDomainModule,
   environment,
 } from '@course-platform/course-admin/shared/domain';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
+ 
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import {
   CoreModule,
-  ProfileFBService,
+  ProfileSBService,
   ProfileService,
 } from '@course-platform/course-client/shared/domain';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import {
-  HttpClient,
-  provideHttpClient,
-  withInterceptors,
-} from '@angular/common/http';
-import {
-  CourseResourcesFbService,
+  CourseResourcesTrpcService,
   CourseResourcesService,
   ENDPOINTS_TOKEN,
   Endpoints,
-  FirebaseModule,
-  GraphQLModule,
 } from '@course-platform/shared/domain';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  AuthFBService,
+  AuthSBService,
   AuthService,
-  authFBInterceptor,
 } from '@course-platform/shared/auth/domain';
 import { AppComponent } from './app/app.component';
 
@@ -69,10 +63,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-export function httpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `/assets/i18n/`, '.json');
-}
-
 export function endpointsFactory() {
   return {
     courseServiceUrl: environment.courseServiceUrl,
@@ -99,46 +89,36 @@ xhttp.onreadystatechange = function () {
         },
         {
           provide: ProfileService,
-          useClass: ProfileFBService,
+          useClass: ProfileSBService,
         },
-        provideHttpClient(withInterceptors([authFBInterceptor])),
+        provideHttpClient(withXhr()),
+        provideTrpcClient(),
+        provideTranslateService({
+          loader: provideTranslateHttpLoader({
+            prefix: '/assets/i18n/',
+            suffix: '.json',
+          }),
+        }),
         importProvidersFrom([
-          TranslateModule.forRoot({
-            loader: {
-              provide: TranslateLoader,
-              useFactory: httpLoaderFactory,
-              deps: [HttpClient],
-            },
-          }),
-          TranslateModule.forRoot({
-            loader: {
-              provide: TranslateLoader,
-              useFactory: httpLoaderFactory,
-              deps: [HttpClient],
-            },
-          }),
           CoreModule,
           CourseAdminSharedDomainModule,
           BrowserAnimationsModule,
-          FirebaseModule,
-          GraphQLModule,
         ]),
-        // TODO: move to firebase module
         {
           provide: CourseResourcesService,
-          useClass: CourseResourcesFbService,
+          useClass: CourseResourcesTrpcService,
         },
         {
           provide: AuthService,
-          useClass: AuthFBService,
+          useClass: AuthSBService,
         },
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideRouter([
           {
             path: '',
             loadChildren: () =>
               import('@course-platform/course-admin/shell').then(
-                (m) => m.RemoteEntryModule
+                (m) => m.RemoteEntryModule,
               ),
           },
         ]),

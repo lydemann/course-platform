@@ -12,6 +12,7 @@ import { UntypedFormGroup } from '@angular/forms';
   templateUrl: './section-admin-form.component.html',
   styleUrls: ['./section-admin-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SectionAdminFormComponent {
   @Input() formGroup!: UntypedFormGroup;

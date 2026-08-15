@@ -2,26 +2,21 @@
   "name": "course-admin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "sourceRoot": "apps/course-admin/src",
+  "prefix": "app",
+  "tags": ["scope:course-admin", "type:app"],
+  "implicitDependencies": ["shared-ui-styles"],
   "generators": {
     "@nx/angular:component": {
       "style": "scss"
     }
   },
-  "sourceRoot": "apps/course-admin/src",
-  "implicitDependencies": ["shared-ui-styles"],
-  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@nx/angular:browser-esbuild",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "allowedCommonJsDependencies": [
-          "firebase",
-          "firebase/app",
-          "firebase/auth",
-          "graphql-tag",
-          "zen-observable"
-        ],
         "plugins": ["esbuild-polyfills-node.js"],
         "outputPath": "dist/apps/course-admin",
         "index": "apps/course-admin/src/index.html",
@@ -37,9 +32,7 @@
         "namedChunks": true,
         "assets": [
           "apps/course-admin/src/favicon.ico",
-          "apps/course-admin/src/assets",
-          "apps/course-admin/src/.firebaserc",
-          "apps/course-admin/src/firebase.json"
+          "apps/course-admin/src/assets"
         ],
         "styles": ["apps/course-admin/src/styles.scss"],
         "stylePreprocessorOptions": {
@@ -47,7 +40,6 @@
         },
         "scripts": []
       },
-      "defaultConfiguration": "production",
       "configurations": {
         "production": {
           "fileReplacements": [
@@ -77,6 +69,12 @@
     },
     "serve": {
       "executor": "@nx/angular:dev-server",
+      "defaultConfiguration": "development",
+      "continuous": true,
+      "options": {
+        "port": 4201,
+        "publicHost": "http://localhost:4201"
+      },
       "configurations": {
         "production": {
           "buildTarget": "course-admin:build:production"
@@ -87,11 +85,6 @@
         "local": {
           "buildTarget": "course-admin:build:local"
         }
-      },
-      "defaultConfiguration": "development",
-      "options": {
-        "port": 4201,
-        "publicHost": "http://localhost:4201"
       }
     },
     "serve-static": {
@@ -116,15 +109,16 @@
         "buildTarget": "course-admin:build"
       }
     },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "test": {
-      "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/course-admin/jest.config.ts"
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
       }
     }
-  },
-  "tags": ["scope:course-admin", "type:app"]
+  }
 }

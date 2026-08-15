@@ -18,7 +18,6 @@ import { LessonAdminForm } from '../lesson-admin.component';
   templateUrl: './lesson-admin-form.component.html',
   styleUrls: ['./lesson-admin-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SharedModule],
 })
 export class LessonAdminFormComponent {

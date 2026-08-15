@@ -14,6 +14,7 @@ interface NavigationItem {
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TopbarComponent {
   languages = ['en'];

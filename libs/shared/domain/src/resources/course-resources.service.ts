@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Observable } from 'rxjs';
 
 import {
@@ -36,39 +35,39 @@ export abstract class CourseResourcesService {
   abstract getCourseSections(courseId: string): Observable<CourseSection[]>;
   abstract setCompleteLesson(
     isCompleted: boolean,
-    lessonId: string
+    lessonId: string,
   ): Observable<unknown>;
   abstract createLesson(
     sectionId: string,
     lessonName?: string,
-    courseId?: string
+    courseId?: string,
   ): Observable<Lesson>;
   abstract updateLesson(
     lesson: Lesson,
     courseId: string,
-    sectionId: string
+    sectionId: string,
   ): Observable<unknown>;
   abstract deleteLesson(
     sectionId: string,
     lessonId: string,
-    courseId: string
+    courseId: string,
   ): Observable<unknown>;
   abstract setActionItemCompleted(
     resourceId: string,
-    completed: boolean
+    completed: boolean,
   ): Observable<unknown>;
   abstract createSection(
     sectionName: string,
-    courseId: string
+    courseId: string,
   ): Observable<CourseSectionDTO>;
   abstract updateSection(
     sectionId: string,
     sectionName: string,
     sectionTheme: string,
-    courseId: string
+    courseId: string,
   ): Observable<CourseSectionDTO>;
   abstract deleteSection(
     sectionId: string,
-    courseId: string
+    courseId: string,
   ): Observable<unknown>;
 }

@@ -1,5 +1,4 @@
 import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Observable, from, of } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -12,9 +11,8 @@ export class RedirectIfLoggedInResolver implements Resolve<boolean> {
   private platformId = inject(PLATFORM_ID);
   private ngZone = inject(NgZone);
   constructor(
-    public afAuth: Auth,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
@@ -30,7 +28,7 @@ export class RedirectIfLoggedInResolver implements Resolve<boolean> {
             return true;
           }
           return true;
-        })
+        }),
       );
     }
 
@@ -41,7 +39,7 @@ export class RedirectIfLoggedInResolver implements Resolve<boolean> {
           this.router.navigate(['courses']);
         }
         return true;
-      })
+      }),
     );
   }
 }

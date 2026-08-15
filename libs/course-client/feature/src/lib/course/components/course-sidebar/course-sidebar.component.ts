@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
@@ -13,7 +19,6 @@ export interface SectionDropDownValue {
 
 @Component({
   selector: 'app-course-sidebar',
-  standalone: true,
   imports: [
     CourseSidebarComponent,
     SharedModule,
@@ -30,7 +35,7 @@ export interface SectionDropDownValue {
 
       <div class="progress-bar-wrapper">
         <small class="label"
-          >{{ sectionCompletedPct | number : '1.0-2' }}% complete</small
+          >{{ sectionCompletedPct | number: '1.0-2' }}% complete</small
         >
         <mat-progress-bar
           class="progress-bar"
@@ -44,12 +49,11 @@ export interface SectionDropDownValue {
         [value]="selectedSection.id"
         (valueChange)="sectionChanged.emit($event)"
       >
-        <app-select-option
-          *ngFor="let section of sections"
-          [value]="section.id"
-        >
-          {{ section.name }}
-        </app-select-option>
+        @for (section of sections; track section) {
+          <app-select-option [value]="section.id">
+            {{ section.name }}
+          </app-select-option>
+        }
       </app-select>
 
       <app-section-lessons
@@ -58,7 +62,8 @@ export interface SectionDropDownValue {
         (lessonSelected)="lessonSelected.emit($event)"
       ></app-section-lessons>
     </div>
-    }`,
+  }`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./course-sidebar.component.scss'],
 })
 export class CourseSidebarComponent {
