@@ -1,3 +1,5 @@
 {
+  "name": "course-platform-analog",
+  "private": true,
   "type": "module"
 }

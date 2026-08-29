@@ -1,3 +1,6 @@
+packages:
+  - 'apps/course-platform-analog'
+
 allowBuilds:
   '@parcel/watcher': true
   '@sentry/cli': true
