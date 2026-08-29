@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'ngrx-universal-rehydrate',
 

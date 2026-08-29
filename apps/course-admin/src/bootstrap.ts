@@ -5,8 +5,6 @@ import {
   environment,
 } from '@course-platform/course-admin/shared/domain';
 
- 
-
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import {

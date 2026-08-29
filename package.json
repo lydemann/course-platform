@@ -2,6 +2,7 @@
   "name": "course-platform",
   "version": "0.0.0",
   "license": "MIT",
+  "packageManager": "pnpm@11.24.0",
   "scripts": {
     "ng": "ng",
     "start": "nx serve",

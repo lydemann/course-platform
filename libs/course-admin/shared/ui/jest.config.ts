@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'course-admin-shared-ui',
   preset: '../../../../jest.preset.js',

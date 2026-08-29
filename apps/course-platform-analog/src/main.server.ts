@@ -1,6 +1,5 @@
 /// <reference types="vite/client" />
- 
- 
+
 import '@angular/platform-server/init';
 import 'zone.js/node';
 
@@ -10,7 +9,7 @@ import {
   BootstrapContext,
 } from '@angular/platform-browser';
 import { renderApplication } from '@angular/platform-server';
- 
+
 import { ClientRequest, ServerResponse } from 'http';
 import { AppComponent } from './app/app.component';
 import { config } from './app/app.config.server';

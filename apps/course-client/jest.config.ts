@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'course-client',
   preset: '../../jest.preset.js',

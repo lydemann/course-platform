@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'trpc-client',
   preset: '../../../../jest.preset.js',

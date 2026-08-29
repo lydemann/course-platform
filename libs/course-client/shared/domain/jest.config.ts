@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'domain',
   preset: '../../../../jest.preset.js',

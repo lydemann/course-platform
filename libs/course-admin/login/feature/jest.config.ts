@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'course-admin-login-feature',
   preset: '../../../../jest.preset.js',

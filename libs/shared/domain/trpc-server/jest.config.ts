@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'shared-domain-trpc-server',
   preset: '../../../../jest.preset.js',

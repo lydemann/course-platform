@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'shared-auth-domain',
   preset: '../../../../jest.preset.js',

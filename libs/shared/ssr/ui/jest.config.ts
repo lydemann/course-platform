@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'shared-ssr-ui',
   preset: '../../../../jest.preset.js',

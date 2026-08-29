@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'course-admin-shell',
   preset: '../../../jest.preset.js',

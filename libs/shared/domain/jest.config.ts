@@ -1,4 +1,3 @@
- 
 module.exports = {
   displayName: 'shared-data-access',
   preset: '../../../jest.preset.js',
