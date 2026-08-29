@@ -78,7 +78,7 @@ export const appConfig: ApplicationConfig = {
     [
       {
         provide: APP_BASE_HREF,
-        useValue: import.meta.env.VITE_ANALOG_PUBLIC_BASE_URL || '/',
+        useValue: '/',
       },
     ],
     // makes sure the client is hydrated with the server state to avoid redundant client requests
