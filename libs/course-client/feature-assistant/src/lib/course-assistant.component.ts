@@ -6,7 +6,6 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
 import { CopilotSidebar, connectAgentContext } from '@copilotkit/angular';
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { AuthService } from '@course-platform/shared/auth/domain';
@@ -47,11 +46,12 @@ export class CourseAssistantComponent {
    * anything without the Supabase JWT. That header is set from the auth state
    * callback, which resolves asynchronously — so mounting eagerly raced it and
    * every request 401'd while tRPC, firing later, succeeded with the same token.
-   * `currentUser$` emits only after that callback has run, so gating on it means
-   * the header is always in place before the first request.
+   * `isLoggedIn()` derives from the same subject the callback feeds, and
+   * `cb(event, session)` runs before `currentUser.next(...)`, so by the time
+   * this emits true the header is already in place.
    */
   protected readonly isAuthenticated = toSignal(
-    inject(AuthService).currentUser$.pipe(map((user) => !!user)),
+    inject(AuthService).isLoggedIn(),
     { initialValue: false },
   );
   protected readonly open = signal(false);
