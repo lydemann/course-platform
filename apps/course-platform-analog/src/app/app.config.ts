@@ -120,11 +120,9 @@ export const appConfig: ApplicationConfig = {
     // The Authorization header is attached per-session in `AppComponent`.
     provideCopilotKit({
       runtimeUrl: '/api/copilotkit',
-      // CopilotKit mounts a floating dev inspector by default. It is gated on
-      // Angular's isDevMode() so it should not render in a production build,
-      // but this is student-facing, so turn it off explicitly rather than rely
-      // on that.
-      enableInspector: false,
+      // The dev inspector is left to CopilotKit's own isDevMode() gate, which
+      // is false in an optimized build (ngDevMode is compiled out). Verified
+      // against the production bundle; re-check if that build config changes.
       // Publishable CopilotKit Cloud key; pairs with COPILOTKIT_API_KEY on the
       // server. Safe in the browser bundle by design.
       licenseKey: import.meta.env['VITE_COPILOTKIT_PUBLIC_KEY'],
