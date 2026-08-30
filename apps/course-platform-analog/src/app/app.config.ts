@@ -7,7 +7,7 @@ import {
 import {
   ApplicationConfig,
   importProvidersFrom,
-  provideZoneChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import {
   BrowserModule,
@@ -90,7 +90,7 @@ export const appConfig: ApplicationConfig = {
       }),
       withNoIncrementalHydration(),
     ),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideHttpClient(withFetch(), withInterceptors([cookieInterceptor])),
     provideTranslateService({
       loader: provideTranslateHttpLoader({

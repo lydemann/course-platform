@@ -15,7 +15,7 @@ import { Session } from '@supabase/auth-js';
 @Component({
   selector: 'course-platform-root',
   imports: [RouterOutlet, LayoutModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-topbar></app-topbar>
     <router-outlet></router-outlet>

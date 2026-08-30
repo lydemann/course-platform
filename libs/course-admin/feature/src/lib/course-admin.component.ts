@@ -16,7 +16,7 @@ import { CreateSectionModalComponent } from './components/create-section-modal/c
   selector: 'app-course-admin',
   templateUrl: './course-admin.component.html',
   styleUrls: ['./course-admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class CourseAdminComponent {

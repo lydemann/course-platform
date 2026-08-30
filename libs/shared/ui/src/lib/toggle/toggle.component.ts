@@ -11,7 +11,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
   styleUrls: ['./toggle.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class ToggleComponent {

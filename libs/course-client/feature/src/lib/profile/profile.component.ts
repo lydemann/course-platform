@@ -20,7 +20,7 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ReactiveFormsModule, SharedModule],
 })
 export class ProfileComponent {

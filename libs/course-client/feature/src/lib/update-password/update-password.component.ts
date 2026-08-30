@@ -59,7 +59,7 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
   `,
   styleUrls: ['./update-password.component.scss'],
   host: { ngSkipHydration: 'true' },
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, ReactiveFormsModule],
 })
 export class UpdatePasswordComponent implements OnInit {

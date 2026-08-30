@@ -9,7 +9,7 @@ export const routeMeta: RouteMeta = {
 
 @Component({
   imports: [],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: ``,
 })
 export default class CoursesRedirectComponent {}

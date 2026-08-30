@@ -9,7 +9,7 @@ import {
 @Component({
   selector: 'app-select-option',
   imports: [],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './select-option.component.html',
 })
 export class SelectOptionComponent {

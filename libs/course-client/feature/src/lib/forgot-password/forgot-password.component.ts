@@ -18,7 +18,7 @@ import { SharedUiModule } from '@course-platform/shared/ui';
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedUiModule, RouterModule, ReactiveFormsModule],
 })
 export class ForgotPasswordComponent implements OnInit {

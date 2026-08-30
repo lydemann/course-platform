@@ -78,7 +78,7 @@ import { QuestionsComponent } from './containers/questions/questions.component';
       }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     SharedModule,

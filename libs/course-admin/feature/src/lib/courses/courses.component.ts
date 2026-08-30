@@ -12,7 +12,7 @@ import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/d
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class CoursesComponent {

@@ -58,7 +58,7 @@ import {
       </div>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
 })
 export class LoginComponent {

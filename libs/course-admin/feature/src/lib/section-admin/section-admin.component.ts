@@ -14,7 +14,7 @@ import { CourseSection } from '@course-platform/shared/interfaces';
   selector: 'app-section-admin',
   templateUrl: './section-admin.component.html',
   styleUrls: ['./section-admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class SectionAdminComponent {

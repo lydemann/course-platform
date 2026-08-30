@@ -11,7 +11,7 @@ import { SelectOptionComponent } from '../select-option/select-option.component'
 @Component({
   selector: 'app-select-option-group',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
 })
 export class SelectOptionGroupComponent {

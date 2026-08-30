@@ -10,7 +10,7 @@ export const routeMeta: RouteMeta = {
 @Component({
   selector: 'course-platform-home',
   imports: [],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h3 class="text-center text-red-800 mt-10">Welcome to course platform</h3>
   `,

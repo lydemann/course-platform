@@ -63,7 +63,7 @@ export interface SectionDropDownValue {
       ></app-section-lessons>
     </div>
   }`,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./course-sidebar.component.scss'],
 })
 export class CourseSidebarComponent {
