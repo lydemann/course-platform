@@ -6,6 +6,7 @@ import {
   getLesson,
   listCourses,
   searchLessons,
+  setLessonCompleted,
 } from './course-catalog';
 
 /**
@@ -28,7 +29,10 @@ How to behave:
 - When the student's message refers to "this lesson", "this section" or "here", use the current-page context you were given rather than asking them to repeat it.
 - Prefer naming specific lessons and sections so the student can navigate there. Include the lesson name, not just the id.
 - Keep answers short. Two or three sentences plus a list is usually enough.
-- You are read-only. You cannot mark lessons complete, enrol students or change any course content — say so if asked.`;
+- You can mark a lesson complete or incomplete for the student, and nothing else. You cannot enrol students or change any course content — say so if asked.
+- Only change completion when the student clearly asks you to. Never infer it from them discussing a lesson, and never mark a whole section or week in one go without them naming that intent.
+- Before changing completion, make sure you have the right lesson: if their wording could match more than one, name the candidates and ask which they mean.
+- After changing it, state plainly which lesson you changed and to what.`;
 
 /**
  * Builds the assistant for one authenticated student.
@@ -78,6 +82,22 @@ export function createCourseAssistantAgent(userId: string) {
       }),
       execute: async ({ query, courseId }) =>
         searchLessons(userId, query, courseId),
+    }),
+
+    defineTool({
+      name: 'set_lesson_completed',
+      description:
+        'Mark a lesson complete or incomplete for the student. This writes to their progress, so only call it when they have clearly asked. Resolve the lesson id first with search_lessons or get_course_outline; never guess one.',
+      parameters: z.object({
+        lessonId: z.string().describe('The id of the lesson to update.'),
+        isCompleted: z
+          .boolean()
+          .describe('true marks it complete, false marks it incomplete.'),
+      }),
+      execute: async ({ lessonId, isCompleted }) => {
+        const result = await setLessonCompleted(userId, lessonId, isCompleted);
+        return result ?? { error: `No lesson found with id "${lessonId}".` };
+      },
     }),
 
     defineTool({

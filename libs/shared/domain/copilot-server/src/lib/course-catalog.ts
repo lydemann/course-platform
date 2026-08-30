@@ -212,3 +212,53 @@ export async function getLesson(userId: string, lessonId: string) {
     })),
   };
 }
+
+/**
+ * Marks one lesson complete or incomplete for this student.
+ *
+ * The only write the assistant can perform. Mirrors `lessonRouter.setCompleted`,
+ * including its upsert, so the two paths cannot drift. `userId` is bound by the
+ * caller from the verified JWT and is never a model-supplied argument, so a
+ * student can only ever change their own progress.
+ *
+ * Returns null when the lesson id does not exist, so the tool can say so rather
+ * than silently reporting success.
+ */
+export async function setLessonCompleted(
+  userId: string,
+  lessonId: string,
+  isCompleted: boolean,
+) {
+  const lesson = await db.query.lessons.findFirst({
+    where: eq(schema.lessons.id, lessonId),
+    columns: { id: true, name: true },
+  });
+
+  if (!lesson) {
+    return null;
+  }
+
+  if (isCompleted) {
+    await db
+      .insert(schema.completedLessons)
+      .values({ lessonId, userId })
+      .onConflictDoUpdate({
+        target: [
+          schema.completedLessons.lessonId,
+          schema.completedLessons.userId,
+        ],
+        set: { lessonId, userId },
+      });
+  } else {
+    await db
+      .delete(schema.completedLessons)
+      .where(
+        and(
+          eq(schema.completedLessons.lessonId, lessonId),
+          eq(schema.completedLessons.userId, userId),
+        ),
+      );
+  }
+
+  return { lessonId: lesson.id, lessonName: lesson.name, isCompleted };
+}
