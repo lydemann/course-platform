@@ -1,0 +1,54 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# One review per PR at a time; a new push cancels the in-flight run so rapid
+# pushes don't burn subscription usage on reviews that are already stale.
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    # Drafts are skipped to save usage. Remove this line to review them too.
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        # Advisory only: a failed review must never block the `automerge`
+        # label flow, which merges as soon as every check is green.
+        continue-on-error: true
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          use_sticky_comment: 'true'
+          prompt: |
+            Review this pull request for correctness bugs first, then for
+            reuse and simplification opportunities.
+
+            This is an Nx monorepo (Angular 22, Analog, tRPC, Drizzle,
+            Supabase). Follow AGENTS.md and CLAUDE.md. Pay particular
+            attention to:
+            - Nx project graph correctness: target inputs, outputs, cache
+              settings, and dependsOn edges that would produce stale or
+              incorrect cache hits.
+            - Module boundary tags enforced by @nx/enforce-module-boundaries.
+            - Angular change detection, signal usage, and RxJS subscription
+              leaks.
+            - Anything that changes production behavior of the deployed
+              Analog app.
+
+            Report only findings you are confident about, each with a
+            concrete failure scenario. If the diff looks good, say so
+            briefly rather than inventing nits.
