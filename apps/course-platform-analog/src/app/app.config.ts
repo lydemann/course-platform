@@ -93,10 +93,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([cookieInterceptor])),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
-        prefix: `${
-          import.meta.env['VITE_ANALOG_PUBLIC_BASE_URL'] ||
-          'http://localhost:4200'
-        }/assets/i18n/`,
+        prefix: '/assets/i18n/',
         suffix: '.json',
       }),
     }),
