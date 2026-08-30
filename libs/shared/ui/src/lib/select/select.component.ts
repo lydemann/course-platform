@@ -73,7 +73,6 @@ import { SelectOption } from './select-option/select-option.interface';
     </mat-form-field>
   `,
   styleUrls: ['./select.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

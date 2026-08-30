@@ -11,7 +11,6 @@ import { ToastService } from '@course-platform/shared/ui';
   selector: 'app-course-styling',
   templateUrl: './course-styling.component.html',
   styleUrls: ['./course-styling.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class CourseStylingComponent {

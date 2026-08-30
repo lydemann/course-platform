@@ -1,10 +1,4 @@
-import {
-  Component,
-  inject,
-  OnInit,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -59,7 +53,6 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
   `,
   styleUrls: ['./update-password.component.scss'],
   host: { ngSkipHydration: 'true' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, ReactiveFormsModule],
 })
 export class UpdatePasswordComponent implements OnInit {

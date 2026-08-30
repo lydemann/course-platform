@@ -1,9 +1,4 @@
-import {
-  Component,
-  inject,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { LayoutModule } from '@course-platform/course-client/shared/ui';
@@ -15,7 +10,6 @@ import { Session } from '@supabase/auth-js';
 @Component({
   selector: 'course-platform-root',
   imports: [RouterOutlet, LayoutModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-topbar></app-topbar>
     <router-outlet></router-outlet>

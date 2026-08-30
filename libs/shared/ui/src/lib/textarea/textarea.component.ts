@@ -19,7 +19,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class TextareaComponent implements ControlValueAccessor {

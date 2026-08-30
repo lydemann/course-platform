@@ -11,7 +11,6 @@ import { TrpcHeaders } from '@course-platform/shared/domain/trpc-client';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [LayoutModule, SharedModule],
 })
 export class AppComponent {

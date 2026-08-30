@@ -5,7 +5,6 @@ import {
   OnInit,
   Renderer2,
   SecurityContext,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
@@ -78,7 +77,6 @@ import { QuestionsComponent } from './containers/questions/questions.component';
       }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     SharedModule,
