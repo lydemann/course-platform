@@ -39,6 +39,7 @@ import {
   Endpoints,
 } from '@course-platform/shared/domain';
 import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
+import { provideCopilotKit } from '@copilotkit/angular';
 import { NgrxUniversalRehydrateBrowserModule } from '@course-platform/shared/ngrx-universal-rehydrate';
 import { cookieInterceptor } from '@course-platform/shared/ssr/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
@@ -114,6 +115,17 @@ export const appConfig: ApplicationConfig = {
       useClass: ProfileSBService,
     },
     provideTrpcClient(),
+    // Same-origin: Analog serves `src/server/routes` under `/api`, so this hits
+    // the Nitro handler in `src/server/routes/copilotkit/[...].ts`.
+    // The Authorization header is attached per-session in `AppComponent`.
+    provideCopilotKit({
+      runtimeUrl: '/api/copilotkit',
+      // CopilotKit mounts a floating dev inspector by default. It is gated on
+      // Angular's isDevMode() so it should not render in a production build,
+      // but this is student-facing, so turn it off explicitly rather than rely
+      // on that.
+      enableInspector: false,
+    }),
     importProvidersFrom([
       BrowserModule,
       BrowserAnimationsModule,

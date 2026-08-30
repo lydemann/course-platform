@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>MyApp</title>
+    <title>Lüdemann Academy</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/src/favicon.ico" />
@@ -10,7 +10,13 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/src/styles.scss" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <!-- CopilotKit stylesheet, vendored to public/assets and linked rather than
+       imported. Any @import/import of it pulls the file into Vite's module or
+       sass graph, where this app's sass-embedded importer intermittently
+       receives a Promise and fails every stylesheet. Refresh with:
+       cp node_modules/@copilotkit/angular/dist/styles.css apps/course-platform-analog/public/assets/copilotkit.css -->
+    <link rel="stylesheet" href="/assets/copilotkit.css" />
   </head>
 
   <body>

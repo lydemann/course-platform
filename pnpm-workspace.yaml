@@ -3,6 +3,7 @@ packages:
 
 allowBuilds:
   '@parcel/watcher': true
+  '@scarf/scarf': false
   '@sentry/cli': true
   '@swc/core': true
   cypress: true

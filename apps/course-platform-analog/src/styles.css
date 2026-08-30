@@ -1,0 +1,35 @@
+/* Global styles. Deliberately plain CSS, not SCSS.
+   Vite registers its sass importer synchronously but resolves asynchronously, so
+   any bare @import in a sass-processed GLOBAL stylesheet fails with
+   "importer must return an absolute URL, was [object Promise]" and takes all app
+   styling down in dev. Component-level SCSS is unaffected (Analog's Angular
+   plugin compiles those). The SCSS that used to live here is compiled by the
+   `build-styles` Nx target into global-styling.generated.css, imported below in
+   the slot it previously occupied. */
+/* Declared first so it is the lowest-priority layer. A reset MUST be layered:
+   unlayered rules beat layered ones regardless of order, so an unlayered reset
+   overrides every layered utility -- including CopilotKit's, whose stylesheet is
+   entirely @layer-based, which stripped the chat's padding and link styling. */
+@layer reset;
+@import 'reset-css' layer(reset);
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+/* Compiled from libs/shared/ui/styles/src/lib/global-styling.scss by the
+   `build-styles` Nx target (build and serve depend on it; gitignored).
+   It lives here, between the Material theme and Tailwind, because that is the
+   position it occupied in the old styles.scss -- it carries the padding/margin
+   utility classes and the M3 theme, and moving it changes the cascade. */
+@import './global-styling.generated.css';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@source '../../../libs';
+
+@theme {
+  --color-success: #28a745;
+}
+
+body {
+  display: block;
+  position: relative;
+  max-width: 1337px;
+  margin: auto;
+}

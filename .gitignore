@@ -72,3 +72,6 @@ vitest.config.*.timestamp*
 
 # Generated Playwright-BDD specifications
 apps/*-e2e/.features-gen/
+.env*
+apps/course-platform-analog/src/global-styling.generated.css
+.playwright-mcp/

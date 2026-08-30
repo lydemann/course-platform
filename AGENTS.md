@@ -39,6 +39,28 @@ Update `.ai/HANDOFF.md` whenever you:
 
 Update it before voluntarily stopping or handing work to another agent. Because an agent can hit a usage limit without warning, keep the snapshot current during the work rather than waiting until the end.
 
+### Automation
+
+Claude Code enforces part of this automatically; Codex does not, and follows the prose below.
+
+- `.claude/hooks/check-handoff.sh` runs on Claude Code's `Stop` event and prints a reminder when `.ai/HANDOFF.md` is older than the most recently changed file in the working tree. It is advisory: it never blocks, and it can be wrong (a trivial edit still counts as a change). Registered in `.claude/settings.json`; review or disable it with `/hooks`.
+- `.claude/skills/handoff/SKILL.md` writes the file in the format below. Invoke it with `/handoff`.
+
+Neither removes the obligation. The rules here bind every agent, hook or no hook.
+
+### Attribution and Timestamps
+
+Every agent writing to `.ai/HANDOFF.md` must make it clear _when_ something was established and _by which agent and model_. A later reader needs this to judge how much to trust a claim: a verification run an hour ago on the current working tree carries different weight from one recorded two days and three branches ago, and knowing which model produced a decision helps calibrate how carefully to re-check it.
+
+Rules:
+
+- Put a `Last updated` line directly under the `# AI Handoff` heading, in the form `Last updated: YYYY-MM-DD HH:MM TZ by <agent> (<model>)` — for example `2026-08-30 13:36 CEST by Claude Code (claude-opus-5)` or `2026-08-30 09:12 CEST by Codex (gpt-5-codex)`. Use the machine's local time; get it from `date "+%Y-%m-%d %H:%M %Z"` rather than guessing.
+- Prefix each entry under `Current State`, `Important Decisions`, and `Verification` with `[YYYY-MM-DD HH:MM · <agent>/<model>]`. Keep the tag short; it is metadata, not prose.
+- Attribute the agent and model that actually produced the work, not the one currently editing the file. When you rewrite or correct someone else's entry, re-stamp it with your own tag and say what changed.
+- Entries carried forward unchanged keep their original tag. Do not re-stamp an entry merely because you read it.
+- `Known Issues`, `Working Area`, `Remaining Work`, and `Next Step` do not need per-entry tags — the `Last updated` line covers them — but timestamp any individual issue whose relevance depends on when it was observed.
+- Timestamps are for handoff entries only. Do not add them to `AGENTS.md`, `CLAUDE.md`, code comments, or commit messages.
+
 ### Snapshot Rules
 
 `.ai/HANDOFF.md` is a concise snapshot, not a chronological diary, activity log, chat transcript, or collection of past status reports. Replace or remove stale information instead of appending history. Record only facts another agent needs to continue safely and immediately.

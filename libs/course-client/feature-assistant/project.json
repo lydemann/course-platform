@@ -1,0 +1,21 @@
+{
+  "name": "course-client-feature-assistant",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/course-client/feature-assistant/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["scope:course-client", "type:feature"],
+  "targets": {
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
+      }
+    }
+  }
+}

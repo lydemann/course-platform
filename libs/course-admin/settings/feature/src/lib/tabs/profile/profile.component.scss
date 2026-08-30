@@ -3,7 +3,7 @@
 :host {
   display: block;
   background: #fefefe;
-  padding: size(l) size(xxl);
+  padding: get-size(l) get-size(xxl);
 
   // make h1 general style
   .title {
