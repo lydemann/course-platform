@@ -1,4 +1,5 @@
 import {
+  CopilotKitIntelligence,
   CopilotRuntime,
   createCopilotRuntimeHandler,
 } from '@copilotkit/runtime/v2';
@@ -87,7 +88,33 @@ function unauthorized() {
   });
 }
 
+/**
+ * CopilotKit Cloud key. Threads are persisted by CopilotKit's Intelligence
+ * platform rather than by us, so without this the runtime cannot start.
+ *
+ * Note the Free plan retains threads for 3 days; a student returning after that
+ * sees an empty chat. If permanent history is wanted later, the SSE runtime
+ * accepts a custom `runner?: AgentRunner` backed by our own Postgres instead.
+ */
+const copilotCloudApiKey = process.env['COPILOTKIT_API_KEY'] ?? '';
+
 const runtime = new CopilotRuntime({
+  // Switches the runtime from SSE to Intelligence mode, which is where durable
+  // threads live. SSE mode forbids these options outright.
+  intelligence: new CopilotKitIntelligence({ apiKey: copilotCloudApiKey }),
+  generateThreadNames: true,
+  /**
+   * Binds a thread to a student. Uses the same verified Supabase JWT as the
+   * rest of the runtime, so a thread can only ever be attributed to the user
+   * who actually authenticated.
+   */
+  identifyUser: async (request: Request) => {
+    const user = await requireUser(request);
+    if (!user) {
+      throw new Error('Copilot thread requested without an authenticated user');
+    }
+    return { id: user.id, name: user.email ?? user.id };
+  },
   agents: async ({ request }) => {
     const user = await requireUser(request);
 

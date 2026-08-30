@@ -10,9 +10,12 @@
    unlayered rules beat layered ones regardless of order, so an unlayered reset
    overrides every layered utility -- including CopilotKit's, whose stylesheet is
    entirely @layer-based, which stripped the chat's padding and link styling. */
-@layer reset;
+@layer reset, material;
 @import 'reset-css' layer(reset);
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+/* Layered for the same reason as the reset: unlayered rules beat layered ones,
+   so Material's theme was overriding Tailwind utilities such as `text-success`
+   on <mat-icon>, which is why completed action items never turned green. */
+@import '@angular/material/prebuilt-themes/indigo-pink.css' layer(material);
 /* Compiled from libs/shared/ui/styles/src/lib/global-styling.scss by the
    `build-styles` Nx target (build and serve depend on it; gitignored).
    It lives here, between the Material theme and Tailwind, because that is the

@@ -125,6 +125,9 @@ export const appConfig: ApplicationConfig = {
       // but this is student-facing, so turn it off explicitly rather than rely
       // on that.
       enableInspector: false,
+      // Publishable CopilotKit Cloud key; pairs with COPILOTKIT_API_KEY on the
+      // server. Safe in the browser bundle by design.
+      licenseKey: import.meta.env['VITE_COPILOTKIT_PUBLIC_KEY'],
     }),
     importProvidersFrom([
       BrowserModule,
