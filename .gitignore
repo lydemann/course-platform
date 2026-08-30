@@ -66,3 +66,6 @@ vitest.config.*.timestamp*
 .nx/polygraph
 .nx/self-healing
 .nx/migrate-runs
+
+# Local live state shared between coding agents
+.ai/HANDOFF.md

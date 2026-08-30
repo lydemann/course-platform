@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Shared Agent Instructions
+
+Before working, read and follow `AGENTS.md`. Before continuing existing work, read `.ai/HANDOFF.md`, reconcile it with `git status`, the relevant diff, and current verification results, and then keep it continuously updated according to the triggers in `AGENTS.md`. Repository state and current test evidence take precedence over stale handoff text.
+
 ## Project Overview
 
 This is an Nx monorepo containing a course platform with multiple applications and shared libraries. The platform includes:
@@ -12,7 +16,7 @@ This is an Nx monorepo containing a course platform with multiple applications a
 
 ## Technology Stack
 
-- **Frontend**: Angular 18 with TypeScript
+- **Frontend**: Angular 22 with TypeScript
 - **Build System**: Nx monorepo with Vite (Analog) and esbuild
 - **State Management**: NgRx for complex state, standalone services for simpler cases
 - **Backend**: tRPC with Supabase
