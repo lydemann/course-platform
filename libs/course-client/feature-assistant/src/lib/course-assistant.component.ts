@@ -2,11 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   afterNextRender,
+  inject,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { CopilotSidebar, connectAgentContext } from '@copilotkit/angular';
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
+import { AuthService } from '@course-platform/shared/auth/domain';
 
 /**
  * Floating course assistant.
@@ -21,7 +24,7 @@ import { CourseClientFacade } from '@course-platform/course-client/shared/domain
   imports: [CopilotSidebar],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (isBrowser()) {
+    @if (isBrowser() && isAuthenticated()) {
       <copilot-sidebar
         [(open)]="open"
         mode="overlay"
@@ -38,6 +41,19 @@ export class CourseAssistantComponent {
    * client pass keeps hydration matched.
    */
   protected readonly isBrowser = signal(false);
+
+  /**
+   * The sidebar hits the runtime as soon as it mounts, and the runtime rejects
+   * anything without the Supabase JWT. That header is set from the auth state
+   * callback, which resolves asynchronously — so mounting eagerly raced it and
+   * every request 401'd while tRPC, firing later, succeeded with the same token.
+   * `currentUser$` emits only after that callback has run, so gating on it means
+   * the header is always in place before the first request.
+   */
+  protected readonly isAuthenticated = toSignal(
+    inject(AuthService).currentUser$.pipe(map((user) => !!user)),
+    { initialValue: false },
+  );
   protected readonly open = signal(false);
 
   private readonly courseId = toSignal(this.courseClientFacade.courseId$, {
