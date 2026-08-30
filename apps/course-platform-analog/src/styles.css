@@ -19,6 +19,11 @@
    position it occupied in the old styles.scss -- it carries the padding/margin
    utility classes and the M3 theme, and moving it changes the cascade. */
 @import './global-styling.generated.css';
+/* CopilotKit's stylesheet is Tailwind v4 output and must go through this app's
+   PostCSS/Tailwind pipeline. Serving it statically from public/ bypassed
+   PostCSS, and the browser then parsed only ~40 of its 318 utility rules, so
+   the chat rendered without padding or link styling. */
+@import '../../../node_modules/@copilotkit/angular/dist/styles.css';
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 @source '../../../libs';
