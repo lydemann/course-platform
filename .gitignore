@@ -33,7 +33,6 @@ npm-debug.log
 testem.log
 /typings
 *.nx-tmp
-firebase-debug.log
 serviceAccountKey.json
 ui-debug.log
 env.local.json
@@ -44,8 +43,6 @@ drizzle.config.ts
 # System Files
 .DS_Store
 Thumbs.db
-firebase-service-account.json
-.firebase/**
 **/drizzle.config.ts
 
 .nx/cache
@@ -62,3 +59,13 @@ firebase-service-account.json
 .vercel
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
+.claude/worktrees
+.nx/polygraph
+.nx/self-healing
+.nx/migrate-runs
+
+# Local live state shared between coding agents
+.ai/HANDOFF.md

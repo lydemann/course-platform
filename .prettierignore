@@ -2,6 +2,7 @@
 
 /dist
 /coverage
+/.agents
 
 .angular
 
@@ -9,3 +10,5 @@
 /.nx/workspace-data
 /.pnpm-store
 pnpm-lock.yaml
+
+.nx/self-healing

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SchoolIdResolver } from '@course-platform/shared/domain';
 
 import { courseRoutes } from './course/course.routing';
 import { CourseResolver } from './course/resolvers/course.resolver';
@@ -19,12 +18,11 @@ const routes: Routes = [
     path: 'logout',
     loadComponent: () =>
       import('@course-platform/shared/auth/feature').then(
-        (m) => m.LogoutComponent
+        (m) => m.LogoutComponent,
       ),
   },
   {
     path: '',
-    resolve: [SchoolIdResolver],
     children: [
       {
         path: 'login',
@@ -36,7 +34,7 @@ const routes: Routes = [
         path: 'forgot-password',
         loadComponent: () =>
           import('./forgot-password/forgot-password.component').then(
-            (m) => m.ForgotPasswordComponent
+            (m) => m.ForgotPasswordComponent,
           ),
       },
       {
@@ -50,7 +48,7 @@ const routes: Routes = [
                 path: '',
                 loadComponent: () =>
                   import('./courses/courses.component').then(
-                    (m) => m.CoursesComponent
+                    (m) => m.CoursesComponent,
                   ),
               },
               {
@@ -69,7 +67,7 @@ const routes: Routes = [
             path: 'profile',
             loadComponent: () =>
               import('./profile/profile.component').then(
-                (m) => m.ProfileComponent
+                (m) => m.ProfileComponent,
               ),
           },
           {
@@ -85,7 +83,7 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('@course-platform/course-admin/shell').then(
-        (m) => m.RemoteEntryModule
+        (m) => m.RemoteEntryModule,
       ),
   },
   // {

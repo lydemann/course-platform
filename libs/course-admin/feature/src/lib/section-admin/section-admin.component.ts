@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -14,6 +14,8 @@ import { CourseSection } from '@course-platform/shared/interfaces';
   selector: 'app-section-admin',
   templateUrl: './section-admin.component.html',
   styleUrls: ['./section-admin.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class SectionAdminComponent {
   section$: Observable<CourseSection>;
@@ -21,7 +23,7 @@ export class SectionAdminComponent {
 
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
   ) {
     this.section$ = this.courseAdminFacade.currentSection$;
     this.formGroup$ = this.section$.pipe(
@@ -31,7 +33,7 @@ export class SectionAdminComponent {
           name: [section.name, Validators.required],
           theme: [section.theme],
         });
-      })
+      }),
     );
   }
 

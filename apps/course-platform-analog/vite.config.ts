@@ -1,14 +1,13 @@
 /// <reference types="vitest" />
 
 import analog from '@analogjs/platform';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { typescriptPaths } from 'rollup-plugin-typescript-paths';
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-    root: __dirname,
+    root: import.meta.dirname,
     cacheDir: `../../node_modules/.vite`,
     build: {
       target: ['es2020'],
@@ -26,6 +25,10 @@ export default defineConfig(({ mode }) => {
       fs: {
         allow: ['.'],
       },
+    },
+    resolve: {
+      conditions: ['module', 'browser', 'development|production'],
+      tsconfigPaths: true,
     },
     plugins: [
       analog({
@@ -52,13 +55,11 @@ export default defineConfig(({ mode }) => {
           },
         },
       }),
-      nxViteTsPaths(),
-      splitVendorChunkPlugin(),
     ],
     css: {
       preprocessorOptions: {
         scss: {
-          includePaths: ['libs/shared/ui/styles/src/lib'],
+          loadPaths: ['libs/shared/ui/styles/src/lib'],
         },
       },
     },
@@ -70,8 +71,6 @@ export default defineConfig(({ mode }) => {
         '@ngx-translate/**',
         'ngx-cookie-service/**',
         'ngx-cookie-service-ssr/**',
-        'firebase/**',
-        '@apollo/client/**',
         'uuid',
         'tslib',
         'ngx-cookie-service/**',
@@ -89,13 +88,6 @@ export default defineConfig(({ mode }) => {
         '@course-platform/course-client/feature',
         '@course-platform/course-admin',
       ],
-      esbuildOptions: {
-        tsconfigRaw: {
-          compilerOptions: {
-            experimentalDecorators: true,
-          },
-        },
-      },
     },
     define: {
       'import.meta.vitest': mode !== 'production',

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,7 +20,7 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, ReactiveFormsModule, SharedModule],
 })
 export class ProfileComponent {
@@ -31,8 +31,8 @@ export class ProfileComponent {
         fullName: [user.fullName, Validators.required],
         email: [user.email],
         uid: [user.id],
-      })
-    )
+      }),
+    ),
   );
   changePwForm: FormGroup = this.formBuilder.group({
     currentPassword: ['', Validators.required],
@@ -43,7 +43,7 @@ export class ProfileComponent {
   constructor(
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   onUpdateProfile(profileForm: FormGroup) {

@@ -17,7 +17,6 @@ export const {
   selectQueryParam,
   selectRouteData,
   selectUrl,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } = fromRouter.getRouterSelectors(selectRouter);
 
 const getRouteParams = (route: ActivatedRouteSnapshot): Params => {
@@ -27,7 +26,7 @@ const getRouteParams = (route: ActivatedRouteSnapshot): Params => {
 
   const combinedChildParams = route.children.reduce(
     (prev, childRoute) => ({ ...prev, ...getRouteParams(childRoute) }),
-    {}
+    {},
   );
   return {
     ...route.params,
@@ -50,5 +49,5 @@ export const selectRouteParam = (routeParam: string) =>
 
 export const selectQueryParams = createSelector(
   selectQueryParamsNgRx,
-  (params) => params || {}
+  (params) => params || {},
 );

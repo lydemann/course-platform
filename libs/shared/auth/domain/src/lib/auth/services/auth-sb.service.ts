@@ -3,7 +3,12 @@ import { GoTrueClient } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { injectTRPCClient } from '@course-platform/shared/domain/trpc-client';
 import { AuthClient, User, UserAttributes } from '@supabase/supabase-js';
-import { AbstractUser, AuthService, UpdateUserInput } from './auth.service';
+import {
+  AbstractUser,
+  AuthService,
+  isAuthSessionMissingError,
+  UpdateUserInput,
+} from './auth.service';
 import { BehaviorSubject, Observable, filter, firstValueFrom, map } from 'rxjs';
 
 const env = import.meta.env || {};
@@ -30,7 +35,7 @@ export class AuthSBService extends AuthService {
   randomServiceId = Math.random();
   currentUser = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUser.pipe(
-    filter((user) => !!user)
+    filter((user) => !!user),
   ) as Observable<User>;
   override uid() {
     return this.currentUser$.pipe(map((user) => user?.id));
@@ -38,7 +43,7 @@ export class AuthSBService extends AuthService {
   isLoggedIn$ = this.currentUser.pipe(
     map((user) => {
       return !!user;
-    })
+    }),
   );
 
   override updateCurrentUser(value: { name: string }): Promise<unknown> {
@@ -59,7 +64,7 @@ export class AuthSBService extends AuthService {
 
   // called from app.component.ts
   override handleClientAuthStateChanges(
-    cb: (event: string, session: any) => void
+    cb: (event: string, session: any) => void,
   ) {
     this.authClient.onAuthStateChange((event, session) => {
       if (!session) return;
@@ -71,29 +76,25 @@ export class AuthSBService extends AuthService {
         this.ssrCookieService.set(
           ACCESS_TOKEN_COOKIE_KEY,
           session?.access_token,
-          undefined,
-          '/'
+          { path: '/' },
         );
         this.ssrCookieService.set(
           REFRESH_TOKEN_COOKIE_KEY,
           session?.refresh_token,
-          undefined,
-          '/'
+          { path: '/' },
         );
         if (session.provider_token) {
           this.ssrCookieService.set(
             PROVIDER_TOKEN_COOKIE_KEY,
             session.provider_token,
-            undefined,
-            '/'
+            { path: '/' },
           );
         }
         if (session.provider_refresh_token) {
           this.ssrCookieService.set(
             PROVIDER_REFRESH_TOKEN_COOKIE_KEY,
             session.provider_refresh_token,
-            undefined,
-            '/'
+            { path: '/' },
           );
         }
       }
@@ -109,7 +110,7 @@ export class AuthSBService extends AuthService {
 
   signUp(email: string, password: string) {
     return firstValueFrom(
-      this.trpcClient.user.createUser.mutate({ email, password })
+      this.trpcClient.user.createUser.mutate({ email, password }),
     );
   }
 
@@ -131,6 +132,12 @@ export class AuthSBService extends AuthService {
   async getUser() {
     const userResponse = await this.authClient.getUser();
     if (userResponse.error) {
+      // An anonymous visitor has no local session. Guards treat that as a
+      // logged-out state, not as an exceptional authentication failure.
+      if (isAuthSessionMissingError(userResponse.error)) {
+        this.currentUser.next(null);
+        return null;
+      }
       throw userResponse.error;
     }
 

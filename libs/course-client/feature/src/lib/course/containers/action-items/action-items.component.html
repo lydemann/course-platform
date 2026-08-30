@@ -12,19 +12,17 @@
     Discord.
   </p>
 
-  <div
-    class="action-items"
-    fxLayout="column"
-    fxLayoutGap="12px"
-    *ngIf="this.selectedSectionId$ | async as selectedSectionId"
-  >
-    <app-action-item
-      *ngFor="let actionItem of actionItems$ | async"
-      class="mb-4 block"
-      [actionItem]="actionItem"
-      (completeChanged)="
-        onCompleteChanged(actionItem.id, $event, selectedSectionId)
-      "
-    ></app-action-item>
-  </div>
+  @if (this.selectedSectionId$ | async; as selectedSectionId) {
+    <div class="action-items" fxLayout="column" fxLayoutGap="12px">
+      @for (actionItem of actionItems$ | async; track actionItem) {
+        <app-action-item
+          class="mb-4 block"
+          [actionItem]="actionItem"
+          (completeChanged)="
+            onCompleteChanged(actionItem.id, $event, selectedSectionId)
+          "
+        ></app-action-item>
+      }
+    </div>
+  }
 </div>

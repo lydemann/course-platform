@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
@@ -19,28 +18,28 @@ export interface DialogData {
         {{ okBtnText }}
       </button>
     </mat-dialog-actions>`,
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [MatDialogModule, MatButtonModule],
 })
 export class DialogComponent {
+  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
   title = 'Are you sure?';
   message = '';
   cancelBtnText = 'No';
   okBtnText = 'Yes';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    if (data.title) {
-      this.title = data.title;
+  constructor() {
+    if (this.data.title) {
+      this.title = this.data.title;
     }
-    if (data.message) {
-      this.message = data.message;
+    if (this.data.message) {
+      this.message = this.data.message;
     }
-    if (data.cancelBtnText) {
-      this.cancelBtnText = data.cancelBtnText;
+    if (this.data.cancelBtnText) {
+      this.cancelBtnText = this.data.cancelBtnText;
     }
-    if (data.okBtnText) {
-      this.okBtnText = data.okBtnText;
+    if (this.data.okBtnText) {
+      this.okBtnText = this.data.okBtnText;
     }
   }
 }

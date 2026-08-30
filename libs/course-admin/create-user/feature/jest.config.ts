@@ -1,9 +1,9 @@
-/* eslint-disable */
-export default {
+module.exports = {
   displayName: 'course-admin-create-user-feature',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/course-admin/create-user/feature',
+  coverageDirectory:
+    '../../../../coverage/libs/course-admin/create-user/feature',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
@@ -18,5 +18,5 @@ export default {
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
-  ]
+  ],
 };

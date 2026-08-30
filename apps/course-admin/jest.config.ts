@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   preset: '../../jest.preset.js',
   coverageDirectory: '../../coverage/apps/course-admin',
 

@@ -2,7 +2,7 @@ import { getLocaleNumberSymbol, NumberSymbol } from '@angular/common';
 import {
   Directive,
   ElementRef,
-  Inject,
+  inject,
   Input,
   LOCALE_ID,
   OnDestroy,
@@ -28,6 +28,7 @@ import { map, takeUntil } from 'rxjs/operators';
 
 @Directive({
   selector: '[appNumberInput]',
+  standalone: false,
 })
 export class NumberInputDirective implements OnInit, OnDestroy {
   @Input() public thousandToDecimalSeparatorEnabled = true;
@@ -39,12 +40,13 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private lastValue = '';
 
-  constructor(
-    private ngControl: NgControl,
-    @Inject(LOCALE_ID) private locale: string,
-    private hostElement: ElementRef<HTMLInputElement>
-  ) {
-    if (!hostElement.nativeElement.setSelectionRange) {
+  private readonly ngControl = inject(NgControl);
+  private readonly locale = inject(LOCALE_ID);
+  private readonly hostElement =
+    inject<ElementRef<HTMLInputElement>>(ElementRef);
+
+  constructor() {
+    if (!this.hostElement.nativeElement.setSelectionRange) {
       throw new Error("'appNumberInput' can only be applied to input element");
     }
   }
@@ -52,11 +54,11 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   public ngOnInit() {
     this.groupingSeparator = getLocaleNumberSymbol(
       this.locale,
-      NumberSymbol.CurrencyGroup
+      NumberSymbol.CurrencyGroup,
     );
     this.decimalSeparator = getLocaleNumberSymbol(
       this.locale,
-      NumberSymbol.CurrencyDecimal
+      NumberSymbol.CurrencyDecimal,
     );
 
     this.lastValue = this.hostElement.nativeElement.value;
@@ -70,7 +72,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
         }),
         map((value) => {
           return this.formatNoDecimals(value);
-        })
+        }),
       )
       .subscribe((val) => {
         this.lastValue = val;
@@ -106,12 +108,12 @@ export class NumberInputDirective implements OnInit, OnDestroy {
     const formattedVal = this.getNumberWithThousandSeparator(
       value,
       this.groupingSeparator,
-      this.decimalSeparator
+      this.decimalSeparator,
     );
     const newCursorPosition = this.getCursorPositionAfterFormatting(
       formattedVal,
       lengthBeforeFormatting,
-      cursorPosition
+      cursorPosition,
     );
     this.updateVal(formattedVal, inputElement, newCursorPosition);
     return formattedVal;
@@ -120,7 +122,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   private getCursorPositionAfterFormatting(
     formattedVal: string,
     lengthBeforeFormatting: number,
-    cursorPosition: number
+    cursorPosition: number,
   ) {
     const lengthAfterFormatting = formattedVal.length;
     if (lengthBeforeFormatting === lengthAfterFormatting + 1) {
@@ -140,7 +142,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
     let val = value;
     const hasAddedThousandSeparator = this.hasAddedThousandSeparator(
       val,
-      this.lastValue
+      this.lastValue,
     );
 
     if (hasAddedThousandSeparator) {
@@ -178,14 +180,14 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   private getNumberWithThousandSeparator(
     num: string,
     groupingSeparator: string,
-    decimalSeparator: string
+    decimalSeparator: string,
   ) {
     const decimalIdx = num.indexOf(decimalSeparator);
     const beforeWithThousandSeparators =
       this.getFormattedBeforeDecimalPartOfNumber(
         decimalIdx,
         num,
-        groupingSeparator
+        groupingSeparator,
       );
 
     const decimalStr = this.getDecimalPartOfNumber(decimalIdx, num);
@@ -197,7 +199,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   private getFormattedBeforeDecimalPartOfNumber(
     decimalIdx: number,
     num: string,
-    groupingSeparator: string
+    groupingSeparator: string,
   ) {
     const beforeDecimalStr =
       decimalIdx > 0 ? num.substring(0, decimalIdx + 1) : num;
@@ -208,12 +210,12 @@ export class NumberInputDirective implements OnInit, OnDestroy {
       beforeWithoutThousandSeparators.length > 1
         ? beforeWithoutThousandSeparators.replace(
             /^0+/,
-            onlyContains0Regex.test(beforeWithoutThousandSeparators) ? '0' : ''
+            onlyContains0Regex.test(beforeWithoutThousandSeparators) ? '0' : '',
           )
         : beforeWithoutThousandSeparators;
     const beforeWithThousandSeparators = trimmedBeforeDecimals.replace(
       /(\d)(?=(\d{3})+(?!\d))/g,
-      `$1${groupingSeparator}`
+      `$1${groupingSeparator}`,
     );
     return beforeWithThousandSeparators;
   }
@@ -221,7 +223,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   private getValWithoutThousandSeparators(beforeDecimalStr: string) {
     const groupingSeparatorRegex = new RegExp(
       `\\${this.groupingSeparator}`,
-      'g'
+      'g',
     );
     return beforeDecimalStr.replace(groupingSeparatorRegex, '');
   }
@@ -235,7 +237,7 @@ export class NumberInputDirective implements OnInit, OnDestroy {
   private updateVal(
     formattedVal: string,
     inputElement: HTMLInputElement,
-    cursorPosition: number
+    cursorPosition: number,
   ) {
     if (!formattedVal) {
       return;

@@ -39,10 +39,10 @@ export class CourseEffects {
               /* TODO: use error action*/
               console.log('error', error);
               return of(CourseActions.getCourseSectionsFailed({ error }));
-            }
-          )
+            },
+          ),
         );
-      })
+      }),
     );
   });
 
@@ -52,7 +52,7 @@ export class CourseEffects {
         ofType(CourseActions.sectionSelected),
         withLatestFrom(
           this.store.select(CourseSelectors.selectSectionsEntitiesRaw),
-          this.store.select(selectRouteParam('courseId'))
+          this.store.select(selectRouteParam('courseId')),
         ),
         switchMap(([{ selectedSectionId }, sectionsMap, courseId]) => {
           return this.router.navigate([
@@ -61,10 +61,10 @@ export class CourseEffects {
             selectedSectionId,
             sectionsMap[selectedSectionId]!.lessons[0] || '0',
           ]);
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   lessonChanged$ = createEffect(
@@ -73,7 +73,7 @@ export class CourseEffects {
         ofType(CourseActions.lessonChanged),
         withLatestFrom(
           this.store.select(CourseSelectors.selectSelectedSectionId),
-          this.store.select(selectRouteParam('courseId'))
+          this.store.select(selectRouteParam('courseId')),
         ),
         tap(([{ selectedLessonId }, selectedSectionId, courseId]) => {
           this.router.navigate([
@@ -82,10 +82,10 @@ export class CourseEffects {
             selectedSectionId,
             selectedLessonId,
           ]);
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   lessonCompleted$ = createEffect(() => {
@@ -98,9 +98,9 @@ export class CourseEffects {
             map(() => CourseActions.lessonCompletedSuccess()),
             catchError((error: Error) => {
               return of(CourseActions.lessonCompletedFailed({ error }));
-            })
+            }),
           );
-      })
+      }),
     );
   });
 
@@ -121,11 +121,11 @@ export class CourseEffects {
                   actionItemId,
                   completed,
                   sectionId,
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-      })
+      }),
     );
   });
 
@@ -133,7 +133,7 @@ export class CourseEffects {
     private actions$: Actions,
     private courseResourcesService: CourseResourcesService,
     private router: Router,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private store: Store<State>
+
+    private store: Store<State>,
   ) {}
 }

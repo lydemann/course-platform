@@ -6,6 +6,10 @@
   [checked]="checked"
   [ngClass]="{ 'is-icon': isIcon }"
 >
-  <span *ngIf="checked">{{ labelTextOn }}</span>
-  <span *ngIf="!checked">{{ labelTextOff }}</span>
+  @if (checked) {
+    <span>{{ labelTextOn }}</span>
+  }
+  @if (!checked) {
+    <span>{{ labelTextOff }}</span>
+  }
 </mat-slide-toggle>

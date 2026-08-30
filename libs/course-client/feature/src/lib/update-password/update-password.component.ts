@@ -1,5 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -53,9 +58,9 @@ import { SsrCookieService } from 'ngx-cookie-service-ssr';
     </div>
   `,
   styleUrls: ['./update-password.component.scss'],
-  standalone: true,
   host: { ngSkipHydration: 'true' },
-  imports: [CommonModule, SharedModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [SharedModule, ReactiveFormsModule],
 })
 export class UpdatePasswordComponent implements OnInit {
   resetPwdForm!: UntypedFormGroup;
@@ -66,7 +71,7 @@ export class UpdatePasswordComponent implements OnInit {
   constructor(
     public authService: AuthSBService,
     private router: Router,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) {
     this.createForm();
   }
@@ -130,7 +135,7 @@ export class UpdatePasswordComponent implements OnInit {
       (err) => {
         console.log('Error doing password reset', err);
         this.errorMessage = err.message;
-      }
+      },
     );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -7,14 +7,14 @@ import { SharedModule } from '@course-platform/course-admin/shared/ui';
 import { AuthService } from '@course-platform/shared/auth/domain';
 import {
   Profile,
-  ProfileFBService,
+  ProfileService,
 } from '@course-platform/course-client/shared/domain';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule],
 })
 export class ProfileComponent implements OnInit {
@@ -23,9 +23,9 @@ export class ProfileComponent implements OnInit {
   changePwForm!: FormGroup;
   errorMessage!: string;
   constructor(
-    private profileService: ProfileFBService,
+    private profileService: ProfileService,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -37,8 +37,8 @@ export class ProfileComponent implements OnInit {
           fullName: [user.fullName, Validators.required],
           email: [user.email],
           uid: [user.id],
-        })
-      )
+        }),
+      ),
     );
 
     this.changePwForm = this.formBuilder.group({

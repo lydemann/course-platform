@@ -12,8 +12,10 @@
       <div class="loading"></div>
     </div>
 
-    <p class="spinner-message" *ngIf="message && message !== ''">
-      {{ message }}
-    </p>
+    @if (message && message !== '') {
+      <p class="spinner-message">
+        {{ message }}
+      </p>
+    }
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -12,6 +12,8 @@ import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/d
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CoursesComponent {
   courses$: Observable<Course[]> = this.courseAdminFacadeService.getCourses();
@@ -19,7 +21,7 @@ export class CoursesComponent {
   constructor(
     private courseAdminFacadeService: CourseAdminFacadeService,
     private dialog: MatDialog,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   onCreateCourseClick() {

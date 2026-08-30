@@ -8,6 +8,7 @@ import {
   HostListener,
   Input,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -32,7 +33,7 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
 
   public isErrorState(
     control: UntypedFormControl,
-    form: NgForm | FormGroupDirective
+    form: NgForm | FormGroupDirective,
   ): boolean {
     const isSubmitted = form && form.submitted;
     const isInvalidAndTouched = !!(
@@ -49,6 +50,8 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class DatePickerComponent
   implements ControlValueAccessor, OnDestroy, AfterViewInit
@@ -72,7 +75,7 @@ export class DatePickerComponent
   // tslint:disable-next-line: member-ordering
   public dateErrorStateMatcher = new DateErrorStateMatcher(
     this._showError$,
-    this.destroy$.asObservable()
+    this.destroy$.asObservable(),
   );
 
   private onTouched = Function;
@@ -80,7 +83,7 @@ export class DatePickerComponent
   constructor(
     public ngControl: NgControl,
     private changeDetectionRef: ChangeDetectorRef,
-    private applicationRef: ApplicationRef
+    private applicationRef: ApplicationRef,
   ) {
     ngControl.valueAccessor = this;
   }
@@ -117,9 +120,9 @@ export class DatePickerComponent
     this.isDisabled = isDisabled;
   }
 
-  @HostListener('keyup', ['$event'])
-  @HostListener('click', ['$event'])
-  @HostListener('change', ['$event'])
+  @HostListener('keyup')
+  @HostListener('click')
+  @HostListener('change')
   public runCD() {
     this.applicationRef.tick();
     this.changeDetectionRef.detectChanges();

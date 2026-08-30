@@ -1,7 +1,19 @@
 import { Observable } from 'rxjs';
+import { AuthSessionMissingError } from '@supabase/auth-js';
+
+export function isAuthSessionMissingError(
+  error: unknown,
+): error is AuthSessionMissingError {
+  return error instanceof AuthSessionMissingError;
+}
 
 export interface UpdateUserInput {
   name: string;
+}
+
+export interface UserCredentials {
+  email: string;
+  password: string;
 }
 
 export interface AbstractUser {
@@ -16,7 +28,7 @@ export abstract class AuthService {
 
   abstract sendPasswordResetEmail(value: any): Promise<unknown>;
   abstract handleClientAuthStateChanges<
-    TSession extends { access_token: string }
+    TSession extends { access_token: string },
   >(cb: (event: string, session: TSession) => void): void;
 
   abstract signUp(email: string, password: string): Promise<unknown>;

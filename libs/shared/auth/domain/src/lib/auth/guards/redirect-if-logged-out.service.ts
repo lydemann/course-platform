@@ -1,5 +1,4 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Observable, from, of } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -11,9 +10,8 @@ import { AuthService } from '../services/auth.service';
 export class RedirectIfLoggedOutResolver implements Resolve<boolean> {
   private platformId = inject(PLATFORM_ID);
   constructor(
-    public afAuth: Auth,
     public userService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
     if (isPlatformServer(this.platformId)) {
@@ -29,7 +27,7 @@ export class RedirectIfLoggedOutResolver implements Resolve<boolean> {
           return false;
         }
         return true;
-      })
+      }),
     );
   }
 }

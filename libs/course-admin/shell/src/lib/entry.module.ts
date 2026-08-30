@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
@@ -12,8 +12,16 @@ import { TopbarModule } from './layout/topbar/topbar.module';
     AppRoutingModule,
     LayoutModule,
     TopbarModule,
-    TranslateModule,
+    TranslateDirective,
+    TranslatePipe,
   ],
-  imports: [CommonModule, AppRoutingModule, LayoutModule, TopbarModule],
+  imports: [
+    CommonModule,
+    AppRoutingModule,
+    LayoutModule,
+    TopbarModule,
+    TranslateDirective,
+    TranslatePipe,
+  ],
 })
 export class RemoteEntryModule {}

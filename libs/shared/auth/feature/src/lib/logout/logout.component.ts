@@ -1,12 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@course-platform/shared/auth/domain';
 
 @Component({
   selector: 'lib-logout',
   template: `<p>Logging out...</p>`,
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoutComponent {

@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, forwardRef, Input } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -14,6 +19,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class TextareaComponent implements ControlValueAccessor {
   @Input() public placeholder = '';

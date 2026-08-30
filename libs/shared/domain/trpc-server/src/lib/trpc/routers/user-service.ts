@@ -26,11 +26,11 @@ export const getACUsers = (): Promise<{
     `${
       import.meta.env['AC_ORIGIN']
     }/api/3/contacts?listid=${studenListId}&limit=0`,
-    options
+    options,
   ).then(async (response) => await response.json());
 };
 
-// create firebase auth user
+// Create a Supabase Auth user.
 export const createUser = async (email: string, password: string) => {
   console.log('Creating user', email, password);
   return supbaseAdmin.auth.admin.createUser({

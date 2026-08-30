@@ -1,6 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
@@ -14,7 +16,6 @@
     "lib": ["es2017", "dom", "esnext.asynciterable"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
     "paths": {
       "@course-platform/course-admin/course-admin": [
         "libs/course-admin/course-admin/src/index.ts"

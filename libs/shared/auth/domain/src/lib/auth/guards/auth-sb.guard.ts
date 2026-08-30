@@ -15,7 +15,11 @@ export const authSBGuard =
 
     if (isPlatformBrowser(platformId)) {
       try {
-        const session = !!(await authService.getSession());
+        const { data, error } = await authService.getSession();
+        if (error) {
+          throw error;
+        }
+        const session = data.session;
         if (!session && !requiredRole) {
           return navigateToLogin();
         }
@@ -61,14 +65,13 @@ export const authSBGuard =
     return true;
 
     function navigateToLogin() {
-      console.log('Not authenticated, redirecting to login on server.');
-      router.navigate([LOGIN_URL]);
-      return false;
+      console.log('Not authenticated, redirecting to login.');
+      return router.createUrlTree([LOGIN_URL]);
     }
 
     function navigateToRedirectUrl(
       router: Router,
-      redirectIfAuthenticatedUrl: string
+      redirectIfAuthenticatedUrl: string,
     ) {
       if (redirectIfAuthenticatedUrl) {
         console.log('Redirecting to', redirectIfAuthenticatedUrl);

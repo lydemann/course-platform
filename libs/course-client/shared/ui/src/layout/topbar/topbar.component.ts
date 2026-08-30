@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -16,6 +16,8 @@ interface NavigationItem {
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class TopbarComponent {
   languages = ['en'];
@@ -25,11 +27,11 @@ export class TopbarComponent {
 
   constructor(
     private authService: AuthService,
-    private courseClientFacade: CourseClientFacade
+    private courseClientFacade: CourseClientFacade,
   ) {
     this.loggedIn$ = this.authService.isLoggedIn();
     this.homeUrl$ = this.courseClientFacade.courseId$.pipe(
-      map((courseId) => `courses/${courseId ? courseId : ''}`)
+      map((courseId) => `courses/${courseId ? courseId : ''}`),
     );
     this.navigationItems = [
       {

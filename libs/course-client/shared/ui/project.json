@@ -3,19 +3,23 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/course-client/shared/ui/src",
   "prefix": "lib",
-  "tags": ["scope:course-client", "type:ui"],
   "projectType": "library",
+  "tags": ["scope:course-client", "type:ui"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}",
+        "{workspaceRoot}/coverage/libs/course-clientred/ui"
+      ],
       "options": {
-        "jestConfig": "libs/course-client/shared/ui/jest.config.ts"
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

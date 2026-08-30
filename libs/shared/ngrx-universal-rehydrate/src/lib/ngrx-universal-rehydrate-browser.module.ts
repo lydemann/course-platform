@@ -1,7 +1,6 @@
 import { isPlatformServer } from '@angular/common';
 import {
-  Inject,
-  Injector,
+  inject,
   ModuleWithProviders,
   NgModule,
   PLATFORM_ID,
@@ -19,40 +18,39 @@ import { RehydrationRootConfig, defaultRehydrationRootConfig } from './utils';
   imports: [RehydrateStoreModule],
 })
 export class NgrxUniversalRehydrateBrowserRootModule {
-  constructor(
-    _injector: Injector,
-    @Inject(REHYDRATE_ROOT_CONFIG) rootConfig: RehydrationRootConfig,
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    @Inject(PLATFORM_ID) platformId: Object,
-    _store: Store
-  ) {
+  private readonly rootConfig = inject<RehydrationRootConfig>(
+    REHYDRATE_ROOT_CONFIG,
+  );
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly store = inject(Store);
+
+  constructor() {
     /*
      * If we are on the server then we need to add the slices defined at root
      * to the store so they can be transferred
      */
-    if (isPlatformServer(platformId)) {
-      _store.dispatch(addSlice({ slices: rootConfig.stores ?? [] }));
+    if (isPlatformServer(this.platformId)) {
+      this.store.dispatch(addSlice({ slices: this.rootConfig.stores ?? [] }));
     }
   }
 }
 
 @NgModule({})
 export class NgrxUniversalRehydrateBrowserFeatureModule {
-  constructor(
-    @Inject(FEATURE_STORES) private stores: string[],
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    @Inject(PLATFORM_ID) platformId: Object,
-    private _store: Store
-  ) {
-    if (isPlatformServer(platformId))
-      this._store.dispatch(addSlice({ slices: stores }));
+  private readonly stores = inject<string[]>(FEATURE_STORES);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly store = inject(Store);
+
+  constructor() {
+    if (isPlatformServer(this.platformId))
+      this.store.dispatch(addSlice({ slices: this.stores }));
   }
 }
 
 @NgModule({})
 export class NgrxUniversalRehydrateBrowserModule {
   static forRoot(
-    config: Partial<RehydrationRootConfig>
+    config: Partial<RehydrationRootConfig>,
   ): ModuleWithProviders<NgrxUniversalRehydrateBrowserRootModule> {
     return {
       ngModule: NgrxUniversalRehydrateBrowserRootModule,
@@ -76,7 +74,7 @@ export class NgrxUniversalRehydrateBrowserModule {
   }
 
   static forFeature(
-    stores: RehydrationRootConfig['stores']
+    stores: RehydrationRootConfig['stores'],
   ): ModuleWithProviders<NgrxUniversalRehydrateBrowserFeatureModule> {
     return {
       ngModule: NgrxUniversalRehydrateBrowserFeatureModule,

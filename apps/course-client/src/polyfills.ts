@@ -63,12 +63,13 @@ import 'zone.js'; // Included with Angular CLI.
 
 if (!('toJSON' in Error.prototype))
   Object.defineProperty(Error.prototype, 'toJSON', {
-    value: function () {
-      const alt = {};
+    value: function (this: Error) {
+      const alt: Record<string, unknown> = {};
+      const error = this as unknown as Record<string, unknown>;
 
-      Object.getOwnPropertyNames(this).forEach(function (key) {
-        alt[key] = this[key];
-      }, this);
+      Object.getOwnPropertyNames(this).forEach((key) => {
+        alt[key] = error[key];
+      });
 
       return alt;
     },

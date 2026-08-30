@@ -11,7 +11,7 @@ const routes: Routes = [
     path: ':sectionId',
     component: SectionAdminComponent,
     resolve: [SectionAdminResolver],
-    canActivate: [authSBGuard],
+    canActivate: [authSBGuard()],
   },
 ];
 

@@ -14,7 +14,6 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
   templateUrl: './course-content.component.html',
   styleUrls: ['./course-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SharedModule],
 })
 export class CourseContentComponent {
@@ -26,16 +25,16 @@ export class CourseContentComponent {
       this.getTrustedVideoUrl(
         lesson.videoUrl
           ? lesson.videoUrl + '?title=0&byline=0&portrait=0'
-          : this.placeholderUrl
-      )
-    )
+          : this.placeholderUrl,
+      ),
+    ),
   );
   private placeholderUrl =
     'https://player.vimeo.com/video/38772314?title=0&byline=0&portrait=0';
 
   constructor(
     private sanitizer: DomSanitizer,
-    private courseFacadeService: CourseClientFacade
+    private courseFacadeService: CourseClientFacade,
   ) {}
 
   private getTrustedVideoUrl(url: string): SafeResourceUrl {

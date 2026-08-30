@@ -33,14 +33,10 @@ export const courseLessonAdapter: EntityAdapter<Lesson> =
 
 export const courseInitState = {
   lessonsState: courseLessonAdapter.getInitialState({
-    entities: {},
-    ids: [],
     error: null,
     isLoading: false,
   }),
   sectionsState: courseSectionAdapter.getInitialState({
-    entities: {},
-    ids: [],
     error: null,
     isLoading: false,
   }),

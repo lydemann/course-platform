@@ -1,5 +1,4 @@
-/* eslint-disable */
-export default {
+module.exports = {
   displayName: 'ngrx-universal-rehydrate',
 
   setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],

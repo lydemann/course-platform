@@ -3,17 +3,19 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/domain/src",
   "projectType": "library",
+  "tags": ["type:domain", "scope:shared"],
   "generators": {},
   "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "test": {
-      "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/domain/jest.config.ts"
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
       }
     }
-  },
-  "tags": ["type:domain", "scope:shared"]
+  }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -37,6 +37,8 @@ export type LessonAdminForm = FormGroup<{
   selector: 'app-lesson-admin',
   templateUrl: './lesson-admin.component.html',
   styleUrls: ['./lesson-admin.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class LessonAdminComponent {
   lesson$ = this.courseAdminFacade.currentLesson$;
@@ -55,10 +57,10 @@ export class LessonAdminComponent {
               url: [resource.url],
               type: [resource.type],
             });
-          })
+          }),
         ),
       });
-    })
+    }),
   );
 
   isAddingResource$ = new BehaviorSubject(false);
@@ -67,7 +69,7 @@ export class LessonAdminComponent {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private toastService: ToastService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {}
 
   goBack() {
@@ -82,7 +84,7 @@ export class LessonAdminComponent {
           id: lesson.id,
           ...formGroup.value,
         } as Lesson,
-        this.route.snapshot.params['sectionId']
+        this.route.snapshot.params['sectionId'],
       )
       .subscribe(() => {
         this.toastService.showSuccessToast({ message: 'Lesson saved' });
@@ -99,7 +101,7 @@ export class LessonAdminComponent {
       .controls as UntypedFormGroup[];
 
     const idxToRemove = resourcesFormGroups.findIndex(
-      (group) => group.get('id')?.value === resourceId
+      (group) => group.get('id')?.value === resourceId,
     );
 
     (form.get('resources') as UntypedFormArray).removeAt(idxToRemove);

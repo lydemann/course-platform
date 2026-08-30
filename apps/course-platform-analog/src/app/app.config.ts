@@ -1,6 +1,5 @@
 import { provideFileRouter, withExtraRoutes } from '@analogjs/router';
 import {
-  HttpClient,
   provideHttpClient,
   withFetch,
   withInterceptors,
@@ -14,6 +13,7 @@ import {
   BrowserModule,
   provideClientHydration,
   withHttpTransferCacheOptions,
+  withNoIncrementalHydration,
 } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -42,12 +42,12 @@ import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
 import { NgrxUniversalRehydrateBrowserModule } from '@course-platform/shared/ngrx-universal-rehydrate';
 import { cookieInterceptor } from '@course-platform/shared/ssr/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { APP_BASE_HREF } from '@angular/common';
 
 export function preloadFeagureFlags(
-  featureToggleService: FeatureToggleService
+  featureToggleService: FeatureToggleService,
 ) {
   return () => featureToggleService.getFeatureFlags();
 }
@@ -58,18 +58,12 @@ export function endpointsFactory() {
   } as Endpoints;
 }
 
-export function httpLoaderFactory(http: HttpClient) {
-  const host =
-    import.meta.env['VITE_ANALOG_PUBLIC_BASE_URL'] || 'http://localhost:4200';
-  return new TranslateHttpLoader(http, `${host}/assets/i18n/`, '.json');
-}
-
 const customRoutes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
       import('@course-platform/course-admin/shell').then(
-        (m) => m.RemoteEntryModule
+        (m) => m.RemoteEntryModule,
       ),
   },
 ];
@@ -79,12 +73,12 @@ export const appConfig: ApplicationConfig = {
     provideFileRouter(
       withExtraRoutes(customRoutes),
       withComponentInputBinding(),
-      withNavigationErrorHandler(console.error)
+      withNavigationErrorHandler(console.error),
     ),
     [
       {
         provide: APP_BASE_HREF,
-        useValue: import.meta.env.VITE_ANALOG_PUBLIC_BASE_URL || '/',
+        useValue: '/',
       },
     ],
     // makes sure the client is hydrated with the server state to avoid redundant client requests
@@ -92,10 +86,17 @@ export const appConfig: ApplicationConfig = {
       withHttpTransferCacheOptions({
         includePostRequests: true,
         includeRequestsWithAuthHeaders: true,
-      })
+      }),
+      withNoIncrementalHydration(),
     ),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withFetch(), withInterceptors([cookieInterceptor])),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/',
+        suffix: '.json',
+      }),
+    }),
     {
       provide: ENDPOINTS_TOKEN,
       useFactory: endpointsFactory,
@@ -118,13 +119,6 @@ export const appConfig: ApplicationConfig = {
       BrowserAnimationsModule,
       CoreModule,
       CourseClientDomainModule,
-      TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useFactory: httpLoaderFactory,
-          deps: [HttpClient],
-        },
-      }),
       NgrxUniversalRehydrateBrowserModule.forRoot({}),
     ]),
   ],

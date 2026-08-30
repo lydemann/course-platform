@@ -11,7 +11,13 @@ import { ActionItem } from '@course-platform/shared/interfaces';
 
 @Component({
   selector: 'app-action-item',
-  template: `<div (click)="onActionItemCompleteChange()" class="p-2">
+  template: `<div
+    role="button"
+    tabindex="0"
+    (click)="onActionItemCompleteChange()"
+    (keydown.enter)="onActionItemCompleteChange()"
+    class="p-2"
+  >
     <div class="mb-2">
       <h5>
         {{ actionItem().question }}
@@ -25,7 +31,6 @@ import { ActionItem } from '@course-platform/shared/interfaces';
     </div>
   </div> `,
   styleUrls: ['./action-item.component.scss'],
-  standalone: true,
   imports: [SharedModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

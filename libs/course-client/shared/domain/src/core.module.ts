@@ -1,17 +1,18 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @NgModule({
   imports: [],
 })
 export class CoreModule {
-  constructor(
-    @Optional()
-    @SkipSelf()
-    parentModule: CoreModule,
-    private translateService: TranslateService
-  ) {
-    if (parentModule) {
+  private readonly parentModule = inject(CoreModule, {
+    optional: true,
+    skipSelf: true,
+  });
+  private readonly translateService = inject(TranslateService);
+
+  constructor() {
+    if (this.parentModule) {
       throw new Error('CoreModule is already loaded. Import only in AppModule');
     }
 

@@ -11,7 +11,7 @@ const routes: Routes = [
     path: ':sectionId/:lessonId',
     component: LessonAdminComponent,
     resolve: [LessonAdminResolver],
-    canActivate: [authSBGuard],
+    canActivate: [authSBGuard()],
   },
 ];
 

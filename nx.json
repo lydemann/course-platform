@@ -29,13 +29,21 @@
       ]
     },
     "@nx/eslint:lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/eslint.config.mjs",
+        "{workspaceRoot}/tools/eslint-rules/**/*"
+      ],
       "cache": true
     },
     "@angular-devkit/build-angular:application": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "e2e-ci--**/**": {
+      "dependsOn": ["build"]
     }
   },
   "generators": {
@@ -46,14 +54,64 @@
       "unitTestRunner": "jest"
     },
     "@nx/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "type": "component"
     },
     "@nx/angular:library": {
       "linter": "eslint",
       "unitTestRunner": "jest"
     },
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "styleext": "scss",
+      "type": "component"
+    },
+    "@nx/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@nx/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@nx/angular:scam": {
+      "type": "component"
+    },
+    "@nx/angular:scam-directive": {
+      "type": "directive"
+    },
+    "@nx/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:resolver": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   },
   "neverConnectToCloud": true,
@@ -64,12 +122,14 @@
     "sharedGlobals": [
       "{workspaceRoot}/angular.json",
       "{workspaceRoot}/tsconfig.json",
-      "{workspaceRoot}/tslint.json",
       "{workspaceRoot}/nx.json",
-      "{workspaceRoot}/webpack.node.config.js",
       "{workspaceRoot}/tools/**/*"
     ],
-    "production": ["default", "!{projectRoot}/src/test-setup.[jt]s"]
+    "production": [
+      "default",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/eslint.config.mjs"
+    ]
   },
   "nxCloudAccessToken": "ZmU4ZTJkZjctYjU3MC00NjAxLWEwNTktY2ZiM2U1NGNkYTg5fHJlYWQtd3JpdGU=",
   "parallel": 1,
@@ -81,28 +141,27 @@
       }
     },
     {
-      "plugin": "@nx/nuxt/plugin",
-      "options": {
-        "buildTargetName": "build",
-        "serveTargetName": "serve"
-      }
-    },
-    {
       "plugin": "@nx/vite/plugin",
       "options": {
         "buildTargetName": "build",
         "previewTargetName": "preview",
-        "testTargetName": "test",
         "serveTargetName": "serve",
         "serveStaticTargetName": "serve-static"
       }
     },
     {
-      "plugin": "@nx/playwright/plugin",
+      "plugin": "@nx/vitest",
       "options": {
-        "targetName": "e2e"
+        "testTargetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
       }
     }
   ],
-  "defaultBase": "origin/main"
+  "defaultBase": "origin/main",
+  "analytics": false
 }

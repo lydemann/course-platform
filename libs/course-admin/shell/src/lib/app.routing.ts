@@ -17,7 +17,7 @@ const routes: Routes = [
     path: 'logout',
     loadComponent: () =>
       import('@course-platform/shared/auth/feature').then(
-        (m) => m.LogoutComponent
+        (m) => m.LogoutComponent,
       ),
   },
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
         resolve: [RedirectIfLoggedInResolver],
         loadComponent: () =>
           import('@course-platform/course-admin/login/feature').then(
-            (m) => m.LoginComponent
+            (m) => m.LoginComponent,
           ),
       },
       {
@@ -37,27 +37,27 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            canActivate: [authSBGuard],
+            canActivate: [authSBGuard()],
             children: [
               {
                 path: 'courses',
                 loadChildren: () =>
                   import('@course-platform/course-admin/feature').then(
-                    (m) => m.CoursesModule
+                    (m) => m.CoursesModule,
                   ),
               },
               {
                 path: 'course-admin',
                 loadChildren: () =>
                   import('@course-platform/course-admin/feature').then(
-                    (m) => m.CourseAdminModule
+                    (m) => m.CourseAdminModule,
                   ),
               },
               {
                 path: 'settings',
                 loadChildren: () =>
                   import('@course-platform/course-admin/settings/feature').then(
-                    (m) => m.SettingsModule
+                    (m) => m.SettingsModule,
                   ),
               },
             ],
@@ -66,7 +66,7 @@ const routes: Routes = [
             path: 'create-user',
             loadComponent: () =>
               import('@course-platform/course-admin/create-user/feature').then(
-                (m) => m.CreateUserComponent
+                (m) => m.CreateUserComponent,
               ),
           },
         ],

@@ -3,16 +3,15 @@
 <app-button [routerLink]="['../../']" color="accent"
   >Back to sections</app-button
 >
-<ng-container *ngIf="formGroup$ | async as formGroup; else loading">
-  <app-section-admin-form
-    class="mt-l"
-    *ngIf="section$ | async as section"
-    [formGroup]="formGroup"
-    (saveClicked)="submit($event, section.id)"
-    (deleteClicked)="onDelete(section.id)"
-  ></app-section-admin-form>
-</ng-container>
-
-<ng-template #loading>
+@if (formGroup$ | async; as formGroup) {
+  @if (section$ | async; as section) {
+    <app-section-admin-form
+      class="mt-l"
+      [formGroup]="formGroup"
+      (saveClicked)="submit($event, section.id)"
+      (deleteClicked)="onDelete(section.id)"
+    ></app-section-admin-form>
+  }
+} @else {
   <app-spinner class="center-in-parent"></app-spinner>
-</ng-template>
+}
