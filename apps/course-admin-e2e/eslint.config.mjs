@@ -10,7 +10,10 @@ export default [
     rules: {},
     languageOptions: {
       parserOptions: {
-        project: 'apps/course-admin-e2e/tsconfig.*?.json',
+        project: [
+          'apps/course-admin-e2e/tsconfig.json',
+          'apps/course-admin-e2e/tsconfig.playwright.json',
+        ],
       },
     },
   },

@@ -34,7 +34,8 @@
     "drizzle-pull": "cd ./libs/shared/domain/trpc-server/src/lib/drizzle && drizzle-kit pull",
     "drizzle-migrate": "cd ./libs/shared/domain/trpc-server/src/lib/drizzle && drizzle-kit migrate",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org ludemann-consulting-aps --project javascript-angular ./dist && sentry-cli sourcemaps upload --org ludemann-consulting-aps --project javascript-angular ./dist",
-    "test:e2e": "nx run-many -t e2e -p course-client-e2e course-admin-e2e --configuration=production"
+    "test:e2e": "nx run-many -t e2e -p course-client-e2e course-admin-e2e --configuration=production",
+    "test:e2e:playwright": "nx run-many -t e2e-playwright -p course-client-e2e course-admin-e2e"
   },
   "private": true,
   "dependencies": {
@@ -127,11 +128,13 @@
     "@nx/module-federation": "23.1.2",
     "@nx/nest": "23.1.2",
     "@nx/node": "23.1.2",
+    "@nx/playwright": "23.1.2",
     "@nx/vite": "23.1.2",
     "@nx/vitest": "23.1.2",
     "@nx/web": "23.1.2",
     "@nx/webpack": "23.1.2",
     "@nx/workspace": "23.1.2",
+    "@playwright/test": "1.62.1",
     "@schematics/angular": "22.1.6",
     "@swc-node/register": "1.12.1",
     "@swc/core": "1.16.1",
@@ -173,7 +176,7 @@
     "ng-packagr": "22.1.1",
     "nx": "23.1.2",
     "open": "^7.0.3",
-    "post-npm-install": "^2.0.0",
+    "playwright-bdd": "9.2.0",
     "postcss": "^8.5.26",
     "postcss-import": "^17.0.0",
     "postcss-preset-env": "~11.5.0",

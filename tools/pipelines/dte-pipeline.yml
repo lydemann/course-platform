@@ -66,6 +66,10 @@ jobs:
         displayName: Run lint
       - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=test --parallel=3 --ci --coverage
         displayName: Run test
+      - script: pnpm exec playwright install --with-deps chromium
+        displayName: Install Playwright Chromium
+      - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=e2e-playwright --parallel=2
+        displayName: Run Playwright e2e
       - script: export NODE_OPTIONS="--max-old-space-size=8192" && pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3
         displayName: Run build
         # archive and publish artifacts

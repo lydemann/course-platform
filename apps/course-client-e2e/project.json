@@ -18,6 +18,18 @@
           "devServerTarget": "course-client:serve:production"
         }
       }
+    },
+    "bddgen": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/libs/course-client/feature/src/lib/login/login.feature"
+      ],
+      "outputs": ["{projectRoot}/.features-gen"],
+      "options": {
+        "command": "corepack pnpm exec bddgen -c apps/course-client-e2e/playwright.config.ts"
+      }
     }
   }
 }
