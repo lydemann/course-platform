@@ -1,4 +1,4 @@
-import { supbaseAdmin } from '../supabase-admin';
+import { getSupabaseAdmin } from '../supabase-admin';
 
 export interface CreateUserResponseDTO {
   email: string;
@@ -33,7 +33,7 @@ export const getACUsers = (): Promise<{
 // Create a Supabase Auth user.
 export const createUser = async (email: string, password: string) => {
   console.log('Creating user', email, password);
-  return supbaseAdmin.auth.admin.createUser({
+  return getSupabaseAdmin().auth.admin.createUser({
     email,
     password,
     email_confirm: true,
