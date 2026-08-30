@@ -1,6 +1,9 @@
 import nx from '@nx/eslint-plugin';
 
 export default [
+  {
+    ignores: ['**/.features-gen/**'],
+  },
   ...nx.configs['flat/base'],
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.vue'],

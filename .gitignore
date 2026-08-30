@@ -69,3 +69,6 @@ vitest.config.*.timestamp*
 
 # Local live state shared between coding agents
 .ai/HANDOFF.md
+
+# Generated Playwright-BDD specifications
+apps/*-e2e/.features-gen/

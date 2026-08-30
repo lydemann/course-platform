@@ -8,6 +8,14 @@
     "e2e": {
       "cache": true
     },
+    "e2e-playwright": {
+      "dependsOn": ["bddgen"],
+      "cache": true
+    },
+    "e2e-playwright-ci": {
+      "dependsOn": ["bddgen"],
+      "cache": true
+    },
     "@nx/jest:jest": {
       "cache": true,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
@@ -160,6 +168,22 @@
       "options": {
         "targetName": "test"
       }
+    },
+    {
+      "plugin": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e-playwright",
+        "ciTargetName": "e2e-playwright-ci"
+      },
+      "include": ["apps/course-client-e2e/**/*"]
+    },
+    {
+      "plugin": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e-playwright",
+        "ciTargetName": "e2e-playwright-ci"
+      },
+      "include": ["apps/course-admin-e2e/**/*"]
     }
   ],
   "defaultBase": "origin/main",

@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["playwright.config.ts", "src/steps/**/*.ts"],
+  "exclude": [".features-gen/**", "src/e2e/**/*.ts"]
+}
