@@ -2,14 +2,17 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
   EventEmitter,
   forwardRef,
+  inject,
   Input,
   OnChanges,
   Output,
   QueryList,
+  signal,
   SimpleChanges,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -47,7 +50,7 @@ import { SelectOption } from './select-option/select-option.interface';
         (selectionChange)="onSelected($event)"
         [(ngModel)]="selected"
       >
-        @for (option of options; track option) {
+        @for (option of options(); track option) {
           <mat-option [value]="option.value">
             <ng-template
               [ngTemplateOutlet]="
@@ -56,7 +59,7 @@ import { SelectOption } from './select-option/select-option.interface';
             ></ng-template>
           </mat-option>
         }
-        @for (group of optionsGroups; track group) {
+        @for (group of optionsGroups(); track group) {
           <mat-optgroup [label]="group.label">
             @for (option of group.options; track option) {
               <mat-option [value]="option.value">
@@ -95,8 +98,12 @@ export class SelectComponent
   @ContentChildren(SelectOptionGroupComponent)
   public selectOptionGroups!: QueryList<SelectOptionGroupComponent>;
   @Output() public valueChange = new EventEmitter();
-  public options!: SelectOption[];
-  public optionsGroups!: SelectOptionGroup[];
+  // Signals rather than plain fields: these are populated from @ContentChildren
+  // subscriptions, and under OnPush — the default in Angular 22 — assigning a
+  // plain field does not mark the view dirty, so the dropdown rendered stale
+  // options. A signal notifies the template itself, so it cannot be forgotten.
+  public readonly options = signal<SelectOption[]>([]);
+  public readonly optionsGroups = signal<SelectOptionGroup[]>([]);
   public selected!: string | null;
   public disabled = false;
   public touched = false;
@@ -132,18 +139,19 @@ export class SelectComponent
     }
   }
 
+  private readonly cdr = inject(ChangeDetectorRef);
+
   public ngAfterContentInit() {
-    this.options = this.getOptions(this.selectOptions);
-    this.optionsGroups = this.getOptionGroups(this.selectOptionGroups);
+    this.options.set(this.getOptions(this.selectOptions));
+    this.optionsGroups.set(this.getOptionGroups(this.selectOptionGroups));
 
     this.selectOptionGroups.changes.subscribe(
       (optionGroups: QueryList<SelectOptionGroupComponent>) =>
-        (this.optionsGroups = this.getOptionGroups(optionGroups)),
+        this.optionsGroups.set(this.getOptionGroups(optionGroups)),
     );
 
-    this.selectOptions.changes.subscribe(
-      (options: QueryList<SelectOption>) =>
-        (this.options = options.length ? this.getOptions(options) : []),
+    this.selectOptions.changes.subscribe((options: QueryList<SelectOption>) =>
+      this.options.set(options.length ? this.getOptions(options) : []),
     );
   }
 
@@ -154,6 +162,8 @@ export class SelectComponent
     this.onChange(this.internalValue);
     this.valueChange.emit(value);
     this.selected = value;
+    // Called by Angular forms, outside any template binding.
+    this.cdr.markForCheck();
   }
 
   public registerOnChange(fn: any): void {
