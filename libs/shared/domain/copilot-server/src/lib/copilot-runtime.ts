@@ -128,35 +128,65 @@ function unauthorized() {
  */
 const copilotCloudApiKey = process.env['COPILOTKIT_API_KEY'] ?? '';
 
-const runtime = new CopilotRuntime({
-  // Switches the runtime from SSE to Intelligence mode, which is where durable
-  // threads live. SSE mode forbids these options outright.
-  intelligence: new CopilotKitIntelligence({ apiKey: copilotCloudApiKey }),
-  generateThreadNames: true,
-  /**
-   * Binds a thread to a student. Uses the same verified Supabase JWT as the
-   * rest of the runtime, so a thread can only ever be attributed to the user
-   * who actually authenticated.
-   */
-  identifyUser: async (request: Request) => {
-    const user = await requireUser(request);
-    if (!user) {
-      throw new Error('Copilot thread requested without an authenticated user');
-    }
-    return { id: user.id, name: user.email ?? user.id };
-  },
-  agents: async ({ request }) => {
-    const user = await requireUser(request);
+/**
+ * Intelligence mode is only used when a plausible SERVER key is configured.
+ *
+ * `ck_pub_...` is a publishable key meant for the browser; the Intelligence
+ * platform rejects it with CLERK_TOKEN_INVALID, and because thread listing runs
+ * on every page load that surfaced as a permanent 500 on
+ * `/api/copilotkit/threads` and a console error for the student. Falling back to
+ * the SSE runtime keeps the assistant fully working — it only gives up durable
+ * threads, which were not working with that key anyway.
+ *
+ * Set COPILOTKIT_API_KEY to the secret key from the CopilotKit dashboard to
+ * enable persistence; this flips over automatically.
+ */
+const hasCloudServerKey =
+  copilotCloudApiKey.length > 0 && !copilotCloudApiKey.startsWith('ck_pub_');
 
-    if (!user) {
-      // Unreachable in practice — `onRequest` rejects first. Kept so the agent
-      // can never be constructed without a bound user id.
-      throw new Error('Copilot agent requested without an authenticated user');
-    }
+if (!hasCloudServerKey) {
+  console.warn(
+    '[copilot] COPILOTKIT_API_KEY is unset or is a publishable (ck_pub_) key; ' +
+      'running without thread persistence. Set the secret key to enable it.',
+  );
+}
 
-    return { default: createCourseAssistantAgent(user.id) };
-  },
-});
+/** Builds the assistant for the authenticated student on each request. */
+const agents = async ({ request }: { request: Request }) => {
+  const user = await requireUser(request);
+
+  if (!user) {
+    // Unreachable in practice — `onRequest` rejects first. Kept so the agent
+    // can never be constructed without a bound user id.
+    throw new Error('Copilot agent requested without an authenticated user');
+  }
+
+  return { default: createCourseAssistantAgent(user.id) };
+};
+
+/**
+ * Binds a thread to a student. Uses the same verified Supabase JWT as the rest
+ * of the runtime, so a thread can only ever be attributed to the user who
+ * actually authenticated.
+ */
+const identifyUser = async (request: Request) => {
+  const user = await requireUser(request);
+  if (!user) {
+    throw new Error('Copilot thread requested without an authenticated user');
+  }
+  return { id: user.id, name: user.email ?? user.id };
+};
+
+// Two separate constructions rather than a spread: the options type is a
+// discriminated union of SSE and Intelligence, and a spread defeats narrowing.
+const runtime = hasCloudServerKey
+  ? new CopilotRuntime({
+      intelligence: new CopilotKitIntelligence({ apiKey: copilotCloudApiKey }),
+      generateThreadNames: true,
+      identifyUser,
+      agents,
+    })
+  : new CopilotRuntime({ agents });
 
 const hooks = {
   onRequest: async ({ request }: { request: Request }) => {
