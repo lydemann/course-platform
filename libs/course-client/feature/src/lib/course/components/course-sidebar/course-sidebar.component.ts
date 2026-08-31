@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
@@ -63,7 +57,6 @@ export interface SectionDropDownValue {
       ></app-section-lessons>
     </div>
   }`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./course-sidebar.component.scss'],
 })
 export class CourseSidebarComponent {

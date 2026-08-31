@@ -5,7 +5,6 @@ import {
   OnInit,
   Renderer2,
   SecurityContext,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
@@ -15,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import { CourseAssistantComponent } from '@course-platform/course-client/feature-assistant';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
 import { ActionItemsComponent } from './containers/action-items/action-items.component';
 import { QuestionsComponent } from './containers/questions/questions.component';
@@ -45,6 +45,7 @@ import { QuestionsComponent } from './containers/questions/questions.component';
         <div class="content" fxFlex.gt-xs="75">
           <router-outlet></router-outlet>
         </div>
+        <app-course-assistant></app-course-assistant>
       }
     </div>
   `,
@@ -76,13 +77,13 @@ import { QuestionsComponent } from './containers/questions/questions.component';
       }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SharedModule,
     ActionItemsComponent,
     QuestionsComponent,
     CourseSidebarComponent,
+    CourseAssistantComponent,
   ],
 })
 export class CourseLayoutComponent implements OnInit, OnDestroy {

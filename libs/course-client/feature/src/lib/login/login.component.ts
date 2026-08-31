@@ -62,7 +62,6 @@ import {
     </div>
   `,
   styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule, ReactiveFormsModule],
 })
 export class LoginComponent {

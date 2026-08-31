@@ -1,7 +1,7 @@
 @import 'helpers';
 
 :host {
-  padding: 0 size('l') 0 size('s');
+  padding: 0 get-size('l') 0 get-size('s');
 
   .progress-bar-wrapper {
     margin-bottom: 30px;

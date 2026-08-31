@@ -35,10 +35,12 @@
     "drizzle-migrate": "cd ./libs/shared/domain/trpc-server/src/lib/drizzle && drizzle-kit migrate",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org ludemann-consulting-aps --project javascript-angular ./dist && sentry-cli sourcemaps upload --org ludemann-consulting-aps --project javascript-angular ./dist",
     "test:e2e": "nx run-many -t e2e -p course-client-e2e course-admin-e2e --configuration=production",
-    "test:e2e:playwright": "nx run-many -t e2e-playwright -p course-client-e2e course-admin-e2e"
+    "test:e2e:playwright": "nx run-many -t e2e-playwright -p course-client-e2e course-admin-e2e",
+    "build:styles": "sass --load-path=libs/shared/ui/styles/src/lib --load-path=node_modules --no-source-map --quiet libs/shared/ui/styles/src/lib/global-styling.scss apps/course-platform-analog/src/global-styling.generated.css"
   },
   "private": true,
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.114",
     "@analogjs/content": "2.7.1",
     "@analogjs/router": "2.7.1",
     "@analogjs/trpc": "0.5.0",
@@ -55,6 +57,8 @@
     "@angular/router": "22.1.4",
     "@angular/service-worker": "22.1.4",
     "@angular/ssr": "22.1.6",
+    "@copilotkit/angular": "0.4.0",
+    "@copilotkit/runtime": "1.69.3",
     "@ngrx/component-store": "22.0.0",
     "@ngrx/effects": "22.0.0",
     "@ngrx/entity": "22.0.0",

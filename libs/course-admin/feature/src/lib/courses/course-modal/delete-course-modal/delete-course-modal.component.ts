@@ -6,7 +6,6 @@ import { Course } from '@course-platform/shared/interfaces';
 @Component({
   selector: 'app-delete-course-modal',
   templateUrl: './delete-course-modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DeleteCourseModalComponent {

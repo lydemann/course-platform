@@ -33,7 +33,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule],
 })
 export class CreateUserComponent implements OnInit {

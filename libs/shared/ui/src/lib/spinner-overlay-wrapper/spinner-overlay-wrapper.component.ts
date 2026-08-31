@@ -4,7 +4,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: 'app-spinner-overlay-wrapper',
   templateUrl: './spinner-overlay-wrapper.component.html',
   styleUrls: ['./spinner-overlay-wrapper.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SpinnerOverlayWrapperComponent {}

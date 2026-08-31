@@ -1,9 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import {
-  Component,
-  TrackByFunction,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -16,7 +12,6 @@ import { CreateSectionModalComponent } from './components/create-section-modal/c
   selector: 'app-course-admin',
   templateUrl: './course-admin.component.html',
   styleUrls: ['./course-admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CourseAdminComponent {

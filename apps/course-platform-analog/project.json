@@ -34,7 +34,8 @@
           "sourcemap": false,
           "mode": "production"
         }
-      }
+      },
+      "dependsOn": ["build-styles"]
     },
     "serve": {
       "executor": "@analogjs/platform:vite-dev-server",
@@ -51,7 +52,8 @@
         "production": {
           "buildTarget": "course-platform-analog:build:production"
         }
-      }
+      },
+      "dependsOn": ["build-styles"]
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -62,6 +64,16 @@
     "lint": {
       "options": {
         "args": ["**/*.{ts,html}"]
+      }
+    },
+    "build-styles": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": ["{workspaceRoot}/libs/shared/ui/styles/src/lib/**/*.scss"],
+      "outputs": ["{projectRoot}/src/global-styling.generated.css"],
+      "options": {
+        "command": "npm run build:styles",
+        "cwd": "."
       }
     }
   }

@@ -37,7 +37,6 @@ export type LessonAdminForm = FormGroup<{
   selector: 'app-lesson-admin',
   templateUrl: './lesson-admin.component.html',
   styleUrls: ['./lesson-admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LessonAdminComponent {

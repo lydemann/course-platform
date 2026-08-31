@@ -1,15 +1,8 @@
-import {
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-select-option',
   imports: [],
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './select-option.component.html',
 })
 export class SelectOptionComponent {

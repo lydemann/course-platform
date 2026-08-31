@@ -45,7 +45,6 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
       margin: 40px 0 25px 0;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule],
 })
 export class CoursesComponent {

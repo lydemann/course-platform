@@ -9,7 +9,6 @@ import { TrpcHeaders } from '@course-platform/shared/domain/trpc-client';
   selector: 'app-root',
   template: ` <router-outlet></router-outlet>`,
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RemoteEntryModule],
 })
 export class AppComponent {

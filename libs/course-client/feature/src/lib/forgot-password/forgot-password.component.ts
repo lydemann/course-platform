@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -18,7 +13,6 @@ import { SharedUiModule } from '@course-platform/shared/ui';
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedUiModule, RouterModule, ReactiveFormsModule],
 })
 export class ForgotPasswordComponent implements OnInit {

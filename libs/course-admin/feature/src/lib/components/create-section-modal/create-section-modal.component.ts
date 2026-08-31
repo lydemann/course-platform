@@ -5,7 +5,6 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-create-section-modal',
   templateUrl: './create-section-modal.component.html',
   styleUrls: ['./create-section-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CreateSectionModalComponent {

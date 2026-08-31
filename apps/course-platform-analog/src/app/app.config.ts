@@ -7,7 +7,7 @@ import {
 import {
   ApplicationConfig,
   importProvidersFrom,
-  provideZoneChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import {
   BrowserModule,
@@ -39,6 +39,7 @@ import {
   Endpoints,
 } from '@course-platform/shared/domain';
 import { provideTrpcClient } from '@course-platform/shared/domain/trpc-client';
+import { provideCopilotKit } from '@copilotkit/angular';
 import { NgrxUniversalRehydrateBrowserModule } from '@course-platform/shared/ngrx-universal-rehydrate';
 import { cookieInterceptor } from '@course-platform/shared/ssr/domain';
 import { FeatureToggleService } from '@course-platform/shared/util/util-feature-toggle';
@@ -89,7 +90,7 @@ export const appConfig: ApplicationConfig = {
       }),
       withNoIncrementalHydration(),
     ),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideHttpClient(withFetch(), withInterceptors([cookieInterceptor])),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
@@ -114,6 +115,18 @@ export const appConfig: ApplicationConfig = {
       useClass: ProfileSBService,
     },
     provideTrpcClient(),
+    // Same-origin: Analog serves `src/server/routes` under `/api`, so this hits
+    // the Nitro handler in `src/server/routes/copilotkit/[...].ts`.
+    // The Authorization header is attached per-session in `AppComponent`.
+    provideCopilotKit({
+      runtimeUrl: '/api/copilotkit',
+      // The dev inspector is left to CopilotKit's own isDevMode() gate, which
+      // is false in an optimized build (ngDevMode is compiled out). Verified
+      // against the production bundle; re-check if that build config changes.
+      // Publishable CopilotKit Cloud key; pairs with COPILOTKIT_API_KEY on the
+      // server. Safe in the browser bundle by design.
+      licenseKey: import.meta.env['VITE_COPILOTKIT_PUBLIC_KEY'],
+    }),
     importProvidersFrom([
       BrowserModule,
       BrowserAnimationsModule,

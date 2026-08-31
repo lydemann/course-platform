@@ -62,7 +62,6 @@ import { AuthSBService } from '@course-platform/shared/auth/domain';
     </div>
   </div> `,
   styleUrls: ['./create-user.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule, ReactiveFormsModule],
 })
 export class CreateUserComponent {

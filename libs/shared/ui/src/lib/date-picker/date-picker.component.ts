@@ -50,7 +50,6 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatePickerComponent
