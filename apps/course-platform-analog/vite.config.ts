@@ -44,14 +44,6 @@ export default defineConfig(({ mode }) => {
             '/update-password': { ssr: false },
             // Supabase OAuth consent relies on the browser session.
             '/oauth/consent': { ssr: false },
-            // MCP clients discover OAuth metadata at root-level RFC 9728 URLs,
-            // while Analog exposes server routes under its /api prefix.
-            '/.well-known/oauth-protected-resource': {
-              proxy: { to: '/api/oauth-protected-resource' },
-            },
-            '/.well-known/oauth-protected-resource/api/mcp': {
-              proxy: { to: '/api/oauth-protected-resource' },
-            },
           },
           preset: 'vercel',
           rollupConfig: {

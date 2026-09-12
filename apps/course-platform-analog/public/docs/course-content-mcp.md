@@ -41,6 +41,10 @@ OAuth protected-resource metadata is available at both:
 - `/.well-known/oauth-protected-resource`
 - `/.well-known/oauth-protected-resource/api/mcp`
 
+These root-level discovery URLs are served by Nitro middleware. Do not replace
+them with `routeRules.proxy`: that rule shape produces invalid routes in the
+Vercel Build Output manifest for this Analog preset.
+
 ## Connect Claude Code
 
 ```sh
