@@ -15,7 +15,7 @@ export const authClient = new AuthClient({
   fetch: fetch,
 });
 
-const verifyAndDecodeJwtToken = async (token: string) => {
+export const verifySupabaseAccessToken = async (token: string) => {
   // verify and decode token from supabase
 
   if (!token) {
@@ -55,7 +55,7 @@ export async function createContext({ req, res }: CreateNextContextOptions) {
   // This is just an example of something you might want to do in your ctx fn
   async function getUserFromHeader() {
     if (req.headers.authorization) {
-      const user = await verifyAndDecodeJwtToken(
+      const user = await verifySupabaseAccessToken(
         req.headers.authorization.split(' ')[1],
       );
       return user;

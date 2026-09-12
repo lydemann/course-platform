@@ -5,7 +5,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import {
@@ -72,6 +72,7 @@ export class LoginComponent {
   constructor(
     public authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private fb: UntypedFormBuilder,
   ) {
     this.createForm();
@@ -94,7 +95,11 @@ export class LoginComponent {
             this.errorMessage = res.error.message;
             return;
           }
-          this.router.navigate(['courses']);
+          this.router.navigateByUrl(
+            getSafePostLoginRedirect(
+              this.route.snapshot.queryParamMap.get('redirect'),
+            ),
+          );
         },
         (err) => {
           console.log('Error doing sign in', err);
@@ -102,4 +107,10 @@ export class LoginComponent {
         },
       );
   }
+}
+
+export function getSafePostLoginRedirect(redirect: string | null): string {
+  return redirect?.startsWith('/') && !redirect.startsWith('//')
+    ? redirect
+    : '/courses';
 }
