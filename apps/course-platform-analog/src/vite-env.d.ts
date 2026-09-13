@@ -7,6 +7,8 @@ interface ImportMetaEnv {
   readonly AC_ORIGIN: string;
   readonly AC_API_TOKEN: string;
   readonly VITE_SUPABASE_URL: string;
+  readonly MCP_RESOURCE_URL?: string;
+  readonly VIMEO_ACCESS_TOKEN?: string;
   readonly SUPABASE_SERVICE_ROLE_KEY: string;
   readonly DATABASE_URL: string;
 }
