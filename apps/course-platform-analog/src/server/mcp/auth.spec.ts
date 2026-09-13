@@ -1,23 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const verifySupabaseAccessToken = vi.hoisted(() => vi.fn());
-
-vi.mock('@course-platform/shared/domain/trpc-server', () => ({
-  verifySupabaseAccessToken,
-}));
-
 import { SupabaseTokenVerifier } from './auth';
 
 const resourceUrl = new URL('https://courses.example.com/api/mcp');
+const validateAccessToken = vi.fn();
 
 describe('SupabaseTokenVerifier', () => {
   beforeEach(() => {
-    verifySupabaseAccessToken.mockReset();
+    validateAccessToken.mockReset();
     delete process.env['MCP_RESOURCE_URL'];
   });
 
   it('returns the validated Supabase identity and OAuth claims', async () => {
-    verifySupabaseAccessToken.mockResolvedValue({
+    validateAccessToken.mockResolvedValue({
       id: 'student-1',
       email: 'student@example.com',
     });
@@ -29,7 +24,10 @@ describe('SupabaseTokenVerifier', () => {
     });
 
     await expect(
-      new SupabaseTokenVerifier(resourceUrl).verifyAccessToken(token),
+      new SupabaseTokenVerifier(
+        resourceUrl,
+        validateAccessToken,
+      ).verifyAccessToken(token),
     ).resolves.toMatchObject({
       clientId: 'claude-code',
       scopes: ['openid', 'email'],
@@ -39,10 +37,13 @@ describe('SupabaseTokenVerifier', () => {
 
   it('enforces the configured production audience', async () => {
     process.env['MCP_RESOURCE_URL'] = resourceUrl.toString();
-    verifySupabaseAccessToken.mockResolvedValue({ id: 'student-1' });
+    validateAccessToken.mockResolvedValue({ id: 'student-1' });
 
     await expect(
-      new SupabaseTokenVerifier(resourceUrl).verifyAccessToken(
+      new SupabaseTokenVerifier(
+        resourceUrl,
+        validateAccessToken,
+      ).verifyAccessToken(
         jwt({
           sub: 'student-1',
           exp: Math.floor(Date.now() / 1000) + 60,

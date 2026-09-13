@@ -18,11 +18,19 @@ interface SupabaseJwtClaims {
   sub?: string;
 }
 
+type AccessTokenValidator = (token: string) => Promise<{
+  id: string;
+  email?: string;
+} | null>;
+
 export class SupabaseTokenVerifier implements OAuthTokenVerifier {
-  constructor(private readonly expectedResource: URL) {}
+  constructor(
+    private readonly expectedResource: URL,
+    private readonly validateAccessToken: AccessTokenValidator = verifySupabaseAccessToken,
+  ) {}
 
   async verifyAccessToken(token: string): Promise<AuthInfo> {
-    const user = await verifySupabaseAccessToken(token);
+    const user = await this.validateAccessToken(token);
     if (!user) {
       throw new OAuthError(
         OAuthErrorCode.InvalidToken,
