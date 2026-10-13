@@ -174,7 +174,7 @@
     "lint-staged": "17.4.1",
     "ng-mocks": "14.17.3",
     "ng-packagr": "22.1.1",
-    "nx": "23.1.2",
+    "nx": "23.2.1",
     "open": "^7.0.3",
     "playwright-bdd": "9.2.0",
     "postcss": "^8.5.26",
