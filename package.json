@@ -69,7 +69,7 @@
     "@ngrx/store-devtools": "22.0.1",
     "@ngx-translate/core": "18.1.0",
     "@ngx-translate/http-loader": "18.1.0",
-    "@sentry/angular": "10.71.0",
+    "@sentry/angular": "11.10.0",
     "@sentry/cli": "^3.8.2",
     "@supabase/auth-js": "^2.118.0",
     "@supabase/supabase-js": "^2.118.0",
@@ -200,7 +200,7 @@
     "typescript-eslint": "^8.72.1",
     "vite": "8.3.5",
     "vite-plugin-static-copy": "^4.1.1",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.5"
   },
   "engines": {
     "node": "22.x"
