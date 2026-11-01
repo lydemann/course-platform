@@ -1,4 +1,3 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
@@ -9,7 +8,6 @@ import { CopilotKit } from '@copilotkit/angular';
 import { Session } from '@supabase/auth-js';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'course-platform-root',
   imports: [RouterOutlet, LayoutModule],
   template: `

@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import { provideZonelessChangeDetection } from '@angular/core';
 import {
   enableProdMode,
   importProvidersFrom,
@@ -99,6 +100,7 @@ xhttp.onreadystatechange = function () {
 
     bootstrapApplication(AppComponent, {
       providers: [
+        provideZonelessChangeDetection(),
         provideAppInitializer(() => {
           const initializerFn = preloadFeagureFlags(
             inject(FeatureToggleService),

@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-courses',
   template: `
     <h1 class="headline">Your Training Programs</h1>

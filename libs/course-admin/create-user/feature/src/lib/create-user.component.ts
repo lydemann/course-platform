@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   AbstractControl,
   FormGroupDirective,
@@ -30,7 +30,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
@@ -38,10 +37,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class CreateUserComponent implements OnInit {
   form!: UntypedFormGroup;
-  serverError!: string;
+  serverError = signal('');
   matcher = new MyErrorStateMatcher();
   passwordFormGroup!: UntypedFormGroup;
-  isLoading!: boolean;
+  isLoading = signal(false);
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -74,18 +73,18 @@ export class CreateUserComponent implements OnInit {
   }
 
   onSubmit() {
-    this.serverError = '';
+    this.serverError.set('');
     if (this.form.invalid) {
       return;
     }
 
     const formValue = this.form.value;
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.userFacadeService
       .createUser(formValue.email, formValue.passwordFormGroup.password)
       .subscribe(
         (response) => {
-          this.isLoading = false;
+          this.isLoading.set(false);
           this.form.reset();
           this.toastService.showSuccessToast({
             message: 'User Registered',
@@ -93,8 +92,8 @@ export class CreateUserComponent implements OnInit {
           });
         },
         (error: Error) => {
-          this.isLoading = false;
-          this.serverError = error.message;
+          this.isLoading.set(false);
+          this.serverError.set(error.message);
         },
       );
   }

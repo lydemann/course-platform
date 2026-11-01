@@ -12,9 +12,9 @@
     Discord.
   </p>
 
-  @if (this.selectedSectionId$ | async; as selectedSectionId) {
+  @if (selectedSectionId(); as selectedSectionId) {
     <div class="action-items" fxLayout="column" fxLayoutGap="12px">
-      @for (actionItem of actionItems$ | async; track actionItem) {
+      @for (actionItem of actionItems(); track actionItem) {
         <app-action-item
           class="mb-4 block"
           [actionItem]="actionItem"

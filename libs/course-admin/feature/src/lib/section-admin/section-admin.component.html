@@ -3,8 +3,8 @@
 <app-button [routerLink]="['../../']" color="accent"
   >Back to sections</app-button
 >
-@if (formGroup$ | async; as formGroup) {
-  @if (section$ | async; as section) {
+@if (formGroup(); as formGroup) {
+  @if (section(); as section) {
     <app-section-admin-form
       class="mt-l"
       [formGroup]="formGroup"

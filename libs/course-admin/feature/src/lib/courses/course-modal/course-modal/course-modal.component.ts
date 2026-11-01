@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -9,7 +9,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Course } from '@course-platform/shared/interfaces';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course-modal',
   templateUrl: './course-modal.component.html',
   styleUrls: ['./course-modal.component.scss'],

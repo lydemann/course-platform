@@ -8,7 +8,8 @@
         name="section-name"
         matInput
         cdkFocusInitial
-        [(ngModel)]="sectionName"
+        [ngModel]="sectionName()"
+        (ngModelChange)="sectionName.set($event)"
       />
     </mat-form-field>
   </div>
@@ -19,7 +20,7 @@
     <app-button
       type="submit"
       class="ml-m"
-      [mat-dialog-close]="sectionName"
+      [mat-dialog-close]="sectionName()"
       color="primary"
       >Ok</app-button
     >

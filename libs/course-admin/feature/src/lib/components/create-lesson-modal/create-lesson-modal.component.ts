@@ -1,15 +1,15 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-create-lesson-modal',
   templateUrl: './create-lesson-modal.component.html',
   styleUrls: ['./create-lesson-modal.component.scss'],
   standalone: false,
 })
 export class CreateLessonModalComponent {
-  lessonName = '';
+  lessonName = signal('');
 
   constructor(public dialogRef: MatDialogRef<CreateLessonModalComponent>) {}
 
@@ -18,6 +18,6 @@ export class CreateLessonModalComponent {
   }
 
   onSubmit() {
-    this.dialogRef.close(this.lessonName);
+    this.dialogRef.close(this.lessonName());
   }
 }

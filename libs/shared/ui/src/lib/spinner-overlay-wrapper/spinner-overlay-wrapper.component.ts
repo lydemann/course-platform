@@ -1,7 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-spinner-overlay-wrapper',
   templateUrl: './spinner-overlay-wrapper.component.html',
   styleUrls: ['./spinner-overlay-wrapper.component.scss'],

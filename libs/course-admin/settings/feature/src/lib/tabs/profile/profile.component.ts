@@ -1,4 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { signal, inject, Injector, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,7 +13,6 @@ import {
 } from '@course-platform/course-client/shared/domain';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
@@ -20,8 +21,10 @@ import {
 export class ProfileComponent implements OnInit {
   user$!: Observable<Profile>;
   profileForm$!: Observable<FormGroup>;
+  profileForm!: Signal<FormGroup | undefined>;
+  private injector = inject(Injector);
   changePwForm!: FormGroup;
-  errorMessage!: string;
+  errorMessage = signal('');
   constructor(
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
@@ -41,6 +44,8 @@ export class ProfileComponent implements OnInit {
       ),
     );
 
+    this.profileForm = toSignal(this.profileForm$, { injector: this.injector });
+
     this.changePwForm = this.formBuilder.group({
       currentPassword: ['', Validators.required],
       newPassword: ['', Validators.required],
@@ -54,13 +59,13 @@ export class ProfileComponent implements OnInit {
   }
 
   async onChangePassword() {
-    this.errorMessage = '';
+    this.errorMessage.set('');
     const currentPassword = this.changePwForm.get('currentPassword')?.value;
     const newPassword = this.changePwForm.get('newPassword')?.value;
     const confirmPassword = this.changePwForm.get('confirmPassword')?.value;
 
     if (newPassword !== confirmPassword) {
-      this.errorMessage = `Passwords don't match.`;
+      this.errorMessage.set(`Passwords don't match.`);
       return;
     }
 
@@ -68,7 +73,7 @@ export class ProfileComponent implements OnInit {
       await this.profileService.updatePassword(newPassword, currentPassword);
       this.changePwForm.reset();
     } catch (error) {
-      this.errorMessage = (error as Error).message ?? '';
+      this.errorMessage.set((error as Error).message ?? '');
     }
   }
 

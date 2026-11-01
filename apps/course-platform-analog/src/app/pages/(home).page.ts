@@ -1,5 +1,5 @@
 import { RouteMeta } from '@analogjs/router';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { authSBGuard } from '@course-platform/shared/auth/domain';
 
 export const routeMeta: RouteMeta = {
@@ -8,7 +8,6 @@ export const routeMeta: RouteMeta = {
 };
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'course-platform-home',
   imports: [],
   template: `

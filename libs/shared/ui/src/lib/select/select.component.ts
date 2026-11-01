@@ -1,20 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import {
-  AfterContentInit,
-  ChangeDetectorRef,
   Component,
-  ContentChildren,
+  contentChildren,
+  computed,
   EventEmitter,
   forwardRef,
-  inject,
+  input,
   Input,
-  OnChanges,
   Output,
-  QueryList,
   signal,
-  SimpleChanges,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -32,7 +27,6 @@ import { SelectOptionComponent } from './select-option/select-option.component';
 import { SelectOption } from './select-option/select-option.interface';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-select',
   imports: [
     CommonModule,
@@ -46,10 +40,10 @@ import { SelectOption } from './select-option/select-option.interface';
   template: `
     <mat-form-field class="form">
       <mat-select
-        [disabled]="disabled"
-        [placeholder]="placeholder"
+        [disabled]="disabled()"
+        [placeholder]="placeholder()"
         (selectionChange)="onSelected($event)"
-        [(ngModel)]="selected"
+        [ngModel]="selected()"
       >
         @for (option of options(); track option) {
           <mat-option [value]="option.value">
@@ -86,27 +80,22 @@ import { SelectOption } from './select-option/select-option.interface';
     },
   ],
 })
-export class SelectComponent
-  implements OnChanges, AfterContentInit, ControlValueAccessor
-{
+export class SelectComponent implements ControlValueAccessor {
   @Input() public set value(value: string) {
-    this.selected = value;
+    this.selected.set(value);
   }
-  @Input()
-  public placeholder!: string;
-  @ContentChildren(SelectOptionComponent)
-  public selectOptions!: QueryList<SelectOptionComponent>;
-  @ContentChildren(SelectOptionGroupComponent)
-  public selectOptionGroups!: QueryList<SelectOptionGroupComponent>;
+  public placeholder = input('');
+  public selectOptions = contentChildren(SelectOptionComponent);
+  public selectOptionGroups = contentChildren(SelectOptionGroupComponent);
   @Output() public valueChange = new EventEmitter();
-  // Signals rather than plain fields: these are populated from @ContentChildren
-  // subscriptions, and under OnPush — the default in Angular 22 — assigning a
-  // plain field does not mark the view dirty, so the dropdown rendered stale
-  // options. A signal notifies the template itself, so it cannot be forgotten.
-  public readonly options = signal<SelectOption[]>([]);
-  public readonly optionsGroups = signal<SelectOptionGroup[]>([]);
-  public selected!: string | null;
-  public disabled = false;
+  public readonly options = computed(() =>
+    this.getOptions(this.selectOptions()),
+  );
+  public readonly optionsGroups = computed(() =>
+    this.getOptionGroups(this.selectOptionGroups()),
+  );
+  public selected = signal<string | null>(null);
+  public disabled = signal(false);
   public touched = false;
   private internalValue!: SelectOption;
   optionsLala = [
@@ -123,37 +112,9 @@ export class SelectComponent
   public onTouched: any = (_: any) => {};
 
   public onSelected($event: { value: any }) {
-    this.selected = $event.value;
+    this.selected.set($event.value);
     this.onChange($event.value);
     this.valueChange.emit($event.value);
-  }
-
-  public ngOnChanges(change: SimpleChanges) {
-    if (change['options']) {
-      if (change['options'].isFirstChange()) {
-        return;
-      }
-      if (change['options'].currentValue !== change['options'].previousValue) {
-        this.selected = null; // Resetting the model to show placeholder
-        this.onChange(null);
-      }
-    }
-  }
-
-  private readonly cdr = inject(ChangeDetectorRef);
-
-  public ngAfterContentInit() {
-    this.options.set(this.getOptions(this.selectOptions));
-    this.optionsGroups.set(this.getOptionGroups(this.selectOptionGroups));
-
-    this.selectOptionGroups.changes.subscribe(
-      (optionGroups: QueryList<SelectOptionGroupComponent>) =>
-        this.optionsGroups.set(this.getOptionGroups(optionGroups)),
-    );
-
-    this.selectOptions.changes.subscribe((options: QueryList<SelectOption>) =>
-      this.options.set(options.length ? this.getOptions(options) : []),
-    );
   }
 
   // CONTROL VALUE ACCESSOR
@@ -162,9 +123,7 @@ export class SelectComponent
     this.internalValue = value;
     this.onChange(this.internalValue);
     this.valueChange.emit(value);
-    this.selected = value;
-    // Called by Angular forms, outside any template binding.
-    this.cdr.markForCheck();
+    this.selected.set(value);
   }
 
   public registerOnChange(fn: any): void {
@@ -181,22 +140,22 @@ export class SelectComponent
   }
 
   public setDisabledState?(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabled.set(isDisabled);
   }
 
-  private getOptionGroups(list: QueryList<SelectOptionGroupComponent>) {
+  private getOptionGroups(list: readonly SelectOptionGroupComponent[]) {
     return list.length
       ? list.map((group) => ({
-          label: group.label,
-          options: this.getOptions(group.selectOptions),
+          label: group.label(),
+          options: this.getOptions(group.selectOptions()),
         }))
       : [];
   }
 
-  private getOptions(list: QueryList<SelectOptionComponent>): SelectOption[] {
+  private getOptions(list: readonly SelectOptionComponent[]): SelectOption[] {
     return list.length
       ? list.map((item: SelectOptionComponent) => ({
-          value: item.value,
+          value: item.value(),
           templateRef: item.templateRef,
         }))
       : [];

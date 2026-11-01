@@ -1,4 +1,3 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -17,7 +16,6 @@ import { EmailOtpType } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="container">
       <div class="login-box">
@@ -129,7 +127,7 @@ export class UpdatePasswordComponent implements OnInit {
       },
       (err) => {
         console.log('Error doing password reset', err);
-        this.errorMessage = err.message;
+        this.errorMessage.set(err.message);
       },
     );
   }

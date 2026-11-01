@@ -1,4 +1,3 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   ElementRef,
@@ -8,6 +7,7 @@ import {
   SecurityContext,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
@@ -21,7 +21,6 @@ import { ActionItemsComponent } from './containers/action-items/action-items.com
 import { QuestionsComponent } from './containers/questions/questions.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course',
   template: `
     <div
@@ -36,11 +35,11 @@ import { QuestionsComponent } from './containers/questions/questions.component';
         <app-course-sidebar
           fxFlex.gt-xs="25"
           class="sidebar"
-          [sections]="(sections$ | async)!"
-          [selectedSection]="(selectedSection$ | async)!"
-          [lessons]="(sectionLessons$ | async)!"
-          [sectionCompletedPct]="(sectionCompletedPct$ | async)!"
-          [selectedLessonId]="(selectedLessonId$ | async)!"
+          [sections]="sections()!"
+          [selectedSection]="selectedSection()!"
+          [lessons]="sectionLessons()!"
+          [sectionCompletedPct]="sectionCompletedPct()!"
+          [selectedLessonId]="selectedLessonId()!"
           (lessonSelected)="onLessonSelected($event)"
           (sectionChanged)="onSectionSelected($event)"
         ></app-course-sidebar>
@@ -101,6 +100,11 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
     this.courseClientFacade.sectionLessons$;
   sectionCompletedPct$: Observable<number> =
     this.courseClientFacade.sectionCompletedPct$;
+  sections = toSignal(this.sections$);
+  selectedSection = toSignal(this.selectedSection$);
+  selectedLessonId = toSignal(this.selectedLessonId$);
+  sectionLessons = toSignal(this.sectionLessons$);
+  sectionCompletedPct = toSignal(this.sectionCompletedPct$);
   courseCustomStyle$: Observable<string> =
     this.courseClientFacade.courseId$.pipe(
       switchMap((courseId) =>

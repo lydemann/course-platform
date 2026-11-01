@@ -3,6 +3,7 @@ import {
   Component,
   SecurityContext,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
@@ -17,15 +18,17 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
   imports: [SharedModule],
 })
 export class CourseContentComponent {
-  public lesson$ = this.courseFacadeService.selectedLesson$;
-  public videoUrl$ = this.courseFacadeService.selectedLesson$.pipe(
-    filter((lesson) => !!lesson),
-    distinctUntilChanged((prev, cur) => prev?.videoUrl === cur?.videoUrl),
-    map((lesson) =>
-      this.getTrustedVideoUrl(
-        lesson.videoUrl
-          ? lesson.videoUrl + '?title=0&byline=0&portrait=0'
-          : this.placeholderUrl,
+  public lesson = toSignal(this.courseFacadeService.selectedLesson$);
+  public videoUrl = toSignal(
+    this.courseFacadeService.selectedLesson$.pipe(
+      filter((lesson) => !!lesson),
+      distinctUntilChanged((prev, cur) => prev?.videoUrl === cur?.videoUrl),
+      map((lesson) =>
+        this.getTrustedVideoUrl(
+          lesson.videoUrl
+            ? lesson.videoUrl + '?title=0&byline=0&portrait=0'
+            : this.placeholderUrl,
+        ),
       ),
     ),
   );

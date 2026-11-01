@@ -1,10 +1,9 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Course } from '@course-platform/shared/interfaces';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-delete-course-modal',
   templateUrl: './delete-course-modal.component.html',
   standalone: false,

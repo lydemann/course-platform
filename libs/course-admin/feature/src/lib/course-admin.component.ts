@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, TrackByFunction } from '@angular/core';
+import { Component, TrackByFunction, Signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 import { CourseSection } from '@course-platform/shared/interfaces';
@@ -10,14 +10,14 @@ import { CreateLessonModalComponent } from './components/create-lesson-modal/cre
 import { CreateSectionModalComponent } from './components/create-section-modal/create-section-modal.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course-admin',
   templateUrl: './course-admin.component.html',
   styleUrls: ['./course-admin.component.scss'],
   standalone: false,
 })
 export class CourseAdminComponent {
-  panelOpenState = false;
+  sections!: Signal<CourseSection[] | undefined>;
+  currentCourseId!: Signal<string | null | undefined>;
   sections$: Observable<CourseSection[]>;
   currentCourseId$: Observable<string | null>;
   constructor(
@@ -26,6 +26,8 @@ export class CourseAdminComponent {
   ) {
     this.sections$ = this.courseAdminFacadeService.sections$;
     this.currentCourseId$ = this.courseAdminFacadeService.currentCourseId$;
+    this.sections = toSignal(this.sections$);
+    this.currentCourseId = toSignal(this.currentCourseId$);
   }
 
   getLessonUrl(sectionId: string, lessonId: string) {

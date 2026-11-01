@@ -1,4 +1,5 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -8,7 +9,6 @@ import { Course } from '@course-platform/shared/interfaces';
 import { ToastService } from '@course-platform/shared/ui';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course-styling',
   templateUrl: './course-styling.component.html',
   styleUrls: ['./course-styling.component.scss'],
@@ -19,6 +19,9 @@ export class CourseStylingComponent {
   courseName$: Observable<string>;
   customStylingFormControl$: Observable<UntypedFormControl>;
   isEditingCourse = this.courseFacade.isEditingCourse;
+  course!: Signal<Course | undefined>;
+  courseName!: Signal<string | undefined>;
+  customStylingFormControl!: Signal<UntypedFormControl | undefined>;
 
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
@@ -32,6 +35,9 @@ export class CourseStylingComponent {
     this.customStylingFormControl$ = this.course$.pipe(
       map((course) => new UntypedFormControl(course.customStyling, [])),
     );
+    this.course = toSignal(this.course$);
+    this.courseName = toSignal(this.courseName$);
+    this.customStylingFormControl = toSignal(this.customStylingFormControl$);
   }
 
   submit(customStylingFormControl: UntypedFormControl, course: Course) {

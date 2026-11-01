@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -13,7 +14,6 @@ interface NavigationItem {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
@@ -24,6 +24,8 @@ export class TopbarComponent {
   homeUrl$!: Observable<string>;
   navigationItems!: NavigationItem[];
   loggedIn$!: Observable<boolean>;
+  loggedIn!: Signal<boolean>;
+  homeUrl!: Signal<string | undefined>;
 
   constructor(
     private authService: AuthService,
@@ -33,6 +35,8 @@ export class TopbarComponent {
     this.homeUrl$ = this.courseClientFacade.courseId$.pipe(
       map((courseId) => `courses/${courseId ? courseId : ''}`),
     );
+    this.loggedIn = toSignal(this.loggedIn$, { initialValue: false });
+    this.homeUrl = toSignal(this.homeUrl$);
     this.navigationItems = [
       {
         link: 'https://discord.gg/c8NxzFcwDP',

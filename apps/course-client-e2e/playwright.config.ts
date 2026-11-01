@@ -9,7 +9,7 @@ const testDir = defineBddConfig({
   features: `${featuresRoot}/login.feature`,
   featuresRoot,
   steps: 'src/steps/**/*.ts',
-  outputDir: '.features-gen',
+  outputDir: `${workspaceRoot}/apps/course-client-e2e/.features-gen`,
 });
 
 export default defineConfig({

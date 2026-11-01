@@ -8,7 +8,8 @@
         name="lesson-name"
         matInput
         cdkFocusInitial
-        [(ngModel)]="lessonName"
+        [ngModel]="lessonName()"
+        (ngModelChange)="lessonName.set($event)"
       />
     </mat-form-field>
   </div>
@@ -16,7 +17,7 @@
     <app-button (clicked)="onNoClick()" buttonVariant="button"
       >Cancel</app-button
     >
-    <app-button class="ml-m" [mat-dialog-close]="lessonName" color="primary"
+    <app-button class="ml-m" [mat-dialog-close]="lessonName()" color="primary"
       >Ok</app-button
     >
   </div>

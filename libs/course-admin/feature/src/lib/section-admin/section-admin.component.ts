@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -11,7 +12,6 @@ import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/d
 import { CourseSection } from '@course-platform/shared/interfaces';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-section-admin',
   templateUrl: './section-admin.component.html',
   styleUrls: ['./section-admin.component.scss'],
@@ -19,6 +19,8 @@ import { CourseSection } from '@course-platform/shared/interfaces';
 })
 export class SectionAdminComponent {
   section$: Observable<CourseSection>;
+  section!: Signal<CourseSection | undefined>;
+  formGroup!: Signal<UntypedFormGroup | undefined>;
   formGroup$: Observable<UntypedFormGroup>;
 
   constructor(
@@ -35,6 +37,8 @@ export class SectionAdminComponent {
         });
       }),
     );
+    this.section = toSignal(this.section$);
+    this.formGroup = toSignal(this.formGroup$);
   }
 
   goBack() {

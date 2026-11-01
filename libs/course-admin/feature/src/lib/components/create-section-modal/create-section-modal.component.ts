@@ -1,15 +1,15 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-create-section-modal',
   templateUrl: './create-section-modal.component.html',
   styleUrls: ['./create-section-modal.component.scss'],
   standalone: false,
 })
 export class CreateSectionModalComponent {
-  sectionName = '';
+  sectionName = signal('');
 
   constructor(public dialogRef: MatDialogRef<CreateSectionModalComponent>) {}
 
@@ -18,6 +18,6 @@ export class CreateSectionModalComponent {
   }
 
   onSubmit() {
-    this.dialogRef.close(this.sectionName);
+    this.dialogRef.close(this.sectionName());
   }
 }

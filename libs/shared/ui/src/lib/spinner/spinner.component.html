@@ -12,9 +12,9 @@
       <div class="loading"></div>
     </div>
 
-    @if (message && message !== '') {
+    @if (message() && message() !== '') {
       <p class="spinner-message">
-        {{ message }}
+        {{ message() }}
       </p>
     }
   </div>

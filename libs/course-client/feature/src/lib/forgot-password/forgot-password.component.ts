@@ -1,4 +1,3 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -11,7 +10,6 @@ import { AuthService } from '@course-platform/shared/auth/domain';
 import { SharedUiModule } from '@course-platform/shared/ui';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],

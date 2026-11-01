@@ -1,60 +1,60 @@
-@switch (buttonVariant) {
+@switch (buttonVariant()) {
   @case ('raised') {
     <button
-      class="{{ color }} size-{{ size }}"
+      class="{{ color() }} size-{{ size() }}"
       mat-raised-button
-      [color]="color"
+      [color]="color()"
       (click)="clicked.next($event)"
-      [disabled]="disabled"
-      [type]="type"
+      [disabled]="disabled()"
+      [type]="type()"
     >
       <ng-container [ngTemplateOutlet]="content"></ng-container>
     </button>
   }
   @case ('mini-fab') {
     <button
-      class="{{ color }} size-{{ size }}"
+      class="{{ color() }} size-{{ size() }}"
       mat-mini-fab
-      [color]="color"
+      [color]="color()"
       (click)="clicked.next($event)"
-      [disabled]="disabled"
-      [type]="type"
+      [disabled]="disabled()"
+      [type]="type()"
     >
       <ng-container [ngTemplateOutlet]="content"></ng-container>
     </button>
   }
   @case ('fab') {
     <button
-      class="{{ color }} size-{{ size }}"
+      class="{{ color() }} size-{{ size() }}"
       mat-fab
-      [color]="color"
+      [color]="color()"
       (click)="clicked.next($event)"
-      [disabled]="disabled"
-      [type]="type"
+      [disabled]="disabled()"
+      [type]="type()"
     >
       <ng-container [ngTemplateOutlet]="content"></ng-container>
     </button>
   }
   @case ('button') {
     <button
-      class="{{ color }} size-{{ size }}"
+      class="{{ color() }} size-{{ size() }}"
       mat-button
-      [color]="color"
+      [color]="color()"
       (click)="clicked.next($event)"
-      [disabled]="disabled"
-      [type]="type"
+      [disabled]="disabled()"
+      [type]="type()"
     >
       <ng-container [ngTemplateOutlet]="content"></ng-container>
     </button>
   }
   @case ('icon') {
     <button
-      class="{{ color }} size-{{ size }}"
+      class="{{ color() }} size-{{ size() }}"
       mat-icon-button
-      [color]="color"
+      [color]="color()"
       (click)="clicked.next($event)"
-      [disabled]="disabled"
-      [type]="type"
+      [disabled]="disabled()"
+      [type]="type()"
     >
       <ng-container [ngTemplateOutlet]="content"></ng-container>
     </button>
