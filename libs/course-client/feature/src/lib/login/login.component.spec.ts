@@ -33,7 +33,6 @@ describe('LoginComponent with zoneless change detection', () => {
   });
 });
 
-
 describe('getSafePostLoginRedirect', () => {
   it('preserves an internal OAuth consent return URL', () => {
     expect(
