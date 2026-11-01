@@ -8,6 +8,7 @@ import { Course } from '@course-platform/shared/interfaces';
 import { ToastService } from '@course-platform/shared/ui';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course-styling',
   templateUrl: './course-styling.component.html',
   styleUrls: ['./course-styling.component.scss'],

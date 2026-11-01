@@ -14,6 +14,7 @@ import {
 } from '@course-platform/shared/auth/domain';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-login',
   template: `
     <div class="container">

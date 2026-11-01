@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { SharedModule } from '@course-platform/course-client/shared/ui';
@@ -12,6 +13,7 @@ export interface SectionDropDownValue {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course-sidebar',
   imports: [
     CourseSidebarComponent,

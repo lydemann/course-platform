@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -16,6 +17,7 @@ import { EmailOtpType } from '@supabase/auth-js';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="container">
       <div class="login-box">

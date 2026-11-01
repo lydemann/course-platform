@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],

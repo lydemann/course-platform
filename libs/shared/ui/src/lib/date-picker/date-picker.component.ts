@@ -47,6 +47,7 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],

@@ -11,6 +11,7 @@ import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/d
 import { CourseSection } from '@course-platform/shared/interfaces';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-section-admin',
   templateUrl: './section-admin.component.html',
   styleUrls: ['./section-admin.component.scss'],

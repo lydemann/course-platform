@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Course } from '@course-platform/shared/interfaces';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course-modal',
   templateUrl: './course-modal.component.html',
   styleUrls: ['./course-modal.component.scss'],

@@ -8,6 +8,7 @@ export const routeMeta: RouteMeta = {
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'course-platform-home',
   imports: [],
   template: `

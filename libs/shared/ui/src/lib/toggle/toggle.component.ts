@@ -1,7 +1,9 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
   styleUrls: ['./toggle.component.scss'],

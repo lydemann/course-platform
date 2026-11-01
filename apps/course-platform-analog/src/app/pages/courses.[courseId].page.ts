@@ -8,6 +8,7 @@ export const routeMeta: RouteMeta = {
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
   template: ``,
 })

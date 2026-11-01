@@ -6,6 +6,7 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { AuthSBService } from '@course-platform/shared/auth/domain';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-invite-user',
   template: `<div class="container">
     <div class="login-box">

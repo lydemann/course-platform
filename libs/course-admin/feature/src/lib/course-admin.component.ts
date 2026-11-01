@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,6 +10,7 @@ import { CreateLessonModalComponent } from './components/create-lesson-modal/cre
 import { CreateSectionModalComponent } from './components/create-section-modal/create-section-modal.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course-admin',
   templateUrl: './course-admin.component.html',
   styleUrls: ['./course-admin.component.scss'],

@@ -30,6 +30,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],

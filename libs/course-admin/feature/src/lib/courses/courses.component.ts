@@ -9,6 +9,7 @@ import { DeleteCourseModalComponent } from './course-modal/delete-course-modal/d
 import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/domain';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],

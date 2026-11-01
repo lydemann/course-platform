@@ -11,6 +11,7 @@ import {
 } from '@course-platform/course-client/shared/domain';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],

@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-create-section-modal',
   templateUrl: './create-section-modal.component.html',
   styleUrls: ['./create-section-modal.component.scss'],

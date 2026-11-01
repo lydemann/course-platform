@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   ElementRef,
@@ -20,6 +21,7 @@ import { ActionItemsComponent } from './containers/action-items/action-items.com
 import { QuestionsComponent } from './containers/questions/questions.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-course',
   template: `
     <div

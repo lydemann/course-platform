@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Course } from '@course-platform/shared/interfaces';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-delete-course-modal',
   templateUrl: './delete-course-modal.component.html',
   standalone: false,

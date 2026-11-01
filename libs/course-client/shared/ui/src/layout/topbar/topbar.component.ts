@@ -13,6 +13,7 @@ interface NavigationItem {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
