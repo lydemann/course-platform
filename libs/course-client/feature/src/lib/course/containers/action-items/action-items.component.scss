@@ -2,7 +2,7 @@
 
 .header {
   .lesson-title {
-    font-size: font-size('xl');
+    font-size: get-font-size('xl');
     font-weight: bold;
   }
 

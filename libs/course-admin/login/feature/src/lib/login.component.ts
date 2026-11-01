@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -40,7 +40,7 @@ import {
                 class="form-control"
                 formControlName="password"
               />
-              <label class="error">{{ errorMessage }}</label>
+              <label class="error">{{ errorMessage() }}</label>
             </div>
             <div class="button-wrapper">
               <app-button
@@ -58,12 +58,11 @@ import {
       </div>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule],
 })
 export class LoginComponent {
   loginForm!: UntypedFormGroup;
-  errorMessage = '';
+  errorMessage = signal('');
   private router = inject(Router);
 
   constructor(
@@ -89,7 +88,7 @@ export class LoginComponent {
       },
       (err) => {
         console.log(err);
-        this.errorMessage = err.message;
+        this.errorMessage.set(err.message);
       },
     );
   }

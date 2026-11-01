@@ -1,4 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,7 +22,6 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, ReactiveFormsModule, SharedModule],
 })
 export class ProfileComponent {
@@ -34,12 +35,13 @@ export class ProfileComponent {
       }),
     ),
   );
+  profileForm = toSignal(this.profileForm$);
   changePwForm: FormGroup = this.formBuilder.group({
     currentPassword: ['', Validators.required],
     newPassword: ['', Validators.required],
     confirmPassword: ['', Validators.required],
   });
-  errorMessage = '';
+  errorMessage = signal('');
   constructor(
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
@@ -52,13 +54,13 @@ export class ProfileComponent {
   }
 
   async onChangePassword() {
-    this.errorMessage = '';
+    this.errorMessage.set('');
     const currentPassword = this.changePwForm.get('currentPassword')!.value;
     const newPassword = this.changePwForm.get('newPassword')!.value;
     const confirmPassword = this.changePwForm.get('confirmPassword')!.value;
 
     if (newPassword !== confirmPassword) {
-      this.errorMessage = `Passwords don't match.`;
+      this.errorMessage.set(`Passwords don't match.`);
       return;
     }
 
@@ -66,7 +68,7 @@ export class ProfileComponent {
       await this.profileService.updatePassword(newPassword, currentPassword);
       this.changePwForm.reset();
     } catch (error) {
-      this.errorMessage = (error as Error).message;
+      this.errorMessage.set((error as Error).message);
     }
   }
 

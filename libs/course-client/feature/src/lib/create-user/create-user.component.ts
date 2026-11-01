@@ -1,6 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, startWith } from 'rxjs';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 
 import { AuthSBService } from '@course-platform/shared/auth/domain';
@@ -49,20 +51,19 @@ import { AuthSBService } from '@course-platform/shared/auth/domain';
               type="submit"
               size="l"
               data-test="login-btn"
-              [disabled]="!createUserForm.valid"
+              [disabled]="!formValid()"
               (click)="createUser(createUserForm.value)"
               class="submit-btn"
             >
               Create User
             </app-button>
           </div>
-          <p class="pt-2">{{ statusMessage }}</p>
+          <p class="pt-2">{{ statusMessage() }}</p>
         </form>
       </div>
     </div>
   </div> `,
   styleUrls: ['./create-user.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule, ReactiveFormsModule],
 })
 export class CreateUserComponent {
@@ -71,7 +72,14 @@ export class CreateUserComponent {
     password: ['', Validators.required],
     confirmPassword: ['', Validators.required],
   });
-  statusMessage = '';
+  formValid = toSignal(
+    this.createUserForm.statusChanges.pipe(
+      startWith(this.createUserForm.status),
+      map((status) => status === 'VALID'),
+    ),
+    { initialValue: this.createUserForm.valid },
+  );
+  statusMessage = signal('');
 
   constructor(
     public authService: AuthSBService,
@@ -81,7 +89,7 @@ export class CreateUserComponent {
 
   createUser(createUSerFormValues: typeof this.createUserForm.value) {
     if (this.createUserForm.invalid) {
-      this.statusMessage = 'Please fill out all fields';
+      this.statusMessage.set('Please fill out all fields');
       return;
     }
 
@@ -89,12 +97,12 @@ export class CreateUserComponent {
       !createUSerFormValues.email ||
       !createUSerFormValues.email.includes('@')
     ) {
-      this.statusMessage = 'Invalid email';
+      this.statusMessage.set('Invalid email');
       return;
     }
 
     if (!createUSerFormValues.password) {
-      this.statusMessage = 'Invalid password';
+      this.statusMessage.set('Invalid password');
       return;
     }
 
@@ -102,14 +110,14 @@ export class CreateUserComponent {
       createUSerFormValues?.password &&
       createUSerFormValues?.password?.length < 6
     ) {
-      this.statusMessage = 'Password must be at least 6 characters';
+      this.statusMessage.set('Password must be at least 6 characters');
       return;
     }
 
     if (
       createUSerFormValues.password !== createUSerFormValues.confirmPassword
     ) {
-      this.statusMessage = 'Passwords do not match';
+      this.statusMessage.set('Passwords do not match');
       return;
     }
 
@@ -118,7 +126,7 @@ export class CreateUserComponent {
       .then(
         (res) => {
           console.log('User created', res);
-          this.statusMessage = 'User created. Going to /login to sign in...';
+          this.statusMessage.set('User created. Going to /login to sign in...');
           const REDIRECT_TO_LOGIN_DELAY = 3000;
           setTimeout(() => {
             this.router.navigate(['/login']);
@@ -126,7 +134,7 @@ export class CreateUserComponent {
         },
         (err) => {
           console.log('Error creating user', err);
-          this.statusMessage = err.message;
+          this.statusMessage.set(err.message);
         },
       );
   }

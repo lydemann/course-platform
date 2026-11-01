@@ -3,11 +3,8 @@
 <app-button [routerLink]="['../../..']" color="accent"
   >Back to sections</app-button
 >
-@if (
-  (isAddingResource$ | async) === false && (formGroup$ | async);
-  as formGroup
-) {
-  @if (lesson$ | async; as lesson) {
+@if (isAddingResource() === false && formGroup(); as formGroup) {
+  @if (lesson(); as lesson) {
     <app-lesson-admin-form
       class="mt-l"
       [formGroup]="formGroup"

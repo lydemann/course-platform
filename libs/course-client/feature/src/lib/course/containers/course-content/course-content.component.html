@@ -1,4 +1,4 @@
-@if (lesson$ | async; as lesson) {
+@if (lesson(); as lesson) {
   <div class="header mb-l">
     <h1 class="lesson-title">{{ lesson.name }}</h1>
     @if (lesson.isCompleted) {
@@ -20,7 +20,7 @@
   </div>
   <div class="body">
     <div class="video-wrapper" style="position: relative; padding-top: 56.25%">
-      @if (videoUrl$ | async; as videoUrl) {
+      @if (videoUrl(); as videoUrl) {
         <iframe
           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
           [src]="videoUrl"

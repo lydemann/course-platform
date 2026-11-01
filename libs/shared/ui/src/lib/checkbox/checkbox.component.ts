@@ -1,24 +1,17 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CheckboxComponent {
-  @Input() public label = '';
-  @Input() public disabled = false;
-  @Input() public checked = false;
-  @Input() public labelPosition: 'before' | 'after' = 'after'; // Supports 'before' and 'after'
-  @Input() public indeterminate = false; // True renders indeterminate state regardless of checked value. Interactions (e.g. clicking) sets this to false.
+  public label = input('');
+  public disabled = input(false);
+  public checked = input(false);
+  public labelPosition = input<'before' | 'after'>('after'); // Supports 'before' and 'after'
+  public indeterminate = input(false); // True renders indeterminate state regardless of checked value. Interactions (e.g. clicking) sets this to false.
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() public change = new EventEmitter<boolean>();
 

@@ -74,6 +74,9 @@
       "@course-platform/course-client/feature": [
         "libs/course-client/feature/src/index.ts"
       ],
+      "@course-platform/course-client/feature-assistant": [
+        "libs/course-client/feature-assistant/src/index.ts"
+      ],
       "@course-platform/course-client/shared/domain": [
         "libs/course-client/shared/domain/src/index.ts"
       ],
@@ -90,8 +93,14 @@
       "@course-platform/shared/domain/trpc-client": [
         "libs/shared/domain/trpc-client/src/index.ts"
       ],
+      "@course-platform/shared/domain/copilot-server": [
+        "libs/shared/domain/copilot-server/src/index.ts"
+      ],
       "@course-platform/shared/domain/trpc-server": [
         "libs/shared/domain/trpc-server/src/index.ts"
+      ],
+      "@course-platform/shared/domain/trpc-server/drizzle": [
+        "libs/shared/domain/trpc-server/src/lib/drizzle/index.ts"
       ],
       "@course-platform/shared/interfaces": [
         "libs/shared/interfaces/src/index.ts"

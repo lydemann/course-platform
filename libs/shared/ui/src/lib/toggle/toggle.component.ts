@@ -1,39 +1,24 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, input, model, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
   styleUrls: ['./toggle.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ToggleComponent {
-  @Input()
-  public set isIcon(isIcon: boolean) {
-    this.disabled = true;
-    this._isIcon = isIcon;
-  }
-  public get isIcon(): boolean {
-    return this._isIcon;
-  }
-  @Input() public labelPosition: 'before' | 'after' = 'after';
-  @Input() public labelTextOn!: string;
-  @Input() public labelTextOff!: string;
-  @Input() public disabled = false;
-  @Input() public checked = false;
+  public isIcon = input(false);
+  public labelPosition = input<'before' | 'after'>('after');
+  public labelTextOn = input('');
+  public labelTextOff = input('');
+  public disabled = input(false);
+  public checked = model(false);
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() public change = new EventEmitter<boolean>();
-  private _isIcon = false; // Disable interaction but keep style
 
   public toggleChange(event: MatSlideToggleChange) {
-    this.checked = event.checked;
+    this.checked.set(event.checked);
     this.change.emit(event.checked);
   }
 }

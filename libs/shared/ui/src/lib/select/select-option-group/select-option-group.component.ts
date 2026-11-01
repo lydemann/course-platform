@@ -1,22 +1,14 @@
-import {
-  Component,
-  ContentChildren,
-  Input,
-  QueryList,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, contentChildren, input } from '@angular/core';
 
 import { SelectOptionComponent } from '../select-option/select-option.component';
 
 @Component({
   selector: 'app-select-option-group',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class SelectOptionGroupComponent {
-  @ContentChildren(SelectOptionComponent)
-  public selectOptions!: QueryList<SelectOptionComponent>;
+  public selectOptions = contentChildren(SelectOptionComponent);
 
-  @Input() public label!: string;
+  public label = input.required<string>();
 }

@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormArray,
   FormBuilder,
@@ -37,7 +38,6 @@ export type LessonAdminForm = FormGroup<{
   selector: 'app-lesson-admin',
   templateUrl: './lesson-admin.component.html',
   styleUrls: ['./lesson-admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LessonAdminComponent {
@@ -63,7 +63,10 @@ export class LessonAdminComponent {
     }),
   );
 
+  lesson = toSignal(this.lesson$);
+  formGroup = toSignal(this.formGroup$);
   isAddingResource$ = new BehaviorSubject(false);
+  isAddingResource = toSignal(this.isAddingResource$, { initialValue: false });
   constructor(
     private courseAdminFacade: CourseAdminFacadeService,
     private formBuilder: FormBuilder,

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@course-platform/shared/auth/domain';
-import { Observable, from } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface NavigationItem {
   link: string;
@@ -20,10 +20,12 @@ export class TopbarComponent {
   languages = ['en'];
   homeUrl: string;
   navigationItems: NavigationItem[];
-  loggedIn$: Observable<boolean>;
+  loggedIn;
 
   constructor(private authService: AuthService) {
-    this.loggedIn$ = this.authService.isLoggedIn();
+    this.loggedIn = toSignal(this.authService.isLoggedIn(), {
+      initialValue: false,
+    });
     this.homeUrl = '/courses';
     this.navigationItems = [
       {

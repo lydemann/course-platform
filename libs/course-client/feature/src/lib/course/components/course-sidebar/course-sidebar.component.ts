@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
@@ -26,30 +20,30 @@ export interface SectionDropDownValue {
     SelectOptionComponent,
     BrowserOnlyDirective,
   ],
-  template: ` @if (selectedSection) {
+  template: ` @if (selectedSection(); as selectedSectionValue) {
     <div class="sidebar ml-4">
       <div class="section-box">
         <small class="week-theme-label">WEEK THEME</small>
-        <h5 class="week-theme">{{ selectedSection.theme }}</h5>
+        <h5 class="week-theme">{{ selectedSectionValue.theme }}</h5>
       </div>
 
       <div class="progress-bar-wrapper">
         <small class="label"
-          >{{ sectionCompletedPct | number: '1.0-2' }}% complete</small
+          >{{ sectionCompletedPct() | number: '1.0-2' }}% complete</small
         >
         <mat-progress-bar
           class="progress-bar"
           mode="determinate"
-          [value]="sectionCompletedPct"
+          [value]="sectionCompletedPct()"
         ></mat-progress-bar>
       </div>
 
       <app-select
         class="section-select-form-field"
-        [value]="selectedSection.id"
+        [value]="selectedSectionValue.id"
         (valueChange)="sectionChanged.emit($event)"
       >
-        @for (section of sections; track section) {
+        @for (section of sections(); track section) {
           <app-select-option [value]="section.id">
             {{ section.name }}
           </app-select-option>
@@ -57,21 +51,20 @@ export interface SectionDropDownValue {
       </app-select>
 
       <app-section-lessons
-        [lessons]="lessons"
-        [selectedLessonId]="selectedLessonId"
+        [lessons]="lessons()"
+        [selectedLessonId]="selectedLessonId()"
         (lessonSelected)="lessonSelected.emit($event)"
       ></app-section-lessons>
     </div>
   }`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./course-sidebar.component.scss'],
 })
 export class CourseSidebarComponent {
-  @Input() sections: CourseSection[] = [];
-  @Input() selectedSection: CourseSection = {} as CourseSection;
-  @Input() selectedLessonId = '';
-  @Input() lessons: Lesson[] = [];
-  @Input() sectionCompletedPct = 0;
+  sections = input<CourseSection[]>([]);
+  selectedSection = input<CourseSection>({} as CourseSection);
+  selectedLessonId = input('');
+  lessons = input<Lesson[]>([]);
+  sectionCompletedPct = input(0);
   @Output() lessonSelected = new EventEmitter<string>();
   @Output() sectionChanged = new EventEmitter<string>();
 }

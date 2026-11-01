@@ -1,6 +1,6 @@
 @import 'helpers';
 
 :host {
-  margin: 0 size('m');
+  margin: 0 get-size('m');
   display: block;
 }
