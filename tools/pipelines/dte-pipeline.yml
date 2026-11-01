@@ -59,18 +59,28 @@ jobs:
 
       - script: pnpm install --frozen-lockfile
       - script: pnpm nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
+        env:
+          NX_CLOUD_ACCESS_TOKEN: $(NX_CLOUD_ACCESS_TOKEN)
         displayName: Start CI run
       - script: npx nx format:check --base=$(BASE_SHA) --head=$(HEAD_SHA)
         displayName: Check format
       - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=lint --parallel=3
+        env:
+          NX_CLOUD_ACCESS_TOKEN: $(NX_CLOUD_ACCESS_TOKEN)
         displayName: Run lint
       - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=test --parallel=3 --ci --coverage
+        env:
+          NX_CLOUD_ACCESS_TOKEN: $(NX_CLOUD_ACCESS_TOKEN)
         displayName: Run test
       - script: pnpm exec playwright install --with-deps chromium
         displayName: Install Playwright Chromium
       - script: pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=e2e-playwright --parallel=2
+        env:
+          NX_CLOUD_ACCESS_TOKEN: $(NX_CLOUD_ACCESS_TOKEN)
         displayName: Run Playwright e2e
       - script: export NODE_OPTIONS="--max-old-space-size=8192" && pnpm nx affected --base=$(BASE_SHA) --head=$(HEAD_SHA) --target=build --parallel=3
+        env:
+          NX_CLOUD_ACCESS_TOKEN: $(NX_CLOUD_ACCESS_TOKEN)
         displayName: Run build
         # archive and publish artifacts
       - task: ArchiveFiles@2
@@ -103,5 +113,7 @@ jobs:
         displayName: 'Tag build'
 
       - script: pnpm nx-cloud stop-all-agents
+        env:
+          NX_CLOUD_ACCESS_TOKEN: $(NX_CLOUD_ACCESS_TOKEN)
         condition: always()
         displayName: Stop all Nx-Cloud agents

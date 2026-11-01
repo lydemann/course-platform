@@ -89,3 +89,11 @@ Run `nx dep-graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
+
+### CI credentials
+
+Keep credentials out of the repository. Configure `NX_CLOUD_ACCESS_TOKEN` as a
+secret environment variable in CI before using Nx Cloud. Configure
+`SENTRY_AUTH_TOKEN` in the environment when uploading source maps with the
+`sentry:sourcemaps` script. Rotate any previously committed credentials; deleting
+these settings from the current tree does not remove them from Git history.
