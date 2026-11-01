@@ -32,6 +32,7 @@ import { SelectOptionComponent } from './select-option/select-option.component';
 import { SelectOption } from './select-option/select-option.interface';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-select',
   imports: [
     CommonModule,
