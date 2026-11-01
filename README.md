@@ -1,5 +1,12 @@
 # CoursePlatform
 
+## Course content MCP server
+
+The Analog course portal includes a read-only, Supabase-authenticated MCP server
+for student access from ChatGPT, Claude Code, and other remote MCP clients. See
+[`apps/course-platform-analog/public/docs/course-content-mcp.md`](apps/course-platform-analog/public/docs/course-content-mcp.md)
+for its tools, deployment requirements, and client setup.
+
 This project was generated using [Nx](https://nx.dev).
 
 <p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>

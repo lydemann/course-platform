@@ -66,6 +66,14 @@
         "args": ["**/*.{ts,html}"]
       }
     },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/course-platform-analog",
+        "command": "vitest run --config vite.config.ts",
+        "forwardAllArgs": false
+      }
+    },
     "build-styles": {
       "executor": "nx:run-commands",
       "cache": true,

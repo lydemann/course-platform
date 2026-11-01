@@ -42,6 +42,8 @@ export default defineConfig(({ mode }) => {
             '/admin/**': { ssr: false },
             // Reset password page needs client-side rendering for token handling
             '/update-password': { ssr: false },
+            // Supabase OAuth consent relies on the browser session.
+            '/oauth/consent': { ssr: false },
           },
           preset: 'vercel',
           rollupConfig: {

@@ -59,6 +59,7 @@
     "@angular/ssr": "22.1.6",
     "@copilotkit/angular": "0.4.0",
     "@copilotkit/runtime": "1.69.3",
+    "@modelcontextprotocol/server": "2.0.0",
     "@ngrx/component-store": "22.0.0",
     "@ngrx/effects": "22.0.0",
     "@ngrx/entity": "22.0.0",

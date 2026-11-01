@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { AuthService } from '@course-platform/shared/auth/domain';
-import { LoginComponent } from './login.component';
+import { getSafePostLoginRedirect, LoginComponent } from './login.component';
 
 describe('LoginComponent with zoneless change detection', () => {
   it('renders a returned authentication error after the async request', async () => {
@@ -31,4 +31,19 @@ describe('LoginComponent with zoneless change detection', () => {
       'Invalid credentials',
     );
   });
+});
+
+describe('getSafePostLoginRedirect', () => {
+  it('preserves an internal OAuth consent return URL', () => {
+    expect(
+      getSafePostLoginRedirect('/oauth/consent?authorization_id=request-1'),
+    ).toBe('/oauth/consent?authorization_id=request-1');
+  });
+
+  it.each([null, '', 'https://attacker.example', '//attacker.example'])(
+    'falls back to courses for unsafe redirect %p',
+    (redirect) => {
+      expect(getSafePostLoginRedirect(redirect)).toBe('/courses');
+    },
+  );
 });
