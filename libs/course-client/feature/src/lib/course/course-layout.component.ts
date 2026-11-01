@@ -47,7 +47,9 @@ import { QuestionsComponent } from './containers/questions/questions.component';
         <div class="content" fxFlex.gt-xs="75">
           <router-outlet></router-outlet>
         </div>
-        <app-course-assistant></app-course-assistant>
+        @defer (on idle) {
+          <app-course-assistant></app-course-assistant>
+        }
       }
     </div>
   `,
