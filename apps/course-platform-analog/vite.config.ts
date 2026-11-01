@@ -3,6 +3,7 @@
 import analog from '@analogjs/platform';
 import { typescriptPaths } from 'rollup-plugin-typescript-paths';
 import { defineConfig } from 'vite';
+import { nxReadySignal } from '@nx/vite/plugins/nx-ready-signal.plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -57,6 +58,7 @@ export default defineConfig(({ mode }) => {
           },
         },
       }),
+      nxReadySignal(),
     ],
     css: {
       preprocessorOptions: {

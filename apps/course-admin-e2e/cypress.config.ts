@@ -1,6 +1,6 @@
 import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 import { defineConfig } from 'cypress';
-import setupNodeEvents from './src/plugins';
+import setupNodeEvents from './src/plugins/index.ts';
 
 const cypressJsonConfig = {
   fileServerFolder: '.',
@@ -14,7 +14,12 @@ const cypressJsonConfig = {
 };
 export default defineConfig({
   e2e: {
-    ...nxE2EPreset(__dirname),
+    ...nxE2EPreset(__dirname, {
+      webServerCommands: {
+        default: 'npx nx run course-admin:serve',
+        production: 'npx nx run course-admin:serve:production',
+      },
+    }),
     ...cypressJsonConfig,
     setupNodeEvents,
     /**

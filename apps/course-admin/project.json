@@ -85,6 +85,9 @@
         "local": {
           "buildTarget": "course-admin:build:local"
         }
+      },
+      "readyWhen": {
+        "signal": true
       }
     },
     "serve-static": {
