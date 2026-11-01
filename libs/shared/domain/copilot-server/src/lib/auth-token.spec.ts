@@ -2,7 +2,7 @@ import { getBearerToken } from './auth-token';
 
 describe('assistant authentication token', () => {
   it('prefers the Authorization header over the session cookie', () => {
-    const request = new Request('https://courses.example.com/api/copilotkit', {
+    const request = requestWithHeaders({
       headers: {
         authorization: 'Bearer header-token',
         cookie: 'sb-access-token=cookie-token',
@@ -12,7 +12,7 @@ describe('assistant authentication token', () => {
   });
 
   it('accepts the existing SSR session cookie', () => {
-    const request = new Request('https://courses.example.com/api/copilotkit', {
+    const request = requestWithHeaders({
       headers: { cookie: 'other=value; sb-access-token=session%2Dtoken' },
     });
     expect(getBearerToken(request)).toBe('session-token');
@@ -22,10 +22,18 @@ describe('assistant authentication token', () => {
     'rejects invalid or missing session cookies: %s',
     (cookie) => {
       expect(
-        getBearerToken(
-          new Request('https://courses.example.com', { headers: { cookie } }),
-        ),
+        getBearerToken(requestWithHeaders({ headers: { cookie } })),
       ).toBeNull();
     },
   );
 });
+
+function requestWithHeaders({
+  headers,
+}: {
+  headers: Record<string, string>;
+}): Request {
+  return {
+    headers: { get: (name: string) => headers[name] ?? null },
+  } as Request;
+}
