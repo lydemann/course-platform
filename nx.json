@@ -139,7 +139,7 @@
       "!{projectRoot}/eslint.config.mjs"
     ]
   },
-  "nxCloudAccessToken": "ZmU4ZTJkZjctYjU3MC00NjAxLWEwNTktY2ZiM2U1NGNkYTg5fHJlYWQtd3JpdGU=",
+
   "parallel": 1,
   "plugins": [
     {
