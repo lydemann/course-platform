@@ -69,7 +69,11 @@
     "build-styles": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": ["{workspaceRoot}/libs/shared/ui/styles/src/lib/**/*.scss"],
+      "inputs": [
+        "{workspaceRoot}/libs/shared/ui/styles/src/lib/**/*.scss",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/pnpm-lock.yaml"
+      ],
       "outputs": ["{projectRoot}/src/global-styling.generated.css"],
       "options": {
         "command": "npm run build:styles",
