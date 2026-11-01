@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
@@ -45,7 +45,6 @@ import { SharedModule } from '@course-platform/course-client/shared/ui';
       margin: 40px 0 25px 0;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule],
 })
 export class CoursesComponent {

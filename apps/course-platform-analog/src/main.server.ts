@@ -1,7 +1,6 @@
 /// <reference types="vite/client" />
 
 import '@angular/platform-server/init';
-import 'zone.js/node';
 
 import { enableProdMode, REQUEST as SSR_REQUEST } from '@angular/core';
 import {

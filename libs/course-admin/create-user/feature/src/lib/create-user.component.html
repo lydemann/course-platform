@@ -1,6 +1,6 @@
 <h1 class="center">Create new user</h1>
 
-@if (!isLoading) {
+@if (!isLoading()) {
   <form [formGroup]="form" (submit)="onSubmit()" class="center">
     <div>
       <mat-form-field class="field">
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="mt-m">
-      <mat-error>{{ serverError }}</mat-error>
+      <mat-error>{{ serverError() }}</mat-error>
     </div>
     <div class="mt-l">
       <app-button [size]="'l'" [type]="'submit'">Create</app-button>

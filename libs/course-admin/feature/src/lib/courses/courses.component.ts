@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -12,11 +13,12 @@ import { CourseAdminFacadeService } from '@course-platform/course-admin/shared/d
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CoursesComponent {
   courses$: Observable<Course[]> = this.courseAdminFacadeService.getCourses();
+
+  courses = toSignal(this.courses$);
 
   constructor(
     private courseAdminFacadeService: CourseAdminFacadeService,

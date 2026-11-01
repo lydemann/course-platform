@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
-import { ActionItem } from '@course-platform/shared/interfaces';
 import { ActionItemComponent } from './action-item/action-item.component';
 
 export interface ActionItemAnswer {
@@ -21,10 +20,12 @@ export const actionItemsRouteId = 'action-items';
   imports: [SharedModule, ActionItemComponent],
 })
 export class ActionItemsComponent {
-  public actionItems$: Observable<ActionItem[]> =
-    this.courseFacadeService.actionItems$;
-  public selectedSectionId$: Observable<string> =
-    this.courseFacadeService.selectedSectionId$;
+  public actionItems = toSignal(this.courseFacadeService.actionItems$, {
+    initialValue: [],
+  });
+  public selectedSectionId = toSignal(
+    this.courseFacadeService.selectedSectionId$,
+  );
 
   constructor(private courseFacadeService: CourseClientFacade) {}
 

@@ -1,17 +1,39 @@
+@use 'sass:map';
+@use 'sass:string';
+
 // functions goes here
+/* stylelint-disable-next-line scss/at-function-pattern -- leading underscore marks this private, per sass convention */
 @function _get-map-prop($map, $key) {
-	@if map-has-key($map, $key) {
-		@return map-get($map, $key);
-	}
-	@error 'Unknown key `#{$key}`.'; /* stylelint-disable-line */
-	@return null;
+  @if map.has-key($map, $key) {
+    @return map.get($map, $key);
+  }
+  @error 'Unknown key `#{$key}`.'; /* stylelint-disable-line */
+  @return null;
 }
 
 @function get-size($key: 'm') {
-	$negative: str-index($key, '-') == 1;
-	@if ($negative) {
-		$key: str-slice($key, 2, -1);
-	}
-	$value: _get-map-prop($sizes, $key);
-	@return if($negative, unquote('-' + $value), $value);
+  $negative: string.index($key, '-') == 1;
+
+  @if $negative {
+    $key: string.slice($key, 2, -1);
+  }
+
+  $value: _get-map-prop($sizes, $key);
+
+  @return if($negative, string.unquote('-' + $value), $value);
+}
+
+// Restores the accessor for $font-sizes. `font-size()` was deleted in 85b7b6f
+// (#132) while call sites kept using it; sass emits an undefined function
+// literally, so `font-size: font-size('xl')` was silently dropped by browsers.
+@function get-font-size($key: 'm') {
+  $negative: string.index($key, '-') == 1;
+
+  @if $negative {
+    $key: string.slice($key, 2, -1);
+  }
+
+  $value: _get-map-prop($font-sizes, $key);
+
+  @return if($negative, string.unquote('-' + $value), $value);
 }

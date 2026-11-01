@@ -2,20 +2,16 @@
   <input
     matInput
     [matDatepicker]="picker"
-    [disabled]="isDisabled"
-    [value]="date"
-    [min]="minDate"
-    [max]="maxDate"
+    [disabled]="isDisabled()"
+    [value]="selectedDate()"
+    [min]="minDate()"
+    [max]="maxDate()"
     (dateInput)="onDateChange($event)"
-    [formControl]="formControl"
+    [formControl]="formControl()"
     [errorStateMatcher]="dateErrorStateMatcher"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
   />
-  <mat-error>{{ errorMessage }}</mat-error>
-  <mat-datepicker-toggle
-    matSuffix
-    [for]="picker"
-    (click)="runCD()"
-  ></mat-datepicker-toggle>
+  <mat-error>{{ errorMessage() }}</mat-error>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>

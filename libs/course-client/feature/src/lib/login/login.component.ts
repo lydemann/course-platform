@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -40,7 +40,7 @@ import {
                 class="form-control"
                 formControlName="password"
               />
-              <label class="error">{{ errorMessage }}</label>
+              <label class="error">{{ errorMessage() }}</label>
             </div>
             <div class="button-wrapper">
               <app-button
@@ -62,12 +62,11 @@ import {
     </div>
   `,
   styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SharedModule, ReactiveFormsModule],
 })
 export class LoginComponent {
   loginForm!: UntypedFormGroup;
-  errorMessage = '';
+  errorMessage = signal('');
 
   constructor(
     public authService: AuthService,
@@ -91,14 +90,14 @@ export class LoginComponent {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (res: any) => {
           if (res?.error) {
-            this.errorMessage = res.error.message;
+            this.errorMessage.set(res.error.message);
             return;
           }
           this.router.navigate(['courses']);
         },
         (err) => {
           console.log('Error doing sign in', err);
-          this.errorMessage = err.message;
+          this.errorMessage.set(err.message);
         },
       );
   }

@@ -5,9 +5,9 @@ import {
   OnInit,
   Renderer2,
   SecurityContext,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '@course-platform/course-client/shared/ui';
 import { CourseClientFacade } from '@course-platform/course-client/shared/domain';
 import { CourseSection, Lesson } from '@course-platform/shared/interfaces';
+import { CourseAssistantComponent } from '@course-platform/course-client/feature-assistant';
 import { CourseSidebarComponent } from './components/course-sidebar/course-sidebar.component';
 import { ActionItemsComponent } from './containers/action-items/action-items.component';
 import { QuestionsComponent } from './containers/questions/questions.component';
@@ -34,17 +35,20 @@ import { QuestionsComponent } from './containers/questions/questions.component';
         <app-course-sidebar
           fxFlex.gt-xs="25"
           class="sidebar"
-          [sections]="(sections$ | async)!"
-          [selectedSection]="(selectedSection$ | async)!"
-          [lessons]="(sectionLessons$ | async)!"
-          [sectionCompletedPct]="(sectionCompletedPct$ | async)!"
-          [selectedLessonId]="(selectedLessonId$ | async)!"
+          [sections]="sections()!"
+          [selectedSection]="selectedSection()!"
+          [lessons]="sectionLessons()!"
+          [sectionCompletedPct]="sectionCompletedPct()!"
+          [selectedLessonId]="selectedLessonId()!"
           (lessonSelected)="onLessonSelected($event)"
           (sectionChanged)="onSectionSelected($event)"
         ></app-course-sidebar>
         <div class="content" fxFlex.gt-xs="75">
           <router-outlet></router-outlet>
         </div>
+        @defer (on idle) {
+          <app-course-assistant></app-course-assistant>
+        }
       }
     </div>
   `,
@@ -76,13 +80,13 @@ import { QuestionsComponent } from './containers/questions/questions.component';
       }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SharedModule,
     ActionItemsComponent,
     QuestionsComponent,
     CourseSidebarComponent,
+    CourseAssistantComponent,
   ],
 })
 export class CourseLayoutComponent implements OnInit, OnDestroy {
@@ -96,6 +100,11 @@ export class CourseLayoutComponent implements OnInit, OnDestroy {
     this.courseClientFacade.sectionLessons$;
   sectionCompletedPct$: Observable<number> =
     this.courseClientFacade.sectionCompletedPct$;
+  sections = toSignal(this.sections$);
+  selectedSection = toSignal(this.selectedSection$);
+  selectedLessonId = toSignal(this.selectedLessonId$);
+  sectionLessons = toSignal(this.sectionLessons$);
+  sectionCompletedPct = toSignal(this.sectionCompletedPct$);
   courseCustomStyle$: Observable<string> =
     this.courseClientFacade.courseId$.pipe(
       switchMap((courseId) =>

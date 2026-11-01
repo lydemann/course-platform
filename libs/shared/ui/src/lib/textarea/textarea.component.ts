@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Component,
-  forwardRef,
-  Input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, forwardRef, input, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -19,14 +14,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TextareaComponent implements ControlValueAccessor {
-  @Input() public placeholder = '';
+  public placeholder = input('');
   public touched = false;
-  public disabled = false;
-  public value = '';
+  public disabled = signal(false);
+  public value = signal('');
 
   // tslint:disable-next-line: no-empty
   public propagateChange: any = (_: any) => {};
@@ -35,14 +29,12 @@ export class TextareaComponent implements ControlValueAccessor {
   public onTouched: any = (_: any) => {};
 
   public onChange(event: any) {
+    this.value.set(event);
     this.propagateChange(event);
   }
 
   public writeValue(obj: any): void {
-    if (obj) {
-      this.propagateChange(obj);
-      this.value = obj;
-    }
+    this.value.set(obj ?? '');
   }
   public registerOnChange(fn: any): void {
     this.propagateChange = fn;
@@ -56,6 +48,6 @@ export class TextareaComponent implements ControlValueAccessor {
     };
   }
   public setDisabledState?(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabled.set(isDisabled);
   }
 }

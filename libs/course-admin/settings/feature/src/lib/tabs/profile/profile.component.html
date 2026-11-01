@@ -1,6 +1,6 @@
 <h1 class="mb-xl mt-xl title">Edit Your Profile</h1>
 
-@if (profileForm$ | async; as profileForm) {
+@if (profileForm(); as profileForm) {
   <form [formGroup]="profileForm" (submit)="onUpdateProfile(profileForm)">
     <!-- TODO: tabs and reset password functionality -->
     <!-- TODO: add positioning helpers for pr and pl -->

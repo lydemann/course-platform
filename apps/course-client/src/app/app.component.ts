@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   LayoutModule,
   SharedModule,
@@ -11,7 +11,6 @@ import { TrpcHeaders } from '@course-platform/shared/domain/trpc-client';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [LayoutModule, SharedModule],
 })
 export class AppComponent {

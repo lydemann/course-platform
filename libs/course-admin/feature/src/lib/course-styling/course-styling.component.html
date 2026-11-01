@@ -1,8 +1,8 @@
 <h1 class="mb-m">Edit course styling</h1>
 
-@if (course$ | async; as course) {
-  <p>Add custom styles to the course: {{ courseName$ | async }}</p>
-  @if (customStylingFormControl$ | async; as customStylingFormControl) {
+@if (course(); as course) {
+  <p>Add custom styles to the course: {{ courseName() }}</p>
+  @if (customStylingFormControl(); as customStylingFormControl) {
     <form (submit)="submit(customStylingFormControl, course)">
       <app-textarea [formControl]="customStylingFormControl"> </app-textarea>
       <app-button [type]="'submit'">Save</app-button>

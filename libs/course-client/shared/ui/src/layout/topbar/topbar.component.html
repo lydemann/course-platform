@@ -1,12 +1,12 @@
 <div class="sticky-container"></div>
 <div class="toolbar mat-elevation-z4">
   <mat-toolbar color="primary">
-    <a class="branding spacer" [href]="homeUrl$ | async">
+    <a class="branding spacer" [href]="homeUrl()">
       <img src="assets/logo.png" alt="logo" class="inline" />
       {{ 'topbar.title' | translate }}
     </a>
 
-    @if (loggedIn$ | async) {
+    @if (loggedIn()) {
       <ul class="menu-items">
         @for (item of navigationItems; track item) {
           <li class="menu-item-wrapper">

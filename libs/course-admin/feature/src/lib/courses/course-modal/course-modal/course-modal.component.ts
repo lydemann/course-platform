@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -12,7 +12,6 @@ import { Course } from '@course-platform/shared/interfaces';
   selector: 'app-course-modal',
   templateUrl: './course-modal.component.html',
   styleUrls: ['./course-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CourseModalComponent {

@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -14,11 +15,12 @@ import { CourseSection } from '@course-platform/shared/interfaces';
   selector: 'app-section-admin',
   templateUrl: './section-admin.component.html',
   styleUrls: ['./section-admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SectionAdminComponent {
   section$: Observable<CourseSection>;
+  section!: Signal<CourseSection | undefined>;
+  formGroup!: Signal<UntypedFormGroup | undefined>;
   formGroup$: Observable<UntypedFormGroup>;
 
   constructor(
@@ -35,6 +37,8 @@ export class SectionAdminComponent {
         });
       }),
     );
+    this.section = toSignal(this.section$);
+    this.formGroup = toSignal(this.formGroup$);
   }
 
   goBack() {

@@ -1,25 +1,19 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ButtonComponent {
-  @Input() color: 'primary' | 'accent' | 'warn' | 'success' = 'primary';
-  @Input() disabled = false;
-  @Input() type: 'button' | 'submit' = 'button';
-  @Input() buttonVariant: 'raised' | 'button' | 'fab' | 'mini-fab' | 'icon' =
-    'raised';
-  @Input() size: 'm' | 'l' = 'm';
+  color = input<'primary' | 'accent' | 'warn' | 'success'>('primary');
+  disabled = input(false);
+  type = input<'button' | 'submit'>('button');
+  buttonVariant = input<'raised' | 'button' | 'fab' | 'mini-fab' | 'icon'>(
+    'raised',
+  );
+  size = input<'m' | 'l'>('m');
 
   @Output() clicked = new EventEmitter<Event>();
 

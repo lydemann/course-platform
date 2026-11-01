@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AfterViewInit,
-  ApplicationRef,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
-  HostListener,
   Input,
+  input,
   OnDestroy,
-  ChangeDetectionStrategy,
+  signal,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -50,24 +48,26 @@ class DateErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatePickerComponent
   implements ControlValueAccessor, OnDestroy, AfterViewInit
 {
+  public readonly selectedDate = signal<Date | null>(null);
   @Input()
-  public date!: Date;
+  public set date(value: Date | null) {
+    this.selectedDate.set(value);
+  }
 
-  @Input() public minDate!: Date;
-  @Input() public maxDate!: Date;
+  public minDate = input<Date>();
+  public maxDate = input<Date>();
 
-  @Input() public errorMessage = 'Invalid input';
-  @Input() public placeholder = 'Choose a date';
+  public errorMessage = input('Invalid input');
+  public placeholder = input('Choose a date');
   public dateChange: EventEmitter<Date> = new EventEmitter();
-  public isDisabled = false;
+  public isDisabled = signal(false);
   // used to display mat error
-  public formControl = new UntypedFormControl('');
+  public formControl = signal(new UntypedFormControl(''));
   private destroy$ = new Subject<void>();
   private _showErrorSubject = new BehaviorSubject<boolean>(false);
   private _showError$: Observable<boolean> =
@@ -80,11 +80,7 @@ export class DatePickerComponent
 
   private onTouched = Function;
 
-  constructor(
-    public ngControl: NgControl,
-    private changeDetectionRef: ChangeDetectorRef,
-    private applicationRef: ApplicationRef,
-  ) {
+  constructor(public ngControl: NgControl) {
     ngControl.valueAccessor = this;
   }
   @Input()
@@ -93,7 +89,7 @@ export class DatePickerComponent
   }
   public ngAfterViewInit(): void {
     // syncing with validators on host element
-    this.formControl = this.ngControl.control as UntypedFormControl;
+    this.formControl.set(this.ngControl.control as UntypedFormControl);
   }
 
   public ngOnDestroy(): void {
@@ -102,13 +98,14 @@ export class DatePickerComponent
 
   public onDateChange(dateInput: MatDatepickerInputEvent<Date>) {
     const date = dateInput.value;
+    this.selectedDate.set(date);
     this.onChange(date!);
     this.onTouched();
     this.dateChange.next(date!);
   }
 
   public writeValue(obj: Date): void {
-    this.date = obj;
+    this.selectedDate.set(obj);
   }
   public registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -117,15 +114,7 @@ export class DatePickerComponent
     this.onTouched = fn;
   }
   public setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  @HostListener('keyup')
-  @HostListener('click')
-  @HostListener('change')
-  public runCD() {
-    this.applicationRef.tick();
-    this.changeDetectionRef.detectChanges();
+    this.isDisabled.set(isDisabled);
   }
 
   // tslint:disable-next-line: no-empty

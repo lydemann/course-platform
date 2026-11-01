@@ -10,10 +10,10 @@
   </div>
 </div>
 
-@if (currentCourseId$ | async; as currentCourseId) {
+@if (currentCourseId(); as currentCourseId) {
   <div>
     <mat-accordion [multi]="true">
-      @for (section of sections$ | async; track trackBy($index, section)) {
+      @for (section of sections(); track trackBy($index, section)) {
         <mat-expansion-panel data-test="section" [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title [routerLink]="['section-admin', section.id]">

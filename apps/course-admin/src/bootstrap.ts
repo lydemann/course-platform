@@ -1,3 +1,4 @@
+import { provideZonelessChangeDetection } from '@angular/core';
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import * as Sentry from '@sentry/angular';
 import {
@@ -81,6 +82,7 @@ xhttp.onreadystatechange = function () {
 
     bootstrapApplication(AppComponent, {
       providers: [
+        provideZonelessChangeDetection(),
         {
           provide: ENDPOINTS_TOKEN,
           useFactory: endpointsFactory,

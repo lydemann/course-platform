@@ -6,7 +6,7 @@
       {{ 'Lüdemann Academy' }}
     </a>
 
-    @if (loggedIn$ | async) {
+    @if (loggedIn()) {
       <ul class="menu-items">
         @for (item of navigationItems; track item) {
           <li class="menu-item-wrapper">

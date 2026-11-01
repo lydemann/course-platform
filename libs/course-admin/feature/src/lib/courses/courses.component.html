@@ -1,6 +1,6 @@
 <h1 class="center">Courses</h1>
 
-@if (courses$ | async; as courses) {
+@if (courses(); as courses) {
   <div class="mx-4">
     @for (course of courses; track course) {
       <mat-card

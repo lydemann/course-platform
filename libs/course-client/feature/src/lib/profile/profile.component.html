@@ -2,7 +2,7 @@
   <mat-tab label="Personal Profile">
     <h1 class="mb-xl mt-xl title">Edit Your Profile</h1>
 
-    @if (profileForm$ | async; as profileForm) {
+    @if (profileForm(); as profileForm) {
       <form [formGroup]="profileForm" (submit)="onUpdateProfile(profileForm)">
         <!-- TODO: tabs and reset password functionality -->
         <!-- TODO: add positioning helpers for pr and pl -->
@@ -79,7 +79,7 @@
         </mat-form-field>
       </div>
       <div>
-        <label class="error">{{ errorMessage }}</label>
+        <label class="error">{{ errorMessage() }}</label>
       </div>
       <div fxLayout="row" class="mt-m" fxLayoutGap="16px">
         <app-button size="l" type="submit" color="success" class="submit-btn">
