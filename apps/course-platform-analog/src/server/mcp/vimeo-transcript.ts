@@ -76,9 +76,8 @@ export async function getVimeoTranscript(
     };
   }
 
-  const transcriptResponse = await fetch(downloadUrl, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
+  // Vimeo returns a signed download URL; never forward the API credential to a CDN.
+  const transcriptResponse = await fetch(downloadUrl);
   if (!transcriptResponse.ok) {
     return {
       status: 'unavailable',
@@ -104,7 +103,10 @@ export async function getVimeoTranscript(
 export function extractVimeoVideoId(videoUrl: string): string | null {
   try {
     const url = new URL(videoUrl);
-    if (!url.hostname.endsWith('vimeo.com')) {
+    if (
+      url.protocol !== 'https:' ||
+      (url.hostname !== 'vimeo.com' && !url.hostname.endsWith('.vimeo.com'))
+    ) {
       return null;
     }
 

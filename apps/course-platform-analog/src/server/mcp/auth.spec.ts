@@ -18,6 +18,7 @@ describe('SupabaseTokenVerifier', () => {
     });
     const token = jwt({
       sub: 'student-1',
+      aud: resourceUrl.toString(),
       client_id: 'claude-code',
       exp: Math.floor(Date.now() / 1000) + 60,
       scope: 'openid email',
@@ -52,6 +53,22 @@ describe('SupabaseTokenVerifier', () => {
       ),
     ).rejects.toMatchObject({ code: 'invalid_token' });
   });
+  it.each([
+    { aud: 'authenticated', exp: Math.floor(Date.now() / 1000) + 60 },
+    { aud: resourceUrl.toString(), exp: Math.floor(Date.now() / 1000) - 60 },
+    { aud: resourceUrl.toString() },
+  ])(
+    'rejects tokens without a valid audience and expiration: %j',
+    async (claims) => {
+      validateAccessToken.mockResolvedValue({ id: 'student-1' });
+      await expect(
+        new SupabaseTokenVerifier(
+          resourceUrl,
+          validateAccessToken,
+        ).verifyAccessToken(jwt(claims)),
+      ).rejects.toMatchObject({ code: 'invalid_token' });
+    },
+  );
 });
 
 function jwt(claims: Record<string, unknown>): string {

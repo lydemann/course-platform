@@ -1,6 +1,10 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { extractVimeoVideoId, webVttToText } from './vimeo-transcript';
+import {
+  extractVimeoVideoId,
+  getVimeoTranscript,
+  webVttToText,
+} from './vimeo-transcript';
 
 describe('Vimeo transcript helpers', () => {
   it.each([
@@ -14,6 +18,8 @@ describe('Vimeo transcript helpers', () => {
   it('rejects non-Vimeo and malformed URLs', () => {
     expect(extractVimeoVideoId('https://example.com/video/123')).toBeNull();
     expect(extractVimeoVideoId('not a url')).toBeNull();
+    expect(extractVimeoVideoId('https://evilvimeo.com/123')).toBeNull();
+    expect(extractVimeoVideoId('http://vimeo.com/123')).toBeNull();
   });
 
   it('removes WebVTT timing, markup, cue numbers, and duplicate cues', () => {
@@ -30,5 +36,41 @@ describe('Vimeo transcript helpers', () => {
 Use computed values.
 `),
     ).toBe('Signals are reactive.\nUse computed values.');
+  });
+});
+
+describe('Vimeo transcript credentials', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
+
+  it('sends the API token only to the Vimeo API, not to the signed download URL', async () => {
+    vi.stubEnv('VIMEO_ACCESS_TOKEN', 'test-token');
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            data: [
+              {
+                language: 'en',
+                link: 'https://captions.example.com/signed.vtt',
+              },
+            ],
+          }),
+        ),
+      )
+      .mockResolvedValueOnce(new Response('WEBVTT\n\nA lesson transcript.'));
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(
+      getVimeoTranscript('https://vimeo.com/123'),
+    ).resolves.toMatchObject({ status: 'available' });
+    expect(fetchMock.mock.calls[0][1].headers.Authorization).toBe(
+      'Bearer test-token',
+    );
+    expect(fetchMock.mock.calls[1]).toEqual([
+      'https://captions.example.com/signed.vtt',
+    ]);
   });
 });

@@ -6,8 +6,6 @@ import {
 } from '@modelcontextprotocol/server';
 import { verifySupabaseAccessToken } from '@course-platform/shared/domain/trpc-server';
 
-import { readServerEnv } from './config';
-
 interface SupabaseJwtClaims {
   aud?: string | string[];
   client_id?: string;
@@ -39,18 +37,14 @@ export class SupabaseTokenVerifier implements OAuthTokenVerifier {
     }
 
     const claims = decodeJwtClaims(token);
-    if (!claims.exp) {
+    if (typeof claims.exp !== 'number' || claims.exp <= Date.now() / 1000) {
       throw new OAuthError(
         OAuthErrorCode.InvalidToken,
-        'Access token has no expiration.',
+        'Access token is expired or has no expiration.',
       );
     }
 
-    const configuredAudience = readServerEnv('MCP_RESOURCE_URL');
-    if (
-      configuredAudience &&
-      !hasExpectedAudience(claims, configuredAudience)
-    ) {
+    if (!hasExpectedAudience(claims, this.expectedResource.toString())) {
       throw new OAuthError(
         OAuthErrorCode.InvalidToken,
         'Access token was not issued for this MCP server.',
@@ -66,7 +60,7 @@ export class SupabaseTokenVerifier implements OAuthTokenVerifier {
       clientId: claims.client_id ?? claims.sub ?? user.id,
       scopes,
       expiresAt: claims.exp,
-      ...(configuredAudience ? { resource: this.expectedResource } : {}),
+      resource: this.expectedResource,
       extra: {
         userId: user.id,
         email: user.email,

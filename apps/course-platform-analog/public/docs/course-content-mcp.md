@@ -27,14 +27,15 @@ existing Supabase user, matching the portal's current authorization model.
 5. Configure `VIMEO_ACCESS_TOKEN` in the deployment with a personal token owned
    by the account that owns the course videos. Vimeo requires an owner token to
    access transcript text tracks.
-6. Optionally set `MCP_RESOURCE_URL` to the exact stable production endpoint,
+6. Set `MCP_RESOURCE_URL` to the exact stable production endpoint,
    such as `https://app.example.com/api/mcp`. When this is set, configure a
    Supabase custom access-token hook so OAuth tokens use that exact URL in their
    `aud` or `resource` claim; the MCP server then enforces the audience.
 
-Preview deployments can omit `MCP_RESOURCE_URL`. Their resource identifier is
-derived from the incoming host, while the token is still verified with
-Supabase before any tool is listed or called.
+Preview deployments can omit `MCP_RESOURCE_URL`; their resource identifier is
+derived from the incoming host. Tokens must contain that exact resource URL in
+their `aud` or `resource` claim in every environment. Ordinary portal session
+tokens with only the `authenticated` audience are rejected.
 
 OAuth protected-resource metadata is available at both:
 
