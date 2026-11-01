@@ -9,25 +9,12 @@
       "cache": true
     },
     "e2e-playwright": {
-      "dependsOn": ["bddgen"],
+      "dependsOn": ["...", "bddgen"],
       "cache": true
     },
     "e2e-playwright-ci": {
-      "dependsOn": ["bddgen"],
+      "dependsOn": ["...", "bddgen"],
       "cache": true
-    },
-    "@nx/jest:jest": {
-      "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
     },
     "@nx/angular:webpack-browser": {
       "inputs": [
@@ -35,15 +22,6 @@
           "env": "NX_MF_DEV_SERVER_STATIC_REMOTES"
         }
       ]
-    },
-    "@nx/eslint:lint": {
-      "inputs": [
-        "default",
-        "^default",
-        "{workspaceRoot}/eslint.config.mjs",
-        "{workspaceRoot}/tools/eslint-rules/**/*"
-      ],
-      "cache": true
     },
     "@angular-devkit/build-angular:application": {
       "cache": true,
@@ -85,12 +63,6 @@
     "@schematics/angular:service": {
       "type": "service"
     },
-    "@nx/angular:scam": {
-      "type": "component"
-    },
-    "@nx/angular:scam-directive": {
-      "type": "directive"
-    },
     "@nx/angular:guard": {
       "typeSeparator": "."
     },
@@ -122,7 +94,6 @@
       "typeSeparator": "."
     }
   },
-  "neverConnectToCloud": true,
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultProject": "course-platform-analog",
   "namedInputs": {
@@ -136,16 +107,29 @@
     "production": [
       "default",
       "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/eslint.config.mjs"
+      "!{projectRoot}/eslint.config.mjs",
+      "!{projectRoot}/**/*.spec.[jt]s",
+      "!{projectRoot}/**/*.test.[jt]s",
+      "!{projectRoot}/**/*.feature",
+      "!{projectRoot}/**/e2e/**/*",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/tsconfig.spec.json"
     ]
   },
-  "nxCloudAccessToken": "ZmU4ZTJkZjctYjU3MC00NjAxLWEwNTktY2ZiM2U1NGNkYTg5fHJlYWQtd3JpdGU=",
   "parallel": 1,
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",
       "options": {
         "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
       }
     },
     {
@@ -175,7 +159,10 @@
         "targetName": "e2e-playwright",
         "ciTargetName": "e2e-playwright-ci"
       },
-      "include": ["apps/course-client-e2e/**/*"]
+      "include": [
+        "apps/course-client-e2e/**/*",
+        "libs/course-client/feature/src/lib/login/e2e/**/*"
+      ]
     },
     {
       "plugin": "@nx/playwright/plugin",
@@ -183,7 +170,20 @@
         "targetName": "e2e-playwright",
         "ciTargetName": "e2e-playwright-ci"
       },
-      "include": ["apps/course-admin-e2e/**/*"]
+      "include": [
+        "apps/course-admin-e2e/**/*",
+        "libs/course-admin/login/feature/src/lib/e2e/**/*"
+      ]
+    },
+    {
+      "plugin": "@nx/cypress/plugin",
+      "options": {
+        "targetName": "e2e",
+        "ciTargetName": "e2e-ci",
+        "componentTestingTargetName": "component-test",
+        "openTargetName": "open-cypress"
+      },
+      "include": ["apps/course-client-e2e/**/*", "apps/course-admin-e2e/**/*"]
     }
   ],
   "defaultBase": "origin/main",

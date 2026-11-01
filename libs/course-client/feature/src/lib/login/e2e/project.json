@@ -1,0 +1,7 @@
+{
+  "name": "course-client-login-e2e",
+  "$schema": "../../../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["course-client-feature"],
+  "tags": ["type:e2e"]
+}

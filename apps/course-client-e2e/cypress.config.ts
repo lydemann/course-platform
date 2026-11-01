@@ -15,7 +15,13 @@ const cypressJsonConfig = {
 };
 export default defineConfig({
   e2e: {
-    ...nxE2EPreset(__dirname),
+    baseUrl: process.env['BASE_URL'] || 'http://localhost:4200',
+    ...nxE2EPreset(__dirname, {
+      webServerCommands: {
+        default: 'npx nx run course-client:serve',
+        production: 'npx nx run course-client:serve:production',
+      },
+    }),
     ...cypressJsonConfig,
     setupNodeEvents,
     // Please ensure you use `cy.origin()` when navigating between domains and remove this option.

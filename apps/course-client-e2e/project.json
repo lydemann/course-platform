@@ -7,16 +7,8 @@
   "implicitDependencies": ["course-client"],
   "targets": {
     "e2e": {
-      "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/course-client-e2e/cypress.config.ts",
-        "devServerTarget": "course-client:serve",
-        "testingType": "e2e"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "course-client:serve:production"
-        }
+        "config-file": "./cypress.config.ts"
       }
     },
     "bddgen": {

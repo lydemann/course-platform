@@ -89,3 +89,18 @@ Run `nx dep-graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
+
+### Feature-scoped Playwright tests
+
+Login smoke tests live alongside the client and admin login features in their
+respective `e2e` directories. Run them locally with
+`pnpm nx run-many -t e2e-playwright -p course-client-login-e2e,course-admin-login-e2e`.
+The Azure pipeline uses `nx affected` and the inferred `e2e-playwright-ci`
+targets to split them by spec file. Atomized CI execution requires Nx Cloud and
+an `NX_CLOUD_ACCESS_TOKEN` configured as a secret pipeline variable. The tests
+retain application-server inputs because they exercise routing and the app
+shell; an unrelated dependency may therefore still invalidate a test.
+
+Set `SENTRY_AUTH_TOKEN` as an environment secret when uploading source maps.
+Previously committed Sentry and Nx Cloud credentials must be revoked or rotated;
+removing their current values does not remove them from Git history.
