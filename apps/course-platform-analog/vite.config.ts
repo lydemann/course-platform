@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
         nitro: {
           // Keep Zod versions and subpaths together; tracing multiple versions
           // into one serverless node_modules tree can omit zod/v3 at runtime.
-          externals: { inline: [/^zod(?:\/|$)/] },
+          externals: { inline: ['zod'] },
           routeRules: {
             // All admin URLs are only rendered on the client
             '/admin/**': { ssr: false },

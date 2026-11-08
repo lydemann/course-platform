@@ -37,6 +37,18 @@ try {
   });
   assert.equal(mcpResponse.status, 401, 'MCP must reject anonymous requests');
   console.log('Vercel artifact: /api/mcp HTTP 401');
+  for (const path of ['/api/copilotkit', '/api/copilotkit/info']) {
+    const response = await fetch(`http://127.0.0.1:${port}${path}`, {
+      method: path.endsWith('/info') ? 'GET' : 'POST',
+      signal: AbortSignal.timeout(30_000),
+    });
+    assert.equal(
+      response.status,
+      401,
+      `${path} must reject anonymous requests`,
+    );
+    console.log(`Vercel artifact: ${path} HTTP 401`);
+  }
 } finally {
   if (server) await new Promise((resolve) => server.close(resolve));
   await rm(temporaryDirectory, { recursive: true, force: true });
