@@ -1,0 +1,7 @@
+{
+  "name": "course-admin-login-e2e",
+  "$schema": "../../../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["course-admin-login-feature"],
+  "tags": ["type:e2e"]
+}

@@ -3,6 +3,7 @@
 import analog from '@analogjs/platform';
 import { typescriptPaths } from 'rollup-plugin-typescript-paths';
 import { defineConfig } from 'vite';
+import { nxReadySignal } from '@nx/vite/plugins/nx-ready-signal.plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -37,6 +38,9 @@ export default defineConfig(({ mode }) => {
         },
 
         nitro: {
+          // Keep Zod versions and subpaths together; tracing multiple versions
+          // into one serverless node_modules tree can omit zod/v3 at runtime.
+          externals: { inline: ['zod'] },
           routeRules: {
             // All admin URLs are only rendered on the client
             '/admin/**': { ssr: false },
@@ -57,6 +61,7 @@ export default defineConfig(({ mode }) => {
           },
         },
       }),
+      nxReadySignal(),
     ],
     css: {
       preprocessorOptions: {
@@ -67,6 +72,7 @@ export default defineConfig(({ mode }) => {
     },
     ssr: {
       noExternal: [
+        /^zod(?:\/|$)/,
         '@analogjs/trpc',
         '@trpc/server',
         'rxfire/**',

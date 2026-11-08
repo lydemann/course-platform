@@ -1,5 +1,6 @@
 module.exports = {
   displayName: 'course-client-feature',
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../coverage/libs/course-client/feature',

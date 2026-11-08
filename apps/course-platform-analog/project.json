@@ -6,54 +6,47 @@
   "tags": ["type:app", "scope:course-client", "scope:course-admin"],
   "targets": {
     "build": {
-      "executor": "@analogjs/platform:vite",
+      "executor": "nx:run-commands",
       "outputs": [
-        "{options.outputPath}",
-        "{workspaceRoot}/dist/apps/course-platform-analog/.nitro",
-        "{workspaceRoot}/dist/apps/course-platform-analog/ssr",
-        "{workspaceRoot}/dist/apps/course-platform-analog/analog"
+        "{workspaceRoot}/dist/apps/course-platform-analog",
+        "{workspaceRoot}/.vercel/output"
       ],
-      "executorOptions": {
+      "defaultConfiguration": "production",
+      "options": {
+        "command": "vite build --config apps/course-platform-analog/vite.config.ts --outDir ../../dist/apps/course-platform-analog/client",
         "env": {
           "NODE_OPTIONS": "--max-old-space-size=8192"
         }
       },
-      "defaultConfiguration": "production",
-      "options": {
-        "main": "apps/course-platform-analog/src/main.ts",
-        "configFile": "apps/course-platform-analog/vite.config.ts",
-        "outputPath": "dist/apps/course-platform-analog/client",
-        "tsConfig": "apps/course-platform-analog/tsconfig.app.json",
-        "sourcemap": true
-      },
       "configurations": {
         "development": {
-          "mode": "development"
+          "args": ["--mode=development", "--sourcemap"]
         },
         "production": {
-          "sourcemap": false,
-          "mode": "production"
+          "args": ["--mode=production"]
         }
       },
       "dependsOn": ["build-styles"]
     },
     "serve": {
-      "executor": "@analogjs/platform:vite-dev-server",
+      "executor": "nx:run-commands",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "course-platform-analog:build",
-        "port": 4200
+        "command": "vite --config apps/course-platform-analog/vite.config.ts --port 4200"
       },
       "configurations": {
         "development": {
-          "buildTarget": "course-platform-analog:build:development",
-          "hmr": true
+          "args": ["--mode=development"]
         },
         "production": {
-          "buildTarget": "course-platform-analog:build:production"
+          "args": ["--mode=production"]
         }
       },
-      "dependsOn": ["build-styles"]
+      "dependsOn": ["build-styles"],
+      "continuous": true,
+      "readyWhen": {
+        "url": "http://localhost:4200/"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
