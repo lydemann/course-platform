@@ -41,7 +41,7 @@
   },
   "private": true,
   "dependencies": {
-    "@ai-sdk/anthropic": "^4.0.94",
+    "@ai-sdk/anthropic": "^3.0.137",
     "@analogjs/content": "2.9.4",
     "@analogjs/router": "2.9.4",
     "@analogjs/trpc": "0.5.0",

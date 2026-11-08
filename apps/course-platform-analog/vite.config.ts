@@ -40,7 +40,12 @@ export default defineConfig(({ mode }) => {
         nitro: {
           // Keep Zod versions and subpaths together; tracing multiple versions
           // into one serverless node_modules tree can omit zod/v3 at runtime.
-          externals: { inline: ['zod'] },
+          externals: {
+            // These packages use several AI SDK generations. Bundle each
+            // import with its own dependency resolution instead of flattening
+            // incompatible versions into the serverless node_modules tree.
+            inline: ['zod', '@copilotkit/runtime', 'ai', '@ai-sdk/'],
+          },
           routeRules: {
             // All admin URLs are only rendered on the client
             '/admin/**': { ssr: false },
