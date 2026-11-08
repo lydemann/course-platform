@@ -11,7 +11,8 @@
   "include": [
     "src/**/*.d.ts",
     "src/app/pages/**/*.page.ts",
-    "src/vite-env.d.ts"
+    "src/vite-env.d.ts",
+    "src/server/**/*.ts"
   ],
   "exclude": ["**/*.test.ts", "**/*.spec.ts"],
   "angularCompilerOptions": {

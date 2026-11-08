@@ -32,8 +32,7 @@
       "executor": "nx:run-commands",
       "defaultConfiguration": "development",
       "options": {
-        "command": "vite --config apps/course-platform-analog/vite.config.ts --port 4200",
-        "readyWhen": "Local:"
+        "command": "vite --config apps/course-platform-analog/vite.config.ts --port 4200"
       },
       "configurations": {
         "development": {
@@ -44,7 +43,10 @@
         }
       },
       "dependsOn": ["build-styles"],
-      "continuous": true
+      "continuous": true,
+      "readyWhen": {
+        "url": "http://localhost:4200/"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
