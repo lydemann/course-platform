@@ -7,7 +7,10 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/apps/course-platform-analog"],
+      "outputs": [
+        "{workspaceRoot}/dist/apps/course-platform-analog",
+        "{workspaceRoot}/.vercel/output"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "command": "vite build --config apps/course-platform-analog/vite.config.ts --outDir ../../dist/apps/course-platform-analog/client",

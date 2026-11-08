@@ -97,10 +97,15 @@ respective `e2e` directories. Run them locally with
 `pnpm nx run-many -t e2e-playwright -p course-client-login-e2e,course-admin-login-e2e`.
 The Azure pipeline uses `nx affected` and the inferred `e2e-playwright-ci`
 targets to split them by spec file. Atomized CI execution requires Nx Cloud and
-an `NX_CLOUD_ACCESS_TOKEN` configured as a secret pipeline variable. The tests
+an `NX_CLOUD_ACCESS_TOKEN` with write access configured as a secret pipeline
+variable. The checked-in Nx Cloud token grants read-only access; local write
+access uses `pnpm nx login` and must remain outside Git. The tests
 retain application-server inputs because they exercise routing and the app
 shell; an unrelated dependency may therefore still invalidate a test.
 
 Set `SENTRY_AUTH_TOKEN` as an environment secret when uploading source maps.
 Previously committed Sentry and Nx Cloud credentials must be revoked or rotated;
 removing their current values does not remove them from Git history.
+
+After an Analog production build, run `pnpm test:vercel-artifact` to smoke-test
+the packaged Vercel function in isolation from workspace dependencies.

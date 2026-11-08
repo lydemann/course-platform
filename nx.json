@@ -187,5 +187,6 @@
     }
   ],
   "defaultBase": "origin/main",
-  "analytics": false
+  "analytics": false,
+  "nxCloudAccessToken": "NTU2N2NiZTUtZTQyZS00NWZjLThiZGYtNTEzYjRiMmM4OTY4fHJlYWQ="
 }
