@@ -64,7 +64,7 @@ export const profiles = pgTable(
     return {
       profiles_username_key: unique('profiles_username_key').on(table.username),
     };
-  }
+  },
 );
 
 export const completedLessons = pgTable(
@@ -76,7 +76,7 @@ export const completedLessons = pgTable(
     userId: text('user_id').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
-  (t) => ({ unq: unique().on(t.lessonId, t.userId) })
+  (t) => ({ unq: unique().on(t.lessonId, t.userId) }),
 );
 
 export const resources = pgTable('resources', {
@@ -119,7 +119,10 @@ export const sections = pgTable('sections', {
 
 export const sectionsRelations = relations(sections, ({ many, one }) => ({
   lessons: many(lessons),
-  course: one(courses),
+  course: one(courses, {
+    fields: [sections.courseId],
+    references: [courses.id],
+  }),
 }));
 
 export const completedActionItems = pgTable(
@@ -129,7 +132,7 @@ export const completedActionItems = pgTable(
     userId: text('user_id').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
-  (t) => ({ unq: unique().on(t.actionItemId, t.userId) })
+  (t) => ({ unq: unique().on(t.actionItemId, t.userId) }),
 );
 
 export const userRoles = pgTable(
@@ -140,5 +143,5 @@ export const userRoles = pgTable(
   },
   (table) => [
     unique('user_roles_user_id_role_unique').on(table.userId, table.role),
-  ]
+  ],
 );
